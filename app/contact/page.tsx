@@ -105,6 +105,9 @@ export default function ContactPage() {
   })
 
   const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [successMessage, setSuccessMessage] = useState(
+    "Thank you! We've received your message and will get back to you soon."
+  )
 
   const handleReservationChange = (e) => {
     const { name, value } = e.target
@@ -116,15 +119,29 @@ export default function ContactPage() {
     setContactFormData(prev => ({ ...prev, [name]: value }))
   }
 
+  const openWhatsAppMessage = (lines) => {
+    const message = lines.filter(Boolean).join('\n')
+    window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer')
+  }
+
   const handleReservationSubmit = (e) => {
     e.preventDefault()
     if (!reservationFormData.name || !reservationFormData.phone || !reservationFormData.date || !reservationFormData.time || !reservationFormData.guests) {
       alert('Please fill in all required fields')
       return
     }
-    console.log('Reservation:', reservationFormData)
+    openWhatsAppMessage([
+      'New reservation request from BRAVO website',
+      `Name: ${reservationFormData.name}`,
+      `Phone: ${reservationFormData.phone}`,
+      `Date: ${reservationFormData.date}`,
+      `Time: ${reservationFormData.time}`,
+      `Guests: ${reservationFormData.guests}`,
+      reservationFormData.message ? `Special requests: ${reservationFormData.message}` : '',
+    ])
+    setSuccessMessage('WhatsApp is opening with your reservation details. Please send the message there to complete the request.')
     setShowSuccessModal(true)
-    setTimeout(() => setShowSuccessModal(false), 3000)
+    setTimeout(() => setShowSuccessModal(false), 5000)
     setReservationFormData({ name: '', phone: '', date: '', time: '', guests: '', message: '' })
   }
 
@@ -134,9 +151,17 @@ export default function ContactPage() {
       alert('Please fill in all required fields')
       return
     }
-    console.log('Contact:', contactFormData)
+    openWhatsAppMessage([
+      'New contact message from BRAVO website',
+      `Name: ${contactFormData.name}`,
+      `Phone: ${contactFormData.phone}`,
+      `Email: ${contactFormData.email}`,
+      `Subject: ${contactFormData.subject}`,
+      `Message: ${contactFormData.message}`,
+    ])
+    setSuccessMessage('WhatsApp is opening with your message. Please send it there so the BRAVO team receives it.')
     setShowSuccessModal(true)
-    setTimeout(() => setShowSuccessModal(false), 3000)
+    setTimeout(() => setShowSuccessModal(false), 5000)
     setContactFormData({ name: '', phone: '', email: '', subject: '', message: '' })
   }
   return (
@@ -529,7 +554,7 @@ export default function ContactPage() {
               <i className="fa-solid fa-check text-orange text-4xl"></i>
             </div>
             <h3 className="font-black text-3xl mb-3">SUCCESS!</h3>
-            <p className="text-cream/80 mb-6">Thank you! We've received your message and will get back to you soon.</p>
+            <p className="text-cream/80 mb-6">{successMessage}</p>
             <button
               onClick={() => setShowSuccessModal(false)}
               className="px-6 py-2 bg-orange text-black font-black text-sm uppercase tracking-wider rounded hover:bg-yellow transition-all"
