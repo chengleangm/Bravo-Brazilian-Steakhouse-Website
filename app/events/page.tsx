@@ -5,6 +5,33 @@ import { useState } from 'react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 
+const EVENT_FEATURES = [
+  {
+    icon: 'fa-fire-flame-curved',
+    kicker: 'Tableside theatre',
+    title: 'Theatre & Spectacle',
+    desc: 'Live churrasco carving brings heat, smoke, and energy straight to your guests.',
+  },
+  {
+    icon: 'fa-people-group',
+    kicker: 'Easy hosting',
+    title: 'Group Friendly',
+    desc: 'Flexible seating, buffet flow, and service pacing built for gatherings of every size.',
+  },
+  {
+    icon: 'fa-utensils',
+    kicker: 'Full-table dining',
+    title: 'Generous Portions',
+    desc: 'Premium grilled cuts, hot sides, sauces, salads, and dessert options for the whole group.',
+  },
+  {
+    icon: 'fa-handshake',
+    kicker: 'Handled with care',
+    title: 'Attentive Service',
+    desc: 'Our team coordinates details before and during your event so hosting feels simple.',
+  },
+]
+
 export default function EventsPage() {
   const [eventFormData, setEventFormData] = useState({
     name: '',
@@ -147,23 +174,47 @@ export default function EventsPage() {
         </section>
 
         {/* Event Features */}
-        <section className="bg-cream text-dark py-28 px-5">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="font-black text-5xl uppercase text-center mb-16">WHY CHOOSE BRAVO FOR YOUR EVENT</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { icon: 'fa-fire-flame-curved', title: 'Theatre & Spectacle', desc: 'Live grilling at your table' },
-                { icon: 'fa-people-group', title: 'Group Friendly', desc: 'Setup designed for gatherings' },
-                { icon: 'fa-utensils', title: 'Generous Portions', desc: 'Buffet + premium cuts' },
-                { icon: 'fa-hands-holding-heart', title: 'Attentive Service', desc: 'Focused on your event' },
-              ].map((feat, idx) => (
-                <div key={idx} className="bg-white/6 border border-white/9 shadow-custom p-7 rounded hover:shadow-2xl hover:-translate-y-2 transition-all text-center">
-                  <div className="w-16 h-16 flex items-center justify-center bg-orange/20 rounded-full mb-4 mx-auto">
-                    <i className={`fa-solid ${feat.icon} text-orange text-2xl`}></i>
+        <section className="relative overflow-hidden bg-[#f4eadb] px-5 py-20 text-[#120807] sm:px-8 lg:px-10 lg:py-24">
+          <div className="absolute inset-x-0 top-0 h-px bg-[#D4A373]/40"></div>
+          <div className="absolute inset-x-0 bottom-0 h-px bg-[#D4A373]/40"></div>
+          <div className="mx-auto max-w-6xl">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-[#fd850b]">
+                Event Hosting
+              </p>
+              <h2 className="font-black text-5xl uppercase leading-[0.94] md:text-6xl">
+                Why choose Bravo for your event
+              </h2>
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-[#4b352b]">
+                From birthday dinners to team celebrations, BRAVO gives your
+                guests a full steakhouse experience with less planning stress.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {EVENT_FEATURES.map((feat, idx) => (
+                <article
+                  key={feat.title}
+                  className="group relative overflow-hidden border border-[#D4A373]/22 bg-[#fff7ed] p-6 shadow-[0_24px_70px_rgba(18,8,7,0.1)] transition duration-300 hover:-translate-y-2 hover:border-[#fd850b]/55 hover:shadow-[0_28px_90px_rgba(253,133,11,0.16)]"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex h-14 w-14 items-center justify-center bg-[#fd850b]/14 text-[#fd850b] transition group-hover:bg-[#fd850b] group-hover:text-[#120807]">
+                      <i className={`fa-solid ${feat.icon} text-xl`} aria-hidden="true"></i>
+                    </div>
+                    <span className="font-serif text-4xl leading-none text-[#120807]/10">
+                      0{idx + 1}
+                    </span>
                   </div>
-                  <h3 className="font-black text-xl mb-2">{feat.title}</h3>
-                  <p className="text-dark/80">{feat.desc}</p>
-                </div>
+                  <p className="mt-7 text-xs font-black uppercase tracking-[0.18em] text-[#fd850b]">
+                    {feat.kicker}
+                  </p>
+                  <h3 className="mt-3 font-black text-2xl leading-tight">
+                    {feat.title}
+                  </h3>
+                  <p className="mt-4 text-sm leading-7 text-[#4b352b]">
+                    {feat.desc}
+                  </p>
+                </article>
               ))}
             </div>
           </div>

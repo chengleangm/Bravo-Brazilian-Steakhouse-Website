@@ -28,6 +28,12 @@ const TEAM_MEMBERS = [
   },
 ]
 
+const ABOUT_CTA_HIGHLIGHTS = [
+  'Brazilian grill tradition',
+  'Warm Phnom Penh hospitality',
+  'Built for groups and celebrations',
+]
+
 export default function AboutPage() {
   return (
     <>
@@ -71,7 +77,7 @@ export default function AboutPage() {
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
             <div className="h-96 overflow-hidden rounded shadow-custom order-2 md:order-1">
               <img
-                src="https://images.unsplash.com/photo-1555939594-58d7cb561370?auto=format&fit=crop&w=700&q=80"
+                src="https://images.unsplash.com/photo-1702741168115-cd3d9a682972?auto=format&fit=crop&w=1200&q=85"
                 alt="Churrasco grilling"
                 className="w-full h-full object-cover"
               />
@@ -213,12 +219,58 @@ export default function AboutPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-dark text-cream py-28 px-5 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="font-black text-5xl md:text-6xl uppercase leading-tight mb-8">EXPERIENCE THE BRAVO DIFFERENCE</h2>
-            <Link href="/contact#reservation" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-yellow to-orange text-black font-black text-sm uppercase tracking-wider rounded hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg">
-              <i className="fa-solid fa-calendar-check"></i> Book a Table
-            </Link>
+        <section className="relative overflow-hidden border-y border-[#D4A373]/18 bg-[#120807] px-5 py-16 text-cream sm:px-8 lg:px-10 lg:py-20">
+          <img
+            src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85"
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover opacity-24"
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,8,7,0.98)_0%,rgba(18,8,7,0.88)_48%,rgba(18,8,7,0.68)_100%)]" />
+
+          <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-[1fr_auto]">
+            <div className="max-w-3xl">
+              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-[#fd850b]">
+                Visit Bravo
+              </p>
+              <h2 className="font-black text-5xl uppercase leading-[0.92] md:text-6xl">
+                Experience the Bravo difference
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-8 text-[#f4d8c5] sm:text-lg">
+                Come for the fire-grilled cuts, stay for the service, sides, and
+                celebration-style Brazilian steakhouse atmosphere.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+              <Link
+                href="/contact#reservation"
+                className="inline-flex min-h-14 items-center justify-center gap-2 bg-[#fd850b] px-7 py-4 text-sm font-black uppercase tracking-[0.14em] text-[#120807] shadow-[0_18px_44px_rgba(253,133,11,0.32)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(253,133,11,0.5)]"
+              >
+                <i className="fa-solid fa-calendar-check" aria-hidden="true"></i>
+                Book a Table
+              </Link>
+              <Link
+                href="/menu"
+                className="inline-flex min-h-14 items-center justify-center gap-2 border border-[#FFF7ED]/42 bg-black/20 px-7 py-4 text-sm font-black uppercase tracking-[0.14em] text-[#FFF7ED] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-[#120807]"
+              >
+                <i className="fa-solid fa-utensils" aria-hidden="true"></i>
+                View Menu
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative z-10 mx-auto mt-9 grid max-w-6xl gap-3 md:grid-cols-3">
+            {ABOUT_CTA_HIGHLIGHTS.map((item) => (
+              <div
+                key={item}
+                className="border border-[#D4A373]/18 bg-[#FFF7ED]/7 px-5 py-4 backdrop-blur"
+              >
+                <p className="text-sm font-black uppercase tracking-[0.12em] text-[#FFF7ED]">
+                  {item}
+                </p>
+              </div>
+            ))}
           </div>
         </section>
       </main>

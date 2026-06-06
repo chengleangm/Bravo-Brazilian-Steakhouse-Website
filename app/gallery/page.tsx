@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
@@ -12,6 +13,7 @@ type GalleryImage = {
   src: string
   category: Exclude<GalleryCategory, 'all'>
   alt: string
+  featured?: boolean
 }
 
 const galleryImages: GalleryImage[] = [
@@ -20,6 +22,7 @@ const galleryImages: GalleryImage[] = [
     src: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=1000&q=90',
     category: 'food',
     alt: 'Brazilian BBQ steak platter',
+    featured: true,
   },
   {
     id: 2,
@@ -38,12 +41,13 @@ const galleryImages: GalleryImage[] = [
     src: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1000&q=90',
     category: 'interior',
     alt: 'Warm steakhouse dining room',
+    featured: true,
   },
   {
     id: 5,
-    src: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=1000&q=90',
+    src: 'https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=1000&q=90',
     category: 'food',
-    alt: 'Seared steak with sauce',
+    alt: 'Brazilian grill plate with sides',
   },
   {
     id: 6,
@@ -62,6 +66,7 @@ const galleryImages: GalleryImage[] = [
     src: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1000&q=90',
     category: 'events',
     alt: 'Guests dining together',
+    featured: true,
   },
   {
     id: 9,
@@ -89,7 +94,50 @@ const galleryImages: GalleryImage[] = [
   },
 ]
 
-const filters: GalleryCategory[] = ['all', 'food', 'grill', 'interior', 'events']
+const galleryStories: {
+  title: string
+  copy: string
+  image: string
+  filter: Exclude<GalleryCategory, 'all'>
+  icon: string
+}[] = [
+  {
+    title: 'Start with the fire',
+    copy: 'Churrasco cuts hit the grill hot, smoky, and ready to carve.',
+    image:
+      'https://images.unsplash.com/photo-1702741168115-cd3d9a682972?auto=format&fit=crop&w=1000&q=85',
+    filter: 'grill',
+    icon: 'fa-fire-flame-curved',
+  },
+  {
+    title: 'Fill the table',
+    copy: 'Buffet sides, sauces, salads, and grilled plates keep every guest moving.',
+    image:
+      'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1000&q=90',
+    filter: 'food',
+    icon: 'fa-utensils',
+  },
+  {
+    title: 'Stay for the celebration',
+    copy: 'Warm rooms and group tables make BRAVO feel built for gathering.',
+    image:
+      'https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1000&q=90',
+    filter: 'events',
+    icon: 'fa-champagne-glasses',
+  },
+]
+
+const filterOptions: {
+  id: GalleryCategory
+  label: string
+  icon: string
+}[] = [
+  { id: 'all', label: 'All', icon: 'fa-border-all' },
+  { id: 'food', label: 'Food', icon: 'fa-utensils' },
+  { id: 'grill', label: 'Grill', icon: 'fa-fire-flame-curved' },
+  { id: 'interior', label: 'Interior', icon: 'fa-chair' },
+  { id: 'events', label: 'Events', icon: 'fa-champagne-glasses' },
+]
 
 export default function GalleryPage() {
   const [activeFilter, setActiveFilter] = useState<GalleryCategory>('all')
@@ -99,6 +147,11 @@ export default function GalleryPage() {
     activeFilter === 'all'
       ? galleryImages
       : galleryImages.filter((image) => image.category === activeFilter)
+
+  const getFilterCount = (filter: GalleryCategory) =>
+    filter === 'all'
+      ? galleryImages.length
+      : galleryImages.filter((image) => image.category === filter).length
 
   return (
     <>
@@ -124,32 +177,117 @@ export default function GalleryPage() {
           </div>
         </section>
 
-        <section className="px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-12 flex flex-wrap justify-center gap-3">
-              {filters.map((filter) => (
+        <section className="border-y border-[#D4A373]/18 bg-[#1A0E0A] px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+            <div>
+              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-[#fd850b]">
+                A night at Bravo
+              </p>
+              <h2 className="font-serif text-4xl uppercase leading-[0.92] sm:text-5xl lg:text-6xl">
+                See the experience before you arrive
+              </h2>
+              <p className="mt-5 max-w-xl text-base leading-8 text-[#C7B8A8]">
+                Use these highlights as a quick path through the gallery, from
+                the first flame to the final group photo.
+              </p>
+              <Link
+                href="/contact#reservation"
+                className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 bg-[#fd850b] px-6 py-3 text-sm font-black uppercase tracking-[0.14em] text-[#120807] shadow-[0_18px_42px_rgba(253,133,11,0.28)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_62px_rgba(253,133,11,0.46)]"
+              >
+                <i className="fa-solid fa-calendar-check" aria-hidden="true" />
+                Book a Table
+              </Link>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-3">
+              {galleryStories.map((story) => (
                 <button
-                  key={filter}
+                  key={story.title}
                   type="button"
-                  onClick={() => setActiveFilter(filter)}
-                  className={`min-h-12 rounded-lg px-5 py-3 text-sm font-black uppercase tracking-[0.14em] transition duration-300 ${
-                    activeFilter === filter
+                  onClick={() => setActiveFilter(story.filter)}
+                  className="group relative min-h-72 overflow-hidden border border-[#D4A373]/18 bg-[#120807] text-left shadow-[0_24px_70px_rgba(0,0,0,0.24)] transition duration-300 hover:-translate-y-2 hover:border-[#fd850b]/55"
+                >
+                  <Image
+                    src={story.image}
+                    alt={story.title}
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover transition duration-500 group-hover:scale-[1.05]"
+                  />
+                  <span className="absolute inset-0 bg-gradient-to-t from-[#120807]/92 via-[#120807]/34 to-transparent" />
+                  <span className="absolute left-5 top-5 flex h-11 w-11 items-center justify-center bg-[#fd850b] text-[#120807]">
+                    <i className={`fa-solid ${story.icon}`} aria-hidden="true" />
+                  </span>
+                  <span className="absolute bottom-5 left-5 right-5">
+                    <span className="block font-serif text-3xl uppercase leading-none text-[#FFF7ED]">
+                      {story.title}
+                    </span>
+                    <span className="mt-3 block text-sm leading-6 text-[#f4d8c5]">
+                      {story.copy}
+                    </span>
+                    <span className="mt-4 inline-flex text-xs font-black uppercase tracking-[0.16em] text-[#fd850b]">
+                      View {story.filter}
+                    </span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="relative overflow-hidden px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(253,133,11,0.12),transparent_30%)]" />
+          <div className="mx-auto max-w-7xl">
+            <div className="relative z-10 mx-auto mb-10 max-w-3xl text-center">
+              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-[#fd850b]">
+                Browse the atmosphere
+              </p>
+              <h2 className="font-serif text-4xl uppercase leading-[0.92] sm:text-5xl lg:text-6xl">
+                Fire, food, rooms, and celebrations
+              </h2>
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-[#C7B8A8]">
+                A closer look at the plates, grill moments, dining room, and
+                group nights that shape the BRAVO experience.
+              </p>
+            </div>
+
+            <div className="relative z-10 mb-12 flex flex-wrap justify-center gap-3">
+              {filterOptions.map((filter) => (
+                <button
+                  key={filter.id}
+                  type="button"
+                  onClick={() => setActiveFilter(filter.id)}
+                  aria-pressed={activeFilter === filter.id}
+                  className={`inline-flex min-h-12 items-center justify-center gap-3 px-5 py-3 text-sm font-black uppercase tracking-[0.14em] transition duration-300 ${
+                    activeFilter === filter.id
                       ? 'bg-[#fd850b] text-[#120807] shadow-[0_18px_42px_rgba(253,133,11,0.3)]'
                       : 'border border-[#D4A373]/26 bg-[#FFF7ED]/5 text-[#FFF7ED] hover:border-[#fd850b]'
                   }`}
                 >
-                  {filter === 'all' ? 'All' : filter}
+                  <i className={`fa-solid ${filter.icon}`} aria-hidden="true" />
+                  <span>{filter.label}</span>
+                  <span
+                    className={`text-[0.68rem] ${
+                      activeFilter === filter.id
+                        ? 'text-[#120807]/70'
+                        : 'text-[#C7B8A8]'
+                    }`}
+                  >
+                    {getFilterCount(filter.id).toString().padStart(2, '0')}
+                  </span>
                 </button>
               ))}
             </div>
 
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="relative z-10 grid auto-rows-[240px] gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {filteredImages.map((image) => (
                 <button
                   key={image.id}
                   type="button"
                   onClick={() => setSelectedImage(image)}
-                  className="group relative h-72 overflow-hidden rounded-lg border border-[#D4A373]/18 bg-[#1A0E0A] text-left shadow-[0_24px_70px_rgba(0,0,0,0.24)]"
+                  className={`group relative h-full overflow-hidden border border-[#D4A373]/18 bg-[#1A0E0A] text-left shadow-[0_24px_70px_rgba(0,0,0,0.24)] transition duration-300 hover:-translate-y-1 hover:border-[#fd850b]/55 ${
+                    image.featured ? 'sm:col-span-2 sm:row-span-2' : ''
+                  }`}
                 >
                   <Image
                     src={image.src}
@@ -158,9 +296,21 @@ export default function GalleryPage() {
                     sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                     className="object-cover transition duration-500 group-hover:scale-[1.05]"
                   />
-                  <span className="absolute inset-0 bg-gradient-to-t from-[#120807]/76 via-transparent to-transparent opacity-80 transition group-hover:opacity-100" />
-                  <span className="absolute bottom-4 left-4 right-4 text-lg font-black text-[#FFF7ED]">
-                    {image.alt}
+                  <span className="absolute inset-0 bg-gradient-to-t from-[#120807]/86 via-[#120807]/18 to-transparent opacity-88 transition group-hover:opacity-100" />
+                  <span className="absolute left-4 top-4 bg-[#120807]/72 px-3 py-2 text-[0.65rem] font-black uppercase tracking-[0.18em] text-[#fd850b] backdrop-blur">
+                    {image.category}
+                  </span>
+                  <span className="absolute bottom-4 left-4 right-4">
+                    <span
+                      className={`block font-black leading-tight text-[#FFF7ED] ${
+                        image.featured ? 'text-2xl sm:text-3xl' : 'text-lg'
+                      }`}
+                    >
+                      {image.alt}
+                    </span>
+                    <span className="mt-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#C7B8A8] opacity-0 transition group-hover:opacity-100">
+                      View full image
+                    </span>
                   </span>
                 </button>
               ))}

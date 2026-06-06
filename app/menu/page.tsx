@@ -21,6 +21,12 @@ type MenuSection = {
 const heroImage =
   'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=2000&q=90'
 
+const menuCtaHighlights = [
+  { label: 'Buffet', value: 'Lunch and dinner' },
+  { label: 'Grill', value: 'Fresh from the fire' },
+  { label: 'Groups', value: 'Tables for celebrations' },
+]
+
 const menuSections: MenuSection[] = [
   {
     id: 'buffet',
@@ -453,17 +459,63 @@ export default function MenuPage() {
           </section>
         ))}
 
-        <section className="px-5 py-24 text-center sm:px-8 lg:px-10">
-          <div className="mx-auto max-w-4xl">
-            <h2 className="font-serif text-4xl font-black leading-tight sm:text-5xl">
-              Ready to taste the fire?
-            </h2>
-            <Link
-              href="/contact#reservation"
-              className="mt-8 inline-flex min-h-14 items-center justify-center rounded-lg bg-[#fd850b] px-8 py-4 text-base font-black uppercase tracking-[0.14em] text-[#120807] shadow-[0_18px_44px_rgba(253,133,11,0.34)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(253,133,11,0.58)]"
-            >
-              Book a Table
-            </Link>
+        <section className="relative overflow-hidden border-y border-[#D4A373]/18 px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+          <Image
+            src={heroImage}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover opacity-24"
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,8,7,0.98)_0%,rgba(18,8,7,0.86)_52%,rgba(18,8,7,0.7)_100%)]" />
+
+          <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-[1fr_auto]">
+            <div className="max-w-3xl">
+              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-[#fd850b]">
+                Book Bravo
+              </p>
+              <h2 className="font-serif text-4xl font-black uppercase leading-[0.92] sm:text-5xl lg:text-6xl">
+                Ready to taste the fire?
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-8 text-[#f4d8c5] sm:text-lg">
+                Save your table for buffet service, flame-grilled cuts, and a
+                full Brazilian steakhouse night in Phnom Penh.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row lg:flex-col lg:items-stretch">
+              <Link
+                href="/contact#reservation"
+                className="inline-flex min-h-14 items-center justify-center gap-2 bg-[#fd850b] px-7 py-4 text-sm font-black uppercase tracking-[0.14em] text-[#120807] shadow-[0_18px_44px_rgba(253,133,11,0.32)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(253,133,11,0.5)]"
+              >
+                <i className="fa-solid fa-calendar-check" aria-hidden="true" />
+                Book a Table
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex min-h-14 items-center justify-center gap-2 border border-[#FFF7ED]/42 bg-black/20 px-7 py-4 text-sm font-black uppercase tracking-[0.14em] text-[#FFF7ED] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-[#120807]"
+              >
+                <i className="fa-solid fa-location-dot" aria-hidden="true" />
+                Visit Us
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative z-10 mx-auto mt-9 grid max-w-6xl gap-3 sm:grid-cols-3">
+            {menuCtaHighlights.map((item) => (
+              <div
+                key={item.label}
+                className="border border-[#D4A373]/18 bg-[#FFF7ED]/7 px-5 py-4 backdrop-blur"
+              >
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#fd850b]">
+                  {item.label}
+                </p>
+                <p className="mt-2 text-sm font-bold text-[#FFF7ED]">
+                  {item.value}
+                </p>
+              </div>
+            ))}
           </div>
         </section>
       </main>

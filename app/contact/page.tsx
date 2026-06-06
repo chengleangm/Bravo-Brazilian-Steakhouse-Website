@@ -5,6 +5,29 @@ import { useState } from 'react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 
+const TELEGRAM_URL = 'https://t.me/BravoReservationsTTP'
+
+const HOURS = [
+  {
+    day: 'Monday - Friday',
+    time: '11:00 AM - 11:00 PM',
+    note: 'Lunch, dinner, and after-work tables',
+    icon: 'fa-calendar-day',
+  },
+  {
+    day: 'Saturday',
+    time: '10:00 AM - 12:00 AM',
+    note: 'Late weekend service for groups',
+    icon: 'fa-moon',
+  },
+  {
+    day: 'Sunday',
+    time: '10:00 AM - 11:00 PM',
+    note: 'Family dining and relaxed gatherings',
+    icon: 'fa-sun',
+  },
+]
+
 export default function ContactPage() {
   const [reservationFormData, setReservationFormData] = useState({
     name: '',
@@ -74,7 +97,7 @@ export default function ContactPage() {
         {/* Contact Cards */}
         <section className="bg-cream text-dark py-28 px-5">
           <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+            <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-20">
               <div className="bg-white/6 border border-white/9 shadow-custom p-7 rounded hover:shadow-2xl hover:-translate-y-2 transition-all text-center">
                 <div className="w-16 h-16 flex items-center justify-center bg-orange/20 rounded-full mb-4 mx-auto">
                   <i className="fa-solid fa-phone text-orange text-2xl"></i>
@@ -102,6 +125,13 @@ export default function ContactPage() {
                 </div>
                 <h3 className="font-black text-xl mb-2">WhatsApp</h3>
                 <p className="text-dark/80"><a href="https://wa.me/85578938333" target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Message Us</a></p>
+              </div>
+              <div className="bg-white/6 border border-white/9 shadow-custom p-7 rounded hover:shadow-2xl hover:-translate-y-2 transition-all text-center">
+                <div className="w-16 h-16 flex items-center justify-center bg-orange/20 rounded-full mb-4 mx-auto">
+                  <i className="fa-brands fa-telegram text-orange text-2xl"></i>
+                </div>
+                <h3 className="font-black text-xl mb-2">Telegram</h3>
+                <p className="text-dark/80"><a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Reservations</a></p>
               </div>
             </div>
           </div>
@@ -270,7 +300,7 @@ export default function ContactPage() {
             <h2 className="font-black text-5xl uppercase text-center text-cream mb-16">FIND US</h2>
             <div className="w-full h-96 bg-white/10 border border-white/20 rounded overflow-hidden shadow-custom">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3908.823876819632!2d104.92!3d11.55!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31095100aa1d0001%3A0xf00ef62e7f000000!2sPhnom%20Penh%2C%20Cambodia!5e0!3m2!1sen!2skh!4v1234567890"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7818.48391752572!2d104.9155739!3d11.5344932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109513d047ee727%3A0x8ea23f9513babd9e!2sBravo%20Steakhouse%20Churrascaria!5e0!3m2!1sen!2skh!4v1780715930751!5m2!1sen!2skh"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -283,22 +313,42 @@ export default function ContactPage() {
         </section>
 
         {/* Hours */}
-        <section className="bg-cream text-dark py-28 px-5">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="font-black text-5xl uppercase text-center mb-16">HOURS OF OPERATION</h2>
-            <div className="grid md:grid-cols-3 gap-10">
-              <div className="bg-white/6 border border-white/9 shadow-custom p-7 rounded hover:shadow-2xl hover:-translate-y-2 transition-all text-center">
-                <h3 className="font-black text-2xl mb-4">Monday - Friday</h3>
-                <p className="text-2xl font-black text-orange">11:00 AM - 11:00 PM</p>
-              </div>
-              <div className="bg-white/6 border border-white/9 shadow-custom p-7 rounded hover:shadow-2xl hover:-translate-y-2 transition-all text-center">
-                <h3 className="font-black text-2xl mb-4">Saturday</h3>
-                <p className="text-2xl font-black text-orange">10:00 AM - 12:00 AM</p>
-              </div>
-              <div className="bg-white/6 border border-white/9 shadow-custom p-7 rounded hover:shadow-2xl hover:-translate-y-2 transition-all text-center">
-                <h3 className="font-black text-2xl mb-4">Sunday</h3>
-                <p className="text-2xl font-black text-orange">10:00 AM - 11:00 PM</p>
-              </div>
+        <section className="relative overflow-hidden bg-cream px-5 py-20 text-dark sm:px-8 lg:px-10 lg:py-24">
+          <div className="absolute inset-x-0 top-0 h-px bg-orange/30"></div>
+          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+            <div>
+              <p className="mb-3 text-sm font-black uppercase tracking-[0.25em] text-orange">Open Daily</p>
+              <h2 className="font-black text-5xl uppercase leading-none md:text-6xl">Hours of Operation</h2>
+              <p className="mt-6 max-w-md text-lg leading-8 text-dark/75">
+                Visit BRAVO for fire-grilled churrasco, cold drinks, and generous tables throughout the week.
+              </p>
+              <Link
+                href="/contact#reservation"
+                className="mt-8 inline-flex items-center justify-center rounded bg-orange px-7 py-4 text-sm font-black uppercase tracking-wider text-black shadow-lg transition-all hover:-translate-y-1 hover:bg-yellow"
+              >
+                <i className="fa-solid fa-calendar-check mr-2"></i>
+                Reserve a Table
+              </Link>
+            </div>
+
+            <div className="grid gap-4">
+              {HOURS.map((item) => (
+                <div
+                  key={item.day}
+                  className="flex flex-col gap-4 rounded border border-dark/10 bg-white/75 p-5 shadow-custom transition-all hover:-translate-y-1 hover:border-orange/50 hover:shadow-2xl sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div className="flex items-center gap-4">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded bg-dark text-orange">
+                      <i className={`fa-solid ${item.icon}`}></i>
+                    </span>
+                    <div>
+                      <h3 className="font-black text-2xl leading-none">{item.day}</h3>
+                      <p className="mt-2 text-sm font-medium text-dark/65">{item.note}</p>
+                    </div>
+                  </div>
+                  <p className="text-2xl font-black text-orange sm:text-right">{item.time}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
