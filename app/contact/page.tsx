@@ -6,6 +6,31 @@ import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 
 const TELEGRAM_URL = 'https://t.me/BravoReservationsTTP'
+const WHATSAPP_URL = 'https://wa.me/85578938333'
+
+const RESERVATION_PERKS = [
+  {
+    label: 'Quick Confirmation',
+    copy: 'Send your details and our team will follow up.',
+    icon: 'fa-check',
+  },
+  {
+    label: 'Groups Welcome',
+    copy: 'Great for birthdays, dates, and team dinners.',
+    icon: 'fa-users',
+  },
+  {
+    label: 'Open Daily',
+    copy: 'Lunch, dinner, and weekend late tables.',
+    icon: 'fa-clock',
+  },
+]
+
+const RESERVATION_INPUT_CLASS =
+  'w-full rounded border border-white/15 bg-white/10 px-4 py-3.5 text-cream outline-none transition-all placeholder:text-cream/35 focus:border-orange focus:bg-white/15 focus:shadow-[0_0_0_3px_rgba(253,133,11,0.18)]'
+
+const RESERVATION_LABEL_CLASS =
+  'mb-2.5 block text-xs font-black uppercase tracking-[0.18em] text-cream/90'
 
 const HOURS = [
   {
@@ -138,83 +163,139 @@ export default function ContactPage() {
         </section>
 
         {/* Reservation Form */}
-        <section id="reservation" className="bg-dark text-cream py-28 px-5">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="font-black text-5xl uppercase text-center mb-4">MAKE A RESERVATION</h2>
-            <p className="text-center text-cream/80 mb-16">Secure your table at BRAVO. We look forward to welcoming you.</p>
-            <form onSubmit={handleReservationSubmit} className="bg-white/6 border border-white/9 shadow-custom p-10 rounded">
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
+        <section id="reservation" className="relative overflow-hidden bg-dark px-5 py-20 text-cream sm:px-8 lg:px-10 lg:py-24">
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1800&q=90')] bg-cover bg-center opacity-20"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-dark via-dark/95 to-black/95"></div>
+          <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div className="lg:sticky lg:top-28">
+              <p className="mb-3 text-sm font-black uppercase tracking-[0.25em] text-orange">Book Bravo</p>
+              <h2 className="font-black text-5xl uppercase leading-none md:text-6xl">Make a Reservation</h2>
+              <p className="mt-6 max-w-md text-lg leading-8 text-cream/75">
+                Save your table for churrasco, buffet sides, cold drinks, and a full Brazilian steakhouse night in Phnom Penh.
+              </p>
+
+              <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+                {RESERVATION_PERKS.map((item) => (
+                  <div key={item.label} className="rounded border border-white/10 bg-white/8 p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded bg-orange text-black">
+                        <i className={`fa-solid ${item.icon} text-sm`}></i>
+                      </span>
+                      <div>
+                        <h3 className="font-black uppercase leading-tight">{item.label}</h3>
+                        <p className="mt-1 text-sm leading-6 text-cream/65">{item.copy}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center rounded border border-white/20 px-5 py-3 text-sm font-black uppercase tracking-wider transition-all hover:border-orange hover:text-orange"
+                >
+                  <i className="fa-brands fa-whatsapp mr-2"></i>
+                  WhatsApp
+                </a>
+                <a
+                  href={TELEGRAM_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center rounded border border-white/20 px-5 py-3 text-sm font-black uppercase tracking-wider transition-all hover:border-orange hover:text-orange"
+                >
+                  <i className="fa-brands fa-telegram mr-2"></i>
+                  Telegram
+                </a>
+              </div>
+            </div>
+
+            <form onSubmit={handleReservationSubmit} className="rounded border border-white/10 bg-[#201615]/90 p-6 shadow-2xl backdrop-blur sm:p-8 lg:p-10">
+              <div className="mb-8 flex flex-col gap-3 border-b border-white/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <label className="block font-black text-sm uppercase tracking-wider mb-3">Name *</label>
+                  <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-orange">Reservation Details</p>
+                  <h3 className="font-black text-3xl uppercase leading-none">Tell us about your table</h3>
+                </div>
+                <p className="text-sm font-medium text-cream/55">Required fields marked *</p>
+              </div>
+
+              <div className="grid gap-5 md:grid-cols-2">
+                <div>
+                  <label className={RESERVATION_LABEL_CLASS}>Name *</label>
                   <input
                     type="text"
                     name="name"
                     value={reservationFormData.name}
                     onChange={handleReservationChange}
-                    className="w-full bg-white/10 border border-white/20 text-cream px-4 py-3 rounded focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-cream/40"
+                    className={RESERVATION_INPUT_CLASS}
                     placeholder="Your name"
                   />
                 </div>
                 <div>
-                  <label className="block font-black text-sm uppercase tracking-wider mb-3">Phone *</label>
+                  <label className={RESERVATION_LABEL_CLASS}>Phone *</label>
                   <input
                     type="tel"
                     name="phone"
                     value={reservationFormData.phone}
                     onChange={handleReservationChange}
-                    className="w-full bg-white/10 border border-white/20 text-cream px-4 py-3 rounded focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-cream/40"
+                    className={RESERVATION_INPUT_CLASS}
                     placeholder="Your phone"
                   />
                 </div>
-              </div>
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label className="block font-black text-sm uppercase tracking-wider mb-3">Date *</label>
+                  <label className={RESERVATION_LABEL_CLASS}>Date *</label>
                   <input
                     type="date"
                     name="date"
                     value={reservationFormData.date}
                     onChange={handleReservationChange}
-                    className="w-full bg-white/10 border border-white/20 text-cream px-4 py-3 rounded focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-cream/40"
+                    className={RESERVATION_INPUT_CLASS}
+                    style={{ colorScheme: 'dark' }}
                   />
                 </div>
                 <div>
-                  <label className="block font-black text-sm uppercase tracking-wider mb-3">Time *</label>
+                  <label className={RESERVATION_LABEL_CLASS}>Time *</label>
                   <input
                     type="time"
                     name="time"
                     value={reservationFormData.time}
                     onChange={handleReservationChange}
-                    className="w-full bg-white/10 border border-white/20 text-cream px-4 py-3 rounded focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-cream/40"
+                    className={RESERVATION_INPUT_CLASS}
+                    style={{ colorScheme: 'dark' }}
                   />
                 </div>
               </div>
-              <div className="mb-6">
-                <label className="block font-black text-sm uppercase tracking-wider mb-3">Number of Guests *</label>
+
+              <div className="mt-5">
+                <label className={RESERVATION_LABEL_CLASS}>Number of Guests *</label>
                 <input
                   type="number"
                   name="guests"
                   value={reservationFormData.guests}
                   onChange={handleReservationChange}
-                  className="w-full bg-white/10 border border-white/20 text-cream px-4 py-3 rounded focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-cream/40"
+                  className={RESERVATION_INPUT_CLASS}
                   placeholder="Number of guests"
                   min="1"
                   max="20"
                 />
               </div>
-              <div className="mb-8">
-                <label className="block font-black text-sm uppercase tracking-wider mb-3">Special Requests</label>
+
+              <div className="mt-5">
+                <label className={RESERVATION_LABEL_CLASS}>Special Requests</label>
                 <textarea
                   name="message"
                   value={reservationFormData.message}
                   onChange={handleReservationChange}
-                  className="w-full bg-white/10 border border-white/20 text-cream px-4 py-3 rounded focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-cream/40 min-h-28 resize-none"
+                  className={`${RESERVATION_INPUT_CLASS} min-h-32 resize-none`}
                   placeholder="Any special requests or dietary requirements?"
                 ></textarea>
               </div>
+
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-yellow to-orange text-black font-black text-sm uppercase tracking-wider py-3 rounded hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg"
+                className="mt-8 flex w-full items-center justify-center rounded bg-gradient-to-r from-yellow to-orange px-6 py-4 text-sm font-black uppercase tracking-wider text-black shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl"
               >
                 <i className="fa-solid fa-calendar-check mr-2"></i> Reserve Table
               </button>
