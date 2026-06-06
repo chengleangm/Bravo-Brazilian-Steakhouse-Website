@@ -531,7 +531,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="grid overflow-hidden rounded border border-white/10 bg-[#1f1412] shadow-2xl lg:grid-cols-[0.35fr_0.65fr]">
+            <div className="grid overflow-hidden rounded border border-white/10 bg-[#1f1412] shadow-2xl lg:grid-cols-[0.35fr_0.65fr] lg:items-stretch">
               <div className="border-b border-white/10 p-6 sm:p-8 lg:border-b-0 lg:border-r">
                 <div className="flex h-14 w-14 items-center justify-center rounded bg-orange text-black">
                   <i className="fa-solid fa-map-location-dot text-xl"></i>
@@ -572,9 +572,10 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="h-[420px] bg-white/10 lg:h-[520px]">
+              <div className="relative min-h-[420px] bg-white/10 lg:min-h-[520px]">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7818.48391752572!2d104.9155739!3d11.5344932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109513d047ee727%3A0x8ea23f9513babd9e!2sBravo%20Steakhouse%20Churrascaria!5e0!3m2!1sen!2skh!4v1780715930751!5m2!1sen!2skh"
+                  className="absolute inset-0 h-full w-full"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
