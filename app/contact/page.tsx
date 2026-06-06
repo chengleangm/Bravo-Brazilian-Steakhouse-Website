@@ -32,6 +32,39 @@ const RESERVATION_INPUT_CLASS =
 const RESERVATION_LABEL_CLASS =
   'mb-2.5 block text-xs font-black uppercase tracking-[0.18em] text-cream/90'
 
+const CONTACT_METHODS = [
+  {
+    label: 'Call',
+    value: '+855 78 938 333',
+    href: 'tel:+85578938333',
+    icon: 'fa-solid fa-phone',
+  },
+  {
+    label: 'WhatsApp',
+    value: 'Message us now',
+    href: WHATSAPP_URL,
+    icon: 'fa-brands fa-whatsapp',
+  },
+  {
+    label: 'Telegram',
+    value: 'Bravo reservations',
+    href: TELEGRAM_URL,
+    icon: 'fa-brands fa-telegram',
+  },
+  {
+    label: 'Visit',
+    value: 'Phnom Penh, Cambodia',
+    href: null,
+    icon: 'fa-solid fa-location-dot',
+  },
+]
+
+const CONTACT_INPUT_CLASS =
+  'w-full rounded border border-dark/10 bg-white/75 px-4 py-3.5 text-dark outline-none transition-all placeholder:text-dark/35 focus:border-orange focus:bg-white focus:shadow-[0_0_0_3px_rgba(253,133,11,0.14)]'
+
+const CONTACT_LABEL_CLASS =
+  'mb-2.5 block text-xs font-black uppercase tracking-[0.18em] text-dark'
+
 const HOURS = [
   {
     day: 'Monday - Friday',
@@ -304,70 +337,123 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Form */}
-        <section className="bg-cream text-dark py-28 px-5">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="font-black text-5xl uppercase text-center mb-4">GET IN TOUCH</h2>
-            <p className="text-center text-dark/80 mb-16">Have a question or feedback? We'd love to hear from you.</p>
-            <form onSubmit={handleContactSubmit} className="bg-white/6 border border-white/9 shadow-custom p-10 rounded">
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
+        <section className="relative overflow-hidden bg-cream px-5 py-20 text-dark sm:px-8 lg:px-10 lg:py-24">
+          <div className="absolute inset-x-0 top-0 h-px bg-dark/10"></div>
+          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+            <div>
+              <p className="mb-3 text-sm font-black uppercase tracking-[0.25em] text-orange">Talk to Bravo</p>
+              <h2 className="font-black text-5xl uppercase leading-none md:text-6xl">Get in Touch</h2>
+              <p className="mt-6 max-w-md text-lg leading-8 text-dark/70">
+                Questions about reservations, private events, menu details, or feedback? Send us a note and the BRAVO team will help.
+              </p>
+
+              <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                {CONTACT_METHODS.map((method) => {
+                  const content = (
+                    <>
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded bg-dark text-orange">
+                        <i className={method.icon}></i>
+                      </span>
+                      <span>
+                        <span className="block text-xs font-black uppercase tracking-[0.18em] text-orange">{method.label}</span>
+                        <span className="mt-1 block font-black text-dark">{method.value}</span>
+                      </span>
+                    </>
+                  )
+
+                  if (method.href) {
+                    return (
+                      <a
+                        key={method.label}
+                        href={method.href}
+                        target={method.href.startsWith('http') ? '_blank' : undefined}
+                        rel={method.href.startsWith('http') ? 'noreferrer' : undefined}
+                        className="flex items-center gap-4 rounded border border-dark/10 bg-white/75 p-4 shadow-custom transition-all hover:-translate-y-1 hover:border-orange/50 hover:bg-white"
+                      >
+                        {content}
+                      </a>
+                    )
+                  }
+
+                  return (
+                    <div key={method.label} className="flex items-center gap-4 rounded border border-dark/10 bg-white/75 p-4 shadow-custom">
+                      {content}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            <form onSubmit={handleContactSubmit} className="rounded border border-dark/10 bg-white/90 p-6 shadow-2xl backdrop-blur sm:p-8 lg:p-10">
+              <div className="mb-8 flex flex-col gap-3 border-b border-dark/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <label className="block font-black text-sm uppercase tracking-wider mb-3">Name *</label>
+                  <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-orange">Message Details</p>
+                  <h3 className="font-black text-3xl uppercase leading-none">How can we help?</h3>
+                </div>
+                <p className="text-sm font-medium text-dark/55">Required fields marked *</p>
+              </div>
+
+              <div className="grid gap-5 md:grid-cols-2">
+                <div>
+                  <label className={CONTACT_LABEL_CLASS}>Name *</label>
                   <input
                     type="text"
                     name="name"
                     value={contactFormData.name}
                     onChange={handleContactChange}
-                    className="w-full bg-white/10 border border-white/20 text-dark px-4 py-3 rounded focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-dark/40"
+                    className={CONTACT_INPUT_CLASS}
                     placeholder="Your name"
                   />
                 </div>
                 <div>
-                  <label className="block font-black text-sm uppercase tracking-wider mb-3">Email *</label>
+                  <label className={CONTACT_LABEL_CLASS}>Email *</label>
                   <input
                     type="email"
                     name="email"
                     value={contactFormData.email}
                     onChange={handleContactChange}
-                    className="w-full bg-white/10 border border-white/20 text-dark px-4 py-3 rounded focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-dark/40"
+                    className={CONTACT_INPUT_CLASS}
                     placeholder="Your email"
                   />
                 </div>
+                <div>
+                  <label className={CONTACT_LABEL_CLASS}>Phone *</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={contactFormData.phone}
+                    onChange={handleContactChange}
+                    className={CONTACT_INPUT_CLASS}
+                    placeholder="Your phone"
+                  />
+                </div>
+                <div>
+                  <label className={CONTACT_LABEL_CLASS}>Subject *</label>
+                  <input
+                    type="text"
+                    name="subject"
+                    value={contactFormData.subject}
+                    onChange={handleContactChange}
+                    className={CONTACT_INPUT_CLASS}
+                    placeholder="What is this about?"
+                  />
+                </div>
               </div>
-              <div className="mb-6">
-                <label className="block font-black text-sm uppercase tracking-wider mb-3">Phone *</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={contactFormData.phone}
-                  onChange={handleContactChange}
-                  className="w-full bg-white/10 border border-white/20 text-dark px-4 py-3 rounded focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-dark/40"
-                  placeholder="Your phone"
-                />
-              </div>
-              <div className="mb-6">
-                <label className="block font-black text-sm uppercase tracking-wider mb-3">Subject *</label>
-                <input
-                  type="text"
-                  name="subject"
-                  value={contactFormData.subject}
-                  onChange={handleContactChange}
-                  className="w-full bg-white/10 border border-white/20 text-dark px-4 py-3 rounded focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-dark/40"
-                  placeholder="What is this about?"
-                />
-              </div>
-              <div className="mb-8">
-                <label className="block font-black text-sm uppercase tracking-wider mb-3">Message *</label>
+
+              <div className="mt-5">
+                <label className={CONTACT_LABEL_CLASS}>Message *</label>
                 <textarea
                   name="message"
                   value={contactFormData.message}
                   onChange={handleContactChange}
-                  className="w-full bg-white/10 border border-white/20 text-dark px-4 py-3 rounded focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-dark/40 min-h-28 resize-none"
+                  className={`${CONTACT_INPUT_CLASS} min-h-36 resize-none`}
                   placeholder="Your message"
                 ></textarea>
               </div>
+
               <button
                 type="submit"
-                className="w-full bg-dark text-cream font-black text-sm uppercase tracking-wider py-3 rounded hover:bg-orange hover:text-black transition-all"
+                className="mt-8 flex w-full items-center justify-center rounded bg-dark px-6 py-4 text-sm font-black uppercase tracking-wider text-cream shadow-lg transition-all hover:-translate-y-1 hover:bg-orange hover:text-black hover:shadow-xl"
               >
                 <i className="fa-solid fa-paper-plane mr-2"></i> Send Message
               </button>
