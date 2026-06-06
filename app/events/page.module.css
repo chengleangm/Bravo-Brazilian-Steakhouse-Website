@@ -1,0 +1,158 @@
+.hero {
+  --bg: url('https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1800&q=85');
+  background-image: var(--bg);
+}
+
+.featured {
+  transform: scale(1.05);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.4);
+}
+
+.form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form input,
+.form textarea,
+.form select {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--dark);
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  transition: 0.25s;
+}
+
+.form input::placeholder,
+.form textarea::placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.form input:focus,
+.form textarea:focus,
+.form select:focus {
+  outline: none;
+  background: rgba(0, 0, 0, 0.4);
+  border-color: var(--orange);
+}
+
+.form textarea {
+  grid-column: 1 / -1;
+  min-height: 120px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  color: var(--dark);
+}
+
+.form select {
+  color: var(--dark);
+}
+
+.form select option {
+  background: white;
+  color: var(--dark);
+}
+
+.form button {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.successModal {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.successModalCard {
+  background: var(--cream);
+  color: var(--dark);
+  padding: 48px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  text-align: center;
+  box-shadow: var(--shadow);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.successModalClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--dark);
+  opacity: 0.7;
+  transition: 0.25s;
+  padding: 8px;
+}
+
+.successModalClose:hover {
+  opacity: 1;
+}
+
+.successModalText {
+  font-size: 16px;
+  margin-bottom: 28px;
+  color: rgba(0, 0, 0, 0.8);
+  line-height: 1.6;
+}
+
+.successModalCard .btn {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .featured {
+    transform: scale(1);
+  }
+
+  .successModalCard {
+    padding: 32px 24px;
+  }
+}

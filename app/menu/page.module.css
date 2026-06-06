@@ -1,0 +1,4 @@
+.hero {
+  --bg: url('https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=1800&q=85');
+  background-image: var(--bg);
+}

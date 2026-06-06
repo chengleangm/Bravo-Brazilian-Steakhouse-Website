@@ -1,0 +1,55 @@
+.hero {
+  --bg: url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85');
+  background-image: var(--bg);
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.team-card {
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: var(--shadow);
+  transition: 0.3s;
+}
+
+.team-card:hover {
+  transform: translateY(-8px) scale(1.01);
+}
+
+.team-card img {
+  height: 250px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.team-card div {
+  padding: 26px;
+}
+
+.team-card p {
+  color: inherit;
+  opacity: 0.78;
+}
+
+@media (max-width: 1024px) {
+  .feature-grid,
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .feature-grid,
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+}
