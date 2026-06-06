@@ -7,6 +7,7 @@ import { Footer } from '../components/Footer'
 
 const TELEGRAM_URL = 'https://t.me/BravoReservationsTTP'
 const WHATSAPP_URL = 'https://wa.me/85578938333'
+const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/M9Yce1YsMLbfiKqU8'
 
 const RESERVATION_PERKS = [
   {
@@ -64,6 +65,24 @@ const CONTACT_INPUT_CLASS =
 
 const CONTACT_LABEL_CLASS =
   'mb-2.5 block text-xs font-black uppercase tracking-[0.18em] text-dark'
+
+const LOCATION_DETAILS = [
+  {
+    label: 'Restaurant',
+    value: 'Bravo Steakhouse Churrascaria',
+    icon: 'fa-utensils',
+  },
+  {
+    label: 'Area',
+    value: 'Toul Tom Poung, Phnom Penh',
+    icon: 'fa-location-dot',
+  },
+  {
+    label: 'Best For',
+    value: 'Reservations, events, and group dining',
+    icon: 'fa-people-group',
+  },
+]
 
 const HOURS = [
   {
@@ -487,19 +506,83 @@ export default function ContactPage() {
         </section>
 
         {/* Map Section */}
-        <section className="bg-dark py-28 px-5">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="font-black text-5xl uppercase text-center text-cream mb-16">FIND US</h2>
-            <div className="w-full h-96 bg-white/10 border border-white/20 rounded overflow-hidden shadow-custom">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7818.48391752572!2d104.9155739!3d11.5344932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109513d047ee727%3A0x8ea23f9513babd9e!2sBravo%20Steakhouse%20Churrascaria!5e0!3m2!1sen!2skh!4v1780715930751!5m2!1sen!2skh"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+        <section className="relative overflow-hidden bg-dark px-5 py-20 text-cream sm:px-8 lg:px-10 lg:py-24">
+          <div className="absolute inset-x-0 top-0 h-px bg-orange/35"></div>
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-10 grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
+              <div>
+                <p className="mb-3 text-sm font-black uppercase tracking-[0.25em] text-orange">Visit Bravo</p>
+                <h2 className="font-black text-5xl uppercase leading-none md:text-6xl">Find Us</h2>
+                <p className="mt-6 max-w-lg text-lg leading-8 text-cream/70">
+                  Find BRAVO Steakhouse Churrascaria in Phnom Penh for churrasco, buffet sides, drinks, and celebration tables.
+                </p>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-3">
+                {LOCATION_DETAILS.map((item) => (
+                  <div key={item.label} className="rounded border border-white/10 bg-white/8 p-4">
+                    <span className="mb-4 flex h-10 w-10 items-center justify-center rounded bg-orange text-black">
+                      <i className={`fa-solid ${item.icon}`}></i>
+                    </span>
+                    <p className="text-xs font-black uppercase tracking-[0.18em] text-orange">{item.label}</p>
+                    <p className="mt-2 text-sm font-black leading-6 text-cream">{item.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid overflow-hidden rounded border border-white/10 bg-[#1f1412] shadow-2xl lg:grid-cols-[0.35fr_0.65fr]">
+              <div className="border-b border-white/10 p-6 sm:p-8 lg:border-b-0 lg:border-r">
+                <div className="flex h-14 w-14 items-center justify-center rounded bg-orange text-black">
+                  <i className="fa-solid fa-map-location-dot text-xl"></i>
+                </div>
+                <h3 className="mt-6 font-black text-3xl uppercase leading-none">Bravo Steakhouse Churrascaria</h3>
+                <p className="mt-4 text-base leading-7 text-cream/70">
+                  Phnom Penh, Cambodia. Open daily for fire-grilled Brazilian dining and group bookings.
+                </p>
+
+                <div className="mt-6 grid gap-3">
+                  <div className="rounded border border-white/10 bg-black/20 p-4">
+                    <p className="text-xs font-black uppercase tracking-[0.18em] text-orange">Service</p>
+                    <p className="mt-2 font-black">Lunch, dinner, and weekend late tables</p>
+                  </div>
+                  <div className="rounded border border-white/10 bg-black/20 p-4">
+                    <p className="text-xs font-black uppercase tracking-[0.18em] text-orange">Need help?</p>
+                    <p className="mt-2 font-black">Call, WhatsApp, or Telegram for directions</p>
+                  </div>
+                </div>
+
+                <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                  <a
+                    href={GOOGLE_MAPS_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center rounded bg-orange px-5 py-3 text-sm font-black uppercase tracking-wider text-black transition-all hover:-translate-y-1 hover:bg-yellow"
+                  >
+                    <i className="fa-solid fa-diamond-turn-right mr-2"></i>
+                    Open Map
+                  </a>
+                  <Link
+                    href="/contact#reservation"
+                    className="inline-flex items-center justify-center rounded border border-white/20 px-5 py-3 text-sm font-black uppercase tracking-wider text-cream transition-all hover:border-orange hover:text-orange"
+                  >
+                    <i className="fa-solid fa-calendar-check mr-2"></i>
+                    Book Table
+                  </Link>
+                </div>
+              </div>
+
+              <div className="h-[420px] bg-white/10 lg:h-[520px]">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7818.48391752572!2d104.9155739!3d11.5344932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109513d047ee727%3A0x8ea23f9513babd9e!2sBravo%20Steakhouse%20Churrascaria!5e0!3m2!1sen!2skh!4v1780715930751!5m2!1sen!2skh"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
             </div>
           </div>
         </section>
