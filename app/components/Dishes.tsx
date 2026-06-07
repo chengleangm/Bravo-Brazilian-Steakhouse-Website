@@ -53,7 +53,7 @@ export function Dishes() {
   return (
     <section
       id="dishes"
-      className="bg-[#160b08] px-5 py-20 text-[#FFF7ED] sm:px-8 lg:px-10 lg:py-28"
+      className="bg-[#160b08] px-3 py-10 text-[#FFF7ED] sm:px-8 sm:py-20 lg:px-10 lg:py-28"
     >
       <div className="mx-auto max-w-6xl">
         <motion.div
@@ -63,10 +63,10 @@ export function Dishes() {
           transition={{ duration: 0.65 }}
           className="mx-auto max-w-4xl text-center"
         >
-          <p className="mb-4 text-xs font-black uppercase text-[#fd850b]">
+          <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.14em] text-[#fd850b] sm:mb-4 sm:text-xs sm:tracking-normal">
             Popular Plates
           </p>
-          <h2 className="font-serif text-5xl uppercase leading-[0.88] sm:text-6xl lg:text-7xl">
+          <h2 className="font-serif text-[2.25rem] uppercase leading-[0.88] sm:text-6xl lg:text-7xl">
             Dishes that keep guests coming back
           </h2>
         </motion.div>
@@ -76,16 +76,16 @@ export function Dishes() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
-          className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-7 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-5 lg:grid-cols-4"
         >
           {dishes.map((dish) => (
             <motion.article
               key={dish.title}
               variants={item}
               transition={{ duration: 0.58 }}
-              className="group flex h-full flex-col overflow-hidden bg-[#261712] shadow-[0_24px_70px_rgba(0,0,0,0.28)] transition duration-300 hover:-translate-y-2 hover:shadow-[0_28px_90px_rgba(253,133,11,0.16)]"
+              className="group flex h-full min-w-0 flex-col overflow-hidden bg-[#261712] shadow-[0_24px_70px_rgba(0,0,0,0.28)] transition duration-300 hover:-translate-y-2 hover:shadow-[0_28px_90px_rgba(253,133,11,0.16)]"
             >
-              <div className="relative h-48 overflow-hidden sm:h-52">
+              <div className="relative h-24 overflow-hidden sm:h-52">
                 <Image
                   src={dish.image}
                   alt={dish.title}
@@ -95,21 +95,21 @@ export function Dishes() {
                 />
                 <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#261712]/70 to-transparent" />
               </div>
-              <div className="flex flex-1 flex-col p-5">
-                <h3 className="font-serif text-3xl uppercase leading-[0.9] text-[#FFF7ED]">
+              <div className="flex flex-1 flex-col p-3 sm:p-5">
+                <h3 className="font-serif text-[1.08rem] uppercase leading-[0.92] text-[#FFF7ED] sm:text-3xl sm:leading-[0.9]">
                   {dish.title}
                 </h3>
-                <p className="mt-3 text-sm leading-6 text-[#C7B8A8]">
+                <p className="mt-2 text-[0.72rem] leading-4 text-[#C7B8A8] sm:mt-3 sm:text-sm sm:leading-6">
                   {dish.description}
                 </p>
-                <div className="mt-auto pt-6">
-                  <span className="block text-base font-black text-[#ffd029]">
+                <div className="mt-auto pt-3 sm:pt-6">
+                  <span className="block text-sm font-black text-[#ffd029] sm:text-base">
                     {dish.price}
                   </span>
                   <Link
                     href="/menu"
                     aria-label={`View ${dish.title} on the menu`}
-                    className="mt-4 inline-flex min-h-10 items-center justify-center bg-[#fd850b] px-4 py-2 text-xs font-black uppercase text-black transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(253,133,11,0.42)]"
+                    className="mt-2 inline-flex min-h-8 w-full items-center justify-center bg-[#fd850b] px-2 py-2 text-center text-[0.58rem] font-black uppercase leading-none text-black transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(253,133,11,0.42)] sm:mt-4 sm:min-h-10 sm:w-auto sm:px-4 sm:text-xs"
                   >
                     See more detail
                   </Link>

@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
+import styles from './page.module.css'
 
 type MenuItem = {
   name: string
@@ -374,28 +375,30 @@ const menuSections: MenuSection[] = [
 
 function MenuCard({ item }: { item: MenuItem }) {
   return (
-    <article className="group overflow-hidden rounded-lg border border-[#D4A373]/18 bg-[#120807] shadow-[0_24px_70px_rgba(0,0,0,0.24)] transition duration-300 hover:-translate-y-2 hover:border-[#fd850b]/55">
+    <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-[#D4A373]/18 bg-[#120807] shadow-[0_24px_70px_rgba(0,0,0,0.24)] transition duration-300 hover:-translate-y-2 hover:border-[#fd850b]/55">
       {item.image ? (
-        <div className="relative h-56 overflow-hidden">
+        <div className="relative h-32 overflow-hidden sm:h-48 lg:h-56">
           <Image
             src={item.image}
             alt={item.name}
             fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            sizes="50vw"
             className="object-cover transition duration-500 group-hover:scale-[1.04]"
           />
         </div>
       ) : null}
-      <div className="p-6">
-        <div className="flex items-start justify-between gap-4">
-          <h3 className="text-2xl font-black leading-tight text-[#FFF7ED]">
+      <div className="flex flex-1 flex-col p-4 sm:p-6">
+        <div>
+          <h3 className="text-base font-black leading-tight text-[#FFF7ED] sm:text-2xl">
             {item.name}
           </h3>
-          <span className="shrink-0 text-xl font-black text-[#D4A373]">
-            {item.price}
-          </span>
         </div>
-        <p className="mt-4 text-base leading-7 text-[#C7B8A8]">{item.description}</p>
+        <p className="mt-3 text-sm leading-6 text-[#C7B8A8] sm:mt-4 sm:text-base sm:leading-7">
+          {item.description}
+        </p>
+        <span className="mt-auto block pt-4 text-base font-black text-[#D4A373] sm:text-xl">
+          {item.price}
+        </span>
       </div>
     </article>
   )
@@ -420,7 +423,7 @@ export default function MenuPage() {
             <p className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-[#fd850b]">
               Bravo Menu
             </p>
-            <h1 className="font-serif text-5xl font-black leading-tight sm:text-6xl lg:text-8xl">
+            <h1 className="font-serif text-4xl font-black leading-tight sm:text-6xl lg:text-8xl">
               Fire-grilled favourites
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-xl leading-8 text-[#FCE7D3]">
@@ -443,14 +446,14 @@ export default function MenuPage() {
                 <p className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-[#fd850b]">
                   {section.eyebrow}
                 </p>
-                <h2 className="font-serif text-4xl font-black leading-tight sm:text-5xl">
+                <h2 className="font-serif text-3xl font-black leading-tight sm:text-5xl">
                   {section.title}
                 </h2>
                 <p className="mt-5 text-lg leading-8 text-[#C7B8A8]">
                   {section.description}
                 </p>
               </div>
-              <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              <div className={styles.menuItemsGrid}>
                 {section.items.map((item) => (
                   <MenuCard key={item.name} item={item} />
                 ))}
@@ -459,7 +462,7 @@ export default function MenuPage() {
           </section>
         ))}
 
-        <section className="relative overflow-hidden border-y border-[#D4A373]/18 px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+        <section className="relative overflow-hidden border-y border-[#D4A373]/18 px-4 py-10 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
           <Image
             src={heroImage}
             alt=""
@@ -470,31 +473,31 @@ export default function MenuPage() {
           />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,8,7,0.98)_0%,rgba(18,8,7,0.86)_52%,rgba(18,8,7,0.7)_100%)]" />
 
-          <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-[1fr_auto]">
+          <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-5 sm:gap-8 lg:grid-cols-[1fr_auto]">
             <div className="max-w-3xl">
-              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-[#fd850b]">
+              <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.2em] text-[#fd850b] sm:mb-4 sm:text-xs sm:tracking-[0.24em]">
                 Book Bravo
               </p>
-              <h2 className="font-serif text-4xl font-black uppercase leading-[0.92] sm:text-5xl lg:text-6xl">
+              <h2 className="font-serif text-[1.9rem] font-black uppercase leading-[0.95] sm:text-5xl lg:text-6xl">
                 Ready to taste the fire?
               </h2>
-              <p className="mt-5 max-w-2xl text-base leading-8 text-[#f4d8c5] sm:text-lg">
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-[#f4d8c5] sm:mt-5 sm:text-lg sm:leading-8">
                 Save your table for buffet service, flame-grilled cuts, and a
                 full Brazilian steakhouse night in Phnom Penh.
               </p>
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row lg:flex-col lg:items-stretch">
+            <div className="flex flex-col items-start gap-2 sm:flex-row sm:gap-3 lg:flex-col lg:items-stretch">
               <Link
                 href="/contact#reservation"
-                className="inline-flex min-h-14 items-center justify-center gap-2 bg-[#fd850b] px-7 py-4 text-sm font-black uppercase tracking-[0.14em] text-[#120807] shadow-[0_18px_44px_rgba(253,133,11,0.32)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(253,133,11,0.5)]"
+                className="inline-flex min-h-10 items-center justify-center gap-2 bg-[#fd850b] px-4 py-2 text-[0.72rem] font-black uppercase tracking-[0.12em] text-[#120807] shadow-[0_18px_44px_rgba(253,133,11,0.32)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(253,133,11,0.5)] sm:min-h-14 sm:px-7 sm:py-4 sm:text-sm sm:tracking-[0.14em]"
               >
                 <i className="fa-solid fa-calendar-check" aria-hidden="true" />
                 Book a Table
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex min-h-14 items-center justify-center gap-2 border border-[#FFF7ED]/42 bg-black/20 px-7 py-4 text-sm font-black uppercase tracking-[0.14em] text-[#FFF7ED] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-[#120807]"
+                className="inline-flex min-h-10 items-center justify-center gap-2 border border-[#FFF7ED]/42 bg-black/20 px-4 py-2 text-[0.72rem] font-black uppercase tracking-[0.12em] text-[#FFF7ED] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-[#120807] sm:min-h-14 sm:px-7 sm:py-4 sm:text-sm sm:tracking-[0.14em]"
               >
                 <i className="fa-solid fa-location-dot" aria-hidden="true" />
                 Visit Us
@@ -502,16 +505,16 @@ export default function MenuPage() {
             </div>
           </div>
 
-          <div className="relative z-10 mx-auto mt-9 grid max-w-6xl gap-3 sm:grid-cols-3">
+          <div className="relative z-10 mx-auto mt-6 grid max-w-6xl gap-2 sm:mt-9 sm:gap-3 sm:grid-cols-3">
             {menuCtaHighlights.map((item) => (
               <div
                 key={item.label}
-                className="border border-[#D4A373]/18 bg-[#FFF7ED]/7 px-5 py-4 backdrop-blur"
+                className="border border-[#D4A373]/18 bg-[#FFF7ED]/7 px-4 py-3 backdrop-blur sm:px-5 sm:py-4"
               >
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#fd850b]">
+                <p className="text-[0.68rem] font-black uppercase tracking-[0.16em] text-[#fd850b] sm:text-xs sm:tracking-[0.18em]">
                   {item.label}
                 </p>
-                <p className="mt-2 text-sm font-bold text-[#FFF7ED]">
+                <p className="mt-1 text-[0.8rem] font-bold leading-5 text-[#FFF7ED] sm:mt-2 sm:text-sm">
                   {item.value}
                 </p>
               </div>

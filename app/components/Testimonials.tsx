@@ -23,7 +23,7 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section className="relative overflow-hidden px-5 py-20 text-[#FFF7ED] sm:px-8 lg:px-10 lg:py-28">
+    <section className="relative overflow-hidden px-4 py-10 text-[#FFF7ED] sm:px-8 sm:py-20 lg:px-10 lg:py-28">
       <Image
         src={backgroundImage}
         alt="Steak dinner plated for a celebration"
@@ -40,7 +40,7 @@ export function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.68 }}
-          className="mx-auto max-w-4xl text-center font-serif text-5xl uppercase leading-[0.9] sm:text-6xl lg:text-7xl"
+          className="mx-auto max-w-[22rem] text-center font-serif text-[2.05rem] uppercase leading-[0.9] sm:max-w-4xl sm:text-6xl lg:text-7xl"
         >
           Dinner that feels like a celebration
         </motion.h2>
@@ -53,7 +53,7 @@ export function Testimonials() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
-          className="mt-12 grid gap-5 md:grid-cols-3"
+          className="mt-7 grid gap-3 sm:mt-12 sm:gap-5 md:grid-cols-3"
         >
           {testimonials.map((testimonial) => (
             <motion.article
@@ -63,15 +63,15 @@ export function Testimonials() {
                 show: { opacity: 1, y: 0 },
               }}
               transition={{ duration: 0.58 }}
-              className="bg-[#f4eadb]/94 p-6 text-left text-[#180c08] shadow-[0_24px_60px_rgba(0,0,0,0.26)]"
+              className="bg-[#f4eadb]/94 p-4 text-left text-[#180c08] shadow-[0_24px_60px_rgba(0,0,0,0.26)] sm:p-6"
             >
-              <div className="mb-3 text-base font-black text-[#fd850b]" aria-label="5 out of 5 stars">
+              <div className="mb-2 text-[0.7rem] font-black text-[#fd850b] sm:mb-3 sm:text-base" aria-label="5 out of 5 stars">
                 ★★★★★
               </div>
-              <p className="text-sm leading-7 text-[#3c2b24]">
+              <p className="text-[0.82rem] leading-5 text-[#3c2b24] sm:text-sm sm:leading-7">
                 &quot;{testimonial.quote}&quot;
               </p>
-              <h3 className="mt-5 font-serif text-2xl uppercase text-[#180c08]">
+              <h3 className="mt-3 font-serif text-xl uppercase text-[#180c08] sm:mt-5 sm:text-2xl">
                 {testimonial.name}
               </h3>
             </motion.article>

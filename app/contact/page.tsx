@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
+import styles from './page.module.css'
 
 const TELEGRAM_URL = 'https://t.me/BravoReservationsTTP'
 const WHATSAPP_URL = 'https://wa.me/85578938333'
@@ -28,10 +29,10 @@ const RESERVATION_PERKS = [
 ]
 
 const RESERVATION_INPUT_CLASS =
-  'w-full rounded border border-white/15 bg-white/10 px-4 py-3.5 text-cream outline-none transition-all placeholder:text-cream/35 focus:border-orange focus:bg-white/15 focus:shadow-[0_0_0_3px_rgba(253,133,11,0.18)]'
+  'w-full min-w-0 rounded border border-white/15 bg-white/10 px-2.5 py-1.5 text-[0.82rem] leading-tight text-cream outline-none transition-all placeholder:text-cream/35 focus:border-orange focus:bg-white/15 focus:shadow-[0_0_0_3px_rgba(253,133,11,0.18)] sm:px-4 sm:py-3.5 sm:text-base sm:leading-normal'
 
 const RESERVATION_LABEL_CLASS =
-  'mb-2.5 block text-xs font-black uppercase tracking-[0.18em] text-cream/90'
+  'mb-1 block text-[0.66rem] font-black uppercase tracking-[0.14em] text-cream/90 sm:mb-2.5 sm:text-xs sm:tracking-[0.18em]'
 
 const CONTACT_METHODS = [
   {
@@ -61,10 +62,10 @@ const CONTACT_METHODS = [
 ]
 
 const CONTACT_INPUT_CLASS =
-  'w-full rounded border border-dark/10 bg-white/75 px-4 py-3.5 text-dark outline-none transition-all placeholder:text-dark/35 focus:border-orange focus:bg-white focus:shadow-[0_0_0_3px_rgba(253,133,11,0.14)]'
+  'w-full min-w-0 rounded border border-dark/10 bg-white/75 px-2.5 py-1.5 text-[0.82rem] leading-tight text-dark outline-none transition-all placeholder:text-dark/35 focus:border-orange focus:bg-white focus:shadow-[0_0_0_3px_rgba(253,133,11,0.14)] sm:px-4 sm:py-3.5 sm:text-base sm:leading-normal'
 
 const CONTACT_LABEL_CLASS =
-  'mb-2.5 block text-xs font-black uppercase tracking-[0.18em] text-dark'
+  'mb-1 block text-[0.66rem] font-black uppercase tracking-[0.14em] text-dark sm:mb-2.5 sm:text-xs sm:tracking-[0.18em]'
 
 const LOCATION_DETAILS = [
   {
@@ -197,82 +198,92 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Cards */}
-        <section className="bg-cream text-dark py-28 px-5">
+        <section className="bg-cream px-5 py-12 text-dark sm:py-20 lg:py-28">
           <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-20">
-              <div className="bg-white/6 border border-white/9 shadow-custom p-7 rounded hover:shadow-2xl hover:-translate-y-2 transition-all text-center">
-                <div className="w-16 h-16 flex items-center justify-center bg-orange/20 rounded-full mb-4 mx-auto">
-                  <i className="fa-solid fa-phone text-orange text-2xl"></i>
+            <div className={styles.contactCardsGrid}>
+              <div className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
+                <div className={styles.contactInfoIcon}>
+                  <i className="fa-solid fa-phone text-orange"></i>
                 </div>
-                <h3 className="font-black text-xl mb-2">Phone</h3>
-                <p className="text-dark/80"><a href="tel:+85578938333" className="hover:text-orange transition-colors">+855 78 938 333</a></p>
+                <div>
+                  <h3 className={styles.contactInfoTitle}>Phone</h3>
+                  <p className={styles.contactInfoValue}><a href="tel:+85578938333" className="hover:text-orange transition-colors">+855 78 938 333</a></p>
+                </div>
               </div>
-              <div className="bg-white/6 border border-white/9 shadow-custom p-7 rounded hover:shadow-2xl hover:-translate-y-2 transition-all text-center">
-                <div className="w-16 h-16 flex items-center justify-center bg-orange/20 rounded-full mb-4 mx-auto">
-                  <i className="fa-solid fa-map-pin text-orange text-2xl"></i>
+              <div className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
+                <div className={styles.contactInfoIcon}>
+                  <i className="fa-solid fa-map-pin text-orange"></i>
                 </div>
-                <h3 className="font-black text-xl mb-2">Location</h3>
-                <p className="text-dark/80">Phnom Penh, Cambodia</p>
+                <div>
+                  <h3 className={styles.contactInfoTitle}>Location</h3>
+                  <p className={styles.contactInfoValue}>Phnom Penh, Cambodia</p>
+                </div>
               </div>
-              <div className="bg-white/6 border border-white/9 shadow-custom p-7 rounded hover:shadow-2xl hover:-translate-y-2 transition-all text-center">
-                <div className="w-16 h-16 flex items-center justify-center bg-orange/20 rounded-full mb-4 mx-auto">
-                  <i className="fa-brands fa-facebook text-orange text-2xl"></i>
+              <div className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
+                <div className={styles.contactInfoIcon}>
+                  <i className="fa-brands fa-facebook text-orange"></i>
                 </div>
-                <h3 className="font-black text-xl mb-2">Facebook</h3>
-                <p className="text-dark/80"><a href="#" className="hover:text-orange transition-colors">@BravoRestaurant</a></p>
+                <div>
+                  <h3 className={styles.contactInfoTitle}>Facebook</h3>
+                  <p className={styles.contactInfoValue}><a href="#" className="hover:text-orange transition-colors">@BravoRestaurant</a></p>
+                </div>
               </div>
-              <div className="bg-white/6 border border-white/9 shadow-custom p-7 rounded hover:shadow-2xl hover:-translate-y-2 transition-all text-center">
-                <div className="w-16 h-16 flex items-center justify-center bg-orange/20 rounded-full mb-4 mx-auto">
-                  <i className="fa-brands fa-whatsapp text-orange text-2xl"></i>
+              <div className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
+                <div className={styles.contactInfoIcon}>
+                  <i className="fa-brands fa-whatsapp text-orange"></i>
                 </div>
-                <h3 className="font-black text-xl mb-2">WhatsApp</h3>
-                <p className="text-dark/80"><a href="https://wa.me/85578938333" target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Message Us</a></p>
+                <div>
+                  <h3 className={styles.contactInfoTitle}>WhatsApp</h3>
+                  <p className={styles.contactInfoValue}><a href="https://wa.me/85578938333" target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Message Us</a></p>
+                </div>
               </div>
-              <div className="bg-white/6 border border-white/9 shadow-custom p-7 rounded hover:shadow-2xl hover:-translate-y-2 transition-all text-center">
-                <div className="w-16 h-16 flex items-center justify-center bg-orange/20 rounded-full mb-4 mx-auto">
-                  <i className="fa-brands fa-telegram text-orange text-2xl"></i>
+              <div className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
+                <div className={styles.contactInfoIcon}>
+                  <i className="fa-brands fa-telegram text-orange"></i>
                 </div>
-                <h3 className="font-black text-xl mb-2">Telegram</h3>
-                <p className="text-dark/80"><a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Reservations</a></p>
+                <div>
+                  <h3 className={styles.contactInfoTitle}>Telegram</h3>
+                  <p className={styles.contactInfoValue}><a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Reservations</a></p>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* Reservation Form */}
-        <section id="reservation" className="relative overflow-hidden bg-dark px-5 py-20 text-cream sm:px-8 lg:px-10 lg:py-24">
+        <section id="reservation" className="relative scroll-mt-16 overflow-hidden bg-dark px-3 py-6 text-cream sm:scroll-mt-28 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1800&q=90')] bg-cover bg-center opacity-20"></div>
           <div className="absolute inset-0 bg-gradient-to-br from-dark via-dark/95 to-black/95"></div>
-          <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div className="lg:sticky lg:top-28">
-              <p className="mb-3 text-sm font-black uppercase tracking-[0.25em] text-orange">Book Bravo</p>
-              <h2 className="font-black text-5xl uppercase leading-none md:text-6xl">Make a Reservation</h2>
-              <p className="mt-6 max-w-md text-lg leading-8 text-cream/75">
+          <div className="relative mx-auto grid max-w-6xl gap-7 sm:gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div className="order-2 lg:sticky lg:top-28 lg:order-none">
+              <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-orange sm:mb-3 sm:text-sm sm:tracking-[0.25em]">Book Bravo</p>
+              <h2 className="font-black text-4xl uppercase leading-none sm:text-5xl md:text-6xl">Make a Reservation</h2>
+              <p className="mt-4 max-w-md text-sm leading-6 text-cream/75 sm:mt-6 sm:text-lg sm:leading-8">
                 Save your table for churrasco, buffet sides, cold drinks, and a full Brazilian steakhouse night in Phnom Penh.
               </p>
 
-              <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+              <div className="mt-5 grid gap-2 sm:mt-8 sm:grid-cols-3 sm:gap-3 lg:grid-cols-1">
                 {RESERVATION_PERKS.map((item) => (
-                  <div key={item.label} className="rounded border border-white/10 bg-white/8 p-4">
-                    <div className="flex items-start gap-3">
-                      <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded bg-orange text-black">
-                        <i className={`fa-solid ${item.icon} text-sm`}></i>
+                  <div key={item.label} className="rounded border border-white/10 bg-white/8 p-3 sm:p-4">
+                    <div className="flex items-start gap-2.5 sm:gap-3">
+                      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded bg-orange text-black sm:h-9 sm:w-9">
+                        <i className={`fa-solid ${item.icon} text-xs sm:text-sm`}></i>
                       </span>
                       <div>
-                        <h3 className="font-black uppercase leading-tight">{item.label}</h3>
-                        <p className="mt-1 text-sm leading-6 text-cream/65">{item.copy}</p>
+                        <h3 className="text-sm font-black uppercase leading-tight sm:text-base">{item.label}</h3>
+                        <p className="mt-0.5 text-xs leading-5 text-cream/65 sm:mt-1 sm:text-sm sm:leading-6">{item.copy}</p>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+              <div className="mt-5 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:gap-3 lg:flex-col xl:flex-row">
                 <a
                   href={WHATSAPP_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded border border-white/20 px-5 py-3 text-sm font-black uppercase tracking-wider transition-all hover:border-orange hover:text-orange"
+                  className="inline-flex items-center justify-center rounded border border-white/20 px-4 py-2.5 text-xs font-black uppercase tracking-wider transition-all hover:border-orange hover:text-orange sm:px-5 sm:py-3 sm:text-sm"
                 >
                   <i className="fa-brands fa-whatsapp mr-2"></i>
                   WhatsApp
@@ -281,7 +292,7 @@ export default function ContactPage() {
                   href={TELEGRAM_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded border border-white/20 px-5 py-3 text-sm font-black uppercase tracking-wider transition-all hover:border-orange hover:text-orange"
+                  className="inline-flex items-center justify-center rounded border border-white/20 px-4 py-2.5 text-xs font-black uppercase tracking-wider transition-all hover:border-orange hover:text-orange sm:px-5 sm:py-3 sm:text-sm"
                 >
                   <i className="fa-brands fa-telegram mr-2"></i>
                   Telegram
@@ -289,17 +300,17 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <form onSubmit={handleReservationSubmit} className="rounded border border-white/10 bg-[#201615]/90 p-6 shadow-2xl backdrop-blur sm:p-8 lg:p-10">
-              <div className="mb-8 flex flex-col gap-3 border-b border-white/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
+            <form onSubmit={handleReservationSubmit} className="order-1 rounded border border-white/10 bg-[#201615]/90 p-3 shadow-2xl backdrop-blur sm:p-8 lg:order-none lg:p-10">
+              <div className="mb-3 flex flex-col gap-1 border-b border-white/10 pb-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between sm:gap-3 sm:pb-6">
                 <div>
-                  <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-orange">Reservation Details</p>
-                  <h3 className="font-black text-3xl uppercase leading-none">Tell us about your table</h3>
+                  <p className="mb-1 text-[0.66rem] font-black uppercase tracking-[0.16em] text-orange sm:mb-2 sm:text-xs sm:tracking-[0.2em]">Reservation Details</p>
+                  <h3 className="font-black text-[1.35rem] uppercase leading-none sm:text-3xl">Tell us about your table</h3>
                 </div>
-                <p className="text-sm font-medium text-cream/55">Required fields marked *</p>
+                <p className="text-xs font-medium text-cream/55 sm:text-sm">Required fields marked *</p>
               </div>
 
-              <div className="grid gap-5 md:grid-cols-2">
-                <div>
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
+                <div className="col-span-2 md:col-span-1">
                   <label className={RESERVATION_LABEL_CLASS}>Name *</label>
                   <input
                     type="text"
@@ -310,7 +321,7 @@ export default function ContactPage() {
                     placeholder="Your name"
                   />
                 </div>
-                <div>
+                <div className="col-span-2 md:col-span-1">
                   <label className={RESERVATION_LABEL_CLASS}>Phone *</label>
                   <input
                     type="tel"
@@ -345,7 +356,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="mt-5">
+              <div className="mt-2.5 sm:mt-5">
                 <label className={RESERVATION_LABEL_CLASS}>Number of Guests *</label>
                 <input
                   type="number"
@@ -359,20 +370,20 @@ export default function ContactPage() {
                 />
               </div>
 
-              <div className="mt-5">
+              <div className="mt-2.5 sm:mt-5">
                 <label className={RESERVATION_LABEL_CLASS}>Special Requests</label>
                 <textarea
                   name="message"
                   value={reservationFormData.message}
                   onChange={handleReservationChange}
-                  className={`${RESERVATION_INPUT_CLASS} min-h-32 resize-none`}
+                  className={`${RESERVATION_INPUT_CLASS} min-h-16 resize-none sm:min-h-32`}
                   placeholder="Any special requests or dietary requirements?"
                 ></textarea>
               </div>
 
               <button
                 type="submit"
-                className="mt-8 flex w-full items-center justify-center rounded bg-gradient-to-r from-yellow to-orange px-6 py-4 text-sm font-black uppercase tracking-wider text-black shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl"
+                className="mt-3 flex w-full items-center justify-center rounded bg-gradient-to-r from-yellow to-orange px-4 py-2 text-[0.72rem] font-black uppercase tracking-wider text-black shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl sm:mt-8 sm:px-6 sm:py-4 sm:text-sm"
               >
                 <i className="fa-solid fa-calendar-check mr-2"></i> Reserve Table
               </button>
@@ -381,26 +392,26 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Form */}
-        <section className="relative overflow-hidden bg-cream px-5 py-20 text-dark sm:px-8 lg:px-10 lg:py-24">
+        <section className="relative overflow-hidden bg-cream px-3 py-6 text-dark sm:px-8 sm:py-20 lg:px-10 lg:py-24">
           <div className="absolute inset-x-0 top-0 h-px bg-dark/10"></div>
-          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
-            <div>
-              <p className="mb-3 text-sm font-black uppercase tracking-[0.25em] text-orange">Talk to Bravo</p>
-              <h2 className="font-black text-5xl uppercase leading-none md:text-6xl">Get in Touch</h2>
-              <p className="mt-6 max-w-md text-lg leading-8 text-dark/70">
+          <div className="mx-auto grid max-w-6xl gap-7 sm:gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+            <div className="order-2 lg:order-none">
+              <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-orange sm:mb-3 sm:text-sm sm:tracking-[0.25em]">Talk to Bravo</p>
+              <h2 className="font-black text-4xl uppercase leading-none sm:text-5xl md:text-6xl">Get in Touch</h2>
+              <p className="mt-4 max-w-md text-sm leading-6 text-dark/70 sm:mt-6 sm:text-lg sm:leading-8">
                 Questions about reservations, private events, menu details, or feedback? Send us a note and the BRAVO team will help.
               </p>
 
-              <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+              <div className="mt-5 grid gap-2 sm:mt-8 sm:grid-cols-2 sm:gap-3 lg:grid-cols-1">
                 {CONTACT_METHODS.map((method) => {
                   const content = (
                     <>
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded bg-dark text-orange">
-                        <i className={method.icon}></i>
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-dark text-orange sm:h-11 sm:w-11">
+                        <i className={`${method.icon} text-sm sm:text-base`}></i>
                       </span>
                       <span>
-                        <span className="block text-xs font-black uppercase tracking-[0.18em] text-orange">{method.label}</span>
-                        <span className="mt-1 block font-black text-dark">{method.value}</span>
+                        <span className="block text-[0.68rem] font-black uppercase tracking-[0.16em] text-orange sm:text-xs sm:tracking-[0.18em]">{method.label}</span>
+                        <span className="mt-0.5 block text-sm font-black leading-tight text-dark sm:mt-1 sm:text-base">{method.value}</span>
                       </span>
                     </>
                   )
@@ -412,7 +423,7 @@ export default function ContactPage() {
                         href={method.href}
                         target={method.href.startsWith('http') ? '_blank' : undefined}
                         rel={method.href.startsWith('http') ? 'noreferrer' : undefined}
-                        className="flex items-center gap-4 rounded border border-dark/10 bg-white/75 p-4 shadow-custom transition-all hover:-translate-y-1 hover:border-orange/50 hover:bg-white"
+                        className="flex items-center gap-3 rounded border border-dark/10 bg-white/75 p-3 shadow-custom transition-all hover:-translate-y-1 hover:border-orange/50 hover:bg-white sm:gap-4 sm:p-4"
                       >
                         {content}
                       </a>
@@ -420,7 +431,7 @@ export default function ContactPage() {
                   }
 
                   return (
-                    <div key={method.label} className="flex items-center gap-4 rounded border border-dark/10 bg-white/75 p-4 shadow-custom">
+                    <div key={method.label} className="flex items-center gap-3 rounded border border-dark/10 bg-white/75 p-3 shadow-custom sm:gap-4 sm:p-4">
                       {content}
                     </div>
                   )
@@ -428,17 +439,17 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <form onSubmit={handleContactSubmit} className="rounded border border-dark/10 bg-white/90 p-6 shadow-2xl backdrop-blur sm:p-8 lg:p-10">
-              <div className="mb-8 flex flex-col gap-3 border-b border-dark/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
+            <form onSubmit={handleContactSubmit} className="order-1 rounded border border-dark/10 bg-white/90 p-3 shadow-2xl backdrop-blur sm:p-8 lg:order-none lg:p-10">
+              <div className="mb-3 flex flex-col gap-1 border-b border-dark/10 pb-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between sm:gap-3 sm:pb-6">
                 <div>
-                  <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-orange">Message Details</p>
-                  <h3 className="font-black text-3xl uppercase leading-none">How can we help?</h3>
+                  <p className="mb-1 text-[0.66rem] font-black uppercase tracking-[0.16em] text-orange sm:mb-2 sm:text-xs sm:tracking-[0.2em]">Message Details</p>
+                  <h3 className="font-black text-[1.35rem] uppercase leading-none sm:text-3xl">How can we help?</h3>
                 </div>
-                <p className="text-sm font-medium text-dark/55">Required fields marked *</p>
+                <p className="text-xs font-medium text-dark/55 sm:text-sm">Required fields marked *</p>
               </div>
 
-              <div className="grid gap-5 md:grid-cols-2">
-                <div>
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
+                <div className="col-span-2 md:col-span-1">
                   <label className={CONTACT_LABEL_CLASS}>Name *</label>
                   <input
                     type="text"
@@ -471,7 +482,7 @@ export default function ContactPage() {
                     placeholder="Your phone"
                   />
                 </div>
-                <div>
+                <div className="col-span-2 md:col-span-1">
                   <label className={CONTACT_LABEL_CLASS}>Subject *</label>
                   <input
                     type="text"
@@ -484,20 +495,20 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="mt-5">
+              <div className="mt-2.5 sm:mt-5">
                 <label className={CONTACT_LABEL_CLASS}>Message *</label>
                 <textarea
                   name="message"
                   value={contactFormData.message}
                   onChange={handleContactChange}
-                  className={`${CONTACT_INPUT_CLASS} min-h-36 resize-none`}
+                  className={`${CONTACT_INPUT_CLASS} min-h-16 resize-none sm:min-h-36`}
                   placeholder="Your message"
                 ></textarea>
               </div>
 
               <button
                 type="submit"
-                className="mt-8 flex w-full items-center justify-center rounded bg-dark px-6 py-4 text-sm font-black uppercase tracking-wider text-cream shadow-lg transition-all hover:-translate-y-1 hover:bg-orange hover:text-black hover:shadow-xl"
+                className="mt-3 flex w-full items-center justify-center rounded bg-dark px-4 py-2 text-[0.72rem] font-black uppercase tracking-wider text-cream shadow-lg transition-all hover:-translate-y-1 hover:bg-orange hover:text-black hover:shadow-xl sm:mt-8 sm:px-6 sm:py-4 sm:text-sm"
               >
                 <i className="fa-solid fa-paper-plane mr-2"></i> Send Message
               </button>
@@ -506,65 +517,69 @@ export default function ContactPage() {
         </section>
 
         {/* Map Section */}
-        <section className="relative overflow-hidden bg-dark px-5 py-20 text-cream sm:px-8 lg:px-10 lg:py-24">
+        <section className="relative overflow-hidden bg-dark px-3 py-8 text-cream sm:px-8 sm:py-20 lg:px-10 lg:py-24">
           <div className="absolute inset-x-0 top-0 h-px bg-orange/35"></div>
           <div className="mx-auto max-w-6xl">
-            <div className="mb-10 grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
+            <div className="mb-6 grid gap-5 sm:mb-10 sm:gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
               <div>
-                <p className="mb-3 text-sm font-black uppercase tracking-[0.25em] text-orange">Visit Bravo</p>
-                <h2 className="font-black text-5xl uppercase leading-none md:text-6xl">Find Us</h2>
-                <p className="mt-6 max-w-lg text-lg leading-8 text-cream/70">
+                <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-orange sm:mb-3 sm:text-sm sm:tracking-[0.25em]">Visit Bravo</p>
+                <h2 className="font-black text-4xl uppercase leading-none sm:text-5xl md:text-6xl">Find Us</h2>
+                <p className="mt-4 max-w-lg text-sm leading-6 text-cream/70 sm:mt-6 sm:text-lg sm:leading-8">
                   Find BRAVO Steakhouse Churrascaria in Phnom Penh for churrasco, buffet sides, drinks, and celebration tables.
                 </p>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-3">
+              <div className="grid gap-2 sm:grid-cols-3 sm:gap-3">
                 {LOCATION_DETAILS.map((item) => (
-                  <div key={item.label} className="rounded border border-white/10 bg-white/8 p-4">
-                    <span className="mb-4 flex h-10 w-10 items-center justify-center rounded bg-orange text-black">
-                      <i className={`fa-solid ${item.icon}`}></i>
+                  <div key={item.label} className="flex items-center gap-3 rounded border border-white/10 bg-white/8 p-2.5 sm:block sm:p-4">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-orange text-black sm:mb-4 sm:h-10 sm:w-10">
+                      <i className={`fa-solid ${item.icon} text-xs sm:text-base`}></i>
                     </span>
-                    <p className="text-xs font-black uppercase tracking-[0.18em] text-orange">{item.label}</p>
-                    <p className="mt-2 text-sm font-black leading-6 text-cream">{item.value}</p>
+                    <div>
+                      <p className="text-[0.66rem] font-black uppercase tracking-[0.16em] text-orange sm:text-xs sm:tracking-[0.18em]">{item.label}</p>
+                      <p className="mt-0.5 text-xs font-black leading-4 text-cream sm:mt-2 sm:text-sm sm:leading-6">{item.value}</p>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="grid overflow-hidden rounded border border-white/10 bg-[#1f1412] shadow-2xl lg:grid-cols-[0.35fr_0.65fr] lg:items-stretch">
-              <div className="border-b border-white/10 p-6 sm:p-8 lg:border-b-0 lg:border-r">
-                <div className="flex h-14 w-14 items-center justify-center rounded bg-orange text-black">
-                  <i className="fa-solid fa-map-location-dot text-xl"></i>
+              <div className="border-b border-white/10 p-3 sm:p-8 lg:border-b-0 lg:border-r">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-orange text-black sm:h-14 sm:w-14">
+                    <i className="fa-solid fa-map-location-dot text-sm sm:text-xl"></i>
+                  </span>
+                  <h3 className="font-black text-[1.18rem] uppercase leading-none sm:text-3xl">Bravo Steakhouse Churrascaria</h3>
                 </div>
-                <h3 className="mt-6 font-black text-3xl uppercase leading-none">Bravo Steakhouse Churrascaria</h3>
-                <p className="mt-4 text-base leading-7 text-cream/70">
+                <p className="mt-3 text-sm leading-5 text-cream/70 sm:mt-4 sm:text-base sm:leading-7">
                   Phnom Penh, Cambodia. Open daily for fire-grilled Brazilian dining and group bookings.
                 </p>
 
-                <div className="mt-6 grid gap-3">
-                  <div className="rounded border border-white/10 bg-black/20 p-4">
-                    <p className="text-xs font-black uppercase tracking-[0.18em] text-orange">Service</p>
-                    <p className="mt-2 font-black">Lunch, dinner, and weekend late tables</p>
+                <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-6 sm:gap-3">
+                  <div className="rounded border border-white/10 bg-black/20 p-2.5 sm:p-4">
+                    <p className="text-[0.62rem] font-black uppercase tracking-[0.14em] text-orange sm:text-xs sm:tracking-[0.18em]">Service</p>
+                    <p className="mt-1 text-[0.76rem] font-black leading-4 sm:mt-2 sm:text-base sm:leading-6">Lunch, dinner, weekend tables</p>
                   </div>
-                  <div className="rounded border border-white/10 bg-black/20 p-4">
-                    <p className="text-xs font-black uppercase tracking-[0.18em] text-orange">Need help?</p>
-                    <p className="mt-2 font-black">Call, WhatsApp, or Telegram for directions</p>
+                  <div className="rounded border border-white/10 bg-black/20 p-2.5 sm:p-4">
+                    <p className="text-[0.62rem] font-black uppercase tracking-[0.14em] text-orange sm:text-xs sm:tracking-[0.18em]">Need help?</p>
+                    <p className="mt-1 text-[0.76rem] font-black leading-4 sm:mt-2 sm:text-base sm:leading-6">Call, WhatsApp, Telegram</p>
                   </div>
                 </div>
 
-                <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-7 sm:gap-3 lg:grid-cols-1">
                   <a
                     href={GOOGLE_MAPS_URL}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center justify-center rounded bg-orange px-5 py-3 text-sm font-black uppercase tracking-wider text-black transition-all hover:-translate-y-1 hover:bg-yellow"
+                    className="inline-flex items-center justify-center rounded bg-orange px-4 py-2 text-[0.72rem] font-black uppercase tracking-wider text-black transition-all hover:-translate-y-1 hover:bg-yellow sm:px-5 sm:py-3 sm:text-sm"
                   >
                     <i className="fa-solid fa-diamond-turn-right mr-2"></i>
                     Open Map
                   </a>
                   <Link
                     href="/contact#reservation"
-                    className="inline-flex items-center justify-center rounded border border-white/20 px-5 py-3 text-sm font-black uppercase tracking-wider text-cream transition-all hover:border-orange hover:text-orange"
+                    className="inline-flex items-center justify-center rounded border border-white/20 px-4 py-2 text-[0.72rem] font-black uppercase tracking-wider text-cream transition-all hover:border-orange hover:text-orange sm:px-5 sm:py-3 sm:text-sm"
                   >
                     <i className="fa-solid fa-calendar-check mr-2"></i>
                     Book Table
@@ -572,7 +587,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="relative min-h-[420px] bg-white/10 lg:min-h-[520px]">
+              <div className="relative min-h-[220px] bg-white/10 sm:min-h-[360px] lg:min-h-[520px]">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7818.48391752572!2d104.9155739!3d11.5344932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109513d047ee727%3A0x8ea23f9513babd9e!2sBravo%20Steakhouse%20Churrascaria!5e0!3m2!1sen!2skh!4v1780715930751!5m2!1sen!2skh"
                   className="absolute inset-0 h-full w-full"
@@ -589,40 +604,40 @@ export default function ContactPage() {
         </section>
 
         {/* Hours */}
-        <section className="relative overflow-hidden bg-cream px-5 py-20 text-dark sm:px-8 lg:px-10 lg:py-24">
+        <section className="relative overflow-hidden bg-cream px-3 py-8 text-dark sm:px-8 sm:py-20 lg:px-10 lg:py-24">
           <div className="absolute inset-x-0 top-0 h-px bg-orange/30"></div>
-          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+          <div className="mx-auto grid max-w-6xl gap-6 sm:gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
             <div>
-              <p className="mb-3 text-sm font-black uppercase tracking-[0.25em] text-orange">Open Daily</p>
-              <h2 className="font-black text-5xl uppercase leading-none md:text-6xl">Hours of Operation</h2>
-              <p className="mt-6 max-w-md text-lg leading-8 text-dark/75">
+              <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-orange sm:mb-3 sm:text-sm sm:tracking-[0.25em]">Open Daily</p>
+              <h2 className="font-black text-4xl uppercase leading-none sm:text-5xl md:text-6xl">Hours of Operation</h2>
+              <p className="mt-4 max-w-md text-sm leading-6 text-dark/75 sm:mt-6 sm:text-lg sm:leading-8">
                 Visit BRAVO for fire-grilled churrasco, cold drinks, and generous tables throughout the week.
               </p>
               <Link
                 href="/contact#reservation"
-                className="mt-8 inline-flex items-center justify-center rounded bg-orange px-7 py-4 text-sm font-black uppercase tracking-wider text-black shadow-lg transition-all hover:-translate-y-1 hover:bg-yellow"
+                className="mt-5 inline-flex items-center justify-center rounded bg-orange px-4 py-2 text-[0.72rem] font-black uppercase tracking-wider text-black shadow-lg transition-all hover:-translate-y-1 hover:bg-yellow sm:mt-8 sm:px-7 sm:py-4 sm:text-sm"
               >
                 <i className="fa-solid fa-calendar-check mr-2"></i>
                 Reserve a Table
               </Link>
             </div>
 
-            <div className="grid gap-4">
+            <div className="grid gap-2.5 sm:gap-4">
               {HOURS.map((item) => (
                 <div
                   key={item.day}
-                  className="flex flex-col gap-4 rounded border border-dark/10 bg-white/75 p-5 shadow-custom transition-all hover:-translate-y-1 hover:border-orange/50 hover:shadow-2xl sm:flex-row sm:items-center sm:justify-between"
+                  className="grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-2 rounded border border-dark/10 bg-white/75 p-3 shadow-custom transition-all hover:-translate-y-1 hover:border-orange/50 hover:shadow-2xl sm:flex sm:p-5 sm:flex-row sm:items-center sm:justify-between"
                 >
-                  <div className="flex items-center gap-4">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded bg-dark text-orange">
-                      <i className={`fa-solid ${item.icon}`}></i>
+                  <div className="contents sm:flex sm:items-center sm:gap-4">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-dark text-orange sm:h-12 sm:w-12">
+                      <i className={`fa-solid ${item.icon} text-xs sm:text-base`}></i>
                     </span>
-                    <div>
-                      <h3 className="font-black text-2xl leading-none">{item.day}</h3>
-                      <p className="mt-2 text-sm font-medium text-dark/65">{item.note}</p>
+                    <div className="min-w-0">
+                      <h3 className="font-black text-lg leading-none sm:text-2xl">{item.day}</h3>
+                      <p className="mt-1 text-xs font-medium leading-4 text-dark/65 sm:mt-2 sm:text-sm sm:leading-5">{item.note}</p>
                     </div>
                   </div>
-                  <p className="text-2xl font-black text-orange sm:text-right">{item.time}</p>
+                  <p className="col-span-2 text-base font-black leading-none text-orange sm:text-2xl sm:text-right">{item.time}</p>
                 </div>
               ))}
             </div>

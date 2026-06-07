@@ -27,7 +27,7 @@ const bookingDetails = [
 
 export function ReservationCTA() {
   return (
-    <section className="relative overflow-hidden bg-[#120807] px-5 py-20 text-[#FFF7ED] sm:px-8 lg:px-10 lg:py-28">
+    <section className="relative overflow-hidden bg-[#120807] px-4 py-8 text-[#FFF7ED] sm:px-8 sm:py-20 lg:px-10 lg:py-28">
       <Image
         src={ctaImage}
         alt=""
@@ -45,35 +45,38 @@ export function ReservationCTA() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.35 }}
         transition={{ duration: 0.72 }}
-        className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16"
+        className="relative z-10 mx-auto grid max-w-6xl items-center gap-7 sm:gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16"
       >
         <div>
-          <p className="mb-4 text-xs font-black uppercase text-[#fd850b]">
+          <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.12em] text-[#fd850b] sm:mb-4 sm:text-xs sm:tracking-normal">
             Book Bravo
           </p>
-          <h2 className="font-serif text-5xl uppercase leading-[0.88] sm:text-6xl lg:text-7xl">
+          <h2 className="font-serif text-[1.95rem] uppercase leading-[0.9] sm:text-6xl sm:leading-[0.88] lg:text-7xl">
             Reserve your table today
           </h2>
-          <p className="mt-6 max-w-xl text-base leading-8 text-[#f4d8c5] sm:text-lg">
+          <p className="mt-3 max-w-xl text-[0.82rem] leading-[1.55] text-[#f4d8c5] sm:mt-6 sm:text-lg sm:leading-8">
             Bring your guests to the flame. Book a table for churrasco,
             celebrations, family dinners, and nights built around bold Brazilian
             steakhouse flavor.
           </p>
 
-          <div className="mt-8 grid gap-3">
+          <div className="mt-5 grid auto-rows-fr gap-2 sm:mt-8 sm:gap-3">
             {bookingDetails.map((detail) => (
               <div
                 key={detail.label}
-                className="flex items-start gap-4 border border-[#D4A373]/18 bg-[#FFF7ED]/6 p-4 shadow-[0_18px_48px_rgba(0,0,0,0.22)] backdrop-blur"
+                className="grid min-h-[58px] grid-cols-[30px_minmax(0,1fr)] items-center gap-3 border border-[#D4A373]/18 bg-[#FFF7ED]/6 p-2.5 shadow-[0_18px_48px_rgba(0,0,0,0.22)] backdrop-blur sm:min-h-[88px] sm:grid-cols-[40px_minmax(0,1fr)] sm:gap-4 sm:p-4"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#fd850b]/18 text-[#fd850b]">
-                  <i className={`fa-solid ${detail.icon}`} aria-hidden="true" />
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center bg-[#fd850b]/18 text-[#fd850b] sm:h-10 sm:w-10">
+                  <i
+                    className={`fa-solid ${detail.icon} text-xs sm:text-base`}
+                    aria-hidden="true"
+                  />
                 </span>
-                <span>
-                  <strong className="block text-sm font-black uppercase text-[#FFF7ED]">
+                <span className="min-w-0">
+                  <strong className="block text-[0.72rem] font-black uppercase leading-tight text-[#FFF7ED] sm:text-sm">
                     {detail.label}
                   </strong>
-                  <span className="mt-1 block text-sm leading-6 text-[#C7B8A8]">
+                  <span className="mt-0.5 block text-[0.7rem] leading-4 text-[#C7B8A8] sm:mt-1 sm:text-sm sm:leading-6">
                     {detail.value}
                   </span>
                 </span>
@@ -81,10 +84,10 @@ export function ReservationCTA() {
             ))}
           </div>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-5 flex flex-col gap-2 sm:mt-8 sm:flex-row sm:gap-3">
             <Link
               href="/contact#reservation"
-              className="inline-flex min-h-12 items-center justify-center gap-2 bg-[#fd850b] px-6 py-3 text-xs font-black uppercase text-black shadow-[0_18px_42px_rgba(253,133,11,0.3)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_62px_rgba(253,133,11,0.5)] sm:text-sm"
+              className="inline-flex min-h-9 items-center justify-center gap-2 bg-[#fd850b] px-4 py-2 text-[0.64rem] font-black uppercase text-black shadow-[0_18px_42px_rgba(253,133,11,0.3)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_62px_rgba(253,133,11,0.5)] sm:min-h-12 sm:px-6 sm:py-3 sm:text-sm"
             >
               <i className="fa-solid fa-calendar-check" aria-hidden="true" />
               Book Now
@@ -93,7 +96,7 @@ export function ReservationCTA() {
               href="https://wa.me/85578938333"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex min-h-12 items-center justify-center gap-2 border border-[#FFF7ED]/50 bg-black/20 px-6 py-3 text-xs font-black uppercase text-[#FFF7ED] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-black sm:text-sm"
+              className="inline-flex min-h-9 items-center justify-center gap-2 border border-[#FFF7ED]/50 bg-black/20 px-4 py-2 text-[0.64rem] font-black uppercase text-[#FFF7ED] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-black sm:min-h-12 sm:px-6 sm:py-3 sm:text-sm"
             >
               <i className="fa-brands fa-whatsapp" aria-hidden="true" />
               Message Us
@@ -101,7 +104,7 @@ export function ReservationCTA() {
           </div>
         </div>
 
-        <div className="relative border border-[#D4A373]/22 bg-[#FFF7ED]/6 p-3 shadow-[0_32px_90px_rgba(0,0,0,0.48)] backdrop-blur">
+        <div className="relative hidden border border-[#D4A373]/22 bg-[#FFF7ED]/6 p-3 shadow-[0_32px_90px_rgba(0,0,0,0.48)] backdrop-blur sm:block">
           <div className="relative aspect-[16/11] overflow-hidden">
             <Image
               src={ctaImage}
