@@ -335,23 +335,25 @@ export default function ContactPage() {
                 <div className="col-span-2 sm:col-span-1">
                   <label className={RESERVATION_LABEL_CLASS}>Date *</label>
                   <input
-                    type="date"
+                    type="text"
                     name="date"
                     value={reservationFormData.date}
                     onChange={handleReservationChange}
                     className={RESERVATION_INPUT_CLASS}
-                    style={{ colorScheme: 'dark', maxWidth: '100%', minWidth: 0 }}
+                    placeholder="Date"
+                    autoComplete="off"
                   />
                 </div>
                 <div className="col-span-2 sm:col-span-1">
                   <label className={RESERVATION_LABEL_CLASS}>Time *</label>
                   <input
-                    type="time"
+                    type="text"
                     name="time"
                     value={reservationFormData.time}
                     onChange={handleReservationChange}
                     className={RESERVATION_INPUT_CLASS}
-                    style={{ colorScheme: 'dark', maxWidth: '100%', minWidth: 0 }}
+                    placeholder="Time"
+                    autoComplete="off"
                   />
                 </div>
               </div>
