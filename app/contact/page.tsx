@@ -251,7 +251,7 @@ export default function ContactPage() {
         </section>
 
         {/* Reservation Form */}
-        <section id="reservation" className="relative scroll-mt-16 overflow-hidden bg-dark px-3 py-6 text-cream sm:scroll-mt-28 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
+        <section id="reservation" className="relative scroll-mt-0 overflow-hidden bg-dark px-3 pb-6 pt-24 text-cream sm:scroll-mt-0 sm:px-8 sm:pb-20 sm:pt-32 lg:px-10 lg:pb-24">
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1800&q=90')] bg-cover bg-center opacity-20"></div>
           <div className="absolute inset-0 bg-gradient-to-br from-dark via-dark/95 to-black/95"></div>
           <div className="relative mx-auto grid max-w-6xl gap-7 sm:gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
@@ -340,7 +340,7 @@ export default function ContactPage() {
                     value={reservationFormData.date}
                     onChange={handleReservationChange}
                     className={RESERVATION_INPUT_CLASS}
-                    style={{ colorScheme: 'dark' }}
+                    style={{ colorScheme: 'dark', maxWidth: '100%', minWidth: 0 }}
                   />
                 </div>
                 <div className="col-span-2 sm:col-span-1">
@@ -351,7 +351,7 @@ export default function ContactPage() {
                     value={reservationFormData.time}
                     onChange={handleReservationChange}
                     className={RESERVATION_INPUT_CLASS}
-                    style={{ colorScheme: 'dark' }}
+                    style={{ colorScheme: 'dark', maxWidth: '100%', minWidth: 0 }}
                   />
                 </div>
               </div>
