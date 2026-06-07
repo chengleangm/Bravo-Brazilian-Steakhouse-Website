@@ -332,7 +332,7 @@ export default function ContactPage() {
                     placeholder="Your phone"
                   />
                 </div>
-                <div>
+                <div className="col-span-2 sm:col-span-1">
                   <label className={RESERVATION_LABEL_CLASS}>Date *</label>
                   <input
                     type="date"
@@ -343,7 +343,7 @@ export default function ContactPage() {
                     style={{ colorScheme: 'dark' }}
                   />
                 </div>
-                <div>
+                <div className="col-span-2 sm:col-span-1">
                   <label className={RESERVATION_LABEL_CLASS}>Time *</label>
                   <input
                     type="time"

@@ -68,6 +68,12 @@
   transition: 0.25s;
 }
 
+.form input[type='date'],
+.form input[type='time'] {
+  max-width: 100%;
+  min-width: 0;
+}
+
 .form input::placeholder,
 .form textarea::placeholder {
   color: rgba(255, 255, 255, 0.5);
