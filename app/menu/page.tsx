@@ -269,24 +269,24 @@ function AlaCarteSection({ section }: { section: MenuSection }) {
 
 function DrinkCategoryHeader({ title }: { title: string }) {
   return (
-    <div className="border-[3px] border-white py-1.5 text-center sm:py-2">
-      <h3 className="font-serif text-base font-black uppercase tracking-widest text-white sm:text-xl">{title}</h3>
+    <div className="border-2 border-white py-1 text-center sm:border-[3px] sm:py-1.5 lg:py-2">
+      <h3 className="font-serif text-xs font-black uppercase tracking-widest text-white sm:text-base lg:text-xl">{title}</h3>
     </div>
   )
 }
 
 function DrinkSubHeader({ title }: { title: string }) {
   return (
-    <p className="mb-1 mt-3 text-center text-[10px] font-black uppercase tracking-[0.22em] text-white sm:mt-4 sm:text-xs">{title}</p>
+    <p className="mb-0.5 mt-2 text-center text-[9px] font-black uppercase tracking-[0.2em] text-white sm:mt-3 sm:text-[10px] lg:mt-4 lg:text-xs">{title}</p>
   )
 }
 
 function DrinkList({ items }: { items: { name: string; price: string }[] }) {
   return (
-    <ul className="mt-1 flex flex-col">
+    <ul className="mt-0.5 flex flex-col">
       {items.map((item) => (
-        <li key={item.name} className="flex items-baseline justify-between gap-1 border-b border-white/6 py-[3px] text-[11px] text-[#C7B8A8] sm:gap-2 sm:py-1 sm:text-sm">
-          <span>{item.name}</span>
+        <li key={item.name} className="flex flex-wrap items-baseline justify-between gap-x-1 border-b border-white/6 py-[2px] text-[9px] text-[#C7B8A8] sm:py-[3px] sm:text-[11px] lg:py-1 lg:text-sm">
+          <span className="min-w-0 flex-1 break-words">{item.name}</span>
           <span className="shrink-0 font-bold text-white">{item.price}</span>
         </li>
       ))}
@@ -297,27 +297,27 @@ function DrinkList({ items }: { items: { name: string; price: string }[] }) {
 
 function DrinkSection() {
   return (
-    <section id="drinks" className="bg-black px-4 py-12 sm:px-8 lg:px-10 lg:py-20">
+    <section id="drinks" className="bg-black px-3 py-8 sm:px-6 lg:px-10 lg:py-20">
       <div className="mx-auto max-w-7xl">
 
         {/* DRINKS title */}
-        <div className="mb-10 text-center sm:mb-14">
-          <h2 className="font-serif text-6xl font-black uppercase leading-none tracking-widest text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)] sm:text-8xl lg:text-9xl">
+        <div className="mb-6 text-center sm:mb-12">
+          <h2 className="font-serif text-4xl font-black uppercase leading-none tracking-widest text-white sm:text-7xl lg:text-9xl">
             DRINKS
           </h2>
-          <div className="mx-auto mt-2 h-[3px] w-20 bg-white sm:mt-3 sm:w-28" />
+          <div className="mx-auto mt-1.5 h-[3px] w-14 bg-white sm:mt-3 sm:w-24" />
         </div>
 
-        {/* 3-column layout */}
-        <div className="grid gap-8 sm:gap-10 lg:grid-cols-3 lg:gap-6 xl:gap-10">
+        {/* 3-column layout — 1 col mobile, 3 col sm+ */}
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:gap-8">
 
           {/* ── COL 1: Juices, Soft Drinks, Draught Beer ── */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4 sm:gap-5">
 
             {/* Fresh Juices */}
             <div>
               <DrinkCategoryHeader title="Fresh Juices" />
-              <div className="relative mt-2 h-36 w-full overflow-hidden sm:h-44">
+              <div className="relative mt-1.5 h-20 w-full overflow-hidden sm:h-32 lg:h-44">
                 <Image src="https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=600&q=85" alt="Fresh juices" fill sizes="400px" className="object-cover" />
               </div>
               <DrinkSubHeader title="Best-Sellers" />
@@ -337,7 +337,7 @@ function DrinkSection() {
             {/* Soft Drinks */}
             <div>
               <DrinkCategoryHeader title="Soft Drinks" />
-              <div className="relative mt-2 h-28 w-full overflow-hidden sm:h-32">
+              <div className="relative mt-1.5 h-16 w-full overflow-hidden sm:h-24 lg:h-32">
                 <Image src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=85" alt="Soft drinks" fill sizes="400px" className="object-cover" />
               </div>
               <DrinkList items={[
@@ -354,7 +354,7 @@ function DrinkSection() {
             {/* Draught Beer */}
             <div>
               <DrinkCategoryHeader title="Draught Beer" />
-              <div className="relative mt-2 h-32 w-full overflow-hidden sm:h-36">
+              <div className="relative mt-1.5 h-20 w-full overflow-hidden sm:h-28 lg:h-36">
                 <Image src="https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=600&q=85" alt="Draught beer" fill sizes="400px" className="object-cover" />
               </div>
               <DrinkList items={[
@@ -366,12 +366,12 @@ function DrinkSection() {
           </div>
 
           {/* ── COL 2: Water, Whiskey, Beers ── */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4 sm:gap-5">
 
             {/* Water */}
             <div>
               <DrinkCategoryHeader title="Water" />
-              <div className="relative mt-2 h-32 w-full overflow-hidden sm:h-36">
+              <div className="relative mt-1.5 h-20 w-full overflow-hidden sm:h-28 lg:h-36">
                 <Image src="https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=85" alt="Water bottles" fill sizes="400px" className="object-cover" />
               </div>
               <DrinkSubHeader title="Sparkling / Mineral" />
@@ -387,7 +387,7 @@ function DrinkSection() {
             {/* Whiskey */}
             <div>
               <DrinkCategoryHeader title="Whiskey" />
-              <div className="relative mt-2 h-32 w-full overflow-hidden sm:h-36">
+              <div className="relative mt-1.5 h-20 w-full overflow-hidden sm:h-28 lg:h-36">
                 <Image src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=85" alt="Whiskey" fill sizes="400px" className="object-cover" />
               </div>
               <DrinkSubHeader title="Scotch / Single Malt" />
@@ -412,7 +412,7 @@ function DrinkSection() {
             {/* Beers */}
             <div>
               <DrinkCategoryHeader title="Beers" />
-              <div className="relative mt-2 h-28 w-full overflow-hidden sm:h-32">
+              <div className="relative mt-1.5 h-16 w-full overflow-hidden sm:h-24 lg:h-32">
                 <Image src="https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=85" alt="Beers" fill sizes="400px" className="object-cover" />
               </div>
               <DrinkList items={[
@@ -428,64 +428,71 @@ function DrinkSection() {
             </div>
           </div>
 
-          {/* ── COL 3: Wines, House Wine, Cocktails ── */}
-          <div className="flex flex-col gap-6">
+          {/* ── COL 3: Wines | House Wine + Cocktails — spans full width on mobile, split 2-col internally ── */}
+          <div className="col-span-2 sm:col-span-1">
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-col sm:gap-5">
 
-            {/* Wines */}
-            <div>
-              <DrinkCategoryHeader title="Wines" />
-              <div className="relative mt-2 h-32 w-full overflow-hidden sm:h-36">
-                <Image src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=85" alt="Wine bottles" fill sizes="400px" className="object-cover" />
+              {/* Wines */}
+              <div>
+                <DrinkCategoryHeader title="Wines" />
+                <div className="relative mt-1.5 h-20 w-full overflow-hidden sm:h-28 lg:h-36">
+                  <Image src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=85" alt="Wine bottles" fill sizes="400px" className="object-cover" />
+                </div>
+                <DrinkSubHeader title="Australia" />
+                <DrinkList items={[
+                  { name: 'Penfolds Bin 2 Shiraz Mouvedre', price: '$45.00' },
+                  { name: "Penfold Max's C. Sauvignon", price: '$38.00' },
+                  { name: 'Penfold Bin 8 Cabernet Shiraz', price: '$49.00' },
+                ]} />
+                <DrinkSubHeader title="France" />
+                <DrinkList items={[
+                  { name: 'Chateau Haut Veyrac Saint Emilion', price: '$38.90' },
+                  { name: 'Chateau Grand Verdus Sauvignon', price: '$30.00' },
+                  { name: 'Louis Eschenauer C. Sauvignon', price: '$25.50' },
+                  { name: 'Esprit De Pavie', price: '$45.00' },
+                ]} />
+                <DrinkSubHeader title="Argentina" />
+                <DrinkList items={[
+                  { name: 'Argento Estate Reserve Malbec', price: '$35.00' },
+                  { name: 'Argento Finca Altamira Malbec', price: '$46.00' },
+                ]} />
+                <DrinkSubHeader title="Chile" />
+                <DrinkList items={[
+                  { name: 'Marques Casa Concha C.Sauvignon', price: '$42.00' },
+                  { name: 'Frontera C. Sauvignon', price: '$25.00' },
+                  { name: 'Frontera Merlot', price: '$25.00' },
+                  { name: 'Santa Alicia Sauvignon', price: '$25.00' },
+                ]} />
               </div>
-              <DrinkSubHeader title="Australia" />
-              <DrinkList items={[
-                { name: 'Penfolds Bin 2 Shiraz Mouvedre', price: '$45.00' },
-                { name: "Penfold Max's C. Sauvignon", price: '$38.00' },
-                { name: 'Penfold Bin 8 Cabernet Shiraz', price: '$49.00' },
-              ]} />
-              <DrinkSubHeader title="France" />
-              <DrinkList items={[
-                { name: 'Chateau Haut Veyrac Saint Emilion', price: '$38.90' },
-                { name: 'Chateau Grand Verdus Sauvignon', price: '$30.00' },
-                { name: 'Louis Eschenauer C. Sauvignon', price: '$25.50' },
-                { name: 'Esprit De Pavie', price: '$45.00' },
-              ]} />
-              <DrinkSubHeader title="Argentina" />
-              <DrinkList items={[
-                { name: 'Argento Estate Reserve Malbec', price: '$35.00' },
-                { name: 'Argento Finca Altamira Malbec', price: '$46.00' },
-              ]} />
-              <DrinkSubHeader title="Chile" />
-              <DrinkList items={[
-                { name: 'Marques Casa Concha C.Sauvignon', price: '$42.00' },
-                { name: 'Frontera C. Sauvignon', price: '$25.00' },
-                { name: 'Frontera Merlot', price: '$25.00' },
-                { name: 'Santa Alicia Sauvignon', price: '$25.00' },
-              ]} />
-            </div>
 
-            {/* House Wine */}
-            <div>
-              <DrinkCategoryHeader title="House Wine" />
-              <DrinkSubHeader title="By Glass" />
-              <DrinkList items={[
-                { name: 'Frontera C. Sauvignon Chile', price: '$4.00' },
-              ]} />
-            </div>
+              {/* House Wine + Cocktails */}
+              <div className="flex flex-col gap-4 sm:gap-5">
 
-            {/* Cocktails */}
-            <div>
-              <DrinkCategoryHeader title="Cocktails" />
-              <div className="relative mt-2 h-32 w-full overflow-hidden sm:h-36">
-                <Image src="https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=600&q=85" alt="Cocktails" fill sizes="400px" className="object-cover" />
+                {/* House Wine */}
+                <div>
+                  <DrinkCategoryHeader title="House Wine" />
+                  <DrinkSubHeader title="By Glass" />
+                  <DrinkList items={[
+                    { name: 'Frontera C. Sauvignon Chile', price: '$4.00' },
+                  ]} />
+                </div>
+
+                {/* Cocktails */}
+                <div>
+                  <DrinkCategoryHeader title="Cocktails" />
+                  <div className="relative mt-1.5 h-20 w-full overflow-hidden sm:h-28 lg:h-36">
+                    <Image src="https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=600&q=85" alt="Cocktails" fill sizes="400px" className="object-cover" />
+                  </div>
+                  <DrinkList items={[
+                    { name: 'Brazilian Caipirinha', price: '$4.00' },
+                    { name: 'Blue Margarita', price: '$3.50' },
+                    { name: 'Pina Colada', price: '$3.50' },
+                    { name: 'Singapore Sling', price: '$3.50' },
+                    { name: 'Mojito', price: '$3.50' },
+                  ]} />
+                </div>
+
               </div>
-              <DrinkList items={[
-                { name: 'Brazilian Caipirinha', price: '$4.00' },
-                { name: 'Blue Margarita', price: '$3.50' },
-                { name: 'Pina Colada', price: '$3.50' },
-                { name: 'Singapore Sling', price: '$3.50' },
-                { name: 'Mojito', price: '$3.50' },
-              ]} />
             </div>
           </div>
 
