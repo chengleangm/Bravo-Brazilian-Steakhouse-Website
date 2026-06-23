@@ -91,46 +91,65 @@ function BuffetPackageCard({ pkg }: { pkg: BuffetPackage }) {
     <article className={`relative flex flex-col overflow-hidden transition duration-300 hover:-translate-y-1 ${pkg.highlight ? 'shadow-[0_0_60px_rgba(253,133,11,0.18)]' : 'shadow-[0_8px_40px_rgba(0,0,0,0.4)]'}`}>
       <div className={`h-1.5 w-full ${pkg.highlight ? 'bg-[#fd850b]' : 'bg-[#D4A373]/40'}`} />
       <div className={`flex flex-1 flex-col ${pkg.highlight ? 'bg-[#1c0f0a]' : 'bg-[#181008]'}`}>
-        <div className="flex items-start justify-between gap-4 p-6 pb-0 sm:p-8 sm:pb-0">
-          <div>
-            <h3 className="font-serif text-2xl font-black uppercase leading-none text-[#FFF7ED] sm:text-3xl lg:text-4xl">{pkg.name}</h3>
-            <span className={`mt-2 inline-block rounded-full px-3 py-0.5 text-[9px] font-black uppercase tracking-[0.22em] ${pkg.highlight ? 'bg-[#fd850b] text-black' : 'invisible'}`}>Most Popular</span>
+
+        {/* Header: title + price badge */}
+        <div className="flex items-start justify-between gap-2 p-3 pb-0 sm:gap-4 sm:p-6 sm:pb-0 lg:p-8 lg:pb-0">
+          <div className="min-w-0">
+            <h3 className="font-serif text-sm font-black uppercase leading-tight text-[#FFF7ED] sm:text-2xl lg:text-4xl">{pkg.name}</h3>
+            <span className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[7px] font-black uppercase tracking-[0.18em] sm:mt-2 sm:px-3 sm:text-[9px] ${pkg.highlight ? 'bg-[#fd850b] text-black' : 'invisible'}`}>Most Popular</span>
           </div>
-          <div className={`flex shrink-0 flex-col items-center justify-center rounded-2xl px-4 py-3 text-center ${pkg.highlight ? 'bg-[#fd850b]' : 'bg-[#fd850b]/15 ring-1 ring-[#fd850b]/40'}`}>
-            <span className={`text-[10px] font-bold uppercase tracking-widest ${pkg.highlight ? 'text-black/70' : 'text-[#fd850b]'}`}>Per person</span>
-            <span className={`text-2xl font-black leading-none sm:text-3xl ${pkg.highlight ? 'text-black' : 'text-[#fd850b]'}`}>{pkg.priceAdult}</span>
-            <span className={`mt-0.5 text-[9px] font-bold ${pkg.highlight ? 'text-black/60' : 'text-[#C7B8A8]'}`}>Adult</span>
+          <div className={`flex shrink-0 flex-col items-center justify-center rounded-lg px-2 py-1.5 text-center sm:rounded-2xl sm:px-4 sm:py-3 ${pkg.highlight ? 'bg-[#fd850b]' : 'bg-[#fd850b]/15 ring-1 ring-[#fd850b]/40'}`}>
+            <span className={`text-[7px] font-bold uppercase tracking-widest sm:text-[10px] ${pkg.highlight ? 'text-black/70' : 'text-[#fd850b]'}`}>Per person</span>
+            <span className={`text-sm font-black leading-none sm:text-2xl lg:text-3xl ${pkg.highlight ? 'text-black' : 'text-[#fd850b]'}`}>{pkg.priceAdult}</span>
+            <span className={`text-[7px] font-bold sm:mt-0.5 sm:text-[9px] ${pkg.highlight ? 'text-black/60' : 'text-[#C7B8A8]'}`}>Adult</span>
           </div>
         </div>
-        <div className="mx-6 mt-3 flex items-center gap-3 rounded-lg bg-white/4 px-4 py-2.5 ring-1 ring-white/8 sm:mx-8">
-          <i className="fa-solid fa-child-reaching text-[#D4A373] text-sm" aria-hidden="true" />
-          <span className="text-xs font-bold text-[#C7B8A8]">Kids (6–10 yrs old)</span>
-          <span className="ml-auto text-sm font-black text-[#D4A373]">{pkg.priceKids}</span>
+
+        {/* Kids price */}
+        <div className="mx-3 mt-2 flex items-center gap-1.5 rounded bg-white/4 px-2 py-1.5 ring-1 ring-white/8 sm:mx-6 sm:mt-3 sm:gap-3 sm:rounded-lg sm:px-4 sm:py-2.5 lg:mx-8">
+          <i className="fa-solid fa-child-reaching text-[#D4A373] text-[10px] sm:text-sm" aria-hidden="true" />
+          <span className="text-[9px] font-bold text-[#C7B8A8] sm:text-xs">Kids (6–10 yrs)</span>
+          <span className="ml-auto text-[10px] font-black text-[#D4A373] sm:text-sm">{pkg.priceKids}</span>
         </div>
-        <div className="mx-6 mt-5 flex items-center gap-3 sm:mx-8">
+
+        {/* Grill items divider */}
+        <div className="mx-3 mt-3 flex items-center gap-2 sm:mx-6 sm:mt-4 lg:mx-8">
           <div className="h-px flex-1 bg-[#D4A373]/15" />
-          <span className="text-[9px] font-black uppercase tracking-[0.22em] text-[#fd850b]">Grill Items</span>
+          <span className="text-[8px] font-black uppercase tracking-[0.18em] text-[#fd850b] sm:text-[9px] sm:tracking-[0.22em]">Grill Items</span>
           <div className="h-px flex-1 bg-[#D4A373]/15" />
         </div>
-        <ul className="mx-6 mt-4 grid grid-cols-1 gap-y-2 sm:mx-8 sm:grid-cols-2 sm:gap-x-4">
-          {pkg.items.map((item) => (
-            <li key={item} className="flex items-start gap-2 text-sm leading-snug text-[#C7B8A8]">
-              <i className="fa-solid fa-caret-right mt-0.5 shrink-0 text-[10px] text-[#fd850b]" aria-hidden="true" />
-              <span>{item}</span>
-            </li>
-          ))}
+
+        {/* Items list */}
+        <ul className="mx-3 mt-2 grid grid-cols-1 gap-y-1 sm:mx-6 sm:mt-3 sm:grid-cols-2 sm:gap-x-4 sm:gap-y-2 lg:mx-8">
+          {pkg.items.map((item) => {
+            const [en, km] = item.split(' / ')
+            return (
+              <li key={item} className="flex items-start gap-1.5 leading-snug text-[#C7B8A8] sm:gap-2">
+                <i className="fa-solid fa-caret-right mt-0.5 shrink-0 text-[8px] text-[#fd850b] sm:text-[10px]" aria-hidden="true" />
+                <span className="text-[9px] sm:text-sm">
+                  <span className="block">{en}</span>
+                  {km && <span className="block text-[8px] text-[#C7B8A8]/60 sm:text-[10px]">{km}</span>}
+                </span>
+              </li>
+            )
+          })}
         </ul>
+
+        {/* Extras tags */}
         {pkg.extras && (
-          <div className="mx-6 mt-5 flex flex-wrap gap-1.5 sm:mx-8">
+          <div className="mx-3 mt-3 flex flex-wrap gap-1 sm:mx-6 sm:mt-4 sm:gap-1.5 lg:mx-8">
             {pkg.extras.split(' · ').map((tag) => (
-              <span key={tag} className="rounded-full bg-[#fd850b]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-[#fd850b] ring-1 ring-[#fd850b]/20">{tag}</span>
+              <span key={tag} className="rounded-full bg-[#fd850b]/10 px-1.5 py-0.5 text-[7px] font-bold uppercase tracking-wide text-[#fd850b] ring-1 ring-[#fd850b]/20 sm:px-2.5 sm:py-1 sm:text-[10px]">{tag}</span>
             ))}
           </div>
         )}
-        <div className="mt-auto p-6 pt-6 sm:p-8 sm:pt-6">
-          <Link href="/contact#reservation" className={`flex w-full min-h-12 items-center justify-center gap-2 text-xs font-black uppercase tracking-widest transition duration-300 hover:-translate-y-0.5 ${pkg.highlight ? 'bg-[#fd850b] text-black shadow-[0_12px_32px_rgba(253,133,11,0.35)] hover:bg-[#ff9a2e] hover:shadow-[0_18px_44px_rgba(253,133,11,0.5)]' : 'border border-[#fd850b]/50 text-[#fd850b] hover:bg-[#fd850b] hover:text-black'}`}>
-            <i className="fa-solid fa-calendar-check" aria-hidden="true" />
-            Book This Package
+
+        {/* Book button */}
+        <div className="mt-auto p-3 pt-4 sm:p-6 sm:pt-6 lg:p-8 lg:pt-6">
+          <Link href="/contact#reservation" className={`flex w-full min-h-9 items-center justify-center gap-1.5 text-[9px] font-black uppercase tracking-wider transition duration-300 hover:-translate-y-0.5 sm:min-h-12 sm:gap-2 sm:text-xs sm:tracking-widest ${pkg.highlight ? 'bg-[#fd850b] text-black shadow-[0_8px_20px_rgba(253,133,11,0.35)] hover:bg-[#ff9a2e]' : 'border border-[#fd850b]/50 text-[#fd850b] hover:bg-[#fd850b] hover:text-black'}`}>
+            <i className="fa-solid fa-calendar-check text-[9px] sm:text-xs" aria-hidden="true" />
+            <span className="hidden sm:inline">Book This Package</span>
+            <span className="sm:hidden">Book Now</span>
           </Link>
         </div>
       </div>
@@ -527,7 +546,10 @@ export default function MenuPage() {
                 <div className="flex flex-col items-center gap-1 px-6 py-4 text-center sm:flex-row sm:justify-between sm:text-left">
                   <div>
                     <p className="text-xs font-black uppercase tracking-[0.25em] text-[#fd850b]">Lunch Buffet</p>
-                    <p className="mt-1 text-lg font-black text-[#FFF7ED] sm:text-xl">Weekdays 11:00 AM – 2:30 PM &nbsp;·&nbsp; Weekends 11:30 AM – 3:00 PM</p>
+                    <p className="mt-1 text-sm font-black text-[#FFF7ED] sm:text-xl">
+                      Weekdays 11:00 AM – 2:30 PM
+                      <span className="block sm:inline sm:before:content-['_·_']">Weekends 11:30 AM – 3:00 PM</span>
+                    </p>
                   </div>
                   <div className="flex items-center gap-2 text-[#C7B8A8]">
                     <i className="fa-solid fa-sun text-[#fd850b]" aria-hidden="true" />
