@@ -22,7 +22,7 @@ const lunchPackages: BuffetPackage[] = [
     items: ['Beef Sirloin / សាច់គោដាប់ខ្ទាញ់','Garlic Steak / សាច់គោខ្ទឹម','Grill Chicken Wings / ស្លាបមាន់','Honey Pork Ham / ភ្លៅជ្រូក','Pork Sausages / សាច់ក្រកសាច់ជ្រូក','Dory Fish / ត្រីដូរី'],
   },
   {
-    name: 'Buffet + 8 Grill', grillCount: 8, priceAdult: '$12.95', priceKids: '$10.50', highlight: true,
+    name: 'Buffet + 8 Grill', grillCount: 8, priceAdult: '$13.95', priceKids: '$10.50', highlight: true,
     items: ['Beef Sirloin / សាច់គោដាប់ខ្ទាញ់','Garlic Steak / សាច់គោខ្ទឹម','Smoked Duck / ទ្រូងទា','Grill Chicken Wings / ស្លាបមាន់','Honey Pork Ham / ភ្លៅជ្រូក','Pork Sausages / សាច់ក្រកសាច់ជ្រូក','Pork Char Siu / សាច់ជ្រូកសាសួរ','Dory Fish / ត្រីដូរី'],
   },
 ]

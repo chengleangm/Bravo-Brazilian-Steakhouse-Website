@@ -66,7 +66,7 @@ export function Hero() {
             transition={{ delay: 0.3, duration: 0.7 }}
             className="mx-auto mt-4 max-w-xs text-base leading-relaxed text-[#e8ddd4] sm:mx-0 sm:mt-4 sm:max-w-md sm:text-base lg:text-lg"
           >
-            Authentic Brazilian churrasco — fire-carved tableside, every single night.
+            Authentic Brazilian churrasco — fire-carved tableside, everyday.
           </motion.p>
 
           {/* Divider */}
@@ -86,8 +86,8 @@ export function Hero() {
             className="mt-5 flex justify-center gap-6 sm:mt-5 sm:justify-start sm:gap-7"
           >
             {[
-              { value: '30+', label: 'Cuts of meat' },
-              { value: '15+', label: 'Side dishes' },
+              { value: '15+', label: 'Cuts of Meats' },
+              { value: '30+', label: 'Side dishes' },
               { value: '100%', label: 'Brazilian style' },
             ].map(({ value, label }) => (
               <div key={label}>
