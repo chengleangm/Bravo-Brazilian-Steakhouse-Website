@@ -308,7 +308,7 @@ function DrinkSection() {
           <div className="mx-auto mt-1.5 h-[3px] w-14 bg-white sm:mt-3 sm:w-24" />
         </div>
 
-        {/* 3-column layout — 1 col mobile, 3 col sm+ */}
+        {/* 3-column layout — 2 col mobile (cols 1+2), 3 col sm+ */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:gap-8">
 
           {/* ── COL 1: Juices, Soft Drinks, Draught Beer ── */}
@@ -362,6 +362,13 @@ function DrinkSection() {
                 { name: 'Angkor Draught 2.0L (Tower)', price: '$10.00' },
                 { name: 'Angkor Pint 330ml', price: '$2.00' },
               ]} />
+            </div>
+
+            {/* Wine image fills remaining height on mobile — moved from Wines section */}
+            <div className="relative min-h-0 flex-1 overflow-hidden sm:hidden">
+              <Image src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=85" alt="Wines" fill sizes="200px" className="object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+              <p className="absolute bottom-2 left-0 right-0 text-center text-[8px] font-black uppercase tracking-[0.2em] text-white">Wines</p>
             </div>
           </div>
 
@@ -435,7 +442,7 @@ function DrinkSection() {
               {/* Wines */}
               <div>
                 <DrinkCategoryHeader title="Wines" />
-                <div className="relative mt-1.5 h-20 w-full overflow-hidden sm:h-28 lg:h-36">
+                <div className="relative mt-1.5 hidden h-20 w-full overflow-hidden sm:block sm:h-28 lg:h-36">
                   <Image src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=85" alt="Wine bottles" fill sizes="400px" className="object-cover" />
                 </div>
                 <DrinkSubHeader title="Australia" />
