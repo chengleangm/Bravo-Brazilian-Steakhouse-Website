@@ -184,14 +184,14 @@ function GrillCard({ item }: { item: MenuItem }) {
           src={item.image}
           alt={englishName}
           fill
-          sizes="(max-width:640px) 50vw, 25vw"
+          sizes="25vw"
           className="object-cover transition duration-700 group-hover:scale-[1.07]"
         />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
-        <p className="font-serif text-xs font-black uppercase leading-tight text-white sm:text-sm lg:text-[0.95rem]">{englishName}</p>
-        {khmerName && <p className="mt-0.5 text-[10px] leading-snug text-[#C7B8A8] sm:text-xs">{khmerName}</p>}
+      <div className="absolute bottom-0 left-0 right-0 p-1.5 sm:p-3 lg:p-4">
+        <p className="font-serif text-[7px] font-black uppercase leading-tight text-white sm:text-xs lg:text-[0.95rem]">{englishName}</p>
+        {khmerName && <p className="mt-0.5 hidden text-[9px] leading-snug text-[#C7B8A8] sm:block sm:text-[10px] sm:leading-snug">{khmerName}</p>}
       </div>
     </article>
   )
@@ -199,66 +199,67 @@ function GrillCard({ item }: { item: MenuItem }) {
 
 function AlaCarteCard({ item }: { item: MenuItem }) {
   return (
-    <article className="group relative flex flex-col items-center overflow-hidden rounded-xl border border-[#ffffff07] bg-[#0e0b08] p-5 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[#fd850b]/30 hover:shadow-[0_12px_48px_rgba(253,133,11,0.13)] sm:p-6 lg:p-7">
-      {/* Oval image with price badge */}
-      <div className="relative mx-auto w-full max-w-[180px] sm:max-w-[210px] lg:max-w-[230px]">
+    <article className="group relative flex flex-col items-center overflow-hidden rounded-lg border border-[#ffffff07] bg-[#0e0b08] p-2 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[#fd850b]/30 hover:shadow-[0_12px_48px_rgba(253,133,11,0.13)] sm:rounded-xl sm:p-5 lg:p-7">
+      {/* Circle image with price badge */}
+      <div className="relative mx-auto w-full">
         {item.image && (
-          <div className="relative aspect-square overflow-hidden rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
+          <div className="relative aspect-square overflow-hidden rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.6)] sm:shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
             <Image
               src={item.image}
               alt={item.name}
               fill
-              sizes="(max-width:640px) 180px, (max-width:1024px) 210px, 230px"
+              sizes="(max-width:640px) 33vw, (max-width:1024px) 210px, 230px"
               className="object-cover transition duration-500 group-hover:scale-[1.08]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
           </div>
         )}
         {/* Price badge */}
-        <div className="absolute -left-2 top-0 flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-full bg-[#fd850b] shadow-[0_0_0_3px_#0e0b08,0_0_20px_rgba(253,133,11,0.7)] sm:h-[3.75rem] sm:w-[3.75rem]">
-          <span className="text-center text-[10px] font-black leading-tight text-white sm:text-xs">{item.price}</span>
+        <div className="absolute -left-1 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[#fd850b] shadow-[0_0_0_2px_#0e0b08,0_0_10px_rgba(253,133,11,0.7)] sm:-left-2 sm:h-[3.25rem] sm:w-[3.25rem] sm:shadow-[0_0_0_3px_#0e0b08,0_0_20px_rgba(253,133,11,0.7)]">
+          <span className="text-center text-[7px] font-black leading-tight text-white sm:text-[10px]">{item.price}</span>
         </div>
       </div>
 
-      {/* Divider */}
-      <div className="my-4 flex items-center gap-2">
+      {/* Divider — hidden on mobile */}
+      <div className="my-2 hidden items-center gap-2 sm:my-4 sm:flex">
         <div className="h-px w-6 bg-[#fd850b]/30" />
         <div className="h-1 w-1 rounded-full bg-[#fd850b]/50" />
         <div className="h-px w-6 bg-[#fd850b]/30" />
       </div>
+      <div className="mt-1.5 sm:hidden" />
 
-      <h3 className="font-serif text-base font-black uppercase leading-tight text-[#FFF7ED] sm:text-lg lg:text-xl">{item.name}</h3>
-      <p className="mt-2 max-w-[170px] text-[10px] leading-[1.6] text-[#7a6e64] sm:text-xs sm:leading-5">{item.description}</p>
+      <h3 className="text-[8px] font-black uppercase leading-tight text-[#FFF7ED] sm:font-serif sm:text-base lg:text-xl">{item.name}</h3>
+      <p className="mt-0.5 text-[7px] leading-tight text-[#7a6e64] sm:mt-2 sm:max-w-[170px] sm:text-xs sm:leading-5">{item.description}</p>
     </article>
   )
 }
 
 function AlaCarteSection({ section }: { section: MenuSection }) {
   return (
-    <section id={section.id} className="bg-[#0a0805] px-5 py-16 sm:px-8 lg:px-10 lg:py-28">
+    <section id={section.id} className="bg-[#0a0805] px-3 py-12 sm:px-8 lg:px-10 lg:py-28">
       <div className="mx-auto max-w-7xl">
 
         {/* Header */}
-        <div className="mb-14 text-center">
+        <div className="mb-8 text-center sm:mb-14">
           <div className="mb-5 flex items-center justify-center gap-4">
             <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:text-xs">Bravo Restaurant</span>
             <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
           </div>
-          <h2 className="font-serif text-5xl font-black uppercase leading-none text-white sm:text-7xl lg:text-[7rem]">
+          <h2 className="font-serif text-3xl font-black uppercase leading-none text-white sm:text-7xl lg:text-[7rem]">
             À La Carte
           </h2>
-          <p className="-mt-2 font-serif text-4xl font-black uppercase leading-none text-[#fd850b] sm:-mt-3 sm:text-6xl lg:text-7xl">
+          <p className="-mt-1 font-serif text-2xl font-black uppercase leading-none text-[#fd850b] sm:-mt-3 sm:text-6xl lg:text-7xl">
             Menu
           </p>
-          <div className="mt-7 inline-flex items-center gap-2.5 bg-[#fd850b] px-6 py-2 shadow-[0_8px_28px_rgba(253,133,11,0.35)]">
-            <i className="fa-solid fa-clock text-[10px] text-black" aria-hidden="true" />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-black">Open Daily · 11AM – 10:30PM</span>
+          <div className="mt-4 inline-flex items-center gap-2 bg-[#fd850b] px-4 py-1.5 shadow-[0_8px_28px_rgba(253,133,11,0.35)] sm:mt-7 sm:gap-2.5 sm:px-6 sm:py-2">
+            <i className="fa-solid fa-clock text-[9px] text-black sm:text-[10px]" aria-hidden="true" />
+            <span className="text-[9px] font-black uppercase tracking-[0.15em] text-black sm:text-xs sm:tracking-[0.2em]">Open Daily · 11AM – 10:30PM</span>
           </div>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:gap-8">
+        <div className="grid grid-cols-3 gap-2 sm:gap-5 lg:gap-6 xl:gap-8">
           {section.items.map((item) => <AlaCarteCard key={item.name} item={item} />)}
         </div>
       </div>
@@ -268,23 +269,23 @@ function AlaCarteSection({ section }: { section: MenuSection }) {
 
 function DrinkCategoryHeader({ title }: { title: string }) {
   return (
-    <h3 className="inline-block border-2 border-white px-3 py-1 font-serif text-xl font-black uppercase leading-tight text-white sm:text-2xl">
-      {title}
-    </h3>
+    <div className="border-[3px] border-white py-1.5 text-center sm:py-2">
+      <h3 className="font-serif text-base font-black uppercase tracking-widest text-white sm:text-xl">{title}</h3>
+    </div>
   )
 }
 
 function DrinkSubHeader({ title }: { title: string }) {
   return (
-    <p className="mb-2 mt-4 text-center text-xs font-black uppercase tracking-[0.2em] text-white">{title}</p>
+    <p className="mb-1 mt-3 text-center text-[10px] font-black uppercase tracking-[0.22em] text-white sm:mt-4 sm:text-xs">{title}</p>
   )
 }
 
 function DrinkList({ items }: { items: { name: string; price: string }[] }) {
   return (
-    <ul className="mt-1 flex flex-col gap-1">
+    <ul className="mt-1 flex flex-col">
       {items.map((item) => (
-        <li key={item.name} className="flex items-baseline justify-between gap-2 text-sm text-[#C7B8A8]">
+        <li key={item.name} className="flex items-baseline justify-between gap-1 border-b border-white/6 py-[3px] text-[11px] text-[#C7B8A8] sm:gap-2 sm:py-1 sm:text-sm">
           <span>{item.name}</span>
           <span className="shrink-0 font-bold text-white">{item.price}</span>
         </li>
@@ -296,28 +297,27 @@ function DrinkList({ items }: { items: { name: string; price: string }[] }) {
 
 function DrinkSection() {
   return (
-    <section id="drinks" className="bg-[#0a0705] px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
+    <section id="drinks" className="bg-black px-4 py-12 sm:px-8 lg:px-10 lg:py-20">
       <div className="mx-auto max-w-7xl">
 
-        {/* Big "DRINKS" title */}
-        <div className="mb-12 text-center">
-          <h2 className="font-serif text-6xl font-black uppercase leading-none tracking-widest text-white sm:text-8xl lg:text-9xl"
-            style={{ WebkitTextStroke: '2px #fd850b', color: 'transparent' }}>
+        {/* DRINKS title */}
+        <div className="mb-10 text-center sm:mb-14">
+          <h2 className="font-serif text-6xl font-black uppercase leading-none tracking-widest text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)] sm:text-8xl lg:text-9xl">
             DRINKS
           </h2>
-          <div className="mx-auto mt-3 h-0.5 w-24 bg-[#fd850b]" />
+          <div className="mx-auto mt-2 h-[3px] w-20 bg-white sm:mt-3 sm:w-28" />
         </div>
 
         {/* 3-column layout */}
-        <div className="grid gap-10 sm:gap-12 lg:grid-cols-3 lg:gap-8 xl:gap-12">
+        <div className="grid gap-8 sm:gap-10 lg:grid-cols-3 lg:gap-6 xl:gap-10">
 
           {/* ── COL 1: Juices, Soft Drinks, Draught Beer ── */}
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-6">
 
             {/* Fresh Juices */}
             <div>
               <DrinkCategoryHeader title="Fresh Juices" />
-              <div className="relative mt-3 h-40 w-full overflow-hidden rounded">
+              <div className="relative mt-2 h-36 w-full overflow-hidden sm:h-44">
                 <Image src="https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=600&q=85" alt="Fresh juices" fill sizes="400px" className="object-cover" />
               </div>
               <DrinkSubHeader title="Best-Sellers" />
@@ -336,11 +336,9 @@ function DrinkSection() {
 
             {/* Soft Drinks */}
             <div>
-              <div className="relative h-28 w-full overflow-hidden rounded">
+              <DrinkCategoryHeader title="Soft Drinks" />
+              <div className="relative mt-2 h-28 w-full overflow-hidden sm:h-32">
                 <Image src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=85" alt="Soft drinks" fill sizes="400px" className="object-cover" />
-              </div>
-              <div className="mt-3">
-                <DrinkCategoryHeader title="Soft Drinks" />
               </div>
               <DrinkList items={[
                 { name: 'Coke', price: '$2.00' },
@@ -356,7 +354,7 @@ function DrinkSection() {
             {/* Draught Beer */}
             <div>
               <DrinkCategoryHeader title="Draught Beer" />
-              <div className="relative mt-3 h-36 w-full overflow-hidden rounded">
+              <div className="relative mt-2 h-32 w-full overflow-hidden sm:h-36">
                 <Image src="https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=600&q=85" alt="Draught beer" fill sizes="400px" className="object-cover" />
               </div>
               <DrinkList items={[
@@ -368,12 +366,12 @@ function DrinkSection() {
           </div>
 
           {/* ── COL 2: Water, Whiskey, Beers ── */}
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-6">
 
             {/* Water */}
             <div>
               <DrinkCategoryHeader title="Water" />
-              <div className="relative mt-3 h-36 w-full overflow-hidden rounded">
+              <div className="relative mt-2 h-32 w-full overflow-hidden sm:h-36">
                 <Image src="https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=85" alt="Water bottles" fill sizes="400px" className="object-cover" />
               </div>
               <DrinkSubHeader title="Sparkling / Mineral" />
@@ -389,7 +387,7 @@ function DrinkSection() {
             {/* Whiskey */}
             <div>
               <DrinkCategoryHeader title="Whiskey" />
-              <div className="relative mt-3 h-36 w-full overflow-hidden rounded">
+              <div className="relative mt-2 h-32 w-full overflow-hidden sm:h-36">
                 <Image src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=85" alt="Whiskey" fill sizes="400px" className="object-cover" />
               </div>
               <DrinkSubHeader title="Scotch / Single Malt" />
@@ -413,11 +411,9 @@ function DrinkSection() {
 
             {/* Beers */}
             <div>
-              <div className="relative h-28 w-full overflow-hidden rounded">
+              <DrinkCategoryHeader title="Beers" />
+              <div className="relative mt-2 h-28 w-full overflow-hidden sm:h-32">
                 <Image src="https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=85" alt="Beers" fill sizes="400px" className="object-cover" />
-              </div>
-              <div className="mt-3">
-                <DrinkCategoryHeader title="Beers" />
               </div>
               <DrinkList items={[
                 { name: 'Corona', price: '$3.50' },
@@ -433,12 +429,12 @@ function DrinkSection() {
           </div>
 
           {/* ── COL 3: Wines, House Wine, Cocktails ── */}
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-6">
 
             {/* Wines */}
             <div>
               <DrinkCategoryHeader title="Wines" />
-              <div className="relative mt-3 h-36 w-full overflow-hidden rounded">
+              <div className="relative mt-2 h-32 w-full overflow-hidden sm:h-36">
                 <Image src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=85" alt="Wine bottles" fill sizes="400px" className="object-cover" />
               </div>
               <DrinkSubHeader title="Australia" />
@@ -480,7 +476,7 @@ function DrinkSection() {
             {/* Cocktails */}
             <div>
               <DrinkCategoryHeader title="Cocktails" />
-              <div className="relative mt-3 h-36 w-full overflow-hidden rounded">
+              <div className="relative mt-2 h-32 w-full overflow-hidden sm:h-36">
                 <Image src="https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=600&q=85" alt="Cocktails" fill sizes="400px" className="object-cover" />
               </div>
               <DrinkList items={[
@@ -602,7 +598,7 @@ export default function MenuPage() {
                   </h2>
                   <p className="mt-6 text-base leading-7 text-[#C7B8A8] sm:text-lg sm:leading-8">{section.description}</p>
                 </div>
-                <div className="grid grid-cols-2 gap-1 sm:grid-cols-4 sm:gap-1">
+                <div className="grid grid-cols-4 gap-0.5 sm:gap-1">
                   {section.items.map((item) => <GrillCard key={item.name} item={item} />)}
                 </div>
               </div>
