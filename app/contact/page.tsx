@@ -37,8 +37,20 @@ const RESERVATION_LABEL_CLASS =
 const CONTACT_METHODS = [
   {
     label: 'Call',
-    value: '+855 78 938 333',
+    value: '023 218 211',
+    href: 'tel:+85523218211',
+    icon: 'fa-solid fa-phone',
+  },
+  {
+    label: 'Call',
+    value: '078 938 333',
     href: 'tel:+85578938333',
+    icon: 'fa-solid fa-phone',
+  },
+  {
+    label: 'Call',
+    value: '078 853 441',
+    href: 'tel:+85578853441',
     icon: 'fa-solid fa-phone',
   },
   {
@@ -88,20 +100,14 @@ const LOCATION_DETAILS = [
 const HOURS = [
   {
     day: 'Monday - Friday',
-    time: '11:00 AM - 11:00 PM',
-    note: 'Lunch, dinner, and after-work tables',
+    time: '11:00 AM – 2:30 PM · 5:30 PM – 10:30 PM',
+    note: 'Lunch and dinner service',
     icon: 'fa-calendar-day',
   },
   {
-    day: 'Saturday',
-    time: '10:00 AM - 12:00 AM',
-    note: 'Late weekend service for groups',
-    icon: 'fa-moon',
-  },
-  {
-    day: 'Sunday',
-    time: '10:00 AM - 11:00 PM',
-    note: 'Family dining and relaxed gatherings',
+    day: 'Saturday - Sunday',
+    time: '11:30 AM – 3:00 PM · 5:30 PM – 10:30 PM',
+    note: 'Weekend lunch and dinner',
     icon: 'fa-sun',
   },
 ]

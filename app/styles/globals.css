@@ -34,6 +34,7 @@ body {
   color: var(--warm);
   font-family:
     var(--font-body),
+    var(--font-khmer),
     Montserrat,
     "Avenir Next",
     "Segoe UI",
@@ -44,6 +45,15 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Explicit Khmer unicode-range override — ensures Kantumruy Pro
+   is used for all Khmer characters (U+1780–U+17FF) sitewide */
+@font-face {
+  font-family: "KantumruyForce";
+  src: local("Kantumruy Pro");
+  unicode-range: U+1780-17FF, U+19E0-19FF, U+200C-200D;
+  font-display: swap;
 }
 
 ::selection {
@@ -85,7 +95,7 @@ p {
 h1,
 h2,
 h3 {
-  font-family: var(--font-display), Anton, Impact, "Arial Narrow", Arial, sans-serif;
+  font-family: var(--font-display), Anton, Impact, "Arial Narrow", Arial, var(--font-khmer), sans-serif;
   letter-spacing: 0;
 }
 

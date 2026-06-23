@@ -4,403 +4,485 @@ import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import styles from './page.module.css'
 
-type MenuItem = {
-  name: string
-  description: string
-  price: string
-  image?: string
-}
+type MenuItem = { name: string; description: string; price: string; image?: string }
+type MenuSection = { id: string; eyebrow: string; title: string; description: string; items: MenuItem[] }
+type BuffetPackage = { name: string; grillCount: number; priceAdult: string; priceKids: string; items: string[]; extras?: string; highlight?: boolean }
 
-type MenuSection = {
-  id: string
-  eyebrow: string
-  title: string
-  description: string
-  items: MenuItem[]
-}
-
-const heroImage =
-  'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=2000&q=90'
-
+const heroImage = 'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=2000&q=90'
 const menuCtaHighlights = [
   { label: 'Buffet', value: 'Lunch and dinner' },
-  { label: 'Grill', value: 'Fresh from the fire' },
+  { label: 'À La Carte', value: 'Open daily 11AM–10:30PM' },
   { label: 'Groups', value: 'Tables for celebrations' },
 ]
 
+/* ── BUFFET DATA ── */
+const lunchPackages: BuffetPackage[] = [
+  {
+    name: 'Buffet + 6 Grill', grillCount: 6, priceAdult: '$10.95', priceKids: '$8.50',
+    items: ['Beef Sirloin / សាច់គោដាប់ខ្ទាញ់','Garlic Steak / សាច់គោខ្ទឹម','Grill Chicken Wings / ស្លាបមាន់','Honey Pork Ham / ភ្លៅជ្រូក','Pork Sausages / សាច់ក្រកសាច់ជ្រូក','Dory Fish / ត្រីដូរី'],
+  },
+  {
+    name: 'Buffet + 8 Grill', grillCount: 8, priceAdult: '$12.95', priceKids: '$10.50', highlight: true,
+    items: ['Beef Sirloin / សាច់គោដាប់ខ្ទាញ់','Garlic Steak / សាច់គោខ្ទឹម','Smoked Duck / ទ្រូងទា','Grill Chicken Wings / ស្លាបមាន់','Honey Pork Ham / ភ្លៅជ្រូក','Pork Sausages / សាច់ក្រកសាច់ជ្រូក','Pork Char Siu / សាច់ជ្រូកសាសួរ','Dory Fish / ត្រីដូរី'],
+  },
+]
+const dinnerPackages: BuffetPackage[] = [
+  {
+    name: 'Buffet + 12 Grill', grillCount: 12, priceAdult: '$19.95', priceKids: '$16.50',
+    items: ['Beef Sirloin / សាច់គោដាប់ខ្ទាញ់','Garlic Steak / សាច់គោខ្ទឹម','Beef Cheese / សាច់គោស៊ីស','Lamb of Leg / ជើងចៀម','Spicy Pork Sausages / សាច់ក្រកហឹរ','Smoked Duck / ទ្រូងទា','Pork Char Siu / សាច់ជ្រូកសាសួរ','Grill Chicken Wings / ស្លាបមាន់','Honey Pork Ham / ភ្លៅជ្រូក','Pork Sausages / សាច់ក្រកសាច់ជ្រូក','Chicken Hearts / បេះដូងមាន់','Dory Fish / ត្រីដូរី'],
+    extras: 'Salads · Hot Dishes · Fruits · Soup · Breads · Seafood · Coldcuts · Desserts',
+  },
+  {
+    name: 'Buffet + 15 Grill', grillCount: 15, priceAdult: '$29.95', priceKids: '$19.50', highlight: true,
+    items: ['Beef Ribs (USA) / សាច់គោឆ្អឹងជំនី','Rump Steak / សាច់គោចន្លូក','Beef Hump / ហ្គកគោ','Beef Sirloin / សាច់គោដាប់ខ្ទាញ់','Garlic Steak / សាច់គោខ្ទឹម','Beef Cheese / សាច់គោស៊ីស','Lamb of Leg / ជើងចៀម','Spicy Pork Sausages / សាច់ក្រកហឹរ','Smoked Duck / ទ្រូងទា','Pork Char Siu / សាច់ជ្រូកសាសួរ','Grill Chicken Wings / ស្លាបមាន់','Honey Pork Ham / ភ្លៅជ្រូក','Pork Sausages / សាច់ក្រកសាច់ជ្រូក','Dory Fish / ត្រីដូរី','River Prawns / បង្គាទន្លេ'],
+    extras: 'Salads · Hot Dishes · Fruits · Soup · Breads · Seafood · Coldcuts · Desserts',
+  },
+]
+
+
+/* ── MENU SECTIONS ── */
 const menuSections: MenuSection[] = [
   {
-    id: 'buffet',
-    eyebrow: 'Signature Service',
-    title: 'Brazilian BBQ Buffet',
-    description:
-      'A generous churrascaria spread with grilled meats, fresh sides, salads, sauces, and dessert bites.',
+    id: 'alacarte',
+    eyebrow: 'Open Daily 11AM – 10:30PM',
+    title: 'À La Carte Menu',
+    description: 'Individual plates served with rice, fries, salad, or pasta — fire-grilled to order.',
     items: [
-      {
-        name: 'Lunch Buffet',
-        description: 'Fresh salads, hot dishes, grilled favourites, sauces, and dessert bites.',
-        price: '$12.90',
-        image:
-          'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Dinner Buffet',
-        description: 'Expanded churrasco cuts with buffet sides and chef-selected specials.',
-        price: '$18.90',
-        image:
-          'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Weekend Special Buffet',
-        description: 'A richer weekend spread for families, groups, and celebrations.',
-        price: '$22.90',
-        image:
-          'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Weekday Rodizio',
-        description: 'Rotating grilled cuts served with buffet sides and house sauces.',
-        price: '$16.90',
-        image:
-          'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Premium Cuts Buffet',
-        description: 'A fuller buffet with picanha, ribeye, sausage, chicken, and ribs.',
-        price: '$24.90',
-        image:
-          'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Family Churrasco Buffet',
-        description: 'Shared buffet service for four with grilled meats and fresh sides.',
-        price: '$49.90',
-        image:
-          'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Salad Bar Buffet',
-        description: 'Fresh greens, grilled vegetables, rice, beans, sauces, and breads.',
-        price: '$8.90',
-        image:
-          'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Celebration Buffet',
-        description: 'A generous party spread with chef-selected grill specials.',
-        price: '$27.90',
-        image:
-          'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Kids Buffet',
-        description: 'Smaller buffet plate with gentle grill favourites and dessert.',
-        price: '$7.90',
-        image:
-          'https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=900&q=90',
-      },
+      { name: 'Steak Mayo', description: 'White rice, mayonnaise salad & fries.', price: '$10.95', image: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=900&q=90' },
+      { name: 'Bravo Steak Brazil', description: 'White rice, pinto beans, fried egg, tomatoes and fries.', price: '$11.95', image: 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=900&q=90' },
+      { name: 'Steak Pepper', description: 'Topped with sauce, beans, couscous, salad & fries.', price: '$11.95', image: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=900&q=90' },
+      { name: 'Picanha / Rump', description: 'White rice, mayonnaise salad & fries.', price: '$12.95', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=90' },
+      { name: 'Spaghetti Steak', description: 'Spaghetti with tomato sauce.', price: '$10.95', image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=90' },
+      { name: 'Chicken Pasta', description: 'Penne pasta with tomato sauce.', price: '$8.95', image: 'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&w=900&q=90' },
+      { name: 'Garlic Rumpsteak', description: 'White rice, salsa sauce, salad & fries.', price: '$12.95', image: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=900&q=90' },
+      { name: 'Parmigiana Chicken', description: 'Chicken with mozzarella cheese and tomato sauce.', price: '$10.95', image: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=900&q=90' },
+      { name: 'Parmigiana Steak', description: 'Sirloin steak with pasta sauce and mozzarella.', price: '$11.95', image: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=900&q=90' },
     ],
   },
   {
     id: 'grill',
-    eyebrow: 'Skewers and Steaks',
-    title: 'From the Grill',
-    description:
-      'Premium cuts seasoned simply, grilled hot, rested briefly, and served with smoky edges.',
+    eyebrow: 'Fire-Carved Tableside',
+    title: 'Grill Cuts',
+    description: 'Premium cuts from the churrasco skewer — seasoned, grilled over fire, and carved at your table.',
     items: [
-      {
-        name: 'Picanha Steak',
-        description: 'Brazilian top sirloin cap with a juicy fat edge.',
-        price: '$16.90',
-        image:
-          'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Churrasco Beef',
-        description: 'Classic Brazilian beef, sea salt, open flame.',
-        price: '$13.90',
-        image:
-          'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Ribeye Skewer',
-        description: 'Rich ribeye grilled fast and sliced to order.',
-        price: '$18.90',
-        image:
-          'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Pork Ribs',
-        description: 'Slow-grilled ribs with smoky barbecue glaze.',
-        price: '$12.90',
-        image:
-          'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Garlic Picanha',
-        description: 'Picanha brushed with roasted garlic butter and sea salt.',
-        price: '$17.90',
-        image:
-          'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Beef Short Rib',
-        description: 'Deeply marbled short rib grilled until smoky and tender.',
-        price: '$19.90',
-        image:
-          'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Lamb Churrasco',
-        description: 'Herb-marinated lamb with charred edges and warm spice.',
-        price: '$18.90',
-        image:
-          'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Smoked Brisket',
-        description: 'Slow-smoked beef brisket finished over open flame.',
-        price: '$15.90',
-        image:
-          'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Mixed Grill Plate',
-        description: 'Picanha, sausage, chicken, ribs, rice, salad, and chimichurri.',
-        price: '$21.90',
-        image:
-          'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=900&q=90',
-      },
-    ],
-  },
-  {
-    id: 'chicken-pork',
-    eyebrow: 'Comfort Cuts',
-    title: 'Chicken and Pork',
-    description:
-      'Warm, familiar grill favourites with marinades, crisp skin, and caramelized edges.',
-    items: [
-      {
-        name: 'Garlic Chicken',
-        description: 'Marinated chicken grilled crisp with citrus and herbs.',
-        price: '$9.90',
-        image:
-          'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Brazilian Sausage',
-        description: 'Smoky sausage with farofa-style crunch.',
-        price: '$7.90',
-        image:
-          'https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Pork Belly Skewer',
-        description: 'Charred pork belly with tender middle and crisp edge.',
-        price: '$9.90',
-        image:
-          'https://images.unsplash.com/photo-1606851091851-e8c8c0fca5ba?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Citrus Chicken Thigh',
-        description: 'Juicy chicken thigh with lime, garlic, and paprika.',
-        price: '$8.90',
-        image:
-          'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Honey Chilli Wings',
-        description: 'Crisp wings tossed with honey, chilli, and smoked salt.',
-        price: '$7.90',
-        image:
-          'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Pork Shoulder Steak',
-        description: 'Tender pork shoulder grilled with herbs and garlic.',
-        price: '$10.90',
-        image:
-          'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Smoked Ham Skewer',
-        description: 'Carved ham with caramelized edges and pineapple glaze.',
-        price: '$8.90',
-        image:
-          'https://images.unsplash.com/photo-1606851091851-e8c8c0fca5ba?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Chicken Hearts',
-        description: 'Classic churrasco-style chicken hearts with sea salt.',
-        price: '$7.50',
-        image:
-          'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Pork Sausage Duo',
-        description: 'Two grilled sausages with chimichurri and warm farofa.',
-        price: '$8.50',
-        image:
-          'https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=900&q=90',
-      },
-    ],
-  },
-  {
-    id: 'seafood',
-    eyebrow: 'Bright and Flame-Grilled',
-    title: 'Seafood',
-    description:
-      'Garlic, lime, herbs, and open flame for guests who want lighter shared plates.',
-    items: [
-      {
-        name: 'Grilled Prawns',
-        description: 'Prawns grilled with chilli, lime, and garlic.',
-        price: '$13.90',
-        image:
-          'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Garlic Butter Fish',
-        description: 'Flaky fish with herbs and warm garlic butter.',
-        price: '$11.90',
-        image:
-          'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Seafood BBQ Plate',
-        description: 'A shared plate of flame-grilled seafood.',
-        price: '$21.90',
-        image:
-          'https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Lime Grilled Salmon',
-        description: 'Salmon grilled with lime, herbs, and garlic butter.',
-        price: '$14.90',
-        image:
-          'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Chilli Calamari',
-        description: 'Tender calamari with chilli, lemon, and charred herbs.',
-        price: '$10.90',
-        image:
-          'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Garlic Mussels',
-        description: 'Mussels cooked with garlic butter and fresh parsley.',
-        price: '$9.90',
-        image:
-          'https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Seafood Skewer',
-        description: 'Prawn, fish, and squid grilled with citrus seasoning.',
-        price: '$15.90',
-        image:
-          'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Coconut Fish Curry',
-        description: 'Warm fish curry with coconut, lime, and Brazilian spice.',
-        price: '$12.90',
-        image:
-          'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=900&q=90',
-      },
-      {
-        name: 'Prawn Rice Bowl',
-        description: 'Garlic prawns over Brazilian rice with herbs and chilli.',
-        price: '$11.90',
-        image:
-          'https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=900&q=90',
-      },
-    ],
-  },
-  {
-    id: 'sides-drinks',
-    eyebrow: 'Complete the Table',
-    title: 'Sides and Drinks',
-    description:
-      'Fresh, hot, and colourful additions that round out the grill service.',
-    items: [
-      {
-        name: 'Brazilian Rice',
-        description: 'Garlic rice with herbs, ideal beside grilled beef and sausage.',
-        price: '$2.50',
-      },
-      {
-        name: 'House Sauces',
-        description: 'Chimichurri, chilli-lime, garlic butter, and barbecue sauce.',
-        price: '$1.50',
-      },
-      {
-        name: 'Brazilian Mocktail',
-        description: 'Citrus, mint, tropical fruit, and crushed ice.',
-        price: '$4.90',
-      },
-      {
-        name: 'Fresh Juice',
-        description: 'Mango, passionfruit, orange, or mixed tropical.',
-        price: '$3.50',
-      },
-      {
-        name: 'Garlic Bread',
-        description: 'Warm toasted bread with garlic butter and herbs.',
-        price: '$3.50',
-      },
-      {
-        name: 'Farofa Crunch',
-        description: 'Toasted cassava flour with herbs and smoky seasoning.',
-        price: '$2.90',
-      },
-      {
-        name: 'Black Beans',
-        description: 'Slow-cooked beans with garlic, onion, and spices.',
-        price: '$3.90',
-      },
-      {
-        name: 'Grilled Vegetables',
-        description: 'Seasonal vegetables charred lightly with olive oil.',
-        price: '$4.50',
-      },
-      {
-        name: 'Caramel Flan',
-        description: 'Silky Brazilian-style flan with caramel sauce.',
-        price: '$4.90',
-      },
+      { name: 'Beef Ribs (USA) / សាច់គោឆ្អឹងជំនី', description: 'Slow-grilled USA beef ribs with deep smoky flavour.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1574484284002-952d92456975?auto=format&fit=crop&w=600&q=85' },
+      { name: 'Rump Steak / សាច់គោចន្លូក', description: 'Juicy rump steak grilled over open flame.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=85' },
+      { name: 'Beef Hump / ហ្គកគោ', description: 'Richly marbled hump cut with a deep beefy finish.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=85' },
+      { name: 'Beef Cheese / សាច់គោស៊ីស', description: 'Tender beef skewer finished with melted cheese.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=600&q=85' },
+      { name: 'Beef Sirloin / សាច់គោដាប់ខ្ទាញ់', description: 'Classic sirloin on the skewer, carved to order.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=600&q=85' },
+      { name: 'Garlic Steak / សាច់គោខ្ទឹម', description: 'Sirloin brushed with roasted garlic butter.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=85' },
+      { name: 'Dory Fish / ត្រីដូរី', description: 'Dory fish fillet grilled with garlic and herbs.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=600&q=85' },
+      { name: 'Honey Pork Ham / ភ្លៅជ្រូក', description: 'Glazed pork ham with honey and smoky char.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=600&q=85' },
+      { name: 'Lamb of Leg / ជើងចៀម', description: 'Herb-marinated leg of lamb grilled over charcoal.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=85' },
+      { name: 'Pork Sausages / សាច់ក្រកសាច់ជ្រូក', description: 'Brazilian-style pork sausage skewered and grilled.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=600&q=85' },
+      { name: 'Smoked Duck / ទ្រូងទា', description: 'Smoked duck breast with caramelised edges.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=600&q=85' },
+      { name: 'Chicken Hearts / បេះដូងមាន់', description: 'Classic churrasco chicken hearts with sea salt.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=600&q=85' },
+      { name: 'Chicken Wings / ស្លាបមាន់', description: 'Grill chicken wings with crisp skin and juicy inside.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=600&q=85' },
+      { name: 'River Prawns / បង្គាទន្លេ', description: 'Grilled river prawns with garlic butter and lime.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=600&q=85' },
+      { name: 'Pork Char Siu / សាច់ជ្រូកសាសួរ', description: 'Chinese-style BBQ pork with sweet glaze.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1606851091851-e8c8c0fca5ba?auto=format&fit=crop&w=600&q=85' },
+      { name: 'Spicy Pork Sausage / សាច់ក្រកហឹរ', description: 'Spiced pork sausage with chilli heat and smoky finish.', price: 'Buffet Included', image: 'https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=600&q=85' },
     ],
   },
 ]
 
+/* ── COMPONENTS ── */
+function BuffetPackageCard({ pkg }: { pkg: BuffetPackage }) {
+  return (
+    <article className={`relative flex flex-col overflow-hidden transition duration-300 hover:-translate-y-1 ${pkg.highlight ? 'shadow-[0_0_60px_rgba(253,133,11,0.18)]' : 'shadow-[0_8px_40px_rgba(0,0,0,0.4)]'}`}>
+      <div className={`h-1.5 w-full ${pkg.highlight ? 'bg-[#fd850b]' : 'bg-[#D4A373]/40'}`} />
+      <div className={`flex flex-1 flex-col ${pkg.highlight ? 'bg-[#1c0f0a]' : 'bg-[#181008]'}`}>
+        <div className="flex items-start justify-between gap-4 p-6 pb-0 sm:p-8 sm:pb-0">
+          <div>
+            <h3 className="font-serif text-2xl font-black uppercase leading-none text-[#FFF7ED] sm:text-3xl lg:text-4xl">{pkg.name}</h3>
+            <span className={`mt-2 inline-block rounded-full px-3 py-0.5 text-[9px] font-black uppercase tracking-[0.22em] ${pkg.highlight ? 'bg-[#fd850b] text-black' : 'invisible'}`}>Most Popular</span>
+          </div>
+          <div className={`flex shrink-0 flex-col items-center justify-center rounded-2xl px-4 py-3 text-center ${pkg.highlight ? 'bg-[#fd850b]' : 'bg-[#fd850b]/15 ring-1 ring-[#fd850b]/40'}`}>
+            <span className={`text-[10px] font-bold uppercase tracking-widest ${pkg.highlight ? 'text-black/70' : 'text-[#fd850b]'}`}>Per person</span>
+            <span className={`text-2xl font-black leading-none sm:text-3xl ${pkg.highlight ? 'text-black' : 'text-[#fd850b]'}`}>{pkg.priceAdult}</span>
+            <span className={`mt-0.5 text-[9px] font-bold ${pkg.highlight ? 'text-black/60' : 'text-[#C7B8A8]'}`}>Adult</span>
+          </div>
+        </div>
+        <div className="mx-6 mt-3 flex items-center gap-3 rounded-lg bg-white/4 px-4 py-2.5 ring-1 ring-white/8 sm:mx-8">
+          <i className="fa-solid fa-child-reaching text-[#D4A373] text-sm" aria-hidden="true" />
+          <span className="text-xs font-bold text-[#C7B8A8]">Kids (6–10 yrs old)</span>
+          <span className="ml-auto text-sm font-black text-[#D4A373]">{pkg.priceKids}</span>
+        </div>
+        <div className="mx-6 mt-5 flex items-center gap-3 sm:mx-8">
+          <div className="h-px flex-1 bg-[#D4A373]/15" />
+          <span className="text-[9px] font-black uppercase tracking-[0.22em] text-[#fd850b]">Grill Items</span>
+          <div className="h-px flex-1 bg-[#D4A373]/15" />
+        </div>
+        <ul className="mx-6 mt-4 grid grid-cols-1 gap-y-2 sm:mx-8 sm:grid-cols-2 sm:gap-x-4">
+          {pkg.items.map((item) => (
+            <li key={item} className="flex items-start gap-2 text-sm leading-snug text-[#C7B8A8]">
+              <i className="fa-solid fa-caret-right mt-0.5 shrink-0 text-[10px] text-[#fd850b]" aria-hidden="true" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+        {pkg.extras && (
+          <div className="mx-6 mt-5 flex flex-wrap gap-1.5 sm:mx-8">
+            {pkg.extras.split(' · ').map((tag) => (
+              <span key={tag} className="rounded-full bg-[#fd850b]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-[#fd850b] ring-1 ring-[#fd850b]/20">{tag}</span>
+            ))}
+          </div>
+        )}
+        <div className="mt-auto p-6 pt-6 sm:p-8 sm:pt-6">
+          <Link href="/contact#reservation" className={`flex w-full min-h-12 items-center justify-center gap-2 text-xs font-black uppercase tracking-widest transition duration-300 hover:-translate-y-0.5 ${pkg.highlight ? 'bg-[#fd850b] text-black shadow-[0_12px_32px_rgba(253,133,11,0.35)] hover:bg-[#ff9a2e] hover:shadow-[0_18px_44px_rgba(253,133,11,0.5)]' : 'border border-[#fd850b]/50 text-[#fd850b] hover:bg-[#fd850b] hover:text-black'}`}>
+            <i className="fa-solid fa-calendar-check" aria-hidden="true" />
+            Book This Package
+          </Link>
+        </div>
+      </div>
+    </article>
+  )
+}
+
 function MenuCard({ item }: { item: MenuItem }) {
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-[#D4A373]/18 bg-[#120807] shadow-[0_24px_70px_rgba(0,0,0,0.24)] transition duration-300 hover:-translate-y-2 hover:border-[#fd850b]/55">
-      {item.image ? (
+      {item.image && (
         <div className="relative h-32 overflow-hidden sm:h-48 lg:h-56">
-          <Image
-            src={item.image}
-            alt={item.name}
-            fill
-            sizes="50vw"
-            className="object-cover transition duration-500 group-hover:scale-[1.04]"
-          />
+          <Image src={item.image} alt={item.name} fill sizes="50vw" className="object-cover transition duration-500 group-hover:scale-[1.04]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#120807]/60 to-transparent" />
         </div>
-      ) : null}
+      )}
       <div className="flex flex-1 flex-col p-4 sm:p-6">
-        <div>
-          <h3 className="text-base font-black leading-tight text-[#FFF7ED] sm:text-2xl">
-            {item.name}
-          </h3>
-        </div>
-        <p className="mt-3 text-sm leading-6 text-[#C7B8A8] sm:mt-4 sm:text-base sm:leading-7">
-          {item.description}
-        </p>
-        <span className="mt-auto block pt-4 text-base font-black text-[#D4A373] sm:text-xl">
-          {item.price}
-        </span>
+        <h3 className="text-base font-black leading-tight text-[#FFF7ED] sm:text-xl">{item.name}</h3>
+        <p className="mt-2 text-sm leading-6 text-[#C7B8A8] sm:mt-3 sm:text-base sm:leading-7">{item.description}</p>
+        <span className={`mt-auto block pt-4 text-base font-black sm:text-lg ${item.price === 'Buffet Included' ? 'text-[#fd850b]' : 'text-[#D4A373]'}`}>{item.price}</span>
       </div>
     </article>
+  )
+}
+
+function GrillCard({ item }: { item: MenuItem }) {
+  const [englishName, khmerName] = item.name.split(' / ')
+  return (
+    <article className="group relative aspect-[3/4] overflow-hidden">
+      {item.image && (
+        <Image
+          src={item.image}
+          alt={englishName}
+          fill
+          sizes="(max-width:640px) 50vw, 25vw"
+          className="object-cover transition duration-700 group-hover:scale-[1.07]"
+        />
+      )}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+        <p className="font-serif text-xs font-black uppercase leading-tight text-white sm:text-sm lg:text-[0.95rem]">{englishName}</p>
+        {khmerName && <p className="mt-0.5 text-[10px] leading-snug text-[#C7B8A8] sm:text-xs">{khmerName}</p>}
+      </div>
+    </article>
+  )
+}
+
+function AlaCarteCard({ item }: { item: MenuItem }) {
+  return (
+    <article className="group relative flex flex-col items-center overflow-hidden rounded-xl border border-[#ffffff07] bg-[#0e0b08] p-5 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[#fd850b]/30 hover:shadow-[0_12px_48px_rgba(253,133,11,0.13)] sm:p-6 lg:p-7">
+      {/* Oval image with price badge */}
+      <div className="relative mx-auto w-full max-w-[180px] sm:max-w-[210px] lg:max-w-[230px]">
+        {item.image && (
+          <div className="relative aspect-square overflow-hidden rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
+            <Image
+              src={item.image}
+              alt={item.name}
+              fill
+              sizes="(max-width:640px) 180px, (max-width:1024px) 210px, 230px"
+              className="object-cover transition duration-500 group-hover:scale-[1.08]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+          </div>
+        )}
+        {/* Price badge */}
+        <div className="absolute -left-2 top-0 flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-full bg-[#fd850b] shadow-[0_0_0_3px_#0e0b08,0_0_20px_rgba(253,133,11,0.7)] sm:h-[3.75rem] sm:w-[3.75rem]">
+          <span className="text-center text-[10px] font-black leading-tight text-white sm:text-xs">{item.price}</span>
+        </div>
+      </div>
+
+      {/* Divider */}
+      <div className="my-4 flex items-center gap-2">
+        <div className="h-px w-6 bg-[#fd850b]/30" />
+        <div className="h-1 w-1 rounded-full bg-[#fd850b]/50" />
+        <div className="h-px w-6 bg-[#fd850b]/30" />
+      </div>
+
+      <h3 className="font-serif text-base font-black uppercase leading-tight text-[#FFF7ED] sm:text-lg lg:text-xl">{item.name}</h3>
+      <p className="mt-2 max-w-[170px] text-[10px] leading-[1.6] text-[#7a6e64] sm:text-xs sm:leading-5">{item.description}</p>
+    </article>
+  )
+}
+
+function AlaCarteSection({ section }: { section: MenuSection }) {
+  return (
+    <section id={section.id} className="bg-[#0a0805] px-5 py-16 sm:px-8 lg:px-10 lg:py-28">
+      <div className="mx-auto max-w-7xl">
+
+        {/* Header */}
+        <div className="mb-14 text-center">
+          <div className="mb-5 flex items-center justify-center gap-4">
+            <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
+            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:text-xs">Bravo Restaurant</span>
+            <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
+          </div>
+          <h2 className="font-serif text-5xl font-black uppercase leading-none text-white sm:text-7xl lg:text-[7rem]">
+            À La Carte
+          </h2>
+          <p className="-mt-2 font-serif text-4xl font-black uppercase leading-none text-[#fd850b] sm:-mt-3 sm:text-6xl lg:text-7xl">
+            Menu
+          </p>
+          <div className="mt-7 inline-flex items-center gap-2.5 bg-[#fd850b] px-6 py-2 shadow-[0_8px_28px_rgba(253,133,11,0.35)]">
+            <i className="fa-solid fa-clock text-[10px] text-black" aria-hidden="true" />
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-black">Open Daily · 11AM – 10:30PM</span>
+          </div>
+        </div>
+
+        {/* Grid */}
+        <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:gap-8">
+          {section.items.map((item) => <AlaCarteCard key={item.name} item={item} />)}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function DrinkCategoryHeader({ title }: { title: string }) {
+  return (
+    <h3 className="inline-block border-2 border-white px-3 py-1 font-serif text-xl font-black uppercase leading-tight text-white sm:text-2xl">
+      {title}
+    </h3>
+  )
+}
+
+function DrinkSubHeader({ title }: { title: string }) {
+  return (
+    <p className="mb-2 mt-4 text-center text-xs font-black uppercase tracking-[0.2em] text-white">{title}</p>
+  )
+}
+
+function DrinkList({ items }: { items: { name: string; price: string }[] }) {
+  return (
+    <ul className="mt-1 flex flex-col gap-1">
+      {items.map((item) => (
+        <li key={item.name} className="flex items-baseline justify-between gap-2 text-sm text-[#C7B8A8]">
+          <span>{item.name}</span>
+          <span className="shrink-0 font-bold text-white">{item.price}</span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+
+function DrinkSection() {
+  return (
+    <section id="drinks" className="bg-[#0a0705] px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
+      <div className="mx-auto max-w-7xl">
+
+        {/* Big "DRINKS" title */}
+        <div className="mb-12 text-center">
+          <h2 className="font-serif text-6xl font-black uppercase leading-none tracking-widest text-white sm:text-8xl lg:text-9xl"
+            style={{ WebkitTextStroke: '2px #fd850b', color: 'transparent' }}>
+            DRINKS
+          </h2>
+          <div className="mx-auto mt-3 h-0.5 w-24 bg-[#fd850b]" />
+        </div>
+
+        {/* 3-column layout */}
+        <div className="grid gap-10 sm:gap-12 lg:grid-cols-3 lg:gap-8 xl:gap-12">
+
+          {/* ── COL 1: Juices, Soft Drinks, Draught Beer ── */}
+          <div className="flex flex-col gap-8">
+
+            {/* Fresh Juices */}
+            <div>
+              <DrinkCategoryHeader title="Fresh Juices" />
+              <div className="relative mt-3 h-40 w-full overflow-hidden rounded">
+                <Image src="https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=600&q=85" alt="Fresh juices" fill sizes="400px" className="object-cover" />
+              </div>
+              <DrinkSubHeader title="Best-Sellers" />
+              <DrinkList items={[
+                { name: 'Apple Orange', price: '$3.00' },
+                { name: 'Pineapple Carrot', price: '$3.00' },
+                { name: 'Fresh Watermelon', price: '$2.50' },
+                { name: 'Orange Carrot', price: '$3.00' },
+                { name: 'Passion Soda', price: '$3.00' },
+                { name: 'Passion Juice', price: '$3.00' },
+                { name: 'Lime Soda', price: '$3.00' },
+                { name: 'Lime Juice', price: '$2.50' },
+                { name: 'Iced Lemon Tea', price: '$2.50' },
+              ]} />
+            </div>
+
+            {/* Soft Drinks */}
+            <div>
+              <div className="relative h-28 w-full overflow-hidden rounded">
+                <Image src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=85" alt="Soft drinks" fill sizes="400px" className="object-cover" />
+              </div>
+              <div className="mt-3">
+                <DrinkCategoryHeader title="Soft Drinks" />
+              </div>
+              <DrinkList items={[
+                { name: 'Coke', price: '$2.00' },
+                { name: 'Coca Light', price: '$2.00' },
+                { name: 'Fanta Orange', price: '$1.75' },
+                { name: 'Sprite', price: '$1.75' },
+                { name: 'Schweppers Ginger Ale', price: '$2.00' },
+                { name: 'Schweeppers Soda Water', price: '$2.00' },
+                { name: 'Schweeppers Lemon', price: '$2.00' },
+              ]} />
+            </div>
+
+            {/* Draught Beer */}
+            <div>
+              <DrinkCategoryHeader title="Draught Beer" />
+              <div className="relative mt-3 h-36 w-full overflow-hidden rounded">
+                <Image src="https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=600&q=85" alt="Draught beer" fill sizes="400px" className="object-cover" />
+              </div>
+              <DrinkList items={[
+                { name: 'Angkor Draught 3L (Tower)', price: '$15.00' },
+                { name: 'Angkor Draught 2.0L (Tower)', price: '$10.00' },
+                { name: 'Angkor Pint 330ml', price: '$2.00' },
+              ]} />
+            </div>
+          </div>
+
+          {/* ── COL 2: Water, Whiskey, Beers ── */}
+          <div className="flex flex-col gap-8">
+
+            {/* Water */}
+            <div>
+              <DrinkCategoryHeader title="Water" />
+              <div className="relative mt-3 h-36 w-full overflow-hidden rounded">
+                <Image src="https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=85" alt="Water bottles" fill sizes="400px" className="object-cover" />
+              </div>
+              <DrinkSubHeader title="Sparkling / Mineral" />
+              <DrinkList items={[
+                { name: 'Dasani 500ml', price: '$1.50' },
+                { name: 'Dasani 1.5L', price: '$3.50' },
+                { name: 'Kulen 500ml', price: '$2.00' },
+                { name: 'Kulen 1.5L', price: '$4.50' },
+                { name: 'Sparkling Voss 700ml', price: '$6.00' },
+              ]} />
+            </div>
+
+            {/* Whiskey */}
+            <div>
+              <DrinkCategoryHeader title="Whiskey" />
+              <div className="relative mt-3 h-36 w-full overflow-hidden rounded">
+                <Image src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=85" alt="Whiskey" fill sizes="400px" className="object-cover" />
+              </div>
+              <DrinkSubHeader title="Scotch / Single Malt" />
+              <DrinkList items={[
+                { name: 'Auchentoshan Three Wood 700ml', price: '$70.00' },
+                { name: 'The Glenlivet 15Yrs 700ml', price: '$85.00' },
+                { name: 'Johnnie Walker 18Yrs 750ml', price: '$95.00' },
+                { name: 'Johnnie Walker XR 21Yrs 750ml', price: '$140.00' },
+                { name: "Dewar's 15Yrs 1L", price: '$75.00' },
+                { name: "Dewar's 15Yrs 700ml", price: '$60.00' },
+                { name: 'Glenfiddich Single Malt 15Yrs', price: '$70.00' },
+                { name: 'Chivas Regal 18Yrs 1L', price: '$85.00' },
+                { name: 'Royal Salute 21Yrs 1L', price: '$170.00' },
+              ]} />
+              <DrinkSubHeader title="By Glass" />
+              <DrinkList items={[
+                { name: "Dewar's 12 YO", price: '$3.90' },
+                { name: 'Glendfiddich 12 YO', price: '$3.90' },
+              ]} />
+            </div>
+
+            {/* Beers */}
+            <div>
+              <div className="relative h-28 w-full overflow-hidden rounded">
+                <Image src="https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=85" alt="Beers" fill sizes="400px" className="object-cover" />
+              </div>
+              <div className="mt-3">
+                <DrinkCategoryHeader title="Beers" />
+              </div>
+              <DrinkList items={[
+                { name: 'Corona', price: '$3.50' },
+                { name: 'Hoegaarden', price: '$3.50' },
+                { name: 'Angkor', price: '$3.00' },
+                { name: 'ABC', price: '$3.75' },
+                { name: 'Hanuman', price: '$3.00' },
+                { name: 'Heineken', price: '$3.50' },
+                { name: 'Tiger Cristal', price: '$3.00' },
+                { name: 'Cambodia', price: '$3.00' },
+              ]} />
+            </div>
+          </div>
+
+          {/* ── COL 3: Wines, House Wine, Cocktails ── */}
+          <div className="flex flex-col gap-8">
+
+            {/* Wines */}
+            <div>
+              <DrinkCategoryHeader title="Wines" />
+              <div className="relative mt-3 h-36 w-full overflow-hidden rounded">
+                <Image src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=85" alt="Wine bottles" fill sizes="400px" className="object-cover" />
+              </div>
+              <DrinkSubHeader title="Australia" />
+              <DrinkList items={[
+                { name: 'Penfolds Bin 2 Shiraz Mouvedre', price: '$45.00' },
+                { name: "Penfold Max's C. Sauvignon", price: '$38.00' },
+                { name: 'Penfold Bin 8 Cabernet Shiraz', price: '$49.00' },
+              ]} />
+              <DrinkSubHeader title="France" />
+              <DrinkList items={[
+                { name: 'Chateau Haut Veyrac Saint Emilion', price: '$38.90' },
+                { name: 'Chateau Grand Verdus Sauvignon', price: '$30.00' },
+                { name: 'Louis Eschenauer C. Sauvignon', price: '$25.50' },
+                { name: 'Esprit De Pavie', price: '$45.00' },
+              ]} />
+              <DrinkSubHeader title="Argentina" />
+              <DrinkList items={[
+                { name: 'Argento Estate Reserve Malbec', price: '$35.00' },
+                { name: 'Argento Finca Altamira Malbec', price: '$46.00' },
+              ]} />
+              <DrinkSubHeader title="Chile" />
+              <DrinkList items={[
+                { name: 'Marques Casa Concha C.Sauvignon', price: '$42.00' },
+                { name: 'Frontera C. Sauvignon', price: '$25.00' },
+                { name: 'Frontera Merlot', price: '$25.00' },
+                { name: 'Santa Alicia Sauvignon', price: '$25.00' },
+              ]} />
+            </div>
+
+            {/* House Wine */}
+            <div>
+              <DrinkCategoryHeader title="House Wine" />
+              <DrinkSubHeader title="By Glass" />
+              <DrinkList items={[
+                { name: 'Frontera C. Sauvignon Chile', price: '$4.00' },
+              ]} />
+            </div>
+
+            {/* Cocktails */}
+            <div>
+              <DrinkCategoryHeader title="Cocktails" />
+              <div className="relative mt-3 h-36 w-full overflow-hidden rounded">
+                <Image src="https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=600&q=85" alt="Cocktails" fill sizes="400px" className="object-cover" />
+              </div>
+              <DrinkList items={[
+                { name: 'Brazilian Caipirinha', price: '$4.00' },
+                { name: 'Blue Margarita', price: '$3.50' },
+                { name: 'Pina Colada', price: '$3.50' },
+                { name: 'Singapore Sling', price: '$3.50' },
+                { name: 'Mojito', price: '$3.50' },
+              ]} />
+            </div>
+          </div>
+
+        </div>
+
+        {/* Contact */}
+        <div className="mt-12 flex items-center justify-center gap-3 text-center text-[#C7B8A8]">
+          <i className="fa-solid fa-phone text-[#fd850b]" aria-hidden="true" />
+          <span className="font-bold tracking-widest">023 218 211</span>
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -409,114 +491,132 @@ export default function MenuPage() {
     <>
       <Header />
       <main className="bg-[#120807] text-[#FFF7ED]">
+
+        {/* Hero */}
         <section className="relative flex min-h-[72vh] items-center justify-center overflow-hidden px-5 py-28 text-center sm:px-8 lg:px-10">
-          <Image
-            src={heroImage}
-            alt="Brazilian BBQ menu hero"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
+          <Image src={heroImage} alt="Brazilian BBQ menu hero" fill priority sizes="100vw" className="object-cover" />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,8,7,0.92),rgba(18,8,7,0.5),rgba(18,8,7,0.92))]" />
           <div className="relative z-10 mx-auto max-w-4xl pt-16">
-            <p className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-[#fd850b]">
-              Bravo Menu
-            </p>
-            <h1 className="font-serif text-4xl font-black leading-tight sm:text-6xl lg:text-8xl">
-              Fire-grilled favourites
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-xl leading-8 text-[#FCE7D3]">
-              Premium Brazilian BBQ plates, buffet service, fresh sides, and
-              drinks made for sharing.
-            </p>
+            <p className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-[#fd850b]">Bravo Menu</p>
+            <h1 className="font-serif text-4xl font-black leading-tight sm:text-6xl lg:text-8xl">Buffet, Grill & À La Carte</h1>
+            <p className="mx-auto mt-6 max-w-2xl text-xl leading-8 text-[#FCE7D3]">Premium Brazilian BBQ packages, individual plates, and drinks — all in one place.</p>
           </div>
         </section>
 
-        {menuSections.map((section, index) => (
-          <section
-            key={section.id}
-            id={section.id}
-            className={`px-5 py-20 sm:px-8 lg:px-10 lg:py-28 ${
-              index % 2 === 0 ? 'bg-[#1A0E0A]' : 'bg-[#120807]'
-            }`}
-          >
-            <div className="mx-auto max-w-7xl">
-              <div className="mx-auto mb-12 max-w-3xl text-center">
-                <p className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-[#fd850b]">
-                  {section.eyebrow}
-                </p>
-                <h2 className="font-serif text-3xl font-black leading-tight sm:text-5xl">
-                  {section.title}
-                </h2>
-                <p className="mt-5 text-lg leading-8 text-[#C7B8A8]">
-                  {section.description}
-                </p>
+        {/* BUFFET */}
+        <section id="buffet" className="bg-[#120807] px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
+          <div className="mx-auto max-w-7xl">
+            <div className="mx-auto mb-14 max-w-3xl text-center">
+              <div className="mb-5 flex items-center justify-center gap-4">
+                <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:text-xs">Signature Service</span>
+                <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
               </div>
-              <div className={styles.menuItemsGrid}>
-                {section.items.map((item) => (
-                  <MenuCard key={item.name} item={item} />
-                ))}
+              <h2 className="font-serif text-5xl font-black uppercase leading-none text-white sm:text-7xl lg:text-[7rem]">
+                Menu Buffet
+              </h2>
+              <p className="-mt-2 font-serif text-4xl font-black uppercase leading-none text-[#fd850b] sm:-mt-3 sm:text-6xl lg:text-7xl">
+                &amp; Grill
+              </p>
+              <p className="mt-6 text-base leading-7 text-[#C7B8A8] sm:text-lg sm:leading-8">Unlimited buffet sides with your choice of fire-grilled cuts.</p>
+            </div>
+
+            {/* Lunch */}
+            <div className="mb-14">
+              <div className="mb-8 overflow-hidden rounded-lg border border-[#fd850b]/30 bg-[#fd850b]/10">
+                <div className="flex flex-col items-center gap-1 px-6 py-4 text-center sm:flex-row sm:justify-between sm:text-left">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.25em] text-[#fd850b]">Lunch Buffet</p>
+                    <p className="mt-1 text-lg font-black text-[#FFF7ED] sm:text-xl">Weekdays 11:00 AM – 2:30 PM &nbsp;·&nbsp; Weekends 11:30 AM – 3:00 PM</p>
+                  </div>
+                  <div className="flex items-center gap-2 text-[#C7B8A8]">
+                    <i className="fa-solid fa-sun text-[#fd850b]" aria-hidden="true" />
+                    <span className="text-sm font-bold">Midday service</span>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.buffetGrid}>
+                {lunchPackages.map((pkg) => <BuffetPackageCard key={pkg.name} pkg={pkg} />)}
               </div>
             </div>
-          </section>
-        ))}
 
+            {/* Dinner */}
+            <div>
+              <div className="mb-8 overflow-hidden rounded-lg border border-[#fd850b]/30 bg-[#fd850b]/10">
+                <div className="flex flex-col items-center gap-1 px-6 py-4 text-center sm:flex-row sm:justify-between sm:text-left">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.25em] text-[#fd850b]">Dinner Buffet</p>
+                    <p className="mt-1 text-lg font-black text-[#FFF7ED] sm:text-xl">Daily 5:30 PM – 10:30 PM</p>
+                  </div>
+                  <div className="flex items-center gap-2 text-[#C7B8A8]">
+                    <i className="fa-solid fa-moon text-[#fd850b]" aria-hidden="true" />
+                    <span className="text-sm font-bold">Evening service</span>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.buffetGrid}>
+                {dinnerPackages.map((pkg) => <BuffetPackageCard key={pkg.name} pkg={pkg} />)}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* À LA CARTE + GRILL */}
+        {menuSections.map((section, index) => {
+          if (section.id === 'alacarte') {
+            return <AlaCarteSection key={section.id} section={section} />
+          }
+          return (
+            <section key={section.id} id={section.id} className={`px-5 py-20 sm:px-8 lg:px-10 lg:py-28 ${index % 2 === 0 ? 'bg-[#1A0E0A]' : 'bg-[#120807]'}`}>
+              <div className="mx-auto max-w-7xl">
+                <div className="mx-auto mb-12 max-w-3xl text-center">
+                  <div className="mb-5 flex items-center justify-center gap-4">
+                    <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
+                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:text-xs">{section.eyebrow}</span>
+                    <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
+                  </div>
+                  <h2 className="font-serif text-5xl font-black uppercase leading-none text-white sm:text-7xl lg:text-[7rem]">
+                    {section.title}
+                  </h2>
+                  <p className="mt-6 text-base leading-7 text-[#C7B8A8] sm:text-lg sm:leading-8">{section.description}</p>
+                </div>
+                <div className="grid grid-cols-2 gap-1 sm:grid-cols-4 sm:gap-1">
+                  {section.items.map((item) => <GrillCard key={item.name} item={item} />)}
+                </div>
+              </div>
+            </section>
+          )
+        })}
+
+        {/* DRINKS */}
+        <DrinkSection />
+
+        {/* CTA */}
         <section className="relative overflow-hidden border-y border-[#D4A373]/18 px-4 py-10 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
-          <Image
-            src={heroImage}
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover opacity-24"
-            aria-hidden="true"
-          />
+          <Image src={heroImage} alt="" fill sizes="100vw" className="object-cover opacity-24" aria-hidden="true" />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,8,7,0.98)_0%,rgba(18,8,7,0.86)_52%,rgba(18,8,7,0.7)_100%)]" />
-
           <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-5 sm:gap-8 lg:grid-cols-[1fr_auto]">
             <div className="max-w-3xl">
-              <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.2em] text-[#fd850b] sm:mb-4 sm:text-xs sm:tracking-[0.24em]">
-                Book Bravo
-              </p>
-              <h2 className="font-serif text-[1.9rem] font-black uppercase leading-[0.95] sm:text-5xl lg:text-6xl">
-                Ready to taste the fire?
-              </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-6 text-[#f4d8c5] sm:mt-5 sm:text-lg sm:leading-8">
-                Save your table for buffet service, flame-grilled cuts, and a
-                full Brazilian steakhouse night in Phnom Penh.
-              </p>
+              <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.2em] text-[#fd850b] sm:mb-4 sm:text-xs">Book Bravo</p>
+              <h2 className="font-serif text-[1.9rem] font-black uppercase leading-[0.95] sm:text-5xl lg:text-6xl">Ready to taste the fire?</h2>
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-[#f4d8c5] sm:mt-5 sm:text-lg sm:leading-8">Save your table for buffet service, à la carte plates, and a full Brazilian steakhouse night in Phnom Penh.</p>
             </div>
-
             <div className="flex flex-col items-start gap-2 sm:flex-row sm:gap-3 lg:flex-col lg:items-stretch">
-              <Link
-                href="/contact#reservation"
-                className="inline-flex min-h-10 items-center justify-center gap-2 bg-[#fd850b] px-4 py-2 text-[0.72rem] font-black uppercase tracking-[0.12em] text-[#120807] shadow-[0_18px_44px_rgba(253,133,11,0.32)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(253,133,11,0.5)] sm:min-h-14 sm:px-7 sm:py-4 sm:text-sm sm:tracking-[0.14em]"
-              >
+              <Link href="/contact#reservation" className="inline-flex min-h-10 items-center justify-center gap-2 bg-[#fd850b] px-4 py-2 text-[0.72rem] font-black uppercase tracking-[0.12em] text-[#120807] shadow-[0_18px_44px_rgba(253,133,11,0.32)] transition duration-300 hover:-translate-y-1 sm:min-h-14 sm:px-7 sm:py-4 sm:text-sm">
                 <i className="fa-solid fa-calendar-check" aria-hidden="true" />
                 Book a Table
               </Link>
-              <Link
-                href="/contact"
-                className="inline-flex min-h-10 items-center justify-center gap-2 border border-[#FFF7ED]/42 bg-black/20 px-4 py-2 text-[0.72rem] font-black uppercase tracking-[0.12em] text-[#FFF7ED] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-[#120807] sm:min-h-14 sm:px-7 sm:py-4 sm:text-sm sm:tracking-[0.14em]"
-              >
+              <Link href="/contact" className="inline-flex min-h-10 items-center justify-center gap-2 border border-[#FFF7ED]/42 bg-black/20 px-4 py-2 text-[0.72rem] font-black uppercase tracking-[0.12em] text-[#FFF7ED] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-[#120807] sm:min-h-14 sm:px-7 sm:py-4 sm:text-sm">
                 <i className="fa-solid fa-location-dot" aria-hidden="true" />
                 Visit Us
               </Link>
             </div>
           </div>
-
           <div className="relative z-10 mx-auto mt-6 grid max-w-6xl gap-2 sm:mt-9 sm:gap-3 sm:grid-cols-3">
             {menuCtaHighlights.map((item) => (
-              <div
-                key={item.label}
-                className="border border-[#D4A373]/18 bg-[#FFF7ED]/7 px-4 py-3 backdrop-blur sm:px-5 sm:py-4"
-              >
-                <p className="text-[0.68rem] font-black uppercase tracking-[0.16em] text-[#fd850b] sm:text-xs sm:tracking-[0.18em]">
-                  {item.label}
-                </p>
-                <p className="mt-1 text-[0.8rem] font-bold leading-5 text-[#FFF7ED] sm:mt-2 sm:text-sm">
-                  {item.value}
-                </p>
+              <div key={item.label} className="border border-[#D4A373]/18 bg-[#FFF7ED]/7 px-4 py-3 backdrop-blur sm:px-5 sm:py-4">
+                <p className="text-[0.68rem] font-black uppercase tracking-[0.16em] text-[#fd850b] sm:text-xs">{item.label}</p>
+                <p className="mt-1 text-[0.8rem] font-bold leading-5 text-[#FFF7ED] sm:mt-2 sm:text-sm">{item.value}</p>
               </div>
             ))}
           </div>

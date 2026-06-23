@@ -16,9 +16,19 @@ const TELEGRAM_URL = 'https://t.me/BravoReservationsTTP'
 
 const contactLinks = [
   {
+    href: 'tel:+85523218211',
+    icon: 'fa-phone',
+    label: '023 218 211',
+  },
+  {
     href: 'tel:+85578938333',
     icon: 'fa-phone',
-    label: '+855 78 938 333',
+    label: '078 938 333',
+  },
+  {
+    href: 'tel:+85578853441',
+    icon: 'fa-phone',
+    label: '078 853 441',
   },
   {
     href: '/contact',
@@ -38,9 +48,8 @@ const contactLinks = [
 ]
 
 const hours = [
-  { day: 'Mon - Fri', time: '11:00 AM - 11:00 PM' },
-  { day: 'Saturday', time: '10:00 AM - 12:00 AM' },
-  { day: 'Sunday', time: '10:00 AM - 11:00 PM' },
+  { day: 'Mon - Fri', time: '11:00 AM – 2:30 PM\n5:30 PM – 10:30 PM' },
+  { day: 'Sat - Sun', time: '11:30 AM – 3:00 PM\n5:30 PM – 10:30 PM' },
 ]
 
 export function Footer() {
@@ -112,7 +121,7 @@ export function Footer() {
                 <p className="font-black uppercase text-[#fd850b]">
                   {item.day}
                 </p>
-                <p className="mt-0.5 leading-tight text-[#C7B8A8] sm:mt-1">
+                <p className="mt-0.5 whitespace-pre-line leading-tight text-[#C7B8A8] sm:mt-1">
                   {item.time}
                 </p>
               </div>
@@ -150,7 +159,7 @@ export function Footer() {
           <Link href="/contact#reservation" className="transition hover:text-[#fd850b]">
             Reserve a table
           </Link>
-          <a href="tel:+85578938333" className="transition hover:text-[#fd850b]">
+          <a href="tel:+85523218211" className="transition hover:text-[#fd850b]">
             Call now
           </a>
         </div>

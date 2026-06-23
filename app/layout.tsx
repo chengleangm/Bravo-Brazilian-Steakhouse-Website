@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Anton, Montserrat } from 'next/font/google'
+import { Anton, Kantumruy_Pro, Montserrat } from 'next/font/google'
 import './styles/globals.css'
 
 const montserrat = Montserrat({
@@ -12,6 +12,13 @@ const anton = Anton({
   subsets: ['latin'],
   weight: '400',
   variable: '--font-display',
+  display: 'swap',
+})
+
+const kantumruy = Kantumruy_Pro({
+  subsets: ['khmer'],
+  weight: ['400', '700'],
+  variable: '--font-khmer',
   display: 'swap',
 })
 
@@ -40,7 +47,7 @@ export default function RootLayout({
       lang="en"
       translate="no"
       suppressHydrationWarning
-      className={`${montserrat.variable} ${anton.variable} scroll-smooth`}
+      className={`${montserrat.variable} ${anton.variable} ${kantumruy.variable} scroll-smooth`}
     >
       <head>
         <meta name="google" content="notranslate" />
