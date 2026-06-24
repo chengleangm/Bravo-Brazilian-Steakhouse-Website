@@ -2,8 +2,27 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 32 },
+  show: { opacity: 1, y: 0 },
+}
+const fadeLeft = {
+  hidden: { opacity: 0, x: -32 },
+  show: { opacity: 1, x: 0 },
+}
+const fadeRight = {
+  hidden: { opacity: 0, x: 32 },
+  show: { opacity: 1, x: 0 },
+}
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+}
+const vp = { once: true, amount: 0.2 }
 
 const TEAM_MEMBERS = [
   {
@@ -69,194 +88,138 @@ export default function AboutPage() {
         {/* ── Our Story ── */}
         <section className="bg-[#FFF7ED] px-4 py-8 text-[#120807] sm:px-5 sm:py-20 lg:py-28">
           <div className="mx-auto grid max-w-6xl items-center gap-5 md:grid-cols-2 md:gap-16">
-            <div className="relative order-1 h-44 overflow-hidden rounded shadow-lg sm:h-80 md:order-2 md:h-96">
-              <Image
-                src="https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=700&q=80"
-                alt="Brazilian steakhouse dining"
-                fill
-                sizes="(max-width:768px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="order-2 md:order-1">
+            <motion.div variants={fadeRight} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="relative order-1 h-44 overflow-hidden rounded shadow-lg sm:h-80 md:order-2 md:h-96">
+              <Image src="https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=700&q=80" alt="Brazilian steakhouse dining" fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover" />
+            </motion.div>
+            <motion.div variants={fadeLeft} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7, delay: 0.1 }} className="order-2 md:order-1">
               <p className="mb-1.5 text-[10px] font-black uppercase tracking-widest text-[#fd850b] sm:mb-3 sm:text-xs">Our Journey</p>
               <h2 className="font-serif text-2xl font-black uppercase leading-tight sm:text-5xl md:text-6xl">The Bravo Story</h2>
-              <p className="mt-3 text-sm leading-relaxed opacity-90 sm:mt-8 sm:text-lg">
-                BRAVO Brazilian Steakhouse was born from a simple dream: to bring the joy and generosity of a real São Paulo churrascaria to Phnom Penh.
-              </p>
-              <p className="mt-2 text-sm leading-relaxed opacity-90 sm:mt-4 sm:text-lg">
-                Our founder assembled a team of seasoned grill masters and hospitality experts who share a passion for fire, meat, and gathering. Every day we celebrate the rhythm of churrasco — slow flames, caramelized edges, and tables full of guests who leave happy.
-              </p>
-            </div>
+              <p className="mt-3 text-sm leading-relaxed opacity-90 sm:mt-8 sm:text-lg">BRAVO Brazilian Steakhouse was born from a simple dream: to bring the joy and generosity of a real São Paulo churrascaria to Phnom Penh.</p>
+              <p className="mt-2 text-sm leading-relaxed opacity-90 sm:mt-4 sm:text-lg">Our founder assembled a team of seasoned grill masters and hospitality experts who share a passion for fire, meat, and gathering. Every day we celebrate the rhythm of churrasco — slow flames, caramelized edges, and tables full of guests who leave happy.</p>
+            </motion.div>
           </div>
         </section>
 
         {/* ── What is Churrascaria ── */}
         <section id="churrascaria" className="bg-[#120807] px-5 py-12 text-[#FFF7ED] sm:py-20 lg:py-28">
           <div className="mx-auto grid max-w-6xl items-center gap-8 md:grid-cols-2 md:gap-16">
-            <div className="relative h-56 overflow-hidden rounded shadow-lg sm:h-80 md:h-96 md:order-1">
-              <Image
-                src="https://images.unsplash.com/photo-1702741168115-cd3d9a682972?auto=format&fit=crop&w=1200&q=85"
-                alt="Churrasco grilling"
-                fill
-                sizes="(max-width:768px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="md:order-2">
+            <motion.div variants={fadeLeft} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="relative h-56 overflow-hidden rounded shadow-lg sm:h-80 md:h-96 md:order-1">
+              <Image src="https://images.unsplash.com/photo-1702741168115-cd3d9a682972?auto=format&fit=crop&w=1200&q=85" alt="Churrasco grilling" fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover" />
+            </motion.div>
+            <motion.div variants={fadeRight} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7, delay: 0.1 }} className="md:order-2">
               <p className="mb-2 text-[10px] font-black uppercase tracking-widest text-[#fd850b] sm:mb-3 sm:text-xs">Brazilian Tradition</p>
               <h2 className="font-serif text-3xl font-black uppercase leading-tight sm:text-5xl">What is Churrascaria?</h2>
-              <p className="mt-4 text-sm leading-relaxed opacity-90 sm:mt-8 sm:text-lg">
-                Churrascaria is more than a meal. It is a celebration of fire, meat, and community. Servers roam the table with skewers of grilled meats — beef, lamb, pork, and chicken — and slice portions directly onto diners&apos; plates.
-              </p>
-              <p className="mt-3 text-sm leading-relaxed opacity-90 sm:mt-4 sm:text-lg">
-                Between cuts, diners enjoy fresh salads, hot sides, and sauces from a full buffet. The pace is relaxed, the portions are generous, and the conversation flows as long as you want to eat.
-              </p>
-            </div>
+              <p className="mt-4 text-sm leading-relaxed opacity-90 sm:mt-8 sm:text-lg">Churrascaria is more than a meal. It is a celebration of fire, meat, and community. Servers roam the table with skewers of grilled meats — beef, lamb, pork, and chicken — and slice portions directly onto diners&apos; plates.</p>
+              <p className="mt-3 text-sm leading-relaxed opacity-90 sm:mt-4 sm:text-lg">Between cuts, diners enjoy fresh salads, hot sides, and sauces from a full buffet. The pace is relaxed, the portions are generous, and the conversation flows as long as you want to eat.</p>
+            </motion.div>
           </div>
         </section>
 
         {/* ── Mission & Values ── */}
         <section className="bg-[#FFF7ED] px-5 py-12 text-[#120807] sm:py-20 lg:py-28">
           <div className="mx-auto max-w-6xl">
-            <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-14">
+            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.65 }} className="mx-auto mb-8 max-w-2xl text-center sm:mb-14">
               <p className="mb-2 text-[10px] font-black uppercase tracking-widest text-[#fd850b] sm:mb-3 sm:text-xs">Our Foundation</p>
               <h2 className="font-serif text-3xl font-black uppercase leading-tight sm:text-5xl">Mission &amp; Values</h2>
-            </div>
-            <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
+            </motion.div>
+            <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
               {VALUES.map(({ icon, title, body }) => (
-                <div key={title} className="rounded border border-black/8 bg-white/60 p-4 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md sm:p-7">
+                <motion.div key={title} variants={fadeUp} transition={{ duration: 0.55 }} className="rounded border border-black/8 bg-white/60 p-4 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md sm:p-7">
                   <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#fd850b]/15 sm:mb-4 sm:h-16 sm:w-16">
                     <i className={`fa-solid ${icon} text-lg text-[#fd850b] sm:text-2xl`} />
                   </div>
                   <h3 className="mb-1 text-sm font-black leading-tight sm:mb-3 sm:text-xl">{title}</h3>
                   <p className="text-[11px] leading-relaxed opacity-80 sm:text-sm">{body}</p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* ── Why Choose Bravo ── */}
         <section className="bg-[#120807] px-5 py-12 text-[#FFF7ED] sm:py-20 lg:py-28">
           <div className="mx-auto max-w-6xl">
-            <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-14">
+            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.65 }} className="mx-auto mb-8 max-w-2xl text-center sm:mb-14">
               <p className="mb-2 text-[10px] font-black uppercase tracking-widest text-[#fd850b] sm:mb-3 sm:text-xs">What Sets Us Apart</p>
               <h2 className="font-serif text-3xl font-black uppercase leading-tight sm:text-5xl">Why Choose Bravo</h2>
-            </div>
-            <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
+            </motion.div>
+            <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
               {WHY_US.map(({ icon, title, body }) => (
-                <div key={title} className="rounded border border-white/8 bg-white/5 p-4 transition-all hover:-translate-y-1 hover:shadow-xl sm:p-7">
+                <motion.div key={title} variants={fadeUp} transition={{ duration: 0.55 }} className="rounded border border-white/8 bg-white/5 p-4 transition-all hover:-translate-y-1 hover:shadow-xl sm:p-7">
                   <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#D4A373]/15 sm:mb-4 sm:h-16 sm:w-16">
                     <i className={`fa-solid ${icon} text-lg text-[#D4A373] sm:text-2xl`} />
                   </div>
                   <h3 className="mb-1 text-sm font-black leading-tight sm:mb-3 sm:text-xl">{title}</h3>
                   <p className="text-[11px] leading-relaxed opacity-80 sm:text-sm">{body}</p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* ── Chef & Team Intro ── */}
         <section className="bg-[#FFF7ED] px-5 py-12 text-[#120807] sm:py-20 lg:py-28">
           <div className="mx-auto grid max-w-6xl items-center gap-8 md:grid-cols-2 md:gap-16">
-            <div>
+            <motion.div variants={fadeLeft} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }}>
               <p className="mb-2 text-[10px] font-black uppercase tracking-widest text-[#fd850b] sm:mb-3 sm:text-xs">Meet the Team</p>
               <h2 className="font-serif text-3xl font-black uppercase leading-tight sm:text-5xl">Crafted by Passionate People</h2>
-              <p className="mt-4 text-sm leading-relaxed opacity-90 sm:mt-8 sm:text-lg">
-                Our team brings together Brazilian grill masters, attentive servers, and hospitality leaders who share one goal: to make your dining experience unforgettable.
-              </p>
-              <p className="mt-3 text-sm leading-relaxed opacity-90 sm:mt-4 sm:text-lg">
-                Every role matters. From the chef tending the flames to the server at your table, BRAVO is a team effort built on care and craftsmanship.
-              </p>
-            </div>
-            <div className="relative h-56 overflow-hidden rounded shadow-lg sm:h-80 md:h-96">
-              <Image
-                src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=700&q=80"
-                alt="BRAVO team"
-                fill
-                sizes="(max-width:768px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </div>
+              <p className="mt-4 text-sm leading-relaxed opacity-90 sm:mt-8 sm:text-lg">Our team brings together Brazilian grill masters, attentive servers, and hospitality leaders who share one goal: to make your dining experience unforgettable.</p>
+              <p className="mt-3 text-sm leading-relaxed opacity-90 sm:mt-4 sm:text-lg">Every role matters. From the chef tending the flames to the server at your table, BRAVO is a team effort built on care and craftsmanship.</p>
+            </motion.div>
+            <motion.div variants={fadeRight} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7, delay: 0.1 }} className="relative h-56 overflow-hidden rounded shadow-lg sm:h-80 md:h-96">
+              <Image src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=700&q=80" alt="BRAVO team" fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover" />
+            </motion.div>
           </div>
         </section>
 
         {/* ── Team Members ── */}
         <section className="bg-[#120807] px-5 py-12 text-[#FFF7ED] sm:py-20 lg:py-28">
           <div className="mx-auto max-w-6xl">
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-8">
+            <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className="grid grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-8">
               {TEAM_MEMBERS.map((member) => (
-                <div key={member.id} className="overflow-hidden rounded border border-white/8 bg-white/5 shadow-lg transition-all hover:-translate-y-1 hover:shadow-2xl">
+                <motion.div key={member.id} variants={fadeUp} transition={{ duration: 0.6 }} className="overflow-hidden rounded border border-white/8 bg-white/5 shadow-lg transition-all hover:-translate-y-1 hover:shadow-2xl">
                   <div className="relative h-48 sm:h-64 lg:h-80">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      sizes="(max-width:640px) 100vw, 33vw"
-                      className="object-cover"
-                    />
+                    <Image src={member.image} alt={member.name} fill sizes="(max-width:640px) 100vw, 33vw" className="object-cover" />
                   </div>
                   <div className="p-4 sm:p-7">
                     <h3 className="text-lg font-black sm:text-2xl">{member.name}</h3>
                     <p className="mt-0.5 text-[10px] font-black uppercase tracking-widest text-[#fd850b] sm:mb-3 sm:mt-1 sm:text-xs">{member.title}</p>
                     <p className="mt-2 text-xs leading-relaxed text-[#C7B8A8] sm:mt-3 sm:text-sm">{member.description}</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* ── CTA ── */}
         <section className="relative overflow-hidden border-y border-[#D4A373]/18 bg-[#120807] px-5 py-12 text-[#FFF7ED] sm:px-8 sm:py-16 lg:px-10 lg:py-20">
-          <Image
-            src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover opacity-25"
-            aria-hidden="true"
-          />
+          <Image src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85" alt="" fill sizes="100vw" className="object-cover opacity-25" aria-hidden="true" />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,8,7,0.98)_0%,rgba(18,8,7,0.88)_48%,rgba(18,8,7,0.68)_100%)]" />
 
-          <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-6 sm:gap-8 lg:grid-cols-[1fr_auto]">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="relative z-10 mx-auto grid max-w-6xl items-center gap-6 sm:gap-8 lg:grid-cols-[1fr_auto]">
             <div className="max-w-3xl">
               <p className="mb-2 text-[10px] font-black uppercase tracking-[0.24em] text-[#fd850b] sm:mb-4 sm:text-xs">Visit Bravo</p>
-              <h2 className="font-serif text-3xl font-black uppercase leading-tight sm:text-5xl md:text-6xl">
-                Experience the Bravo difference
-              </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-[#f4d8c5] sm:mt-5 sm:text-base sm:leading-8 lg:text-lg">
-                Come for the fire-grilled cuts, stay for the service, sides, and celebration-style Brazilian steakhouse atmosphere.
-              </p>
+              <h2 className="font-serif text-3xl font-black uppercase leading-tight sm:text-5xl md:text-6xl">Experience the Bravo difference</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-[#f4d8c5] sm:mt-5 sm:text-base sm:leading-8 lg:text-lg">Come for the fire-grilled cuts, stay for the service, sides, and celebration-style Brazilian steakhouse atmosphere.</p>
             </div>
-
             <div className="flex flex-row gap-3 sm:flex-row lg:flex-col">
-              <Link
-                href="/contact#reservation"
-                className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 bg-[#fd850b] px-5 py-3 text-xs font-black uppercase tracking-[0.14em] text-[#120807] shadow-[0_18px_44px_rgba(253,133,11,0.32)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(253,133,11,0.5)] sm:min-h-14 sm:px-7 sm:py-4 sm:text-sm"
-              >
-                <i className="fa-solid fa-calendar-check" aria-hidden="true" />
-                Book a Table
+              <Link href="/contact#reservation" className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 bg-[#fd850b] px-5 py-3 text-xs font-black uppercase tracking-[0.14em] text-[#120807] shadow-[0_18px_44px_rgba(253,133,11,0.32)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(253,133,11,0.5)] sm:min-h-14 sm:px-7 sm:py-4 sm:text-sm">
+                <i className="fa-solid fa-calendar-check" aria-hidden="true" /> Book a Table
               </Link>
-              <Link
-                href="/menu"
-                className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 border border-[#FFF7ED]/42 bg-black/20 px-5 py-3 text-xs font-black uppercase tracking-[0.14em] text-[#FFF7ED] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-[#120807] sm:min-h-14 sm:px-7 sm:py-4 sm:text-sm"
-              >
-                <i className="fa-solid fa-utensils" aria-hidden="true" />
-                View Menu
+              <Link href="/menu" className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 border border-[#FFF7ED]/42 bg-black/20 px-5 py-3 text-xs font-black uppercase tracking-[0.14em] text-[#FFF7ED] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-[#120807] sm:min-h-14 sm:px-7 sm:py-4 sm:text-sm">
+                <i className="fa-solid fa-utensils" aria-hidden="true" /> View Menu
               </Link>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="relative z-10 mx-auto mt-6 grid max-w-6xl gap-2 sm:mt-9 sm:gap-3 md:grid-cols-3">
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className="relative z-10 mx-auto mt-6 grid max-w-6xl gap-2 sm:mt-9 sm:gap-3 md:grid-cols-3">
             {ABOUT_CTA_HIGHLIGHTS.map((item) => (
-              <div key={item} className="border border-[#D4A373]/18 bg-[#FFF7ED]/7 px-4 py-3 backdrop-blur sm:px-5 sm:py-4">
+              <motion.div key={item} variants={fadeUp} transition={{ duration: 0.5 }} className="border border-[#D4A373]/18 bg-[#FFF7ED]/7 px-4 py-3 backdrop-blur sm:px-5 sm:py-4">
                 <p className="text-xs font-black uppercase tracking-[0.12em] text-[#FFF7ED] sm:text-sm">{item}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </section>
 
       </main>

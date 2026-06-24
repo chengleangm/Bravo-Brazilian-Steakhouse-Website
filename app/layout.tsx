@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Anton, Kantumruy_Pro, Montserrat } from 'next/font/google'
 import './styles/globals.css'
+import { PageTransition } from './components/PageTransition'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -57,7 +58,9 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {children}
+        <PageTransition>
+          {children}
+        </PageTransition>
       </body>
     </html>
   )

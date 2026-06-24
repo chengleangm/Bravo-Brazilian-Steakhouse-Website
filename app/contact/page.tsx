@@ -2,8 +2,13 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
+
+const fadeUp = { hidden: { opacity: 0, y: 32 }, show: { opacity: 1, y: 0 } }
+const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.1 } } }
+const vp = { once: true, amount: 0.2 }
 import styles from './page.module.css'
 
 const TELEGRAM_URL = 'https://t.me/BravoReservationsTTP'
@@ -225,8 +230,8 @@ export default function ContactPage() {
         {/* Contact Cards */}
         <section className="bg-cream px-5 py-12 text-dark sm:py-20 lg:py-28">
           <div className="max-w-6xl mx-auto">
-            <div className={styles.contactCardsGrid}>
-              <div className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
+            <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className={styles.contactCardsGrid}>
+              <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
                 <div className={styles.contactInfoIcon}>
                   <i className="fa-solid fa-phone text-orange"></i>
                 </div>
@@ -234,8 +239,8 @@ export default function ContactPage() {
                   <h3 className={styles.contactInfoTitle}>Phone</h3>
                   <p className={styles.contactInfoValue}><a href="tel:+85578938333" className="hover:text-orange transition-colors">+855 78 938 333</a></p>
                 </div>
-              </div>
-              <div className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
+              </motion.div>
+              <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
                 <div className={styles.contactInfoIcon}>
                   <i className="fa-solid fa-map-pin text-orange"></i>
                 </div>
@@ -243,8 +248,8 @@ export default function ContactPage() {
                   <h3 className={styles.contactInfoTitle}>Location</h3>
                   <p className={styles.contactInfoValue}>Phnom Penh, Cambodia</p>
                 </div>
-              </div>
-              <div className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
+              </motion.div>
+              <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
                 <div className={styles.contactInfoIcon}>
                   <i className="fa-brands fa-facebook text-orange"></i>
                 </div>
@@ -252,8 +257,8 @@ export default function ContactPage() {
                   <h3 className={styles.contactInfoTitle}>Facebook</h3>
                   <p className={styles.contactInfoValue}><a href="#" className="hover:text-orange transition-colors">@BravoRestaurant</a></p>
                 </div>
-              </div>
-              <div className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
+              </motion.div>
+              <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
                 <div className={styles.contactInfoIcon}>
                   <i className="fa-brands fa-whatsapp text-orange"></i>
                 </div>
@@ -261,8 +266,8 @@ export default function ContactPage() {
                   <h3 className={styles.contactInfoTitle}>WhatsApp</h3>
                   <p className={styles.contactInfoValue}><a href="https://wa.me/85578938333" target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Message Us</a></p>
                 </div>
-              </div>
-              <div className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
+              </motion.div>
+              <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
                 <div className={styles.contactInfoIcon}>
                   <i className="fa-brands fa-telegram text-orange"></i>
                 </div>
@@ -270,8 +275,8 @@ export default function ContactPage() {
                   <h3 className={styles.contactInfoTitle}>Telegram</h3>
                   <p className={styles.contactInfoValue}><a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Reservations</a></p>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </section>
 
@@ -279,7 +284,7 @@ export default function ContactPage() {
         <section id="reservation" className="relative scroll-mt-0 overflow-hidden bg-dark px-3 pb-6 pt-24 text-cream sm:scroll-mt-0 sm:px-8 sm:pb-20 sm:pt-32 lg:px-10 lg:pb-24">
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1800&q=90')] bg-cover bg-center opacity-20"></div>
           <div className="absolute inset-0 bg-gradient-to-br from-dark via-dark/95 to-black/95"></div>
-          <div className="relative mx-auto grid max-w-6xl gap-7 sm:gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="relative mx-auto grid max-w-6xl gap-7 sm:gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <div className="order-2 lg:sticky lg:top-28 lg:order-none">
               <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-orange sm:mb-3 sm:text-sm sm:tracking-[0.25em]">Book Bravo</p>
               <h2 className="font-black text-4xl uppercase leading-none sm:text-5xl md:text-6xl">Make a Reservation</h2>
@@ -456,13 +461,13 @@ export default function ContactPage() {
                 <i className="fa-solid fa-calendar-check mr-2"></i> Reserve Table
               </button>
             </form>
-          </div>
+          </motion.div>
         </section>
 
         {/* Contact Form */}
         <section className="relative overflow-hidden bg-cream px-3 py-6 text-dark sm:px-8 sm:py-20 lg:px-10 lg:py-24">
           <div className="absolute inset-x-0 top-0 h-px bg-dark/10"></div>
-          <div className="mx-auto grid max-w-6xl gap-7 sm:gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="mx-auto grid max-w-6xl gap-7 sm:gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
             <div className="order-2 lg:order-none">
               <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-orange sm:mb-3 sm:text-sm sm:tracking-[0.25em]">Talk to Bravo</p>
               <h2 className="font-black text-4xl uppercase leading-none sm:text-5xl md:text-6xl">Get in Touch</h2>
@@ -595,7 +600,7 @@ export default function ContactPage() {
                 <i className="fa-solid fa-paper-plane mr-2"></i> Send Message
               </button>
             </form>
-          </div>
+          </motion.div>
         </section>
 
         {/* Map Section */}

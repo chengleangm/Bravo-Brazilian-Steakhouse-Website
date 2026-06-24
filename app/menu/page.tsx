@@ -1,8 +1,15 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import styles from './page.module.css'
+
+const fadeUp = { hidden: { opacity: 0, y: 32 }, show: { opacity: 1, y: 0 } }
+const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.09 } } }
+const vp = { once: true, amount: 0.15 }
 
 type MenuItem = { name: string; description: string; price: string; image?: string }
 type MenuSection = { id: string; eyebrow: string; title: string; description: string; items: MenuItem[] }
@@ -240,7 +247,7 @@ function AlaCarteSection({ section }: { section: MenuSection }) {
       <div className="mx-auto max-w-7xl">
 
         {/* Header */}
-        <div className="mb-8 text-center sm:mb-14">
+        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="mb-8 text-center sm:mb-14">
           <div className="mb-5 flex items-center justify-center gap-4">
             <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:text-xs">Bravo Restaurant</span>
@@ -256,12 +263,12 @@ function AlaCarteSection({ section }: { section: MenuSection }) {
             <i className="fa-solid fa-clock text-[9px] text-black sm:text-[10px]" aria-hidden="true" />
             <span className="text-[9px] font-black uppercase tracking-[0.15em] text-black sm:text-xs sm:tracking-[0.2em]">Open Daily · 11AM – 10:30PM</span>
           </div>
-        </div>
+        </motion.div>
 
         {/* Grid */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-5 lg:gap-6 xl:gap-8">
+        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.6 }} className="grid grid-cols-3 gap-2 sm:gap-5 lg:gap-6 xl:gap-8">
           {section.items.map((item) => <AlaCarteCard key={item.name} item={item} />)}
-        </div>
+        </motion.div>
       </div>
     </section>
   )
@@ -301,12 +308,12 @@ function DrinkSection() {
       <div className="mx-auto max-w-7xl">
 
         {/* DRINKS title */}
-        <div className="mb-6 text-center sm:mb-12">
+        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="mb-6 text-center sm:mb-12">
           <h2 className="font-serif text-4xl font-black uppercase leading-none tracking-widest text-white sm:text-7xl lg:text-9xl">
             DRINKS
           </h2>
           <div className="mx-auto mt-1.5 h-[3px] w-14 bg-white sm:mt-3 sm:w-24" />
-        </div>
+        </motion.div>
 
         {/* 3-column layout — 2 col mobile (cols 1+2), 3 col sm+ */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:gap-8">
@@ -525,17 +532,17 @@ export default function MenuPage() {
         <section className="relative flex min-h-[72vh] items-center justify-center overflow-hidden px-5 py-28 text-center sm:px-8 lg:px-10">
           <Image src={heroImage} alt="Brazilian BBQ menu hero" fill priority sizes="100vw" className="object-cover" />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,8,7,0.92),rgba(18,8,7,0.5),rgba(18,8,7,0.92))]" />
-          <div className="relative z-10 mx-auto max-w-4xl pt-16">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.8 }} className="relative z-10 mx-auto max-w-4xl pt-16">
             <p className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-[#fd850b]">Bravo Menu</p>
             <h1 className="font-serif text-4xl font-black leading-tight sm:text-6xl lg:text-8xl">Buffet, Grill & À La Carte</h1>
             <p className="mx-auto mt-6 max-w-2xl text-xl leading-8 text-[#FCE7D3]">Premium Brazilian BBQ packages, individual plates, and drinks — all in one place.</p>
-          </div>
+          </motion.div>
         </section>
 
         {/* BUFFET */}
         <section id="buffet" className="bg-[#120807] px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
           <div className="mx-auto max-w-7xl">
-            <div className="mx-auto mb-14 max-w-3xl text-center">
+            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="mx-auto mb-14 max-w-3xl text-center">
               <div className="mb-5 flex items-center justify-center gap-4">
                 <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:text-xs">Signature Service</span>
@@ -548,7 +555,7 @@ export default function MenuPage() {
                 &amp; Grill
               </p>
               <p className="mt-6 text-base leading-7 text-[#C7B8A8] sm:text-lg sm:leading-8">Unlimited buffet sides with your choice of fire-grilled cuts.</p>
-            </div>
+            </motion.div>
 
             {/* Lunch */}
             <div className="mb-14">
@@ -567,9 +574,9 @@ export default function MenuPage() {
                   </div>
                 </div>
               </div>
-              <div className={styles.buffetGrid}>
+              <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.6 }} className={styles.buffetGrid}>
                 {lunchPackages.map((pkg) => <BuffetPackageCard key={pkg.name} pkg={pkg} />)}
-              </div>
+              </motion.div>
             </div>
 
             {/* Dinner */}
@@ -586,9 +593,9 @@ export default function MenuPage() {
                   </div>
                 </div>
               </div>
-              <div className={styles.buffetGrid}>
+              <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.6 }} className={styles.buffetGrid}>
                 {dinnerPackages.map((pkg) => <BuffetPackageCard key={pkg.name} pkg={pkg} />)}
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
@@ -601,7 +608,7 @@ export default function MenuPage() {
           return (
             <section key={section.id} id={section.id} className={`px-5 py-20 sm:px-8 lg:px-10 lg:py-28 ${index % 2 === 0 ? 'bg-[#1A0E0A]' : 'bg-[#120807]'}`}>
               <div className="mx-auto max-w-7xl">
-                <div className="mx-auto mb-12 max-w-3xl text-center">
+                <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="mx-auto mb-12 max-w-3xl text-center">
                   <div className="mb-5 flex items-center justify-center gap-4">
                     <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
                     <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:text-xs">{section.eyebrow}</span>
@@ -611,7 +618,7 @@ export default function MenuPage() {
                     {section.title}
                   </h2>
                   <p className="mt-6 text-base leading-7 text-[#C7B8A8] sm:text-lg sm:leading-8">{section.description}</p>
-                </div>
+                </motion.div>
                 <div className="grid grid-cols-4 gap-0.5 sm:gap-1">
                   {section.items.map((item) => <GrillCard key={item.name} item={item} />)}
                 </div>
@@ -627,7 +634,7 @@ export default function MenuPage() {
         <section className="relative overflow-hidden border-y border-[#D4A373]/18 px-4 py-10 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
           <Image src={heroImage} alt="" fill sizes="100vw" className="object-cover opacity-24" aria-hidden="true" />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,8,7,0.98)_0%,rgba(18,8,7,0.86)_52%,rgba(18,8,7,0.7)_100%)]" />
-          <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-5 sm:gap-8 lg:grid-cols-[1fr_auto]">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="relative z-10 mx-auto grid max-w-6xl items-center gap-5 sm:gap-8 lg:grid-cols-[1fr_auto]">
             <div className="max-w-3xl">
               <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.2em] text-[#fd850b] sm:mb-4 sm:text-xs">Book Bravo</p>
               <h2 className="font-serif text-[1.9rem] font-black uppercase leading-[0.95] sm:text-5xl lg:text-6xl">Ready to taste the fire?</h2>
@@ -643,7 +650,7 @@ export default function MenuPage() {
                 Visit Us
               </Link>
             </div>
-          </div>
+          </motion.div>
           <div className="relative z-10 mx-auto mt-6 grid max-w-6xl gap-2 sm:mt-9 sm:gap-3 sm:grid-cols-3">
             {menuCtaHighlights.map((item) => (
               <div key={item.label} className="border border-[#D4A373]/18 bg-[#FFF7ED]/7 px-4 py-3 backdrop-blur sm:px-5 sm:py-4">

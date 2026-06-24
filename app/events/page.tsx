@@ -2,8 +2,13 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
+
+const fadeUp = { hidden: { opacity: 0, y: 32 }, show: { opacity: 1, y: 0 } }
+const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.1 } } }
+const vp = { once: true, amount: 0.2 }
 
 const EVENT_FEATURES = [
   {
@@ -97,8 +102,8 @@ export default function EventsPage() {
         {/* Event Types Overview */}
         <section className="bg-dark text-cream py-28 px-5">
           <div className="max-w-6xl mx-auto">
-            <h2 className="font-black text-5xl uppercase text-center mb-16">PERFECT FOR EVERY OCCASION</h2>
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+            <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.65 }} className="font-black text-5xl uppercase text-center mb-16">PERFECT FOR EVERY OCCASION</motion.h2>
+            <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className="grid grid-cols-2 gap-3 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
               {[
                 { icon: 'fa-cake-candles', title: 'BIRTHDAYS', desc: 'Celebrate with fire-grilled favorites' },
                 { icon: 'fa-users', title: 'FAMILY GATHERINGS', desc: 'Generous buffet for all ages' },
@@ -107,21 +112,21 @@ export default function EventsPage() {
                 { icon: 'fa-ring', title: 'PRIVATE FUNCTIONS', desc: 'Intimate or exclusive dining' },
                 { icon: 'fa-star', title: 'SPECIAL OCCASIONS', desc: 'Anniversaries, engagements & more' },
               ].map((item, idx) => (
-                <div key={idx} className="bg-white/6 border border-white/9 shadow-custom p-3 lg:p-7 rounded hover:shadow-2xl hover:-translate-y-2 transition-all text-center">
+                <motion.div key={idx} variants={fadeUp} transition={{ duration: 0.5 }} className="bg-white/6 border border-white/9 shadow-custom p-3 lg:p-7 rounded hover:shadow-2xl hover:-translate-y-2 transition-all text-center">
                   <div className="w-10 h-10 lg:w-16 lg:h-16 flex items-center justify-center bg-orange/20 rounded-full mb-2 lg:mb-4 mx-auto">
                     <i className={`fa-solid ${item.icon} text-orange text-base lg:text-2xl`}></i>
                   </div>
                   <h3 className="font-black text-sm lg:text-2xl mb-1 lg:mb-2 uppercase">{item.title}</h3>
                   <p className="text-cream/80 text-xs lg:text-base">{item.desc}</p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* Featured Package */}
         <section className="bg-cream text-dark py-10 px-3 md:py-28 md:px-5">
-          <div className="max-w-4xl mx-auto">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="max-w-4xl mx-auto">
             <div className="bg-gradient-to-br from-orange/20 to-yellow/20 border-2 border-orange shadow-2xl rounded-xl p-4 md:p-16 md:rounded-2xl md:scale-105">
               <p className="text-orange font-black text-[0.6rem] md:text-xs uppercase tracking-widest mb-1 md:mb-3 text-center">FEATURED PACKAGE</p>
               <h2 className="font-black text-2xl md:text-5xl uppercase text-center mb-4 md:mb-8">FAMILY GATHERING</h2>
@@ -159,20 +164,20 @@ export default function EventsPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </section>
 
         {/* Event Packages */}
         <section className="bg-dark text-cream py-28 px-5">
           <div className="max-w-6xl mx-auto">
-            <h2 className="font-black text-5xl uppercase text-center mb-16">EVENT PACKAGES</h2>
-            <div className="grid grid-cols-3 gap-2 lg:gap-6">
+            <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.65 }} className="font-black text-5xl uppercase text-center mb-16">EVENT PACKAGES</motion.h2>
+            <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className="grid grid-cols-3 gap-2 lg:gap-6">
               {[
                 { title: 'Birthday', from: '$16.90', capacity: '5-30 guests', features: ['Buffet service', 'Specialty cuts', 'Complimentary decorations'] },
                 { title: 'Corporate', from: '$19.90', capacity: '15-100 guests', features: ['Team building', 'Private section available', 'Catering service'] },
                 { title: 'Private Dining', from: '$22.90', capacity: '20-50 guests', features: ['Exclusive room', 'Premium service', 'Customized menu'] },
               ].map((pkg, idx) => (
-                <div key={idx} className="bg-white/6 border border-white/9 shadow-custom rounded overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all">
+                <motion.div key={idx} variants={fadeUp} transition={{ duration: 0.5 }} className="bg-white/6 border border-white/9 shadow-custom rounded overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all">
                   <div className="p-2 lg:p-7 text-center">
                     <h3 className="font-black text-xs lg:text-2xl mb-1 lg:mb-2">{pkg.title}</h3>
                     <p className="text-yellow font-black text-sm lg:text-3xl mb-1 lg:mb-2">{pkg.from}</p>
@@ -186,9 +191,9 @@ export default function EventsPage() {
                       ))}
                     </ul>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -197,7 +202,7 @@ export default function EventsPage() {
           <div className="absolute inset-x-0 top-0 h-px bg-[#D4A373]/40"></div>
           <div className="absolute inset-x-0 bottom-0 h-px bg-[#D4A373]/40"></div>
           <div className="mx-auto max-w-6xl">
-            <div className="mx-auto max-w-3xl text-center">
+            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.65 }} className="mx-auto max-w-3xl text-center">
               <p className="mb-2 text-[0.6rem] md:mb-4 md:text-xs font-black uppercase tracking-[0.24em] text-[#fd850b]">
                 Event Hosting
               </p>
@@ -208,12 +213,14 @@ export default function EventsPage() {
                 From birthday dinners to team celebrations, BRAVO gives your
                 guests a full steakhouse experience with less planning stress.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="mt-6 md:mt-12 grid grid-cols-2 gap-3 md:gap-5 lg:grid-cols-4">
+            <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className="mt-6 md:mt-12 grid grid-cols-2 gap-3 md:gap-5 lg:grid-cols-4">
               {EVENT_FEATURES.map((feat, idx) => (
-                <article
+                <motion.article
                   key={feat.title}
+                  variants={fadeUp}
+                  transition={{ duration: 0.5 }}
                   className="group relative overflow-hidden border border-[#D4A373]/22 bg-[#fff7ed] p-3 md:p-6 shadow-[0_24px_70px_rgba(18,8,7,0.1)] transition duration-300 hover:-translate-y-2 hover:border-[#fd850b]/55 hover:shadow-[0_28px_90px_rgba(253,133,11,0.16)]"
                 >
                   <div className="flex items-start justify-between gap-2 md:gap-4">
@@ -233,17 +240,19 @@ export default function EventsPage() {
                   <p className="mt-1 md:mt-4 text-[0.65rem] md:text-sm leading-5 md:leading-7 text-[#4b352b]">
                     {feat.desc}
                   </p>
-                </article>
+                </motion.article>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* Event Request Form */}
         <section id="event-form" className="bg-dark text-cream py-10 px-3 md:py-28 md:px-5">
           <div className="max-w-2xl mx-auto">
-            <h2 className="font-black text-2xl md:text-5xl uppercase text-center mb-2 md:mb-4">REQUEST AN EVENT</h2>
-            <p className="text-center text-cream/80 text-xs md:text-base mb-6 md:mb-16">Let us know about your special occasion and we'll create an unforgettable experience.</p>
+            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.65 }} className="text-center mb-6 md:mb-16">
+              <h2 className="font-black text-2xl md:text-5xl uppercase mb-2 md:mb-4">REQUEST AN EVENT</h2>
+              <p className="text-cream/80 text-xs md:text-base">Let us know about your special occasion and we'll create an unforgettable experience.</p>
+            </motion.div>
             <form onSubmit={handleEventFormSubmit} className="bg-white/6 border border-white/9 shadow-custom p-4 md:p-10 rounded space-y-3 md:space-y-6">
               {/* Name + Phone */}
               <div className="grid grid-cols-2 gap-3 md:gap-6">

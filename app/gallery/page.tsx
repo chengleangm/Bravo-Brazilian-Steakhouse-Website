@@ -3,7 +3,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { Footer } from '../components/Footer'
+
+const fadeUp = { hidden: { opacity: 0, y: 32 }, show: { opacity: 1, y: 0 } }
+const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.09 } } }
+const vp = { once: true, amount: 0.15 }
 import { Header } from '../components/Header'
 import styles from './page.module.css'
 
@@ -180,7 +185,7 @@ export default function GalleryPage() {
 
         <section className="border-y border-[#D4A373]/18 bg-[#1A0E0A] px-3 py-8 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
           <div className="mx-auto grid max-w-7xl gap-6 sm:gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
-            <div>
+            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }}>
               <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.2em] text-[#fd850b] sm:mb-4 sm:text-xs sm:tracking-[0.24em]">
                 A night at Bravo
               </p>
@@ -198,12 +203,14 @@ export default function GalleryPage() {
                 <i className="fa-solid fa-calendar-check" aria-hidden="true" />
                 Book a Table
               </Link>
-            </div>
+            </motion.div>
 
-            <div className={styles.storyGrid}>
+            <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className={styles.storyGrid}>
               {galleryStories.map((story) => (
-                <button
+                <motion.button
                   key={story.title}
+                  variants={fadeUp}
+                  transition={{ duration: 0.5 }}
                   type="button"
                   onClick={() => setActiveFilter(story.filter)}
                   className={`${styles.storyCard} group relative overflow-hidden border border-[#D4A373]/18 bg-[#120807] text-left shadow-[0_24px_70px_rgba(0,0,0,0.24)] transition duration-300 hover:-translate-y-2 hover:border-[#fd850b]/55`}
@@ -233,16 +240,16 @@ export default function GalleryPage() {
                       View {story.filter}
                     </span>
                   </span>
-                </button>
+                </motion.button>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
         <section className="relative overflow-hidden px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(253,133,11,0.12),transparent_30%)]" />
           <div className="mx-auto max-w-7xl">
-            <div className="relative z-10 mx-auto mb-10 max-w-3xl text-center">
+            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="relative z-10 mx-auto mb-10 max-w-3xl text-center">
               <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-[#fd850b]">
                 Browse the atmosphere
               </p>
@@ -253,7 +260,7 @@ export default function GalleryPage() {
                 A closer look at the plates, grill moments, dining room, and
                 group nights that shape the BRAVO experience.
               </p>
-            </div>
+            </motion.div>
 
             <div className={`${styles.compactFilterBar} relative z-10`}>
               {filterOptions.map((filter) => (
