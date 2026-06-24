@@ -42,11 +42,27 @@ export default function EventsPage() {
     message: '',
   })
 
+  const [dateMonth, setDateMonth] = useState('')
+  const [dateDay, setDateDay] = useState('')
+  const [dateYear, setDateYear] = useState('')
+
   const [showSuccessModal, setShowSuccessModal] = useState(false)
 
   const handleEventFormChange = (e) => {
     const { name, value } = e.target
     setEventFormData(prev => ({ ...prev, [name]: value }))
+  }
+
+  const handleDatePartChange = (part: 'month' | 'day' | 'year', value: string) => {
+    const newMonth = part === 'month' ? value : dateMonth
+    const newDay = part === 'day' ? value : dateDay
+    const newYear = part === 'year' ? value : dateYear
+    if (part === 'month') setDateMonth(value)
+    if (part === 'day') setDateDay(value)
+    if (part === 'year') setDateYear(value)
+    if (newMonth && newDay && newYear) {
+      setEventFormData(prev => ({ ...prev, date: `${newYear}-${newMonth}-${newDay}` }))
+    }
   }
 
   const handleEventFormSubmit = (e) => {
@@ -59,6 +75,9 @@ export default function EventsPage() {
     setShowSuccessModal(true)
     setTimeout(() => setShowSuccessModal(false), 3000)
     setEventFormData({ name: '', phone: '', date: '', guests: '', eventType: '', message: '' })
+    setDateMonth('')
+    setDateDay('')
+    setDateYear('')
   }
 
   return (
@@ -255,17 +274,43 @@ export default function EventsPage() {
                 </div>
               </div>
 
-              {/* Date — full width on mobile for easy native picker tap */}
+              {/* Date — 3 dropdowns for universal iOS/Android support */}
               <div>
                 <label className="block font-black text-[0.6rem] md:text-sm uppercase tracking-wider mb-1 md:mb-3">Date *</label>
-                <input
-                  type="date"
-                  name="date"
-                  value={eventFormData.date}
-                  onChange={handleEventFormChange}
-                  min={new Date().toISOString().split('T')[0]}
-                  className="w-full bg-white/10 border border-white/20 text-[#FFF7ED] px-3 py-2.5 md:px-4 md:py-3 rounded text-sm md:text-base focus:outline-none focus:border-orange focus:bg-white/15 transition-all [color-scheme:dark]"
-                />
+                <div className="grid grid-cols-3 gap-2">
+                  <select
+                    value={dateMonth}
+                    onChange={e => handleDatePartChange('month', e.target.value)}
+                    className="w-full bg-[#1a0d0a] border border-white/20 text-[#FFF7ED] px-2 py-2.5 md:px-4 md:py-3 rounded text-sm md:text-base focus:outline-none focus:border-orange transition-all"
+                  >
+                    <option value="">Month</option>
+                    {['01','02','03','04','05','06','07','08','09','10','11','12'].map((m, i) => (
+                      <option key={m} value={m} className="bg-[#1a0d0a] text-[#FFF7ED]">
+                        {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][i]}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    value={dateDay}
+                    onChange={e => handleDatePartChange('day', e.target.value)}
+                    className="w-full bg-[#1a0d0a] border border-white/20 text-[#FFF7ED] px-2 py-2.5 md:px-4 md:py-3 rounded text-sm md:text-base focus:outline-none focus:border-orange transition-all"
+                  >
+                    <option value="">Day</option>
+                    {Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0')).map(d => (
+                      <option key={d} value={d} className="bg-[#1a0d0a] text-[#FFF7ED]">{Number(d)}</option>
+                    ))}
+                  </select>
+                  <select
+                    value={dateYear}
+                    onChange={e => handleDatePartChange('year', e.target.value)}
+                    className="w-full bg-[#1a0d0a] border border-white/20 text-[#FFF7ED] px-2 py-2.5 md:px-4 md:py-3 rounded text-sm md:text-base focus:outline-none focus:border-orange transition-all"
+                  >
+                    <option value="">Year</option>
+                    {['2026','2027','2028'].map(y => (
+                      <option key={y} value={y} className="bg-[#1a0d0a] text-[#FFF7ED]">{y}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               {/* Guests + Event Type side by side */}
