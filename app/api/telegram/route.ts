@@ -8,18 +8,23 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Telegram not configured' }, { status: 500 })
   }
 
-  const { text } = await req.json()
+  try {
+    const { text } = await req.json()
 
-  const res = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'HTML' }),
-  })
+    const res = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'HTML' }),
+    })
 
-  if (!res.ok) {
-    const err = await res.json()
-    return NextResponse.json({ error: err }, { status: 500 })
+    const data = await res.json()
+
+    if (!res.ok) {
+      return NextResponse.json({ error: data }, { status: 500 })
+    }
+
+    return NextResponse.json({ ok: true })
+  } catch (err) {
+    return NextResponse.json({ error: String(err) }, { status: 500 })
   }
-
-  return NextResponse.json({ ok: true })
 }
