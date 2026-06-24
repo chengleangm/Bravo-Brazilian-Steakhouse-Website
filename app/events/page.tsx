@@ -225,8 +225,9 @@ export default function EventsPage() {
           <div className="max-w-2xl mx-auto">
             <h2 className="font-black text-2xl md:text-5xl uppercase text-center mb-2 md:mb-4">REQUEST AN EVENT</h2>
             <p className="text-center text-cream/80 text-xs md:text-base mb-6 md:mb-16">Let us know about your special occasion and we'll create an unforgettable experience.</p>
-            <form onSubmit={handleEventFormSubmit} className="bg-white/6 border border-white/9 shadow-custom p-4 md:p-10 rounded">
-              <div className="grid grid-cols-2 gap-3 md:gap-6 mb-3 md:mb-6">
+            <form onSubmit={handleEventFormSubmit} className="bg-white/6 border border-white/9 shadow-custom p-4 md:p-10 rounded space-y-3 md:space-y-6">
+              {/* Name + Phone */}
+              <div className="grid grid-cols-2 gap-3 md:gap-6">
                 <div>
                   <label className="block font-black text-[0.6rem] md:text-sm uppercase tracking-wider mb-1 md:mb-3">Name *</label>
                   <input
@@ -234,8 +235,9 @@ export default function EventsPage() {
                     name="name"
                     value={eventFormData.name}
                     onChange={handleEventFormChange}
-                    className="w-full bg-white/10 border border-white/20 text-cream px-2 py-2 md:px-4 md:py-3 rounded text-xs md:text-base focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-cream/40"
+                    className="w-full bg-white/10 border border-white/20 text-[#FFF7ED] px-3 py-2.5 md:px-4 md:py-3 rounded text-sm md:text-base focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-[#FFF7ED]/40"
                     placeholder="Your name"
+                    autoComplete="name"
                   />
                 </div>
                 <div>
@@ -245,22 +247,29 @@ export default function EventsPage() {
                     name="phone"
                     value={eventFormData.phone}
                     onChange={handleEventFormChange}
-                    className="w-full bg-white/10 border border-white/20 text-cream px-2 py-2 md:px-4 md:py-3 rounded text-xs md:text-base focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-cream/40"
+                    className="w-full bg-white/10 border border-white/20 text-[#FFF7ED] px-3 py-2.5 md:px-4 md:py-3 rounded text-sm md:text-base focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-[#FFF7ED]/40"
                     placeholder="Your phone"
+                    autoComplete="tel"
+                    inputMode="tel"
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-3 md:gap-6 mb-3 md:mb-6">
-                <div>
-                  <label className="block font-black text-[0.6rem] md:text-sm uppercase tracking-wider mb-1 md:mb-3">Date *</label>
-                  <input
-                    type="date"
-                    name="date"
-                    value={eventFormData.date}
-                    onChange={handleEventFormChange}
-                    className="w-full bg-white/10 border border-white/20 text-cream px-2 py-2 md:px-4 md:py-3 rounded text-xs md:text-base focus:outline-none focus:border-orange focus:bg-white/15 transition-all"
-                  />
-                </div>
+
+              {/* Date — full width on mobile for easy native picker tap */}
+              <div>
+                <label className="block font-black text-[0.6rem] md:text-sm uppercase tracking-wider mb-1 md:mb-3">Date *</label>
+                <input
+                  type="date"
+                  name="date"
+                  value={eventFormData.date}
+                  onChange={handleEventFormChange}
+                  min={new Date().toISOString().split('T')[0]}
+                  className="w-full bg-white/10 border border-white/20 text-[#FFF7ED] px-3 py-2.5 md:px-4 md:py-3 rounded text-sm md:text-base focus:outline-none focus:border-orange focus:bg-white/15 transition-all [color-scheme:dark]"
+                />
+              </div>
+
+              {/* Guests + Event Type side by side */}
+              <div className="grid grid-cols-2 gap-3 md:gap-6">
                 <div>
                   <label className="block font-black text-[0.6rem] md:text-sm uppercase tracking-wider mb-1 md:mb-3">Guests *</label>
                   <input
@@ -268,42 +277,47 @@ export default function EventsPage() {
                     name="guests"
                     value={eventFormData.guests}
                     onChange={handleEventFormChange}
-                    className="w-full bg-white/10 border border-white/20 text-cream px-2 py-2 md:px-4 md:py-3 rounded text-xs md:text-base focus:outline-none focus:border-orange focus:bg-white/15 transition-all"
+                    className="w-full bg-white/10 border border-white/20 text-[#FFF7ED] px-3 py-2.5 md:px-4 md:py-3 rounded text-sm md:text-base focus:outline-none focus:border-orange focus:bg-white/15 transition-all"
                     min="5"
                     max="500"
+                    inputMode="numeric"
+                    placeholder="e.g. 20"
                   />
                 </div>
+                <div>
+                  <label className="block font-black text-[0.6rem] md:text-sm uppercase tracking-wider mb-1 md:mb-3">Event Type *</label>
+                  <select
+                    name="eventType"
+                    value={eventFormData.eventType}
+                    onChange={handleEventFormChange}
+                    className="w-full bg-[#1a0d0a] border border-white/20 text-[#FFF7ED] px-3 py-2.5 md:px-4 md:py-3 rounded text-sm md:text-base focus:outline-none focus:border-orange transition-all"
+                  >
+                    <option value="" className="bg-[#1a0d0a] text-[#FFF7ED]">Select type</option>
+                    <option value="birthday" className="bg-[#1a0d0a] text-[#FFF7ED]">Birthday</option>
+                    <option value="family" className="bg-[#1a0d0a] text-[#FFF7ED]">Family Gathering</option>
+                    <option value="corporate" className="bg-[#1a0d0a] text-[#FFF7ED]">Corporate Event</option>
+                    <option value="group" className="bg-[#1a0d0a] text-[#FFF7ED]">Group Celebration</option>
+                    <option value="wedding" className="bg-[#1a0d0a] text-[#FFF7ED]">Wedding Reception</option>
+                    <option value="other" className="bg-[#1a0d0a] text-[#FFF7ED]">Other</option>
+                  </select>
+                </div>
               </div>
-              <div className="mb-3 md:mb-6">
-                <label className="block font-black text-[0.6rem] md:text-sm uppercase tracking-wider mb-1 md:mb-3">Event Type *</label>
-                <select
-                  name="eventType"
-                  value={eventFormData.eventType}
-                  onChange={handleEventFormChange}
-                  className="w-full bg-white/10 border border-white/20 text-cream px-2 py-2 md:px-4 md:py-3 rounded text-xs md:text-base focus:outline-none focus:border-orange focus:bg-white/15 transition-all"
-                >
-                  <option value="" className="bg-[#1a0d0a] text-[#FFF7ED]">Select event type</option>
-                  <option value="birthday" className="bg-[#1a0d0a] text-[#FFF7ED]">Birthday</option>
-                  <option value="family" className="bg-[#1a0d0a] text-[#FFF7ED]">Family Gathering</option>
-                  <option value="corporate" className="bg-[#1a0d0a] text-[#FFF7ED]">Corporate Event</option>
-                  <option value="group" className="bg-[#1a0d0a] text-[#FFF7ED]">Group Celebration</option>
-                  <option value="wedding" className="bg-[#1a0d0a] text-[#FFF7ED]">Wedding Reception</option>
-                  <option value="other" className="bg-[#1a0d0a] text-[#FFF7ED]">Other</option>
-                </select>
-              </div>
-              <div className="mb-4 md:mb-8">
+
+              {/* Message */}
+              <div>
                 <label className="block font-black text-[0.6rem] md:text-sm uppercase tracking-wider mb-1 md:mb-3">Message</label>
                 <textarea
                   name="message"
                   value={eventFormData.message}
                   onChange={handleEventFormChange}
-                  className="w-full bg-white/10 border border-white/20 text-cream px-2 py-2 md:px-4 md:py-3 rounded text-xs md:text-base focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-cream/40 min-h-20 md:min-h-28 resize-none"
+                  className="w-full bg-white/10 border border-white/20 text-[#FFF7ED] px-3 py-2.5 md:px-4 md:py-3 rounded text-sm md:text-base focus:outline-none focus:border-orange focus:bg-white/15 transition-all placeholder-[#FFF7ED]/40 min-h-24 md:min-h-28 resize-none"
                   placeholder="Tell us about your event..."
                 ></textarea>
               </div>
+
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-yellow to-orange text-black font-black text-xs md:text-sm uppercase tracking-wider py-2 md:py-3 rounded hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg"
+                className="w-full bg-gradient-to-r from-yellow to-orange text-black font-black text-sm md:text-base uppercase tracking-wider py-3 rounded hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg"
               >
                 <i className="fa-solid fa-calendar-check mr-2"></i> Submit Request
               </button>
