@@ -156,6 +156,8 @@ export default function ContactPage() {
     "Thank you! We've received your message and will get back to you soon."
   )
 
+  const [submitting, setSubmitting] = useState(false)
+
   const handleReservationChange = (e) => {
     const { name, value } = e.target
     setReservationFormData(prev => ({ ...prev, [name]: value }))
@@ -166,53 +168,75 @@ export default function ContactPage() {
     setContactFormData(prev => ({ ...prev, [name]: value }))
   }
 
-  const openWhatsAppMessage = (lines) => {
-    const message = lines.filter(Boolean).join('\n')
-    window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer')
+  const sendToTelegram = async (text: string) => {
+    const res = await fetch('/api/telegram', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+    })
+    if (!res.ok) throw new Error('Failed to send')
   }
 
-  const handleReservationSubmit = (e) => {
+  const handleReservationSubmit = async (e) => {
     e.preventDefault()
     if (!reservationFormData.name || !reservationFormData.phone || !reservationFormData.date || !reservationFormData.time || !reservationFormData.guests) {
       alert('Please fill in all required fields')
       return
     }
-    openWhatsAppMessage([
-      'New reservation request from BRAVO website',
-      `Name: ${reservationFormData.name}`,
-      `Phone: ${reservationFormData.phone}`,
-      `Date: ${reservationFormData.date}`,
-      `Time: ${reservationFormData.time}`,
-      `Guests: ${reservationFormData.guests}`,
-      reservationFormData.message ? `Special requests: ${reservationFormData.message}` : '',
-    ])
-    setSuccessMessage('WhatsApp is opening with your reservation details. Please send the message there to complete the request.')
-    setShowSuccessModal(true)
-    setTimeout(() => setShowSuccessModal(false), 5000)
-    setReservationFormData({ name: '', phone: '', date: '', time: '', guests: '', message: '' })
-    setResDateMonth('')
-    setResDateDay('')
-    setResDateYear('')
+    setSubmitting(true)
+    try {
+      await sendToTelegram(
+        `🍖 <b>New Reservation — BRAVO Website</b>\n` +
+        `━━━━━━━━━━━━━━━━━\n` +
+        `👤 <b>Name:</b> ${reservationFormData.name}\n` +
+        `📞 <b>Phone:</b> ${reservationFormData.phone}\n` +
+        `📅 <b>Date:</b> ${reservationFormData.date}\n` +
+        `⏰ <b>Time:</b> ${reservationFormData.time}\n` +
+        `👥 <b>Guests:</b> ${reservationFormData.guests}\n` +
+        (reservationFormData.message ? `💬 <b>Special requests:</b> ${reservationFormData.message}\n` : '') +
+        `━━━━━━━━━━━━━━━━━`
+      )
+      setSuccessMessage('Your reservation has been sent! We will confirm shortly.')
+      setShowSuccessModal(true)
+      setTimeout(() => setShowSuccessModal(false), 5000)
+      setReservationFormData({ name: '', phone: '', date: '', time: '', guests: '', message: '' })
+      setResDateMonth('')
+      setResDateDay('')
+      setResDateYear('')
+    } catch {
+      alert('Something went wrong. Please call us directly or message via WhatsApp.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
-  const handleContactSubmit = (e) => {
+  const handleContactSubmit = async (e) => {
     e.preventDefault()
     if (!contactFormData.name || !contactFormData.phone || !contactFormData.email || !contactFormData.subject || !contactFormData.message) {
       alert('Please fill in all required fields')
       return
     }
-    openWhatsAppMessage([
-      'New contact message from BRAVO website',
-      `Name: ${contactFormData.name}`,
-      `Phone: ${contactFormData.phone}`,
-      `Email: ${contactFormData.email}`,
-      `Subject: ${contactFormData.subject}`,
-      `Message: ${contactFormData.message}`,
-    ])
-    setSuccessMessage('WhatsApp is opening with your message. Please send it there so the BRAVO team receives it.')
-    setShowSuccessModal(true)
-    setTimeout(() => setShowSuccessModal(false), 5000)
-    setContactFormData({ name: '', phone: '', email: '', subject: '', message: '' })
+    setSubmitting(true)
+    try {
+      await sendToTelegram(
+        `✉️ <b>New Contact Message — BRAVO Website</b>\n` +
+        `━━━━━━━━━━━━━━━━━\n` +
+        `👤 <b>Name:</b> ${contactFormData.name}\n` +
+        `📞 <b>Phone:</b> ${contactFormData.phone}\n` +
+        `📧 <b>Email:</b> ${contactFormData.email}\n` +
+        `📌 <b>Subject:</b> ${contactFormData.subject}\n` +
+        `💬 <b>Message:</b> ${contactFormData.message}\n` +
+        `━━━━━━━━━━━━━━━━━`
+      )
+      setSuccessMessage('Your message has been sent! We will get back to you soon.')
+      setShowSuccessModal(true)
+      setTimeout(() => setShowSuccessModal(false), 5000)
+      setContactFormData({ name: '', phone: '', email: '', subject: '', message: '' })
+    } catch {
+      alert('Something went wrong. Please call us directly or message via WhatsApp.')
+    } finally {
+      setSubmitting(false)
+    }
   }
   return (
     <>
@@ -456,9 +480,14 @@ export default function ContactPage() {
 
               <button
                 type="submit"
-                className="mt-3 flex w-full items-center justify-center rounded bg-gradient-to-r from-yellow to-orange px-4 py-3 text-sm font-black uppercase tracking-wider text-black shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl sm:mt-6 sm:px-6 sm:py-4"
+                disabled={submitting}
+                className="mt-3 flex w-full items-center justify-center rounded bg-gradient-to-r from-yellow to-orange px-4 py-3 text-sm font-black uppercase tracking-wider text-black shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed sm:mt-6 sm:px-6 sm:py-4"
               >
-                <i className="fa-solid fa-calendar-check mr-2"></i> Reserve Table
+                {submitting ? (
+                  <><i className="fa-solid fa-spinner fa-spin mr-2"></i> Sending…</>
+                ) : (
+                  <><i className="fa-solid fa-calendar-check mr-2"></i> Reserve Table</>
+                )}
               </button>
             </form>
           </motion.div>
@@ -595,9 +624,14 @@ export default function ContactPage() {
 
               <button
                 type="submit"
-                className="mt-3 flex w-full items-center justify-center rounded bg-dark px-4 py-3 text-sm font-black uppercase tracking-wider text-cream shadow-lg transition-all hover:-translate-y-1 hover:bg-orange hover:text-black hover:shadow-xl sm:mt-6 sm:px-6 sm:py-4"
+                disabled={submitting}
+                className="mt-3 flex w-full items-center justify-center rounded bg-dark px-4 py-3 text-sm font-black uppercase tracking-wider text-cream shadow-lg transition-all hover:-translate-y-1 hover:bg-orange hover:text-black hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed sm:mt-6 sm:px-6 sm:py-4"
               >
-                <i className="fa-solid fa-paper-plane mr-2"></i> Send Message
+                {submitting ? (
+                  <><i className="fa-solid fa-spinner fa-spin mr-2"></i> Sending…</>
+                ) : (
+                  <><i className="fa-solid fa-paper-plane mr-2"></i> Send Message</>
+                )}
               </button>
             </form>
           </motion.div>

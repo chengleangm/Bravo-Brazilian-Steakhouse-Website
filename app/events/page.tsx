@@ -52,6 +52,7 @@ export default function EventsPage() {
   const [dateYear, setDateYear] = useState('')
 
   const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   const handleEventFormChange = (e) => {
     const { name, value } = e.target
@@ -70,19 +71,42 @@ export default function EventsPage() {
     }
   }
 
-  const handleEventFormSubmit = (e) => {
+  const handleEventFormSubmit = async (e) => {
     e.preventDefault()
     if (!eventFormData.name || !eventFormData.phone || !eventFormData.date || !eventFormData.guests || !eventFormData.eventType) {
       alert('Please fill in all required fields')
       return
     }
-    console.log('Event request:', eventFormData)
-    setShowSuccessModal(true)
-    setTimeout(() => setShowSuccessModal(false), 3000)
-    setEventFormData({ name: '', phone: '', date: '', guests: '', eventType: '', message: '' })
-    setDateMonth('')
-    setDateDay('')
-    setDateYear('')
+    setSubmitting(true)
+    try {
+      const res = await fetch('/api/telegram', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text:
+            `🎉 <b>New Event Request — BRAVO Website</b>\n` +
+            `━━━━━━━━━━━━━━━━━\n` +
+            `👤 <b>Name:</b> ${eventFormData.name}\n` +
+            `📞 <b>Phone:</b> ${eventFormData.phone}\n` +
+            `📅 <b>Date:</b> ${eventFormData.date}\n` +
+            `👥 <b>Guests:</b> ${eventFormData.guests}\n` +
+            `🎊 <b>Event Type:</b> ${eventFormData.eventType}\n` +
+            (eventFormData.message ? `💬 <b>Details:</b> ${eventFormData.message}\n` : '') +
+            `━━━━━━━━━━━━━━━━━`,
+        }),
+      })
+      if (!res.ok) throw new Error('Failed')
+      setShowSuccessModal(true)
+      setTimeout(() => setShowSuccessModal(false), 4000)
+      setEventFormData({ name: '', phone: '', date: '', guests: '', eventType: '', message: '' })
+      setDateMonth('')
+      setDateDay('')
+      setDateYear('')
+    } catch {
+      alert('Something went wrong. Please call us directly or message via WhatsApp.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -371,9 +395,14 @@ export default function EventsPage() {
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-yellow to-orange text-black font-black text-sm md:text-base uppercase tracking-wider py-3 rounded hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg"
+                disabled={submitting}
+                className="w-full bg-gradient-to-r from-yellow to-orange text-black font-black text-sm md:text-base uppercase tracking-wider py-3 rounded hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <i className="fa-solid fa-calendar-check mr-2"></i> Submit Request
+                {submitting ? (
+                  <><i className="fa-solid fa-spinner fa-spin mr-2"></i> Sending…</>
+                ) : (
+                  <><i className="fa-solid fa-calendar-check mr-2"></i> Submit Request</>
+                )}
               </button>
             </form>
           </div>
@@ -388,7 +417,7 @@ export default function EventsPage() {
               <i className="fa-solid fa-check text-orange text-4xl"></i>
             </div>
             <h3 className="font-black text-3xl mb-3">SUCCESS!</h3>
-            <p className="text-cream/80 mb-6">Thank you! We've received your event request and will contact you soon.</p>
+            <p className="text-cream/80 mb-6">Your event request has been sent! Our team will contact you shortly to confirm the details.</p>
             <button
               onClick={() => setShowSuccessModal(false)}
               className="px-6 py-2 bg-orange text-black font-black text-sm uppercase tracking-wider rounded hover:bg-yellow transition-all"
