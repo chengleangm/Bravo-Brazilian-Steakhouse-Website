@@ -13,20 +13,6 @@ const TEAM_MEMBERS = [
     description: '30 years grilling meat in São Paulo and Phnom Penh.',
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=700&q=80',
   },
-  {
-    id: 2,
-    name: 'Maria Santos',
-    title: 'Service Director',
-    description: 'Brazilian hospitality expert with a passion for guest care.',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=700&q=80',
-  },
-  {
-    id: 3,
-    name: 'David Meng',
-    title: 'Restaurant Manager',
-    description: 'Bridging Brazilian and Cambodian dining cultures.',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=700&q=80',
-  },
 ]
 
 const VALUES = [
@@ -81,19 +67,9 @@ export default function AboutPage() {
         </section>
 
         {/* ── Our Story ── */}
-        <section className="bg-[#FFF7ED] px-5 py-12 text-[#120807] sm:py-20 lg:py-28">
-          <div className="mx-auto grid max-w-6xl items-center gap-8 md:grid-cols-2 md:gap-16">
-            <div>
-              <p className="mb-2 text-[10px] font-black uppercase tracking-widest text-[#fd850b] sm:mb-3 sm:text-xs">Our Journey</p>
-              <h2 className="font-serif text-3xl font-black uppercase leading-tight sm:text-5xl md:text-6xl">The Bravo Story</h2>
-              <p className="mt-4 text-sm leading-relaxed opacity-90 sm:mt-8 sm:text-lg">
-                BRAVO Brazilian Steakhouse was born from a simple dream: to bring the joy and generosity of a real São Paulo churrascaria to Phnom Penh.
-              </p>
-              <p className="mt-3 text-sm leading-relaxed opacity-90 sm:mt-4 sm:text-lg">
-                Our founder assembled a team of seasoned grill masters and hospitality experts who share a passion for fire, meat, and gathering. Every day we celebrate the rhythm of churrasco — slow flames, caramelized edges, and tables full of guests who leave happy.
-              </p>
-            </div>
-            <div className="relative h-56 overflow-hidden rounded shadow-lg sm:h-80 md:h-96">
+        <section className="bg-[#FFF7ED] px-4 py-8 text-[#120807] sm:px-5 sm:py-20 lg:py-28">
+          <div className="mx-auto grid max-w-6xl items-center gap-5 md:grid-cols-2 md:gap-16">
+            <div className="relative order-1 h-44 overflow-hidden rounded shadow-lg sm:h-80 md:order-2 md:h-96">
               <Image
                 src="https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=700&q=80"
                 alt="Brazilian steakhouse dining"
@@ -101,6 +77,16 @@ export default function AboutPage() {
                 sizes="(max-width:768px) 100vw, 50vw"
                 className="object-cover"
               />
+            </div>
+            <div className="order-2 md:order-1">
+              <p className="mb-1.5 text-[10px] font-black uppercase tracking-widest text-[#fd850b] sm:mb-3 sm:text-xs">Our Journey</p>
+              <h2 className="font-serif text-2xl font-black uppercase leading-tight sm:text-5xl md:text-6xl">The Bravo Story</h2>
+              <p className="mt-3 text-sm leading-relaxed opacity-90 sm:mt-8 sm:text-lg">
+                BRAVO Brazilian Steakhouse was born from a simple dream: to bring the joy and generosity of a real São Paulo churrascaria to Phnom Penh.
+              </p>
+              <p className="mt-2 text-sm leading-relaxed opacity-90 sm:mt-4 sm:text-lg">
+                Our founder assembled a team of seasoned grill masters and hospitality experts who share a passion for fire, meat, and gathering. Every day we celebrate the rhythm of churrasco — slow flames, caramelized edges, and tables full of guests who leave happy.
+              </p>
             </div>
           </div>
         </section>

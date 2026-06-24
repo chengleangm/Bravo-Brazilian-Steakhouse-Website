@@ -122,6 +122,22 @@ export default function ContactPage() {
     message: '',
   })
 
+  const [resDateMonth, setResDateMonth] = useState('')
+  const [resDateDay, setResDateDay] = useState('')
+  const [resDateYear, setResDateYear] = useState('')
+
+  const handleResDatePartChange = (part: 'month' | 'day' | 'year', value: string) => {
+    const newMonth = part === 'month' ? value : resDateMonth
+    const newDay = part === 'day' ? value : resDateDay
+    const newYear = part === 'year' ? value : resDateYear
+    if (part === 'month') setResDateMonth(value)
+    if (part === 'day') setResDateDay(value)
+    if (part === 'year') setResDateYear(value)
+    if (newMonth && newDay && newYear) {
+      setReservationFormData(prev => ({ ...prev, date: `${newYear}-${newMonth}-${newDay}` }))
+    }
+  }
+
   const [contactFormData, setContactFormData] = useState({
     name: '',
     phone: '',
@@ -169,6 +185,9 @@ export default function ContactPage() {
     setShowSuccessModal(true)
     setTimeout(() => setShowSuccessModal(false), 5000)
     setReservationFormData({ name: '', phone: '', date: '', time: '', guests: '', message: '' })
+    setResDateMonth('')
+    setResDateDay('')
+    setResDateYear('')
   }
 
   const handleContactSubmit = (e) => {
@@ -315,83 +334,124 @@ export default function ContactPage() {
                 <p className="text-xs font-medium text-cream/55 sm:text-sm">Required fields marked *</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
-                <div className="col-span-2 md:col-span-1">
-                  <label className={RESERVATION_LABEL_CLASS}>Name *</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={reservationFormData.name}
-                    onChange={handleReservationChange}
-                    className={RESERVATION_INPUT_CLASS}
-                    placeholder="Your name"
-                  />
+              <div className="flex flex-col gap-2.5 sm:gap-4">
+
+                {/* Name + Phone side by side */}
+                <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+                  <div>
+                    <label className={RESERVATION_LABEL_CLASS}>Name *</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={reservationFormData.name}
+                      onChange={handleReservationChange}
+                      className={RESERVATION_INPUT_CLASS}
+                      placeholder="Your name"
+                      autoComplete="name"
+                    />
+                  </div>
+                  <div>
+                    <label className={RESERVATION_LABEL_CLASS}>Phone *</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={reservationFormData.phone}
+                      onChange={handleReservationChange}
+                      className={RESERVATION_INPUT_CLASS}
+                      placeholder="Your phone"
+                      autoComplete="tel"
+                      inputMode="tel"
+                    />
+                  </div>
                 </div>
-                <div className="col-span-2 md:col-span-1">
-                  <label className={RESERVATION_LABEL_CLASS}>Phone *</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={reservationFormData.phone}
-                    onChange={handleReservationChange}
-                    className={RESERVATION_INPUT_CLASS}
-                    placeholder="Your phone"
-                  />
-                </div>
-                <div className="col-span-2 sm:col-span-1">
+
+                {/* Date — 3 dropdowns */}
+                <div>
                   <label className={RESERVATION_LABEL_CLASS}>Date *</label>
-                  <input
-                    type="text"
-                    name="date"
-                    value={reservationFormData.date}
-                    onChange={handleReservationChange}
-                    className={RESERVATION_INPUT_CLASS}
-                    placeholder="Date"
-                    autoComplete="off"
-                  />
+                  <div className="grid grid-cols-3 gap-2">
+                    <select
+                      value={resDateMonth}
+                      onChange={e => handleResDatePartChange('month', e.target.value)}
+                      className="w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 py-2 sm:py-3.5 rounded text-[0.82rem] sm:text-base focus:outline-none focus:border-orange transition-all"
+                    >
+                      <option value="">Month</option>
+                      {['01','02','03','04','05','06','07','08','09','10','11','12'].map((m, i) => (
+                        <option key={m} value={m} className="bg-[#1a0d0a] text-[#FFF7ED]">
+                          {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][i]}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      value={resDateDay}
+                      onChange={e => handleResDatePartChange('day', e.target.value)}
+                      className="w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 py-2 sm:py-3.5 rounded text-[0.82rem] sm:text-base focus:outline-none focus:border-orange transition-all"
+                    >
+                      <option value="">Day</option>
+                      {Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0')).map(d => (
+                        <option key={d} value={d} className="bg-[#1a0d0a] text-[#FFF7ED]">{Number(d)}</option>
+                      ))}
+                    </select>
+                    <select
+                      value={resDateYear}
+                      onChange={e => handleResDatePartChange('year', e.target.value)}
+                      className="w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 py-2 sm:py-3.5 rounded text-[0.82rem] sm:text-base focus:outline-none focus:border-orange transition-all"
+                    >
+                      <option value="">Year</option>
+                      {['2026','2027','2028'].map(y => (
+                        <option key={y} value={y} className="bg-[#1a0d0a] text-[#FFF7ED]">{y}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-                <div className="col-span-2 sm:col-span-1">
-                  <label className={RESERVATION_LABEL_CLASS}>Time *</label>
-                  <input
-                    type="text"
-                    name="time"
-                    value={reservationFormData.time}
-                    onChange={handleReservationChange}
-                    className={RESERVATION_INPUT_CLASS}
-                    placeholder="Time"
-                    autoComplete="off"
-                  />
+
+                {/* Time + Guests side by side */}
+                <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+                  <div>
+                    <label className={RESERVATION_LABEL_CLASS}>Time *</label>
+                    <select
+                      name="time"
+                      value={reservationFormData.time}
+                      onChange={handleReservationChange}
+                      className="w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 py-2 sm:py-3.5 rounded text-[0.82rem] sm:text-base focus:outline-none focus:border-orange transition-all"
+                    >
+                      <option value="">Select time</option>
+                      {['11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','5:00 PM','5:30 PM','6:00 PM','6:30 PM','7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM'].map(t => (
+                        <option key={t} value={t} className="bg-[#1a0d0a] text-[#FFF7ED]">{t}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className={RESERVATION_LABEL_CLASS}>Guests *</label>
+                    <input
+                      type="number"
+                      name="guests"
+                      value={reservationFormData.guests}
+                      onChange={handleReservationChange}
+                      className={RESERVATION_INPUT_CLASS}
+                      placeholder="e.g. 2"
+                      min="1"
+                      max="20"
+                      inputMode="numeric"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div className="mt-2.5 sm:mt-5">
-                <label className={RESERVATION_LABEL_CLASS}>Number of Guests *</label>
-                <input
-                  type="number"
-                  name="guests"
-                  value={reservationFormData.guests}
-                  onChange={handleReservationChange}
-                  className={RESERVATION_INPUT_CLASS}
-                  placeholder="Number of guests"
-                  min="1"
-                  max="20"
-                />
-              </div>
-
-              <div className="mt-2.5 sm:mt-5">
-                <label className={RESERVATION_LABEL_CLASS}>Special Requests</label>
-                <textarea
-                  name="message"
-                  value={reservationFormData.message}
-                  onChange={handleReservationChange}
-                  className={`${RESERVATION_INPUT_CLASS} min-h-16 resize-none sm:min-h-32`}
-                  placeholder="Any special requests or dietary requirements?"
-                ></textarea>
+                {/* Special Requests */}
+                <div>
+                  <label className={RESERVATION_LABEL_CLASS}>Special Requests</label>
+                  <textarea
+                    name="message"
+                    value={reservationFormData.message}
+                    onChange={handleReservationChange}
+                    className={`${RESERVATION_INPUT_CLASS} min-h-16 resize-none sm:min-h-28`}
+                    placeholder="Any special requests or dietary requirements?"
+                  ></textarea>
+                </div>
               </div>
 
               <button
                 type="submit"
-                className="mt-3 flex w-full items-center justify-center rounded bg-gradient-to-r from-yellow to-orange px-4 py-2 text-[0.72rem] font-black uppercase tracking-wider text-black shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl sm:mt-8 sm:px-6 sm:py-4 sm:text-sm"
+                className="mt-3 flex w-full items-center justify-center rounded bg-gradient-to-r from-yellow to-orange px-4 py-3 text-sm font-black uppercase tracking-wider text-black shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl sm:mt-6 sm:px-6 sm:py-4"
               >
                 <i className="fa-solid fa-calendar-check mr-2"></i> Reserve Table
               </button>
@@ -456,67 +516,81 @@ export default function ContactPage() {
                 <p className="text-xs font-medium text-dark/55 sm:text-sm">Required fields marked *</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
-                <div className="col-span-2 md:col-span-1">
-                  <label className={CONTACT_LABEL_CLASS}>Name *</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={contactFormData.name}
-                    onChange={handleContactChange}
-                    className={CONTACT_INPUT_CLASS}
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label className={CONTACT_LABEL_CLASS}>Email *</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={contactFormData.email}
-                    onChange={handleContactChange}
-                    className={CONTACT_INPUT_CLASS}
-                    placeholder="Your email"
-                  />
-                </div>
-                <div>
-                  <label className={CONTACT_LABEL_CLASS}>Phone *</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={contactFormData.phone}
-                    onChange={handleContactChange}
-                    className={CONTACT_INPUT_CLASS}
-                    placeholder="Your phone"
-                  />
-                </div>
-                <div className="col-span-2 md:col-span-1">
-                  <label className={CONTACT_LABEL_CLASS}>Subject *</label>
-                  <input
-                    type="text"
-                    name="subject"
-                    value={contactFormData.subject}
-                    onChange={handleContactChange}
-                    className={CONTACT_INPUT_CLASS}
-                    placeholder="What is this about?"
-                  />
-                </div>
-              </div>
+              <div className="flex flex-col gap-2.5 sm:gap-4">
 
-              <div className="mt-2.5 sm:mt-5">
-                <label className={CONTACT_LABEL_CLASS}>Message *</label>
-                <textarea
-                  name="message"
-                  value={contactFormData.message}
-                  onChange={handleContactChange}
-                  className={`${CONTACT_INPUT_CLASS} min-h-16 resize-none sm:min-h-36`}
-                  placeholder="Your message"
-                ></textarea>
+                {/* Name + Email side by side */}
+                <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+                  <div>
+                    <label className={CONTACT_LABEL_CLASS}>Name *</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={contactFormData.name}
+                      onChange={handleContactChange}
+                      className={CONTACT_INPUT_CLASS}
+                      placeholder="Your name"
+                      autoComplete="name"
+                    />
+                  </div>
+                  <div>
+                    <label className={CONTACT_LABEL_CLASS}>Email *</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={contactFormData.email}
+                      onChange={handleContactChange}
+                      className={CONTACT_INPUT_CLASS}
+                      placeholder="Your email"
+                      autoComplete="email"
+                      inputMode="email"
+                    />
+                  </div>
+                </div>
+
+                {/* Phone + Subject side by side */}
+                <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+                  <div>
+                    <label className={CONTACT_LABEL_CLASS}>Phone *</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={contactFormData.phone}
+                      onChange={handleContactChange}
+                      className={CONTACT_INPUT_CLASS}
+                      placeholder="Your phone"
+                      autoComplete="tel"
+                      inputMode="tel"
+                    />
+                  </div>
+                  <div>
+                    <label className={CONTACT_LABEL_CLASS}>Subject *</label>
+                    <input
+                      type="text"
+                      name="subject"
+                      value={contactFormData.subject}
+                      onChange={handleContactChange}
+                      className={CONTACT_INPUT_CLASS}
+                      placeholder="What is this about?"
+                    />
+                  </div>
+                </div>
+
+                {/* Message */}
+                <div>
+                  <label className={CONTACT_LABEL_CLASS}>Message *</label>
+                  <textarea
+                    name="message"
+                    value={contactFormData.message}
+                    onChange={handleContactChange}
+                    className={`${CONTACT_INPUT_CLASS} min-h-16 resize-none sm:min-h-32`}
+                    placeholder="Your message"
+                  ></textarea>
+                </div>
               </div>
 
               <button
                 type="submit"
-                className="mt-3 flex w-full items-center justify-center rounded bg-dark px-4 py-2 text-[0.72rem] font-black uppercase tracking-wider text-cream shadow-lg transition-all hover:-translate-y-1 hover:bg-orange hover:text-black hover:shadow-xl sm:mt-8 sm:px-6 sm:py-4 sm:text-sm"
+                className="mt-3 flex w-full items-center justify-center rounded bg-dark px-4 py-3 text-sm font-black uppercase tracking-wider text-cream shadow-lg transition-all hover:-translate-y-1 hover:bg-orange hover:text-black hover:shadow-xl sm:mt-6 sm:px-6 sm:py-4"
               >
                 <i className="fa-solid fa-paper-plane mr-2"></i> Send Message
               </button>

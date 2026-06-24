@@ -322,7 +322,7 @@ export default function EventsPage() {
                     name="guests"
                     value={eventFormData.guests}
                     onChange={handleEventFormChange}
-                    className="w-full bg-white/10 border border-white/20 text-[#FFF7ED] px-3 py-2.5 md:px-4 md:py-3 rounded text-sm md:text-base focus:outline-none focus:border-orange focus:bg-white/15 transition-all"
+                    className="w-full h-11 bg-[#1a0d0a] border border-white/20 text-[#FFF7ED] px-3 rounded text-sm md:text-base focus:outline-none focus:border-orange transition-all"
                     min="5"
                     max="500"
                     inputMode="numeric"
@@ -335,7 +335,7 @@ export default function EventsPage() {
                     name="eventType"
                     value={eventFormData.eventType}
                     onChange={handleEventFormChange}
-                    className="w-full bg-[#1a0d0a] border border-white/20 text-[#FFF7ED] px-3 py-2.5 md:px-4 md:py-3 rounded text-sm md:text-base focus:outline-none focus:border-orange transition-all"
+                    className="w-full h-11 bg-[#1a0d0a] border border-white/20 text-[#FFF7ED] px-3 rounded text-sm md:text-base focus:outline-none focus:border-orange transition-all"
                   >
                     <option value="" className="bg-[#1a0d0a] text-[#FFF7ED]">Select type</option>
                     <option value="birthday" className="bg-[#1a0d0a] text-[#FFF7ED]">Birthday</option>
