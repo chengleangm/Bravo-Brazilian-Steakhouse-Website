@@ -163,21 +163,20 @@ export default function AboutPage() {
 
         {/* Team Members */}
         <section className="bg-[#120807] px-5 py-12 text-[#FFF7ED] sm:py-20 lg:py-28">
-          <div className="mx-auto max-w-6xl">
-            <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className="grid grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-8">
-              {teamMembers.map((member) => (
-                <motion.div key={member.id} variants={fadeUp} transition={{ duration: 0.6 }} className="overflow-hidden rounded border border-white/8 bg-white/5 shadow-lg transition-all hover:-translate-y-1 hover:shadow-2xl">
-                  <div className="relative h-48 sm:h-64 lg:h-80">
-                    <Image src={member.image} alt={member.name} fill sizes="(max-width:640px) 100vw, 33vw" className="object-cover" unoptimized={u(member.image)} />
-                  </div>
-                  <div className="p-4 sm:p-7">
-                    <h3 className="text-lg font-black sm:text-2xl">{member.name}</h3>
-                    <p className="mt-0.5 text-[10px] font-black uppercase tracking-widest text-[#fd850b] sm:mb-3 sm:mt-1 sm:text-xs">{member.title}</p>
-                    <p className="mt-2 text-xs leading-relaxed text-[#C7B8A8] sm:mt-3 sm:text-sm">{member.description}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
+          <div className="mx-auto max-w-4xl">
+            {teamMembers.slice(0, 1).map((member) => (
+              <motion.div key={member.id} variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="overflow-hidden rounded border border-white/8 bg-white/5 shadow-lg md:flex">
+                <div className="relative h-64 w-full shrink-0 md:h-auto md:w-72 lg:w-96">
+                  <Image src={member.image} alt={member.name} fill sizes="(max-width:768px) 100vw, 384px" className="object-cover object-top" unoptimized={u(member.image)} />
+                </div>
+                <div className="flex flex-col justify-center p-6 sm:p-10">
+                  <p className="mb-2 text-[10px] font-black uppercase tracking-widest text-[#fd850b] sm:text-xs">{member.title}</p>
+                  <h3 className="font-serif text-2xl font-black uppercase leading-tight sm:text-4xl">{member.name}</h3>
+                  <div className="my-4 h-px w-12 bg-[#fd850b]/50 sm:my-6" />
+                  <p className="text-sm leading-relaxed text-[#C7B8A8] sm:text-base">{member.description}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </section>
 
