@@ -1,32 +1,157 @@
 {
   "alacarte": [
-    { "name": "Steak Mayo", "description": "White rice, mayonnaise salad & fries.", "price": "$10.95", "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=900&q=90" },
-    { "name": "Bravo Steak Brazil", "description": "White rice, pinto beans, fried egg, tomatoes and fries.", "price": "$11.95", "image": "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=900&q=90" },
-    { "name": "Steak Pepper", "description": "Topped with sauce, beans, couscous, salad & fries.", "price": "$11.95", "image": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=900&q=90" },
-    { "name": "Picanha / Rump", "description": "White rice, mayonnaise salad & fries.", "price": "$12.95", "image": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=90" },
-    { "name": "Spaghetti Steak", "description": "Spaghetti with tomato sauce.", "price": "$10.95", "image": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=90" },
-    { "name": "Chicken Pasta", "description": "Penne pasta with tomato sauce.", "price": "$8.95", "image": "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&w=900&q=90" },
-    { "name": "Garlic Rumpsteak", "description": "White rice, salsa sauce, salad & fries.", "price": "$12.95", "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=900&q=90" },
-    { "name": "Parmigiana Chicken", "description": "Chicken with mozzarella cheese and tomato sauce.", "price": "$10.95", "image": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=900&q=90" },
-    { "name": "Parmigiana Steak", "description": "Sirloin steak with pasta sauce and mozzarella.", "price": "$11.95", "image": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=900&q=90" }
+    {
+      "name": "Steak Mayo",
+      "description": "White rice, mayonnaise salad & fries.",
+      "price": "$10.95",
+      "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=900&q=90"
+    },
+    {
+      "name": "Bravo Steak Brazil",
+      "description": "White rice, pinto beans, fried egg, tomatoes and fries.",
+      "price": "$11.95",
+      "image": "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=900&q=90"
+    },
+    {
+      "name": "Steak Pepper",
+      "description": "Topped with sauce, beans, couscous, salad & fries.",
+      "price": "$11.95",
+      "image": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=900&q=90"
+    },
+    {
+      "name": "Picanha / Rump",
+      "description": "White rice, mayonnaise salad & fries.",
+      "price": "$12.95",
+      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=90"
+    },
+    {
+      "name": "Spaghetti Steak",
+      "description": "Spaghetti with tomato sauce.",
+      "price": "$10.95",
+      "image": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=90"
+    },
+    {
+      "name": "Chicken Pasta",
+      "description": "Penne pasta with tomato sauce.",
+      "price": "$8.95",
+      "image": "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&w=900&q=90"
+    },
+    {
+      "name": "Garlic Rumpsteak",
+      "description": "White rice, salsa sauce, salad & fries.",
+      "price": "$12.95",
+      "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=900&q=90"
+    },
+    {
+      "name": "Parmigiana Chicken",
+      "description": "Chicken with mozzarella cheese and tomato sauce.",
+      "price": "$10.95",
+      "image": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=900&q=90"
+    },
+    {
+      "name": "Parmigiana Steak",
+      "description": "Sirloin steak with pasta sauce and mozzarella.",
+      "price": "$11.95",
+      "image": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=900&q=90"
+    }
   ],
   "grillCuts": [
-    { "name": "Beef Ribs (USA) / សាច់គោឆ្អឹងជំនី", "description": "Slow-grilled USA beef ribs with deep smoky flavour.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1574484284002-952d92456975?auto=format&fit=crop&w=600&q=85" },
-    { "name": "Rump Steak / សាច់គោចន្លូក", "description": "Juicy rump steak grilled over open flame.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=85" },
-    { "name": "Beef Hump / ហ្គកគោ", "description": "Richly marbled hump cut with a deep beefy finish.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=85" },
-    { "name": "Beef Cheese / សាច់គោស៊ីស", "description": "Tender beef skewer finished with melted cheese.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=600&q=85" },
-    { "name": "Beef Sirloin / សាច់គោដាប់ខ្ទាញ់", "description": "Classic sirloin on the skewer, carved to order.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=600&q=85" },
-    { "name": "Garlic Steak / សាច់គោខ្ទឹម", "description": "Sirloin brushed with roasted garlic butter.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=85" },
-    { "name": "Dory Fish / ត្រីដូរី", "description": "Dory fish fillet grilled with garlic and herbs.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=600&q=85" },
-    { "name": "Honey Pork Ham / ភ្លៅជ្រូក", "description": "Glazed pork ham with honey and smoky char.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=600&q=85" },
-    { "name": "Lamb of Leg / ជើងចៀម", "description": "Herb-marinated leg of lamb grilled over charcoal.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=85" },
-    { "name": "Pork Sausages / សាច់ក្រកសាច់ជ្រូក", "description": "Brazilian-style pork sausage skewered and grilled.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=600&q=85" },
-    { "name": "Smoked Duck / ទ្រូងទា", "description": "Smoked duck breast with caramelised edges.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=600&q=85" },
-    { "name": "Chicken Hearts / បេះដូងមាន់", "description": "Classic churrasco chicken hearts with sea salt.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=600&q=85" },
-    { "name": "Chicken Wings / ស្លាបមាន់", "description": "Grill chicken wings with crisp skin and juicy inside.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=600&q=85" },
-    { "name": "River Prawns / បង្គាទន្លេ", "description": "Grilled river prawns with garlic butter and lime.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=600&q=85" },
-    { "name": "Pork Char Siu / សាច់ជ្រូកសាសួរ", "description": "Chinese-style BBQ pork with sweet glaze.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1606851091851-e8c8c0fca5ba?auto=format&fit=crop&w=600&q=85" },
-    { "name": "Spicy Pork Sausage / សាច់ក្រកហឹរ", "description": "Spiced pork sausage with chilli heat and smoky finish.", "price": "Buffet Included", "image": "https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=600&q=85" }
+    {
+      "name": "Beef Ribs (USA) / សាច់គោឆ្អឹងជំនី",
+      "description": "Slow-grilled USA beef ribs with deep smoky flavour.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1574484284002-952d92456975?auto=format&fit=crop&w=600&q=85"
+    },
+    {
+      "name": "Rump Steak / សាច់គោចន្លូក",
+      "description": "Juicy rump steak grilled over open flame.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=85"
+    },
+    {
+      "name": "Beef Hump / ហ្គកគោ",
+      "description": "Richly marbled hump cut with a deep beefy finish.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=85"
+    },
+    {
+      "name": "Beef Cheese / សាច់គោស៊ីស",
+      "description": "Tender beef skewer finished with melted cheese.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=600&q=85"
+    },
+    {
+      "name": "Beef Sirloin / សាច់គោដាប់ខ្ទាញ់",
+      "description": "Classic sirloin on the skewer, carved to order.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=600&q=85"
+    },
+    {
+      "name": "Garlic Steak / សាច់គោខ្ទឹម",
+      "description": "Sirloin brushed with roasted garlic butter.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=85"
+    },
+    {
+      "name": "Dory Fish / ត្រីដូរី",
+      "description": "Dory fish fillet grilled with garlic and herbs.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=600&q=85"
+    },
+    {
+      "name": "Honey Pork Ham / ភ្លៅជ្រូក",
+      "description": "Glazed pork ham with honey and smoky char.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=600&q=85"
+    },
+    {
+      "name": "Lamb of Leg / ជើងចៀម",
+      "description": "Herb-marinated leg of lamb grilled over charcoal.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=85"
+    },
+    {
+      "name": "Pork Sausages / សាច់ក្រកសាច់ជ្រូក",
+      "description": "Brazilian-style pork sausage skewered and grilled.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=600&q=85"
+    },
+    {
+      "name": "Smoked Duck / ទ្រូងទា",
+      "description": "Smoked duck breast with caramelised edges.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=600&q=85"
+    },
+    {
+      "name": "Chicken Hearts / បេះដូងមាន់",
+      "description": "Classic churrasco chicken hearts with sea salt.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=600&q=85"
+    },
+    {
+      "name": "Chicken Wings / ស្លាបមាន់",
+      "description": "Grill chicken wings with crisp skin and juicy inside.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=600&q=85"
+    },
+    {
+      "name": "River Prawns / បង្គាទន្លេ",
+      "description": "Grilled river prawns with garlic butter and lime.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=600&q=85"
+    },
+    {
+      "name": "Pork Char Siu / សាច់ជ្រូកសាសួរ",
+      "description": "Chinese-style BBQ pork with sweet glaze.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1606851091851-e8c8c0fca5ba?auto=format&fit=crop&w=600&q=85"
+    },
+    {
+      "name": "Spicy Pork Sausage / សាច់ក្រកហឹរ",
+      "description": "Spiced pork sausage with chilli heat and smoky finish.",
+      "price": "Buffet Included",
+      "image": "https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=600&q=85"
+    }
   ],
   "teamMembers": [
     {
@@ -34,7 +159,7 @@
       "name": "Chef Carlos",
       "title": "Head Chef",
       "description": "30 years grilling meat in São Paulo and Phnom Penh.",
-      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=700&q=80"
+      "image": "/menu/1782366593180-page-3.png"
     }
   ]
 }
