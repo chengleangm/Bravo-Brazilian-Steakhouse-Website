@@ -11,17 +11,14 @@ export async function POST(request: NextRequest) {
     }
 
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-')
-    const pathname = `${folder}/${Date.now()}-${safeName}`
-
-    // Convert to buffer first — more reliable across runtimes
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
+    const filename = `${Date.now()}-${safeName}`
+    const pathname = `${folder}/${filename}`
 
     // On Vercel: use Blob storage
     const token = process.env.BLOB_READ_WRITE_TOKEN
     if (token) {
       const { put } = await import('@vercel/blob')
-      const blob = await put(pathname, buffer, {
+      const blob = await put(pathname, file.stream(), {
         access: 'public',
         contentType: file.type || 'application/octet-stream',
         token,
@@ -32,13 +29,14 @@ export async function POST(request: NextRequest) {
     // Local dev fallback: save to public/
     const { promises: fs } = await import('fs')
     const path = await import('path')
+    const bytes = await file.arrayBuffer()
     const uploadDir = path.join(process.cwd(), 'public', folder)
     await fs.mkdir(uploadDir, { recursive: true })
-    await fs.writeFile(path.join(uploadDir, `${Date.now()}-${safeName}`), buffer)
-    return NextResponse.json({ url: `/${folder}/${Date.now()}-${safeName}` })
+    await fs.writeFile(path.join(uploadDir, filename), Buffer.from(bytes))
+    return NextResponse.json({ url: `/${folder}/${filename}` })
   } catch (err) {
-    console.error('[upload]', err)
-    const message = err instanceof Error ? err.message : 'Unknown error'
+    console.error('[upload error]', err)
+    const message = err instanceof Error ? err.message : String(err)
     return NextResponse.json({ error: message }, { status: 500 })
   }
 }
