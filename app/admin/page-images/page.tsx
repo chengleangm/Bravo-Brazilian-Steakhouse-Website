@@ -58,11 +58,17 @@ export default function AdminPageImages() {
       fd.append('file', file)
       fd.append('folder', 'pages')
       const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      if (!res.ok) { alert('Upload failed.'); return }
       const d = await res.json()
-      if (d.url) setImages(prev => prev ? { ...prev, [key]: d.url } : prev)
-    } finally {
-      setUploading(null)
-    }
+      if (d.url) {
+        const updated = { ...images!, [key]: d.url }
+        setImages(updated)
+        // Auto-save immediately after successful upload
+        await fetch('/api/admin/page-images', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updated) })
+        setToast('Image uploaded & saved!')
+      }
+    } catch { alert('Upload failed.') }
+    finally { setUploading(null) }
   }
 
   if (!images) return (

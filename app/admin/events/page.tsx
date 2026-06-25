@@ -75,9 +75,11 @@ export default function AdminEventsPage() {
       fd.append('file', file)
       fd.append('folder', folder)
       const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      if (!res.ok) { alert('Upload failed — check your internet connection.'); return null }
       const d = await res.json()
       return d.url ?? null
-    } finally { setUploading(false) }
+    } catch { alert('Upload failed.'); return null }
+    finally { setUploading(false) }
   }
 
   if (!data) return (
@@ -241,7 +243,7 @@ export default function AdminEventsPage() {
               <button onClick={() => heroFileRef.current?.click()} disabled={uploading} className={btnSecondary}>
                 {uploading ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading…</> : <><i className="fa-solid fa-upload" /> Upload</>}
               </button>
-              <input ref={heroFileRef} type="file" accept="image/*" className="hidden" onChange={async e => { const f = e.target.files?.[0]; if (f) { const url = await uploadFile(f, 'events'); if (url) setData(d => d ? { ...d, heroImage: url } : d) } e.target.value = '' }} />
+              <input ref={heroFileRef} type="file" accept="image/*" className="hidden" onChange={async e => { const f = e.target.files?.[0]; if (f) { const url = await uploadFile(f, 'events'); if (url && data) { const updated = { ...data, heroImage: url }; setData(updated); save(updated) } } e.target.value = '' }} />
               <button onClick={() => save(data)} disabled={saving} className={btnPrimary}>
                 <i className="fa-solid fa-floppy-disk" /> {saving ? 'Saving…' : 'Save'}
               </button>

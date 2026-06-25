@@ -14,7 +14,7 @@
       "ctaLink": "/contact#reservation"
     }
   ],
-  "heroImage": "https://images.unsplash.com/photo-1519167758481-dc8743210e51?auto=format&fit=crop&w=1800&q=85",
+  "heroImage": "/events/1782361853919-Restaurant-event-ideas.png",
   "eventTypes": [
     {
       "icon": "fa-cake-candles",
