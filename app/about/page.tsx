@@ -166,7 +166,7 @@ export default function AboutPage() {
           <div className="mx-auto max-w-4xl">
             {teamMembers.slice(0, 1).map((member) => (
               <motion.div key={member.id} variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="overflow-hidden rounded border border-white/8 bg-white/5 shadow-lg md:flex">
-                <div className="relative h-64 w-full shrink-0 md:h-auto md:w-72 lg:w-96">
+                <div className="relative h-64 w-full shrink-0 md:h-80 md:w-80 lg:h-96 lg:w-96">
                   <Image src={member.image} alt={member.name} fill sizes="(max-width:768px) 100vw, 384px" className="object-cover object-top" unoptimized={u(member.image)} />
                 </div>
                 <div className="flex flex-col justify-center p-6 sm:p-10">
