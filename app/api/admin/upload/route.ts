@@ -26,6 +26,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ url: blob.url })
     }
 
+    // On Vercel without Blob token → fail clearly instead of trying filesystem
+    if (process.env.VERCEL) {
+      return NextResponse.json(
+        { error: 'BLOB_READ_WRITE_TOKEN is not set. Go to Vercel → Storage → your Blob store → connect it to this project, then redeploy.' },
+        { status: 500 }
+      )
+    }
+
     // Local dev fallback: save to public/
     const { promises: fs } = await import('fs')
     const path = await import('path')
