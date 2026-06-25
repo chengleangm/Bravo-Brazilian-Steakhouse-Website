@@ -1,5 +1,4 @@
 {
-  "heroImage": "https://images.unsplash.com/photo-1519167758481-dc8743210e51?auto=format&fit=crop&w=1800&q=85",
   "promotions": [
     {
       "id": 1,
@@ -15,13 +14,38 @@
       "ctaLink": "/contact#reservation"
     }
   ],
+  "heroImage": "https://images.unsplash.com/photo-1519167758481-dc8743210e51?auto=format&fit=crop&w=1800&q=85",
   "eventTypes": [
-    { "icon": "fa-cake-candles", "title": "BIRTHDAYS", "desc": "Celebrate with fire-grilled favorites" },
-    { "icon": "fa-users", "title": "FAMILY GATHERINGS", "desc": "Generous buffet for all ages" },
-    { "icon": "fa-briefcase", "title": "CORPORATE EVENTS", "desc": "Team building with Brazilian style" },
-    { "icon": "fa-people-group", "title": "GROUP CELEBRATIONS", "desc": "Large parties welcome" },
-    { "icon": "fa-ring", "title": "PRIVATE FUNCTIONS", "desc": "Intimate or exclusive dining" },
-    { "icon": "fa-star", "title": "SPECIAL OCCASIONS", "desc": "Anniversaries, engagements & more" }
+    {
+      "icon": "fa-cake-candles",
+      "title": "BIRTHDAYS",
+      "desc": "Celebrate with fire-grilled favorites"
+    },
+    {
+      "icon": "fa-users",
+      "title": "FAMILY GATHERINGS",
+      "desc": "Generous buffet for all ages"
+    },
+    {
+      "icon": "fa-briefcase",
+      "title": "CORPORATE EVENTS",
+      "desc": "Team building with Brazilian style"
+    },
+    {
+      "icon": "fa-people-group",
+      "title": "GROUP CELEBRATIONS",
+      "desc": "Large parties welcome"
+    },
+    {
+      "icon": "fa-ring",
+      "title": "PRIVATE FUNCTIONS",
+      "desc": "Intimate or exclusive dining"
+    },
+    {
+      "icon": "fa-star",
+      "title": "SPECIAL OCCASIONS",
+      "desc": "Anniversaries, engagements & more"
+    }
   ],
   "featuredPackage": {
     "title": "FAMILY GATHERING",
@@ -39,19 +63,31 @@
       "title": "Birthday",
       "from": "$16.90",
       "capacity": "5-30 guests",
-      "features": ["Buffet service", "Specialty cuts", "Complimentary decorations"]
+      "features": [
+        "Buffet service",
+        "Specialty cuts",
+        "Complimentary decorations"
+      ]
     },
     {
       "title": "Corporate",
       "from": "$19.90",
       "capacity": "15-100 guests",
-      "features": ["Team building", "Private section available", "Catering service"]
+      "features": [
+        "Team building",
+        "Private section available",
+        "Catering service"
+      ]
     },
     {
       "title": "Private Dining",
       "from": "$22.90",
       "capacity": "20-50 guests",
-      "features": ["Exclusive room", "Premium service", "Customized menu"]
+      "features": [
+        "Exclusive room",
+        "Premium service",
+        "Customized menu"
+      ]
     }
   ],
   "features": [
