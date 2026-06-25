@@ -3,35 +3,26 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 32 },
-  show: { opacity: 1, y: 0 },
-}
-const fadeLeft = {
-  hidden: { opacity: 0, x: -32 },
-  show: { opacity: 1, x: 0 },
-}
-const fadeRight = {
-  hidden: { opacity: 0, x: 32 },
-  show: { opacity: 1, x: 0 },
-}
-const stagger = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1 } },
-}
+const fadeUp = { hidden: { opacity: 0, y: 32 }, show: { opacity: 1, y: 0 } }
+const fadeLeft = { hidden: { opacity: 0, x: -32 }, show: { opacity: 1, x: 0 } }
+const fadeRight = { hidden: { opacity: 0, x: 32 }, show: { opacity: 1, x: 0 } }
+const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.1 } } }
 const vp = { once: true, amount: 0.2 }
 
-const TEAM_MEMBERS = [
-  {
-    id: 1,
-    name: 'Chef Carlos',
-    title: 'Head Chef',
-    description: '30 years grilling meat in São Paulo and Phnom Penh.',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=700&q=80',
-  },
+const DEFAULTS = {
+  aboutHero: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85',
+  aboutStory: 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=700&q=80',
+  aboutChurrascaria: 'https://images.unsplash.com/photo-1702741168115-cd3d9a682972?auto=format&fit=crop&w=1200&q=85',
+  aboutTeamGroup: 'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=700&q=80',
+  aboutCTA: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85',
+}
+
+const DEFAULT_TEAM = [
+  { id: 1, name: 'Chef Carlos', title: 'Head Chef', description: '30 years grilling meat in São Paulo and Phnom Penh.', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=700&q=80' },
 ]
 
 const VALUES = [
@@ -48,48 +39,46 @@ const WHY_US = [
   { icon: 'fa-sun', title: 'Warm Atmosphere', body: 'Our dining room is built for laughter, connection, and the kind of memories that last.' },
 ]
 
-const ABOUT_CTA_HIGHLIGHTS = [
-  'Brazilian grill tradition',
-  'Warm Phnom Penh hospitality',
-  'Built for groups and celebrations',
-]
+const ABOUT_CTA_HIGHLIGHTS = ['Brazilian grill tradition', 'Warm Phnom Penh hospitality', 'Built for groups and celebrations']
 
 export default function AboutPage() {
+  const [imgs, setImgs] = useState(DEFAULTS)
+  const [teamMembers, setTeamMembers] = useState(DEFAULT_TEAM)
+
+  useEffect(() => {
+    fetch('/api/admin/page-images')
+      .then(r => r.json())
+      .then(d => setImgs(prev => ({ ...prev, ...d })))
+      .catch(() => {})
+    fetch('/api/admin/menu-items')
+      .then(r => r.json())
+      .then(d => { if (d.teamMembers?.length) setTeamMembers(d.teamMembers) })
+      .catch(() => {})
+  }, [])
+
+  const u = (src: string) => !src.includes('unsplash.com')
+
   return (
     <>
       <Header />
-
       <main>
 
-        {/* ── Hero ── */}
+        {/* Hero */}
         <section className="relative flex min-h-[60vh] items-center justify-center overflow-hidden bg-[#120807] px-5 pb-12 pt-24 text-center text-white sm:min-h-screen sm:pb-16 sm:pt-32">
-          <Image
-            src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85"
-            alt="Bravo Brazilian Steakhouse"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-center"
-          />
+          <Image src={imgs.aboutHero} alt="Bravo Brazilian Steakhouse" fill priority sizes="100vw" className="object-cover object-center" unoptimized={u(imgs.aboutHero)} />
           <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/30 to-black/75" />
           <div className="relative z-10">
-            <p className="mb-3 text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:mb-4 sm:text-xs">
-              Phnom Penh · Est. 2024
-            </p>
-            <h1 className="font-serif text-5xl font-black uppercase leading-none drop-shadow-lg sm:text-7xl md:text-9xl">
-              About Bravo
-            </h1>
-            <p className="mx-auto mt-4 max-w-sm text-sm text-white/80 sm:mt-6 sm:max-w-md sm:text-lg">
-              Our story, our team, our mission
-            </p>
+            <p className="mb-3 text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:mb-4 sm:text-xs">Phnom Penh · Est. 2024</p>
+            <h1 className="font-serif text-5xl font-black uppercase leading-none drop-shadow-lg sm:text-7xl md:text-9xl">About Bravo</h1>
+            <p className="mx-auto mt-4 max-w-sm text-sm text-white/80 sm:mt-6 sm:max-w-md sm:text-lg">Our story, our team, our mission</p>
           </div>
         </section>
 
-        {/* ── Our Story ── */}
+        {/* Our Story */}
         <section className="bg-[#FFF7ED] px-4 py-8 text-[#120807] sm:px-5 sm:py-20 lg:py-28">
           <div className="mx-auto grid max-w-6xl items-center gap-5 md:grid-cols-2 md:gap-16">
             <motion.div variants={fadeRight} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="relative order-1 h-44 overflow-hidden rounded shadow-lg sm:h-80 md:order-2 md:h-96">
-              <Image src="https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=700&q=80" alt="Brazilian steakhouse dining" fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover" />
+              <Image src={imgs.aboutStory} alt="Brazilian steakhouse dining" fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover" unoptimized={u(imgs.aboutStory)} />
             </motion.div>
             <motion.div variants={fadeLeft} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7, delay: 0.1 }} className="order-2 md:order-1">
               <p className="mb-1.5 text-[10px] font-black uppercase tracking-widest text-[#fd850b] sm:mb-3 sm:text-xs">Our Journey</p>
@@ -100,11 +89,11 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── What is Churrascaria ── */}
+        {/* Churrascaria */}
         <section id="churrascaria" className="bg-[#120807] px-5 py-12 text-[#FFF7ED] sm:py-20 lg:py-28">
           <div className="mx-auto grid max-w-6xl items-center gap-8 md:grid-cols-2 md:gap-16">
             <motion.div variants={fadeLeft} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="relative h-56 overflow-hidden rounded shadow-lg sm:h-80 md:h-96 md:order-1">
-              <Image src="https://images.unsplash.com/photo-1702741168115-cd3d9a682972?auto=format&fit=crop&w=1200&q=85" alt="Churrasco grilling" fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover" />
+              <Image src={imgs.aboutChurrascaria} alt="Churrasco grilling" fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover" unoptimized={u(imgs.aboutChurrascaria)} />
             </motion.div>
             <motion.div variants={fadeRight} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7, delay: 0.1 }} className="md:order-2">
               <p className="mb-2 text-[10px] font-black uppercase tracking-widest text-[#fd850b] sm:mb-3 sm:text-xs">Brazilian Tradition</p>
@@ -115,7 +104,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── Mission & Values ── */}
+        {/* Mission & Values */}
         <section className="bg-[#FFF7ED] px-5 py-12 text-[#120807] sm:py-20 lg:py-28">
           <div className="mx-auto max-w-6xl">
             <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.65 }} className="mx-auto mb-8 max-w-2xl text-center sm:mb-14">
@@ -136,7 +125,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── Why Choose Bravo ── */}
+        {/* Why Choose Bravo */}
         <section className="bg-[#120807] px-5 py-12 text-[#FFF7ED] sm:py-20 lg:py-28">
           <div className="mx-auto max-w-6xl">
             <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.65 }} className="mx-auto mb-8 max-w-2xl text-center sm:mb-14">
@@ -157,7 +146,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── Chef & Team Intro ── */}
+        {/* Team Intro */}
         <section className="bg-[#FFF7ED] px-5 py-12 text-[#120807] sm:py-20 lg:py-28">
           <div className="mx-auto grid max-w-6xl items-center gap-8 md:grid-cols-2 md:gap-16">
             <motion.div variants={fadeLeft} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }}>
@@ -167,19 +156,19 @@ export default function AboutPage() {
               <p className="mt-3 text-sm leading-relaxed opacity-90 sm:mt-4 sm:text-lg">Every role matters. From the chef tending the flames to the server at your table, BRAVO is a team effort built on care and craftsmanship.</p>
             </motion.div>
             <motion.div variants={fadeRight} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7, delay: 0.1 }} className="relative h-56 overflow-hidden rounded shadow-lg sm:h-80 md:h-96">
-              <Image src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=700&q=80" alt="BRAVO team" fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover" />
+              <Image src={imgs.aboutTeamGroup} alt="BRAVO team" fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover" unoptimized={u(imgs.aboutTeamGroup)} />
             </motion.div>
           </div>
         </section>
 
-        {/* ── Team Members ── */}
+        {/* Team Members */}
         <section className="bg-[#120807] px-5 py-12 text-[#FFF7ED] sm:py-20 lg:py-28">
           <div className="mx-auto max-w-6xl">
             <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className="grid grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-8">
-              {TEAM_MEMBERS.map((member) => (
+              {teamMembers.map((member) => (
                 <motion.div key={member.id} variants={fadeUp} transition={{ duration: 0.6 }} className="overflow-hidden rounded border border-white/8 bg-white/5 shadow-lg transition-all hover:-translate-y-1 hover:shadow-2xl">
                   <div className="relative h-48 sm:h-64 lg:h-80">
-                    <Image src={member.image} alt={member.name} fill sizes="(max-width:640px) 100vw, 33vw" className="object-cover" />
+                    <Image src={member.image} alt={member.name} fill sizes="(max-width:640px) 100vw, 33vw" className="object-cover" unoptimized={u(member.image)} />
                   </div>
                   <div className="p-4 sm:p-7">
                     <h3 className="text-lg font-black sm:text-2xl">{member.name}</h3>
@@ -192,9 +181,9 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── CTA ── */}
+        {/* CTA */}
         <section className="relative overflow-hidden border-y border-[#D4A373]/18 bg-[#120807] px-5 py-12 text-[#FFF7ED] sm:px-8 sm:py-16 lg:px-10 lg:py-20">
-          <Image src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85" alt="" fill sizes="100vw" className="object-cover opacity-25" aria-hidden="true" />
+          <Image src={imgs.aboutCTA} alt="" fill sizes="100vw" className="object-cover opacity-25" aria-hidden="true" unoptimized={u(imgs.aboutCTA)} />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,8,7,0.98)_0%,rgba(18,8,7,0.88)_48%,rgba(18,8,7,0.68)_100%)]" />
 
           <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="relative z-10 mx-auto grid max-w-6xl items-center gap-6 sm:gap-8 lg:grid-cols-[1fr_auto]">
@@ -223,7 +212,6 @@ export default function AboutPage() {
         </section>
 
       </main>
-
       <Footer />
     </>
   )

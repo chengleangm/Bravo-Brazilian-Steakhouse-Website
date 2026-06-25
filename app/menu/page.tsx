@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import styles from './page.module.css'
@@ -15,7 +16,7 @@ type MenuItem = { name: string; description: string; price: string; image?: stri
 type MenuSection = { id: string; eyebrow: string; title: string; description: string; items: MenuItem[] }
 type BuffetPackage = { name: string; grillCount: number; priceAdult: string; priceKids: string; items: string[]; extras?: string; highlight?: boolean }
 
-const heroImage = 'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=2000&q=90'
+const DEFAULT_HERO = 'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=2000&q=90'
 const menuCtaHighlights = [
   { label: 'Buffet', value: 'Lunch and dinner' },
   { label: 'À La Carte', value: 'Open daily 11AM–10:30PM' },
@@ -193,6 +194,7 @@ function GrillCard({ item }: { item: MenuItem }) {
           fill
           sizes="25vw"
           className="object-cover transition duration-700 group-hover:scale-[1.07]"
+          unoptimized={!item.image.includes('unsplash.com')}
         />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
@@ -217,6 +219,7 @@ function AlaCarteCard({ item }: { item: MenuItem }) {
               fill
               sizes="(max-width:640px) 33vw, (max-width:1024px) 210px, 230px"
               className="object-cover transition duration-500 group-hover:scale-[1.08]"
+              unoptimized={!item.image.includes('unsplash.com')}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
           </div>
@@ -523,6 +526,24 @@ function DrinkSection() {
 }
 
 export default function MenuPage() {
+  const [heroImage, setHeroImage] = useState(DEFAULT_HERO)
+  const [alacarteItems, setAlacarteItems] = useState(menuSections[0].items)
+  const [grillItems, setGrillItems] = useState(menuSections[1].items)
+
+  useEffect(() => {
+    fetch('/api/admin/page-images')
+      .then(r => r.json())
+      .then(d => { if (d.menuHero) setHeroImage(d.menuHero) })
+      .catch(() => {})
+    fetch('/api/admin/menu-items')
+      .then(r => r.json())
+      .then(d => {
+        if (d.alacarte?.length) setAlacarteItems(d.alacarte)
+        if (d.grillCuts?.length) setGrillItems(d.grillCuts)
+      })
+      .catch(() => {})
+  }, [])
+
   return (
     <>
       <Header />
@@ -530,7 +551,7 @@ export default function MenuPage() {
 
         {/* Hero */}
         <section className="relative flex min-h-[72vh] items-center justify-center overflow-hidden px-5 py-28 text-center sm:px-8 lg:px-10">
-          <Image src={heroImage} alt="Brazilian BBQ menu hero" fill priority sizes="100vw" className="object-cover" />
+          <Image src={heroImage} alt="Brazilian BBQ menu hero" fill priority sizes="100vw" className="object-cover" unoptimized={!heroImage.includes('unsplash.com')} />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,8,7,0.92),rgba(18,8,7,0.5),rgba(18,8,7,0.92))]" />
           <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.8 }} className="relative z-10 mx-auto max-w-4xl pt-16">
             <p className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-[#fd850b]">Bravo Menu</p>
@@ -600,39 +621,35 @@ export default function MenuPage() {
           </div>
         </section>
 
-        {/* À LA CARTE + GRILL */}
-        {menuSections.map((section, index) => {
-          if (section.id === 'alacarte') {
-            return <AlaCarteSection key={section.id} section={section} />
-          }
-          return (
-            <section key={section.id} id={section.id} className={`px-5 py-20 sm:px-8 lg:px-10 lg:py-28 ${index % 2 === 0 ? 'bg-[#1A0E0A]' : 'bg-[#120807]'}`}>
-              <div className="mx-auto max-w-7xl">
-                <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="mx-auto mb-12 max-w-3xl text-center">
-                  <div className="mb-5 flex items-center justify-center gap-4">
-                    <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
-                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:text-xs">{section.eyebrow}</span>
-                    <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
-                  </div>
-                  <h2 className="font-serif text-5xl font-black uppercase leading-none text-white sm:text-7xl lg:text-[7rem]">
-                    {section.title}
-                  </h2>
-                  <p className="mt-6 text-base leading-7 text-[#C7B8A8] sm:text-lg sm:leading-8">{section.description}</p>
-                </motion.div>
-                <div className="grid grid-cols-4 gap-0.5 sm:gap-1">
-                  {section.items.map((item) => <GrillCard key={item.name} item={item} />)}
-                </div>
+        {/* À LA CARTE */}
+        <AlaCarteSection section={{ ...menuSections[0], items: alacarteItems }} />
+
+        {/* GRILL CUTS */}
+        <section id="grill" className="bg-[#120807] px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
+          <div className="mx-auto max-w-7xl">
+            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="mx-auto mb-12 max-w-3xl text-center">
+              <div className="mb-5 flex items-center justify-center gap-4">
+                <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:text-xs">{menuSections[1].eyebrow}</span>
+                <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
               </div>
-            </section>
-          )
-        })}
+              <h2 className="font-serif text-5xl font-black uppercase leading-none text-white sm:text-7xl lg:text-[7rem]">
+                {menuSections[1].title}
+              </h2>
+              <p className="mt-6 text-base leading-7 text-[#C7B8A8] sm:text-lg sm:leading-8">{menuSections[1].description}</p>
+            </motion.div>
+            <div className="grid grid-cols-4 gap-0.5 sm:gap-1">
+              {grillItems.map((item) => <GrillCard key={item.name} item={item} />)}
+            </div>
+          </div>
+        </section>
 
         {/* DRINKS */}
         <DrinkSection />
 
         {/* CTA */}
         <section className="relative overflow-hidden border-y border-[#D4A373]/18 px-4 py-10 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
-          <Image src={heroImage} alt="" fill sizes="100vw" className="object-cover opacity-24" aria-hidden="true" />
+          <Image src={heroImage} alt="" fill sizes="100vw" className="object-cover opacity-24" aria-hidden="true" unoptimized={!heroImage.includes('unsplash.com')} />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,8,7,0.98)_0%,rgba(18,8,7,0.86)_52%,rgba(18,8,7,0.7)_100%)]" />
           <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="relative z-10 mx-auto grid max-w-6xl items-center gap-5 sm:gap-8 lg:grid-cols-[1fr_auto]">
             <div className="max-w-3xl">

@@ -3,14 +3,22 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
-const heroImage =
-  'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=2200&q=90'
+const DEFAULT_HERO = 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=2200&q=90'
 
 export function Hero() {
+  const [heroImage, setHeroImage] = useState(DEFAULT_HERO)
+
+  useEffect(() => {
+    fetch('/api/admin/page-images')
+      .then(r => r.json())
+      .then(d => { if (d.homeHero) setHeroImage(d.homeHero) })
+      .catch(() => {})
+  }, [])
+
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#120807] text-[#FFF7ED]">
-      {/* Background image */}
       <Image
         src={heroImage}
         alt="Fire grilled steak on a dark Brazilian BBQ table"
@@ -18,18 +26,15 @@ export function Hero() {
         priority
         sizes="100vw"
         className="object-cover object-center"
+        unoptimized={!heroImage.includes('unsplash.com')}
       />
 
-      {/* Mobile: full dark overlay; Desktop: left-to-right fade */}
       <div className="absolute inset-0 bg-black/70 sm:bg-transparent sm:bg-[linear-gradient(to_right,rgba(0,0,0,0.95)_0%,rgba(0,0,0,0.78)_50%,rgba(0,0,0,0.08)_100%)]" />
-      {/* Top & bottom fade */}
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.5)_0%,transparent_25%,transparent_75%,rgba(0,0,0,0.65)_100%)]" />
 
-      {/* Content — left aligned */}
       <div className="relative z-10 flex min-h-screen w-full items-center">
         <div className="w-full max-w-3xl px-6 py-28 text-center sm:px-14 sm:text-left lg:px-20 xl:px-28">
 
-          {/* Eyebrow label */}
           <motion.div
             initial={{ opacity: 0, x: -24 }}
             animate={{ opacity: 1, x: 0 }}
@@ -42,7 +47,6 @@ export function Hero() {
             </span>
           </motion.div>
 
-          {/* Logo */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -59,7 +63,6 @@ export function Hero() {
             />
           </motion.div>
 
-          {/* Tagline */}
           <motion.p
             initial={{ opacity: 0, x: -24 }}
             animate={{ opacity: 1, x: 0 }}
@@ -69,7 +72,6 @@ export function Hero() {
             Authentic Brazilian churrasco — fire-carved tableside, everyday.
           </motion.p>
 
-          {/* Divider */}
           <motion.div
             initial={{ opacity: 0, scaleX: 0 }}
             animate={{ opacity: 1, scaleX: 1 }}
@@ -78,7 +80,6 @@ export function Hero() {
             className="mx-auto mt-5 h-px w-16 bg-[#fd850b]/60 sm:mx-0 sm:mt-5 sm:w-16"
           />
 
-          {/* Stats row */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -97,23 +98,16 @@ export function Hero() {
             ))}
           </motion.div>
 
-          {/* Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.62, duration: 0.65 }}
             className="mt-7 flex flex-col gap-3 sm:mt-6 sm:flex-row sm:gap-3"
           >
-            <Link
-              href="/menu"
-              className="inline-flex min-h-12 items-center justify-center bg-[#fd850b] px-8 py-3 text-xs font-black uppercase tracking-widest text-black shadow-[0_18px_42px_rgba(253,133,11,0.32)] transition duration-300 hover:-translate-y-1 hover:bg-[#ff9a2e] hover:shadow-[0_22px_55px_rgba(253,133,11,0.5)] sm:min-h-11 sm:px-7 sm:py-2.5 sm:text-xs lg:text-sm"
-            >
+            <Link href="/menu" className="inline-flex min-h-12 items-center justify-center bg-[#fd850b] px-8 py-3 text-xs font-black uppercase tracking-widest text-black shadow-[0_18px_42px_rgba(253,133,11,0.32)] transition duration-300 hover:-translate-y-1 hover:bg-[#ff9a2e] hover:shadow-[0_22px_55px_rgba(253,133,11,0.5)] sm:min-h-11 sm:px-7 sm:py-2.5 sm:text-xs lg:text-sm">
               View Menu
             </Link>
-            <Link
-              href="/contact#reservation"
-              className="inline-flex min-h-12 items-center justify-center border border-[#FFF7ED]/50 bg-white/5 px-8 py-3 text-xs font-black uppercase tracking-widest text-[#FFF7ED] backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-black sm:min-h-11 sm:px-7 sm:py-2.5 sm:text-xs lg:text-sm"
-            >
+            <Link href="/contact#reservation" className="inline-flex min-h-12 items-center justify-center border border-[#FFF7ED]/50 bg-white/5 px-8 py-3 text-xs font-black uppercase tracking-widest text-[#FFF7ED] backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-black sm:min-h-11 sm:px-7 sm:py-2.5 sm:text-xs lg:text-sm">
               Book A Table
             </Link>
           </motion.div>

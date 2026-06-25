@@ -2,26 +2,26 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
-const backgroundImage =
-  'https://images.unsplash.com/photo-1432139555190-58524dae6a55?auto=format&fit=crop&w=2000&q=90'
+const DEFAULT_BG = 'https://images.unsplash.com/photo-1432139555190-58524dae6a55?auto=format&fit=crop&w=2000&q=90'
 
 const testimonials = [
-  {
-    name: 'Sokha R.',
-    quote: 'The beef was smoky, tender, and served with real Brazilian energy.',
-  },
-  {
-    name: 'Daniel M.',
-    quote: 'A great place for family dinner. The buffet has something for everyone.',
-  },
-  {
-    name: 'Vicheka L.',
-    quote: 'Warm service, strong flavours, and a premium dining atmosphere.',
-  },
+  { name: 'Sokha R.', quote: 'The beef was smoky, tender, and served with real Brazilian energy.' },
+  { name: 'Daniel M.', quote: 'A great place for family dinner. The buffet has something for everyone.' },
+  { name: 'Vicheka L.', quote: 'Warm service, strong flavours, and a premium dining atmosphere.' },
 ]
 
 export function Testimonials() {
+  const [backgroundImage, setBackgroundImage] = useState(DEFAULT_BG)
+
+  useEffect(() => {
+    fetch('/api/admin/page-images')
+      .then(r => r.json())
+      .then(d => { if (d.testimonialsBg) setBackgroundImage(d.testimonialsBg) })
+      .catch(() => {})
+  }, [])
+
   return (
     <section className="relative overflow-hidden px-4 py-10 text-[#FFF7ED] sm:px-8 sm:py-20 lg:px-10 lg:py-28">
       <Image
@@ -30,6 +30,7 @@ export function Testimonials() {
         fill
         sizes="100vw"
         className="object-cover object-center"
+        unoptimized={!backgroundImage.includes('unsplash.com')}
       />
       <div className="absolute inset-0 bg-black/64" />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.55),rgba(0,0,0,0.3),rgba(0,0,0,0.55))]" />
@@ -46,10 +47,7 @@ export function Testimonials() {
         </motion.h2>
 
         <motion.div
-          variants={{
-            hidden: {},
-            show: { transition: { staggerChildren: 0.12 } },
-          }}
+          variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } } }}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
@@ -58,22 +56,13 @@ export function Testimonials() {
           {testimonials.map((testimonial) => (
             <motion.article
               key={testimonial.name}
-              variants={{
-                hidden: { opacity: 0, y: 26 },
-                show: { opacity: 1, y: 0 },
-              }}
+              variants={{ hidden: { opacity: 0, y: 26 }, show: { opacity: 1, y: 0 } }}
               transition={{ duration: 0.58 }}
               className="bg-[#f4eadb]/94 p-4 text-left text-[#180c08] shadow-[0_24px_60px_rgba(0,0,0,0.26)] sm:p-6"
             >
-              <div className="mb-2 text-[0.7rem] font-black text-[#fd850b] sm:mb-3 sm:text-base" aria-label="5 out of 5 stars">
-                ★★★★★
-              </div>
-              <p className="text-[0.82rem] leading-5 text-[#3c2b24] sm:text-sm sm:leading-7">
-                &quot;{testimonial.quote}&quot;
-              </p>
-              <h3 className="mt-3 font-serif text-xl uppercase text-[#180c08] sm:mt-5 sm:text-2xl">
-                {testimonial.name}
-              </h3>
+              <div className="mb-2 text-[0.7rem] font-black text-[#fd850b] sm:mb-3 sm:text-base" aria-label="5 out of 5 stars">★★★★★</div>
+              <p className="text-[0.82rem] leading-5 text-[#3c2b24] sm:text-sm sm:leading-7">&quot;{testimonial.quote}&quot;</p>
+              <h3 className="mt-3 font-serif text-xl uppercase text-[#180c08] sm:mt-5 sm:text-2xl">{testimonial.name}</h3>
             </motion.article>
           ))}
         </motion.div>

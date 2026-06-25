@@ -2,8 +2,9 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
-const stripImages = [
+const DEFAULT_IMAGES = [
   { src: '/img/6-img/photo_2026-06-23_16-08-33.jpg', alt: 'Bravo Brazilian Steakhouse' },
   { src: '/img/6-img/photo_2026-06-23_16-12-15.jpg', alt: 'Bravo Brazilian Steakhouse' },
   { src: '/img/6-img/photo_2026-06-23_16-12-36.jpg', alt: 'Bravo Brazilian Steakhouse' },
@@ -13,6 +14,15 @@ const stripImages = [
 ]
 
 export function ImageStrip() {
+  const [stripImages, setStripImages] = useState(DEFAULT_IMAGES)
+
+  useEffect(() => {
+    fetch('/api/admin/site-images')
+      .then(r => r.json())
+      .then(data => { if (data.stripImages?.length) setStripImages(data.stripImages) })
+      .catch(() => {})
+  }, [])
+
   return (
     <section className="bg-[#f4eadb]">
       <motion.div
@@ -23,16 +33,14 @@ export function ImageStrip() {
         className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
       >
         {stripImages.map((image) => (
-          <div
-            key={image.src}
-            className="group relative h-36 overflow-hidden sm:h-40 lg:h-44"
-          >
+          <div key={image.src} className="group relative h-36 overflow-hidden sm:h-40 lg:h-44">
             <Image
               src={image.src}
               alt={image.alt}
               fill
               sizes="(min-width: 1024px) 17vw, (min-width: 640px) 33vw, 50vw"
               className="object-cover transition duration-500 group-hover:scale-[1.05]"
+              unoptimized={image.src.startsWith('/uploads')}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/18 to-transparent" />
           </div>

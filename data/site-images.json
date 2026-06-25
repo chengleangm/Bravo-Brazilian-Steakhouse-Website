@@ -1,0 +1,36 @@
+{
+  "stripImages": [
+    { "src": "/img/6-img/photo_2026-06-23_16-08-33.jpg", "alt": "Bravo Brazilian Steakhouse" },
+    { "src": "/img/6-img/photo_2026-06-23_16-12-15.jpg", "alt": "Bravo Brazilian Steakhouse" },
+    { "src": "/img/6-img/photo_2026-06-23_16-12-36.jpg", "alt": "Bravo Brazilian Steakhouse" },
+    { "src": "/img/6-img/photo_2026-06-23_16-16-37.jpg", "alt": "Bravo Brazilian Steakhouse" },
+    { "src": "/img/6-img/photo_2026-06-23_16-16-59.jpg", "alt": "Bravo Brazilian Steakhouse" },
+    { "src": "/img/6-img/photo_2026-06-23_16-17-54.jpg", "alt": "Bravo Brazilian Steakhouse" }
+  ],
+  "dishes": [
+    {
+      "title": "Steak Mayo",
+      "description": "White rice, mayonnaise salad & fries.",
+      "price": "$10.95",
+      "image": "/img/Bestdishes/Steak_Mayo.png"
+    },
+    {
+      "title": "Bravo Steak Brazil",
+      "description": "White rice, pinto beans, fried egg, tomatoes and fries.",
+      "price": "$11.95",
+      "image": "/img/Bestdishes/Bravo_steak_Brazil.png"
+    },
+    {
+      "title": "Steak Pepper",
+      "description": "Topped with sauce, beans, couscous, salad & fries.",
+      "price": "$11.95",
+      "image": "/img/Bestdishes/Steak pepper.png"
+    },
+    {
+      "title": "Garlic Rumpsteak",
+      "description": "White rice, salsa sauce, salad & fries.",
+      "price": "$12.95",
+      "image": "/img/Bestdishes/Garlic Rumpsteak.png"
+    }
+  ]
+}
