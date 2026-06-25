@@ -51,9 +51,10 @@ export default function AdminMenu() {
       fd.append('file', file)
       fd.append('folder', 'menu')
       const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
-      if (!res.ok) throw new Error()
-      return (await res.json()).url
-    } catch { alert('Upload failed'); return null }
+      const json = await res.json()
+      if (!res.ok) { alert('Upload failed: ' + (json.error ?? res.status)); return null }
+      return json.url
+    } catch (e) { alert('Upload failed: ' + String(e)); return null }
     finally { setUploading(false) }
   }
 
