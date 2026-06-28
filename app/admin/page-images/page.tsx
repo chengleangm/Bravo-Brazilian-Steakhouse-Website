@@ -58,8 +58,8 @@ export default function AdminPageImages() {
       fd.append('file', file)
       fd.append('folder', 'pages')
       const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
-      if (!res.ok) { alert('Upload failed.'); return }
       const d = await res.json()
+      if (!res.ok) { alert('Upload failed: ' + (d.error ?? res.status)); return }
       if (d.url) {
         const updated = { ...images!, [key]: d.url }
         setImages(updated)
@@ -67,7 +67,7 @@ export default function AdminPageImages() {
         await fetch('/api/admin/page-images', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updated) })
         setToast('Image uploaded & saved!')
       }
-    } catch { alert('Upload failed.') }
+    } catch (e) { alert('Upload failed: ' + String(e)) }
     finally { setUploading(null) }
   }
 

@@ -75,10 +75,10 @@ export default function AdminEventsPage() {
       fd.append('file', file)
       fd.append('folder', folder)
       const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
-      if (!res.ok) { alert('Upload failed — check your internet connection.'); return null }
       const d = await res.json()
+      if (!res.ok) { alert('Upload failed: ' + (d.error ?? res.status)); return null }
       return d.url ?? null
-    } catch { alert('Upload failed.'); return null }
+    } catch (e) { alert('Upload failed: ' + String(e)); return null }
     finally { setUploading(false) }
   }
 
