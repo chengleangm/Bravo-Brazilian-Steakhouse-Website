@@ -27,7 +27,8 @@ export default function AdminImagesPage() {
   async function save(updated: SiteImagesData) {
     setSaving(true)
     try {
-      await fetch('/api/admin/site-images', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updated) })
+      const res = await fetch('/api/admin/site-images', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updated) })
+      if (!res.ok) { const j = await res.json().catch(() => ({})); alert('Save failed: ' + (j.error ?? res.status)); return }
       setData(updated)
       setToast('Saved!')
     } finally {

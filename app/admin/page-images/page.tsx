@@ -40,12 +40,22 @@ export default function AdminPageImages() {
     fetch('/api/admin/page-images').then(r => r.json()).then(setImages)
   }, [])
 
+  async function saveToKV(data: PageImages): Promise<boolean> {
+    const res = await fetch('/api/admin/page-images', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+    if (!res.ok) {
+      const j = await res.json().catch(() => ({}))
+      alert('Save failed: ' + (j.error ?? res.status) + '. Check that KV is connected in Vercel.')
+      return false
+    }
+    return true
+  }
+
   async function handleSave() {
     if (!images) return
     setSaving(true)
     try {
-      await fetch('/api/admin/page-images', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(images) })
-      setToast('All images saved!')
+      const ok = await saveToKV(images)
+      if (ok) setToast('All images saved!')
     } finally {
       setSaving(false)
     }
@@ -63,9 +73,8 @@ export default function AdminPageImages() {
       if (d.url) {
         const updated = { ...images!, [key]: d.url }
         setImages(updated)
-        // Auto-save immediately after successful upload
-        await fetch('/api/admin/page-images', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updated) })
-        setToast('Image uploaded & saved!')
+        const ok = await saveToKV(updated)
+        if (ok) setToast('Image uploaded & saved!')
       }
     } catch (e) { alert('Upload failed: ' + String(e)) }
     finally { setUploading(null) }
