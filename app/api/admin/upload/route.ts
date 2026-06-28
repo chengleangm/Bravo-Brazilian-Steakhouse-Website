@@ -18,7 +18,8 @@ export async function POST(request: NextRequest) {
     const token = process.env.BLOB_READ_WRITE_TOKEN
     if (token) {
       const { put } = await import('@vercel/blob')
-      const blob = await put(pathname, file.stream(), {
+      const bytes = await file.arrayBuffer()
+      const blob = await put(pathname, bytes, {
         access: 'public',
         contentType: file.type || 'application/octet-stream',
         token,
