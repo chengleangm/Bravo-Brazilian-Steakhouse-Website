@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import defaultData from '../../../../data/site-images.json'
 
+export const dynamic = 'force-dynamic'
+
 const KEY = 'bravo:site-images'
 
 async function read() {
@@ -23,9 +25,9 @@ async function write(body: unknown) {
 export async function GET() {
   try {
     const data = await read()
-    return NextResponse.json(data ?? defaultData)
+    return NextResponse.json(data ?? defaultData, { headers: { 'Cache-Control': 'no-store' } })
   } catch {
-    return NextResponse.json(defaultData)
+    return NextResponse.json(defaultData, { headers: { 'Cache-Control': 'no-store' } })
   }
 }
 
