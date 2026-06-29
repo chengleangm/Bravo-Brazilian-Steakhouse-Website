@@ -182,16 +182,18 @@ export default function EventsPage() {
                     key={promo.id}
                     variants={fadeUp} initial="hidden" whileInView="show" viewport={vp}
                     transition={{ duration: 0.65, delay: idx * 0.1 }}
-                    className={`flex flex-col sm:flex-row gap-0 overflow-hidden border border-[#D4A373]/15 shadow-[0_24px_80px_rgba(0,0,0,0.45)] ${idx % 2 === 1 ? 'sm:flex-row-reverse' : ''}`}
+                    className={`relative isolate overflow-hidden border border-[#fd850b]/25 bg-[#120807] shadow-[0_24px_90px_rgba(0,0,0,0.5)] sm:grid sm:grid-cols-[minmax(220px,0.85fr)_minmax(0,1.15fr)] lg:grid-cols-[minmax(320px,0.9fr)_minmax(0,1.1fr)] ${idx % 2 === 1 ? 'sm:[&>*:first-child]:order-2' : ''}`}
                   >
-                    {/* 1:1 Square Image */}
-                    <div className="relative w-full sm:w-72 lg:w-96 shrink-0 aspect-square sm:aspect-auto">
+                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(253,133,11,0.16),transparent_36%),linear-gradient(135deg,rgba(255,247,237,0.04),transparent_46%)]" />
+
+                    {/* Mobile-first feature image */}
+                    <div className="relative min-h-[260px] w-full sm:min-h-full">
                       {promo.image ? (
                         <Image
                           src={promo.image}
                           alt={promo.title}
                           fill
-                          sizes="(min-width: 640px) 384px, 100vw"
+                          sizes="(min-width: 1024px) 420px, (min-width: 640px) 45vw, 100vw"
                           className="object-cover"
                           unoptimized={!promo.image.includes('unsplash.com')}
                         />
@@ -200,39 +202,53 @@ export default function EventsPage() {
                           <i className="fa-solid fa-calendar-star text-5xl text-[#fd850b]/30" />
                         </div>
                       )}
-                      {/* Overlay gradient for text bleed */}
-                      <div className={`absolute inset-y-0 w-16 hidden sm:block ${idx % 2 === 1 ? 'left-0 bg-gradient-to-r' : 'right-0 bg-gradient-to-l'} from-[#120807]/60 to-transparent`} />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#120807] via-[#120807]/15 to-transparent sm:bg-gradient-to-r sm:from-transparent sm:via-transparent sm:to-[#120807]/35" />
+                      <div className="absolute left-4 top-4 sm:left-5 sm:top-5">
+                        <span className="inline-flex items-center gap-1.5 bg-[#fd850b] text-black text-[0.62rem] font-black uppercase tracking-[0.18em] px-3 py-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
+                          <i className="fa-solid fa-bolt text-[0.55rem]" />
+                          {promo.badge}
+                        </span>
+                      </div>
                     </div>
 
                     {/* Text Content */}
-                    <div className="flex-1 bg-[#120807] p-6 sm:p-8 lg:p-12 flex flex-col justify-center">
+                    <div className="relative flex flex-col justify-center px-5 pb-6 pt-5 sm:p-8 lg:p-12">
                       {/* Badge */}
-                      <div className="mb-4 flex items-center gap-3">
-                        <span className="inline-flex items-center gap-1.5 bg-[#fd850b] text-black text-[0.65rem] font-black uppercase tracking-[0.2em] px-3 py-1">
-                          <i className="fa-solid fa-bolt text-[0.5rem]" />
-                          {promo.badge}
-                        </span>
+                      <div className="mb-4 flex flex-wrap items-center gap-2 sm:gap-3">
                         {(promo.date || promo.time) && (
-                          <span className="text-xs text-[#C7B8A8] font-bold">
+                          <span className="inline-flex items-center gap-2 border border-[#D4A373]/20 bg-white/[0.04] px-3 py-1.5 text-[0.68rem] font-black uppercase tracking-[0.16em] text-[#C7B8A8]">
+                            <i className="fa-solid fa-clock text-[#fd850b]" aria-hidden="true" />
                             {promo.date}{promo.date && promo.time ? ' · ' : ''}{promo.time}
                           </span>
                         )}
                       </div>
 
                       {/* Title */}
-                      <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl uppercase leading-[0.92] text-[#FFF7ED] mb-3">
+                      <h2 className="font-serif text-[2.35rem] sm:text-4xl lg:text-5xl uppercase leading-[0.88] text-[#FFF7ED] mb-3">
                         {promo.title}
                       </h2>
 
                       {/* Subtitle */}
                       {promo.subtitle && (
-                        <p className="text-[#fd850b] font-black text-sm sm:text-base uppercase tracking-wider mb-4">
+                        <p className="text-[#fd850b] font-black text-sm sm:text-base uppercase tracking-[0.12em] leading-6 mb-4">
                           {promo.subtitle}
                         </p>
                       )}
 
-                      {/* Divider */}
-                      <div className="h-px w-12 bg-[#fd850b]/40 mb-4" />
+                      <div className="mb-4 grid grid-cols-3 gap-2 text-center sm:max-w-md">
+                        <div className="border border-[#D4A373]/18 bg-black/18 px-2 py-3">
+                          <p className="text-[0.6rem] font-black uppercase tracking-[0.16em] text-[#C7B8A8]">Offer</p>
+                          <p className="mt-1 text-sm font-black text-[#FFF7ED]">4 Pay 3</p>
+                        </div>
+                        <div className="border border-[#D4A373]/18 bg-black/18 px-2 py-3">
+                          <p className="text-[0.6rem] font-black uppercase tracking-[0.16em] text-[#C7B8A8]">From</p>
+                          <p className="mt-1 text-sm font-black text-[#fd850b]">$20 nett</p>
+                        </div>
+                        <div className="border border-[#D4A373]/18 bg-black/18 px-2 py-3">
+                          <p className="text-[0.6rem] font-black uppercase tracking-[0.16em] text-[#C7B8A8]">Includes</p>
+                          <p className="mt-1 text-sm font-black text-[#FFF7ED]">Drinks</p>
+                        </div>
+                      </div>
 
                       {/* Description */}
                       {promo.description && (
@@ -246,7 +262,7 @@ export default function EventsPage() {
                         <div>
                           <Link
                             href={promo.ctaLink || '/contact#reservation'}
-                            className="inline-flex items-center gap-2 bg-[#fd850b] text-black px-6 py-3 text-sm font-black uppercase tracking-wider shadow-[0_12px_40px_rgba(253,133,11,0.3)] hover:-translate-y-0.5 hover:shadow-[0_18px_56px_rgba(253,133,11,0.45)] transition-all duration-200"
+                            className="inline-flex w-full items-center justify-center gap-2 bg-[#fd850b] text-black px-6 py-3.5 text-sm font-black uppercase tracking-wider shadow-[0_12px_40px_rgba(253,133,11,0.3)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_56px_rgba(253,133,11,0.45)] sm:w-auto"
                           >
                             <i className="fa-solid fa-calendar-check text-xs" />
                             {promo.cta}
