@@ -19,7 +19,7 @@ type Promotion = {
 type EventType = { icon: string; title: string; desc: string }
 type Package = { title: string; from: string; capacity: string; features: string[] }
 type Feature = { icon: string; kicker: string; title: string; desc: string }
-type FeaturedPkg = { title: string; price: string; minGuests: number; includes: string[] }
+type FeaturedPkg = { visible: boolean; title: string; price: string; minGuests: number; includes: string[] }
 type EventsData = {
   heroImage: string
   promotions: Promotion[]
@@ -279,6 +279,28 @@ export default function AdminEventsPage() {
 
         {/* ══ FEATURED PACKAGE ══ */}
         <SectionCard title="Featured Package">
+          {/* Visibility toggle */}
+          <div className="flex items-center justify-between mb-4 pb-4 border-b border-[#D4A373]/12">
+            <div>
+              <p className="text-sm font-black text-[#FFF7ED]">Show on Events page</p>
+              <p className="text-xs text-[#C7B8A8] mt-0.5">Toggle to hide or show this section publicly</p>
+            </div>
+            <button
+              onClick={() => {
+                const updated = { ...data, featuredPackage: { ...data.featuredPackage, visible: !data.featuredPackage.visible } }
+                setData(updated)
+                save(updated)
+              }}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-black transition-colors ${
+                data.featuredPackage.visible
+                  ? 'bg-green-900/30 text-green-400 hover:bg-green-800'
+                  : 'bg-[#D4A373]/10 text-[#C7B8A8] hover:bg-[#D4A373]/20'
+              }`}
+            >
+              <i className={`fa-solid ${data.featuredPackage.visible ? 'fa-eye' : 'fa-eye-slash'}`} />
+              {data.featuredPackage.visible ? 'Visible' : 'Hidden'}
+            </button>
+          </div>
           <div className="grid sm:grid-cols-3 gap-4 mb-4">
             <Field label="Package Title">
               <input className={input} value={data.featuredPackage.title} onChange={e => setData({ ...data, featuredPackage: { ...data.featuredPackage, title: e.target.value } })} />

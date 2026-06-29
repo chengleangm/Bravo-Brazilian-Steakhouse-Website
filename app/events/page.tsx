@@ -37,6 +37,7 @@ const DEFAULT_TYPES = [
 ]
 
 const DEFAULT_FEATURED = {
+  visible: true,
   title: 'FAMILY GATHERING',
   price: '$18.90',
   minGuests: 10,
@@ -279,7 +280,7 @@ export default function EventsPage() {
         </section>
 
         {/* Featured Package */}
-        <section className="bg-cream text-dark py-10 px-3 md:py-28 md:px-5">
+        {featuredPackage.visible && <section className="bg-cream text-dark py-10 px-3 md:py-28 md:px-5">
           <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="max-w-4xl mx-auto">
             <div className="bg-gradient-to-br from-orange/20 to-yellow/20 border-2 border-orange shadow-2xl rounded-xl p-4 md:p-16 md:rounded-2xl md:scale-105">
               <p className="text-orange font-black text-[0.6rem] md:text-xs uppercase tracking-widest mb-1 md:mb-3 text-center">FEATURED PACKAGE</p>
@@ -309,7 +310,7 @@ export default function EventsPage() {
               </div>
             </div>
           </motion.div>
-        </section>
+        </section>}
 
         {/* Event Packages */}
         <section className="bg-dark text-cream py-28 px-5">
