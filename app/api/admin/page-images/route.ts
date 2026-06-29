@@ -6,7 +6,12 @@ export const dynamic = 'force-dynamic'
 const KEY = 'bravo:page-images'
 
 async function read() {
-  if (!process.env.KV_REST_API_URL) return null
+  if (!process.env.KV_REST_API_URL) {
+    const { promises: fs } = await import('fs')
+    const path = await import('path')
+    const raw = await fs.readFile(path.join(process.cwd(), 'data', 'page-images.json'), 'utf8')
+    return JSON.parse(raw)
+  }
   const { kv } = await import('@vercel/kv')
   return kv.get(KEY)
 }
