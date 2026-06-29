@@ -225,8 +225,8 @@ function AlaCarteCard({ item }: { item: MenuItem }) {
           </div>
         )}
         {/* Price badge */}
-        <div className="absolute -left-1 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[#fd850b] shadow-[0_0_0_2px_#0e0b08,0_0_10px_rgba(253,133,11,0.7)] sm:-left-2 sm:h-[3.25rem] sm:w-[3.25rem] sm:shadow-[0_0_0_3px_#0e0b08,0_0_20px_rgba(253,133,11,0.7)]">
-          <span className="text-center text-[7px] font-black leading-tight text-white sm:text-[10px]">{item.price}</span>
+        <div className="absolute -left-1.5 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-[#fd850b] shadow-[0_0_0_2px_#0e0b08,0_0_12px_rgba(253,133,11,0.7)] sm:-left-3 sm:h-[4.25rem] sm:w-[4.25rem] sm:shadow-[0_0_0_3px_#0e0b08,0_0_24px_rgba(253,133,11,0.7)]">
+          <span className="text-center text-[8px] font-black leading-tight text-white sm:text-[12px]">{item.price}</span>
         </div>
       </div>
 
