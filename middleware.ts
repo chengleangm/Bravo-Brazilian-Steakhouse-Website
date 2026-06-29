@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+const PUBLIC_READ_APIS = /^\/api\/admin\/(menu-items|page-images|site-images|gallery|events)$/
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   if (pathname === '/admin' || pathname.startsWith('/api/admin/auth')) {
+    return NextResponse.next()
+  }
+
+  // Allow public pages to read data (GET only) without admin session
+  if (PUBLIC_READ_APIS.test(pathname) && request.method === 'GET') {
     return NextResponse.next()
   }
 
