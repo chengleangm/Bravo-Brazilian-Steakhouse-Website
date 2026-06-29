@@ -62,6 +62,30 @@ const DEFAULT_FEATURES = [
   { icon: 'fa-handshake', kicker: 'Handled with care', title: 'Attentive Service', desc: 'Our team coordinates details before and during your event so hosting feels simple.' },
 ]
 
+const getPromoHighlights = (promo: Promotion) => {
+  const text = [promo.title, promo.subtitle, promo.description].filter(Boolean).join(' ')
+  const lower = text.toLowerCase()
+  const highlights: { label: string; value: string; accent?: boolean }[] = []
+
+  if (lower.includes('come 4') || lower.includes('pay 3')) {
+    highlights.push({ label: 'Offer', value: '4 Pay 3' })
+  }
+
+  const prices = text.match(/\$\d+(?:\.\d{1,2})?/g)
+  if (prices?.length) {
+    highlights.push({ label: 'From', value: `${prices[0]}${lower.includes('nett') ? ' nett' : ''}`, accent: true })
+  }
+
+  const grillMeats = Array.from(text.matchAll(/(\d+)\s+grill meats/gi), match => match[1])
+  if (grillMeats.length) {
+    highlights.push({ label: 'Grill', value: `${[...new Set(grillMeats)].join('/')} meats` })
+  } else if (lower.includes('beer') || lower.includes('wine')) {
+    highlights.push({ label: 'Includes', value: 'Beer / Wine' })
+  }
+
+  return highlights.slice(0, 3)
+}
+
 export default function EventsPage() {
   const [heroImage, setHeroImage] = useState(DEFAULT_HERO)
   const [promotions, setPromotions] = useState<Promotion[]>([])
@@ -177,7 +201,10 @@ export default function EventsPage() {
               </motion.div>
 
               <div className="space-y-8">
-                {promotions.map((promo, idx) => (
+                {promotions.map((promo, idx) => {
+                  const highlights = getPromoHighlights(promo)
+
+                  return (
                   <motion.div
                     key={promo.id}
                     variants={fadeUp} initial="hidden" whileInView="show" viewport={vp}
@@ -235,20 +262,16 @@ export default function EventsPage() {
                         </p>
                       )}
 
-                      <div className="mb-4 grid grid-cols-3 gap-2 text-center sm:max-w-md">
-                        <div className="border border-[#D4A373]/18 bg-black/18 px-2 py-3">
-                          <p className="text-[0.6rem] font-black uppercase tracking-[0.16em] text-[#C7B8A8]">Offer</p>
-                          <p className="mt-1 text-sm font-black text-[#FFF7ED]">4 Pay 3</p>
+                      {highlights.length > 0 && (
+                        <div className={`mb-4 grid gap-2 text-center sm:max-w-md ${highlights.length === 1 ? 'grid-cols-1' : highlights.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+                          {highlights.map(item => (
+                            <div key={`${item.label}-${item.value}`} className="border border-[#D4A373]/18 bg-black/18 px-2 py-3">
+                              <p className="text-[0.6rem] font-black uppercase tracking-[0.16em] text-[#C7B8A8]">{item.label}</p>
+                              <p className={`mt-1 text-sm font-black ${item.accent ? 'text-[#fd850b]' : 'text-[#FFF7ED]'}`}>{item.value}</p>
+                            </div>
+                          ))}
                         </div>
-                        <div className="border border-[#D4A373]/18 bg-black/18 px-2 py-3">
-                          <p className="text-[0.6rem] font-black uppercase tracking-[0.16em] text-[#C7B8A8]">From</p>
-                          <p className="mt-1 text-sm font-black text-[#fd850b]">$20 nett</p>
-                        </div>
-                        <div className="border border-[#D4A373]/18 bg-black/18 px-2 py-3">
-                          <p className="text-[0.6rem] font-black uppercase tracking-[0.16em] text-[#C7B8A8]">Includes</p>
-                          <p className="mt-1 text-sm font-black text-[#FFF7ED]">Drinks</p>
-                        </div>
-                      </div>
+                      )}
 
                       {/* Description */}
                       {promo.description && (
@@ -271,7 +294,8 @@ export default function EventsPage() {
                       )}
                     </div>
                   </motion.div>
-                ))}
+                  )
+                })}
               </div>
             </div>
           </section>
