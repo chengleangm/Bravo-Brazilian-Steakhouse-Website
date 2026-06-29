@@ -5,11 +5,14 @@ import { AdminLayout, Toast, Modal, Field, input, btnPrimary, btnSecondary } fro
 
 type Category = 'food' | 'grill' | 'interior' | 'events'
 type GalleryImage = { id: number; src: string; category: Category; alt: string; featured: boolean }
-type GalleryData = { heroImage: string; images: GalleryImage[]; stories: unknown[] }
+type GalleryStory = { title: string; copy: string; image: string; filter: Category; icon: string }
+type GalleryData = { heroImage: string; images: GalleryImage[]; stories: GalleryStory[] }
 
 const CATEGORIES: Category[] = ['food', 'grill', 'interior', 'events']
 const CAT_COLORS: Record<Category, string> = { food: '#fd850b', grill: '#ef4444', interior: '#60a5fa', events: '#a78bfa' }
 const BLANK: GalleryImage = { id: 0, src: '', category: 'food', alt: '', featured: false }
+const BLANK_STORY: GalleryStory = { title: '', copy: '', image: '', filter: 'food', icon: 'fa-utensils' }
+const ICON_OPTIONS = ['fa-fire-flame-curved', 'fa-utensils', 'fa-champagne-glasses', 'fa-chair', 'fa-star', 'fa-people-group', 'fa-wine-glass', 'fa-camera']
 
 export default function AdminGalleryPage() {
   const [data, setData] = useState<GalleryData | null>(null)
@@ -17,9 +20,11 @@ export default function AdminGalleryPage() {
   const [toast, setToast] = useState('')
   const [filter, setFilter] = useState<Category | 'all'>('all')
   const [modal, setModal] = useState<{ open: boolean; idx: number | null; val: GalleryImage }>({ open: false, idx: null, val: BLANK })
+  const [storyModal, setStoryModal] = useState<{ open: boolean; idx: number | null; val: GalleryStory }>({ open: false, idx: null, val: BLANK_STORY })
   const [uploading, setUploading] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
   const heroFileRef = useRef<HTMLInputElement>(null)
+  const storyFileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     fetch('/api/admin/gallery').then(r => r.json()).then(setData)
@@ -76,6 +81,24 @@ export default function AdminGalleryPage() {
   function toggleFeatured(i: number) {
     if (!data) return
     save({ ...data, images: data.images.map((img, idx) => idx === i ? { ...img, featured: !img.featured } : img) })
+  }
+
+  function openAddStory() { setStoryModal({ open: true, idx: null, val: { ...BLANK_STORY } }) }
+  function openEditStory(i: number) { setStoryModal({ open: true, idx: i, val: { ...data!.stories[i] } }) }
+
+  function saveStory() {
+    if (!data) return
+    if (!storyModal.val.title || !storyModal.val.image) { alert('Title and image are required.'); return }
+    const stories = [...(data.stories ?? [])]
+    if (storyModal.idx === null) stories.push(storyModal.val)
+    else stories[storyModal.idx] = storyModal.val
+    save({ ...data, stories })
+    setStoryModal({ open: false, idx: null, val: BLANK_STORY })
+  }
+
+  function deleteStory(i: number) {
+    if (!data || !confirm('Delete this story card?')) return
+    save({ ...data, stories: data.stories.filter((_, idx) => idx !== i) })
   }
 
   if (!data) return (
@@ -135,6 +158,49 @@ export default function AdminGalleryPage() {
               <i className="fa-solid fa-floppy-disk" /> Save
             </button>
           </div>
+        </div>
+
+        {/* Story Cards */}
+        <div className="bg-[#130c08] border border-[#D4A373]/15 rounded-2xl p-5">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <p className="text-xs font-black uppercase tracking-widest text-[#C7B8A8]">Story Cards</p>
+              <p className="text-xs text-[#C7B8A8]/60 mt-0.5">Highlight cards shown on the Gallery page — clicking one filters photos</p>
+            </div>
+            <button onClick={openAddStory} className={btnPrimary}>
+              <i className="fa-solid fa-plus" /> Add Story
+            </button>
+          </div>
+          {(data.stories ?? []).length === 0 ? (
+            <div className="text-center py-10 text-[#C7B8A8]/40 text-sm">
+              No story cards yet. Click &quot;Add Story&quot; to create one.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {(data.stories ?? []).map((story, i) => (
+                <div key={i} className="bg-[#0d0905] border border-[#D4A373]/12 rounded-xl overflow-hidden">
+                  <div className="relative aspect-[16/9]">
+                    {story.image && <img src={story.image} alt={story.title} className="absolute inset-0 w-full h-full object-cover" />}
+                    <span className="absolute top-2 left-2 flex items-center gap-1.5 bg-[#120807]/80 px-2 py-1 rounded-lg text-[0.6rem] font-black uppercase tracking-wider text-[#fd850b]">
+                      <i className={`fa-solid ${story.icon}`} />{story.filter}
+                    </span>
+                  </div>
+                  <div className="p-3">
+                    <p className="text-sm font-black text-[#FFF7ED] truncate">{story.title}</p>
+                    <p className="text-xs text-[#C7B8A8] mt-1 line-clamp-2">{story.copy}</p>
+                    <div className="flex gap-1.5 mt-3">
+                      <button onClick={() => openEditStory(i)} className="flex-1 py-1.5 bg-[#D4A373]/10 text-[#C7B8A8] rounded-lg text-xs font-bold hover:bg-[#fd850b]/15 hover:text-[#fd850b] transition-colors">
+                        Edit
+                      </button>
+                      <button onClick={() => deleteStory(i)} className="px-2.5 py-1.5 bg-red-900/20 text-red-400 rounded-lg text-xs hover:bg-red-700 hover:text-white transition-colors">
+                        <i className="fa-solid fa-trash-can" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Category filter */}
@@ -214,7 +280,7 @@ export default function AdminGalleryPage() {
         )}
       </div>
 
-      {/* Add/Edit Modal */}
+      {/* Add/Edit Photo Modal */}
       {modal.open && (
         <Modal title={modal.idx === null ? 'Add Photo' : 'Edit Photo'} onClose={() => setModal({ open: false, idx: null, val: BLANK })}>
           <div className="space-y-4">
@@ -278,6 +344,107 @@ export default function AdminGalleryPage() {
             <div className="flex gap-3 pt-1">
               <button onClick={saveModal} className={`${btnPrimary} flex-1 justify-center`}><i className="fa-solid fa-check" /> Save Photo</button>
               <button onClick={() => setModal({ open: false, idx: null, val: BLANK })} className={btnSecondary}>Cancel</button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* Add/Edit Story Modal */}
+      {storyModal.open && (
+        <Modal title={storyModal.idx === null ? 'Add Story Card' : 'Edit Story Card'} onClose={() => setStoryModal({ open: false, idx: null, val: BLANK_STORY })}>
+          <div className="space-y-4">
+            <Field label="Title">
+              <input
+                className={input}
+                value={storyModal.val.title}
+                onChange={e => setStoryModal(m => ({ ...m, val: { ...m.val, title: e.target.value } }))}
+                placeholder="e.g. Start with the fire"
+              />
+            </Field>
+
+            <Field label="Description">
+              <input
+                className={input}
+                value={storyModal.val.copy}
+                onChange={e => setStoryModal(m => ({ ...m, val: { ...m.val, copy: e.target.value } }))}
+                placeholder="Short description shown on the card"
+              />
+            </Field>
+
+            <Field label="Image">
+              {storyModal.val.image && (
+                <img src={storyModal.val.image} alt="" className="h-28 w-full object-cover rounded-xl border border-[#D4A373]/15 mb-2" />
+              )}
+              <input
+                className={input}
+                value={storyModal.val.image}
+                onChange={e => setStoryModal(m => ({ ...m, val: { ...m.val, image: e.target.value } }))}
+                placeholder="Paste image URL…"
+              />
+              <button
+                type="button"
+                onClick={() => storyFileRef.current?.click()}
+                disabled={uploading}
+                className={`${btnSecondary} mt-2 w-full justify-center`}
+              >
+                {uploading ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading…</> : <><i className="fa-solid fa-upload" /> Upload from computer</>}
+              </button>
+              <input ref={storyFileRef} type="file" accept="image/*" className="hidden" onChange={async e => { const f = e.target.files?.[0]; if (!f) return; const url = await uploadFile(f, 'gallery'); if (url) setStoryModal(m => ({ ...m, val: { ...m.val, image: url } })); e.target.value = '' }} />
+            </Field>
+
+            <Field label="Gallery Filter (clicking card shows this category)">
+              <div className="grid grid-cols-2 gap-2">
+                {CATEGORIES.map(c => (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => setStoryModal(m => ({ ...m, val: { ...m.val, filter: c } }))}
+                    className={`py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-colors ${
+                      storyModal.val.filter === c
+                        ? 'bg-[#fd850b] text-black'
+                        : 'border border-[#D4A373]/20 text-[#C7B8A8] hover:border-[#fd850b]'
+                    }`}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
+            </Field>
+
+            <Field label="Icon">
+              <div className="flex gap-2 items-center mb-2">
+                <input
+                  className={`${input} flex-1`}
+                  value={storyModal.val.icon}
+                  onChange={e => setStoryModal(m => ({ ...m, val: { ...m.val, icon: e.target.value } }))}
+                  placeholder="fa-fire-flame-curved"
+                />
+                <span className="flex h-10 w-10 items-center justify-center bg-[#fd850b] text-[#120807] rounded-lg shrink-0">
+                  <i className={`fa-solid ${storyModal.val.icon} text-base`} />
+                </span>
+              </div>
+              <div className="flex gap-2 flex-wrap">
+                {ICON_OPTIONS.map(ic => (
+                  <button
+                    key={ic}
+                    type="button"
+                    title={ic}
+                    onClick={() => setStoryModal(m => ({ ...m, val: { ...m.val, icon: ic } }))}
+                    className={`flex h-9 w-9 items-center justify-center rounded-lg text-sm transition-colors ${
+                      storyModal.val.icon === ic
+                        ? 'bg-[#fd850b] text-black'
+                        : 'bg-[#D4A373]/10 text-[#C7B8A8] hover:bg-[#fd850b]/20 hover:text-[#fd850b]'
+                    }`}
+                  >
+                    <i className={`fa-solid ${ic}`} />
+                  </button>
+                ))}
+              </div>
+            </Field>
+
+            <div className="flex gap-3 pt-1">
+              <button onClick={saveStory} className={`${btnPrimary} flex-1 justify-center`}><i className="fa-solid fa-check" /> Save Story</button>
+              <button onClick={() => setStoryModal({ open: false, idx: null, val: BLANK_STORY })} className={btnSecondary}>Cancel</button>
             </div>
           </div>
         </Modal>

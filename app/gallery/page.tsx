@@ -53,13 +53,14 @@ export default function GalleryPage() {
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>(DEFAULT_IMAGES)
   const [galleryStories, setGalleryStories] = useState<GalleryStory[]>(DEFAULT_STORIES)
   const [heroImage, setHeroImage] = useState(DEFAULT_HERO)
+  const [storyPage, setStoryPage] = useState(0)
 
   useEffect(() => {
     fetch('/api/admin/gallery')
       .then(r => r.json())
       .then(data => {
         if (data.images?.length) setGalleryImages(data.images)
-        if (data.stories?.length) setGalleryStories(data.stories)
+        if (data.stories?.length) { setGalleryStories(data.stories); setStoryPage(0) }
         if (data.heroImage) setHeroImage(data.heroImage)
       })
       .catch(() => {})
@@ -67,6 +68,8 @@ export default function GalleryPage() {
 
   const filteredImages = activeFilter === 'all' ? galleryImages : galleryImages.filter(img => img.category === activeFilter)
   const getFilterCount = (filter: GalleryCategory) => filter === 'all' ? galleryImages.length : galleryImages.filter(img => img.category === filter).length
+  const totalStoryPages = Math.ceil(galleryStories.length / 3)
+  const visibleStories = galleryStories.slice(storyPage * 3, storyPage * 3 + 3)
 
   return (
     <>
@@ -92,23 +95,48 @@ export default function GalleryPage() {
               </Link>
             </motion.div>
 
-            <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className={styles.storyGrid}>
-              {galleryStories.map((story) => (
-                <motion.button key={story.title} variants={fadeUp} transition={{ duration: 0.5 }} type="button" onClick={() => setActiveFilter(story.filter)}
-                  className={`${styles.storyCard} group relative overflow-hidden border border-[#D4A373]/18 bg-[#120807] text-left shadow-[0_24px_70px_rgba(0,0,0,0.24)] transition duration-300 hover:-translate-y-2 hover:border-[#fd850b]/55`}>
-                  <Image src={story.image} alt={story.title} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover transition duration-500 group-hover:scale-[1.05]" unoptimized={!story.image.includes('unsplash.com')} />
-                  <span className="absolute inset-0 bg-gradient-to-t from-[#120807]/92 via-[#120807]/34 to-transparent" />
-                  <span className="absolute left-3 top-3 flex h-8 w-8 items-center justify-center bg-[#fd850b] text-[#120807] sm:left-5 sm:top-5 sm:h-11 sm:w-11">
-                    <i className={`fa-solid ${story.icon} text-xs sm:text-base`} aria-hidden="true" />
-                  </span>
-                  <span className="absolute bottom-3 left-3 right-3 sm:bottom-5 sm:left-5 sm:right-5">
-                    <span className="block font-serif text-[1.18rem] uppercase leading-none text-[#FFF7ED] sm:text-3xl">{story.title}</span>
-                    <span className="mt-2 block text-[0.76rem] leading-4 text-[#f4d8c5] sm:mt-3 sm:text-sm sm:leading-6">{story.copy}</span>
-                    <span className="mt-2 inline-flex text-[0.62rem] font-black uppercase tracking-[0.14em] text-[#fd850b] sm:mt-4 sm:text-xs sm:tracking-[0.16em]">View {story.filter}</span>
-                  </span>
-                </motion.button>
-              ))}
-            </motion.div>
+            <div>
+              <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className={styles.storyGrid}>
+                {visibleStories.map((story) => (
+                  <motion.button key={story.title} variants={fadeUp} transition={{ duration: 0.5 }} type="button" onClick={() => setActiveFilter(story.filter)}
+                    className={`${styles.storyCard} group relative overflow-hidden border border-[#D4A373]/18 bg-[#120807] text-left shadow-[0_24px_70px_rgba(0,0,0,0.24)] transition duration-300 hover:-translate-y-2 hover:border-[#fd850b]/55`}>
+                    <Image src={story.image} alt={story.title} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover transition duration-500 group-hover:scale-[1.05]" unoptimized={!story.image.includes('unsplash.com')} />
+                    <span className="absolute inset-0 bg-gradient-to-t from-[#120807]/92 via-[#120807]/34 to-transparent" />
+                    <span className="absolute left-3 top-3 flex h-8 w-8 items-center justify-center bg-[#fd850b] text-[#120807] sm:left-5 sm:top-5 sm:h-11 sm:w-11">
+                      <i className={`fa-solid ${story.icon} text-xs sm:text-base`} aria-hidden="true" />
+                    </span>
+                    <span className="absolute bottom-3 left-3 right-3 sm:bottom-5 sm:left-5 sm:right-5">
+                      <span className="block font-serif text-[1.18rem] uppercase leading-none text-[#FFF7ED] sm:text-3xl">{story.title}</span>
+                      <span className="mt-2 block text-[0.76rem] leading-4 text-[#f4d8c5] sm:mt-3 sm:text-sm sm:leading-6">{story.copy}</span>
+                      <span className="mt-2 inline-flex text-[0.62rem] font-black uppercase tracking-[0.14em] text-[#fd850b] sm:mt-4 sm:text-xs sm:tracking-[0.16em]">View {story.filter}</span>
+                    </span>
+                  </motion.button>
+                ))}
+              </motion.div>
+              {totalStoryPages > 1 && (
+                <div className="mt-4 flex items-center justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setStoryPage(p => Math.max(0, p - 1))}
+                    disabled={storyPage === 0}
+                    className="flex h-9 w-9 items-center justify-center border border-[#D4A373]/30 text-[#C7B8A8] transition hover:border-[#fd850b] hover:text-[#fd850b] disabled:opacity-30 disabled:cursor-not-allowed"
+                    aria-label="Previous stories"
+                  >
+                    <i className="fa-solid fa-chevron-left text-xs" />
+                  </button>
+                  <span className="text-[0.65rem] font-black uppercase tracking-[0.14em] text-[#C7B8A8]">{storyPage + 1} / {totalStoryPages}</span>
+                  <button
+                    type="button"
+                    onClick={() => setStoryPage(p => Math.min(totalStoryPages - 1, p + 1))}
+                    disabled={storyPage === totalStoryPages - 1}
+                    className="flex h-9 w-9 items-center justify-center border border-[#D4A373]/30 text-[#C7B8A8] transition hover:border-[#fd850b] hover:text-[#fd850b] disabled:opacity-30 disabled:cursor-not-allowed"
+                    aria-label="Next stories"
+                  >
+                    <i className="fa-solid fa-chevron-right text-xs" />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </section>
 
