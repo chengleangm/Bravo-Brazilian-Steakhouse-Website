@@ -256,6 +256,58 @@ export default function CateringPage() {
           </div>
         </section>
 
+        {/* ── Packages / Pricing ── */}
+        <section className="bg-[#120807] px-4 py-14 sm:py-20">
+          <div className="mx-auto max-w-5xl">
+            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.6 }} className="mb-10 text-center">
+              <p className="mb-2 text-[0.6rem] font-black uppercase tracking-[0.28em] text-[#fd850b]">Pricing</p>
+              <h2 className="font-black text-2xl uppercase text-[#FFF7ED] md:text-4xl">Catering Packages</h2>
+              <p className="mx-auto mt-3 max-w-lg text-xs text-[#C7B8A8] md:text-sm">
+                All packages include delivery, setup, live grilling, service staff, and cleanup.
+              </p>
+            </motion.div>
+            <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className="grid gap-4 md:grid-cols-3 md:gap-6">
+              {PACKAGES.map((pkg) => (
+                <motion.div
+                  key={pkg.name}
+                  variants={fadeUp}
+                  transition={{ duration: 0.5 }}
+                  className={`relative flex flex-col border-2 bg-[#0d0806] p-5 md:p-7 ${pkg.accent ? 'border-[#fd850b] shadow-[0_0_40px_rgba(253,133,11,0.18)]' : 'border-[#D4A373]/25'}`}
+                >
+                  {pkg.badge && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#fd850b] px-4 py-1 text-[0.6rem] font-black uppercase tracking-[0.18em] text-black">
+                      {pkg.badge}
+                    </span>
+                  )}
+                  <p className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-[#C7B8A8]">{pkg.name}</p>
+                  <p className={`mt-1 font-black text-3xl md:text-4xl ${pkg.accent ? 'text-[#fd850b]' : 'text-[#FFF7ED]'}`}>{pkg.from}</p>
+                  <p className="mt-0.5 text-[0.65rem] text-[#C7B8A8]">per person · min {pkg.minGuests} guests</p>
+                  <div className="my-4 h-px bg-[#D4A373]/15" />
+                  <ul className="flex-1 space-y-2">
+                    {pkg.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-[0.72rem] text-[#C7B8A8] md:text-sm">
+                        <i className="fa-solid fa-check mt-0.5 shrink-0 text-[0.6rem] text-[#fd850b]" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href="#enquire"
+                    className={`mt-5 inline-flex items-center justify-center gap-2 py-3 text-xs font-black uppercase tracking-wider transition hover:-translate-y-0.5 ${
+                      pkg.accent
+                        ? 'bg-[#fd850b] text-black hover:bg-[#ff9a2e]'
+                        : 'border border-[#fd850b]/40 text-[#fd850b] hover:bg-[#fd850b] hover:text-black'
+                    }`}
+                  >
+                    <i className="fa-solid fa-paper-plane text-xs" />
+                    Enquire Now
+                  </a>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
         {/* ── Menu Options (image cards) ── */}
         <section className="bg-[#0a0805] px-4 py-14 sm:px-6 sm:py-20">
           <div className="mx-auto max-w-6xl">
