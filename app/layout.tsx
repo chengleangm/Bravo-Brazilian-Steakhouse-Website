@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     'BRAVO Brazilian BBQ serves premium fire-grilled Brazilian steakhouse flavours with warm hospitality in Phnom Penh.',
   metadataBase: new URL('https://bravorestaurant.com'),
   icons: {
-    icon: '/favicon.ico',
+    icon: '/logo.png',
   },
 }
 

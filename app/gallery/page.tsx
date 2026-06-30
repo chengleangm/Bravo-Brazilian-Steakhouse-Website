@@ -56,11 +56,11 @@ export default function GalleryPage() {
   const [storyPage, setStoryPage] = useState(0)
 
   useEffect(() => {
-    fetch('/api/admin/gallery')
+    fetch('/api/admin/gallery', { cache: 'no-store' })
       .then(r => r.json())
       .then(data => {
-        if (data.images?.length) setGalleryImages(data.images)
-        if (data.stories?.length) { setGalleryStories(data.stories); setStoryPage(0) }
+        if (Array.isArray(data.images)) setGalleryImages(data.images)
+        if (Array.isArray(data.stories) && data.stories.length) { setGalleryStories(data.stories); setStoryPage(0) }
         if (data.heroImage) setHeroImage(data.heroImage)
       })
       .catch(() => {})
