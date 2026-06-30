@@ -45,21 +45,21 @@ export function Hero() {
   const [heroLogo, setHeroLogo] = useState('')
 
   useEffect(() => {
-    fetch('/api/admin/page-images')
+    fetch('/api/admin/page-images', { cache: 'no-store' })
       .then(r => r.json())
       .then(d => {
-        const adminSlides = Array.isArray(d.homeHeroSlides) ? d.homeHeroSlides.filter(Boolean) : []
+        const adminSlides = Array.isArray(d.homeHeroSlides) ? (d.homeHeroSlides as string[]).filter(Boolean) : []
         if (adminSlides.length > 0) {
           setSlides(adminSlides)
           setCurrent(0)
-        } else if (d.homeHero) {
+        } else if (typeof d.homeHero === 'string' && d.homeHero) {
           setSlides([d.homeHero, ...SLIDES.slice(1)])
           setCurrent(0)
         }
         setHeroLogo(typeof d.heroLogo === 'string' ? d.heroLogo : '')
       })
       .catch(() => {})
-    fetch('/api/admin/hero-content')
+    fetch('/api/admin/hero-content', { cache: 'no-store' })
       .then(r => r.json())
       .then(d => setContent(prev => ({ ...prev, ...d })))
       .catch(() => {})

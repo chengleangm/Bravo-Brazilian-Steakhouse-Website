@@ -1,6 +1,9 @@
 {
-  "homeHero": "",
-  "homeHeroSlides": [],
+  "homeHero": "/pages/1782843934184-569645454_122187706784365279_6669061733131528025_n.jpg",
+  "homeHeroSlides": [
+    "/pages/1782843934184-569645454_122187706784365279_6669061733131528025_n.jpg",
+    "/pages/1782843940033-photo_2026-06-30_19-40-52.jpg"
+  ],
   "heroLogo": "",
   "experience": "https://images.unsplash.com/photo-1559329007-40df8a9345d8?auto=format&fit=crop&w=1400&q=90",
   "testimonialsBg": "https://images.unsplash.com/photo-1432139555190-58524dae6a55?auto=format&fit=crop&w=2000&q=90",
