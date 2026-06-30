@@ -11,7 +11,6 @@ const links = [
   { href: '/catering', label: 'Catering Services' },
   { href: '/about', label: 'Our Story' },
   { href: '/gallery', label: 'Gallery' },
-  { href: '/events', label: 'Events' },
 ]
 
 const TELEGRAM_URL = 'https://t.me/BravoReservationsTTP'

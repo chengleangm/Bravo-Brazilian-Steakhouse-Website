@@ -27,14 +27,14 @@ const SPECIALS = [
     title: 'Private Dining',
     copy: 'Birthdays, corporate dinners, romantic dates. We close off the space and set everything up for you.',
     icon: 'fa-champagne-glasses',
-    cta: { label: 'Enquire', href: '/private-dining' },
+    cta: { label: 'Enquire', href: '/contact#reservation' },
   },
   {
     tag: 'Group Offer',
     title: 'Party of 10+',
     copy: 'Booking a big group? Ask about our group packages with fixed menus, drinks, and reserved seating.',
     icon: 'fa-users',
-    cta: { label: 'Get a Quote', href: '/private-dining' },
+    cta: { label: 'Get a Quote', href: '/catering' },
   },
 ]
 

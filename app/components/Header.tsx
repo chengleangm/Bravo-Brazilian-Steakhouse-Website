@@ -20,6 +20,7 @@ const navItems = [
   { href: '/promotions', label: 'Promotions' },
   { href: '/catering', label: 'Catering Services' },
   { href: '/about', label: 'Our Story' },
+  { href: '/gallery', label: 'Gallery' },
 ]
 
 export function Header() {

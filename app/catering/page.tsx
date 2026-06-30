@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
@@ -103,7 +103,22 @@ const PERKS = [
   { icon: 'fa-check', label: 'Min. 15 guests · available daily' },
 ]
 
+const DEFAULT_HERO = 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1800&q=85'
+
 export default function CateringPage() {
+  const [heroImage, setHeroImage] = useState(DEFAULT_HERO)
+  const [packages, setPackages] = useState(PACKAGES)
+
+  useEffect(() => {
+    fetch('/api/admin/catering-content')
+      .then(r => r.json())
+      .then(d => {
+        if (d.heroImage) setHeroImage(d.heroImage)
+        if (d.packages?.length) setPackages(d.packages)
+      })
+      .catch(() => {})
+  }, [])
+
   const [form, setForm] = useState({
     name: '', phone: '', guests: '', location: '', type: '', message: '',
   })
@@ -169,7 +184,7 @@ export default function CateringPage() {
         {/* ── Hero ── */}
         <section
           className="relative flex min-h-[78vh] items-center justify-center overflow-hidden px-5 pb-0 pt-28 text-center sm:pt-32"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1800&q=85')", backgroundSize: 'cover', backgroundPosition: 'center' }}
+          style={{ backgroundImage: `url('${heroImage}')`, backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
           <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(18,8,7,0.78),rgba(18,8,7,0.5),rgba(18,8,7,0.95))]" />
           <motion.div
@@ -234,7 +249,7 @@ export default function CateringPage() {
 
             <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp}
               className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-6">
-              {PACKAGES.map((pkg) => (
+              {packages.map((pkg) => (
                 <motion.div key={pkg.name} variants={fadeUp} transition={{ duration: 0.5 }}
                   className={`relative flex flex-col rounded-xl border-2 bg-[#0d0806] p-5 sm:p-6 ${
                     pkg.accent

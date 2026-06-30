@@ -107,7 +107,7 @@ export function Hero() {
               width={760}
               height={527}
               priority
-              className="h-auto w-[min(75vw,320px)] object-contain mix-blend-screen sm:w-[min(65vw,520px)] lg:w-[min(55vw,680px)]"
+              className="h-auto w-[min(55vw,200px)] object-contain mix-blend-screen sm:w-[min(40vw,300px)] lg:w-[min(30vw,380px)]"
             />
           </motion.div>
 
