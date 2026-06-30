@@ -11,7 +11,7 @@ const NAV_GROUPS = [
       { href: '/admin/dashboard', icon: 'fa-gauge-high', label: 'Dashboard', desc: 'Start here' },
       { href: '/admin/hero-content', icon: 'fa-heading', label: 'Hero text', desc: 'Tagline, stats, buttons' },
       { href: '/admin/home-sections', icon: 'fa-pen-to-square', label: 'Home sections', desc: 'About, offers, CTA text' },
-      { href: '/admin/page-images', icon: 'fa-panorama', label: 'Page images', desc: 'Home, about, menu photos' },
+      { href: '/admin/page-images', icon: 'fa-panorama', label: 'Photos', desc: 'Hero photos for all pages' },
       { href: '/admin/images', icon: 'fa-star', label: 'Featured dishes', desc: 'Home dishes and photo strip' },
       { href: '/admin/promo-video', icon: 'fa-circle-play', label: 'Promo video', desc: 'Home video section' },
     ],
@@ -54,9 +54,9 @@ const SECTION_HELP: Record<string, { title: string; copy: string; items: string[
     items: ['Welcome section', 'Experience section', 'Special offer cards', 'Reservation CTA'],
   },
   '/admin/page-images': {
-    title: 'Page images',
-    copy: 'Controls hero and background photos used across Home, About, and Menu.',
-    items: ['Paste an image URL', 'Upload a file', 'Save after changing manual URLs'],
+    title: 'Photos',
+    copy: 'Controls hero and background photos for every page on the site.',
+    items: ['Pick a page tab', 'Upload a photo or paste a URL', 'Save after changes'],
   },
   '/admin/images': {
     title: 'Home media',

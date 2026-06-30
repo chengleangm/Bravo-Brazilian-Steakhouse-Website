@@ -676,6 +676,7 @@ export default function ContactPage() {
                       placeholder="Your email"
                       autoComplete="email"
                       inputMode="email"
+                      suppressHydrationWarning
                     />
                   </div>
                 </div>
@@ -693,6 +694,7 @@ export default function ContactPage() {
                       placeholder="Your phone"
                       autoComplete="tel"
                       inputMode="tel"
+                      suppressHydrationWarning
                     />
                   </div>
                   <div>
@@ -704,6 +706,7 @@ export default function ContactPage() {
                       onChange={handleContactChange}
                       className={CONTACT_INPUT_CLASS}
                       placeholder="What is this about?"
+                      suppressHydrationWarning
                     />
                   </div>
                 </div>
@@ -717,6 +720,7 @@ export default function ContactPage() {
                     onChange={handleContactChange}
                     className={`${CONTACT_INPUT_CLASS} min-h-16 resize-none`}
                     placeholder="Your message"
+                    suppressHydrationWarning
                   ></textarea>
                 </div>
               </div>

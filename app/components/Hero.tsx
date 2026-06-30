@@ -48,8 +48,9 @@ export function Hero() {
     fetch('/api/admin/page-images')
       .then(r => r.json())
       .then(d => {
-        if (Array.isArray(d.homeHeroSlides)) {
-          setSlides(d.homeHeroSlides.filter(Boolean))
+        const adminSlides = Array.isArray(d.homeHeroSlides) ? d.homeHeroSlides.filter(Boolean) : []
+        if (adminSlides.length > 0) {
+          setSlides(adminSlides)
           setCurrent(0)
         } else if (d.homeHero) {
           setSlides([d.homeHero, ...SLIDES.slice(1)])
