@@ -189,7 +189,7 @@ export function Header() {
           })}
           <Link
             href="/contact#reservation"
-            className="mt-3 inline-flex min-h-[52px] items-center justify-center bg-[#C4A06B] px-5 py-4 text-sm font-bold tracking-[0.1em] uppercase text-[#1a0d08]"
+            className="mt-3 inline-flex min-h-[52px] items-center justify-center bg-[#fd850b] px-5 py-4 text-sm font-bold tracking-[0.1em] uppercase text-[#120807]"
           >
             Reservations
           </Link>
