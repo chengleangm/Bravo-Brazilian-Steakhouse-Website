@@ -5,29 +5,48 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-const DEFAULT_HERO = 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=2200&q=90'
+const SLIDES = [
+  'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=2200&q=90',
+  'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=2200&q=90',
+  'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=2200&q=90',
+  'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=2200&q=90',
+]
+
+const INTERVAL = 5500
 
 export function Hero() {
-  const [heroImage, setHeroImage] = useState(DEFAULT_HERO)
+  const [slides, setSlides] = useState(SLIDES)
+  const [current, setCurrent] = useState(0)
 
   useEffect(() => {
     fetch('/api/admin/page-images')
       .then(r => r.json())
-      .then(d => { if (d.homeHero) setHeroImage(d.homeHero) })
+      .then(d => { if (d.homeHero) setSlides([d.homeHero, ...SLIDES.slice(1)]) })
       .catch(() => {})
   }, [])
 
+  useEffect(() => {
+    const timer = setInterval(() => setCurrent(c => (c + 1) % slides.length), INTERVAL)
+    return () => clearInterval(timer)
+  }, [slides.length])
+
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#120807] text-[#FFF7ED]">
-      <Image
-        src={heroImage}
-        alt="Fire grilled steak on a dark Brazilian BBQ table"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-center"
-        unoptimized={!heroImage.includes('unsplash.com')}
-      />
+      {/* Slideshow background images — crossfade via opacity */}
+      {slides.map((src, i) => (
+        <Image
+          key={src}
+          src={src}
+          alt="Bravo Brazilian Steakhouse"
+          fill
+          priority={i === 0}
+          sizes="100vw"
+          className={`object-cover object-center transition-opacity duration-[1200ms] ease-in-out ${
+            i === current ? 'opacity-100' : 'opacity-0'
+          }`}
+          unoptimized={!src.includes('unsplash.com')}
+        />
+      ))}
 
       <div className="absolute inset-0 bg-black/70 sm:bg-transparent sm:bg-[linear-gradient(to_right,rgba(0,0,0,0.95)_0%,rgba(0,0,0,0.78)_50%,rgba(0,0,0,0.08)_100%)]" />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.5)_0%,transparent_25%,transparent_75%,rgba(0,0,0,0.65)_100%)]" />
@@ -112,6 +131,23 @@ export function Hero() {
             </Link>
           </motion.div>
         </div>
+      </div>
+
+      {/* Slide indicator dots */}
+      <div className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 sm:left-auto sm:right-10 sm:translate-x-0">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => setCurrent(i)}
+            aria-label={`Go to slide ${i + 1}`}
+            className={`h-[3px] rounded-full transition-all duration-500 ${
+              i === current
+                ? 'w-8 bg-[#fd850b]'
+                : 'w-4 bg-white/35 hover:bg-white/60'
+            }`}
+          />
+        ))}
       </div>
     </section>
   )
