@@ -22,7 +22,6 @@ type HeroContent = {
   btn1Href: string
   btn2Label: string
   btn2Href: string
-  heroLogo: string
 }
 
 const DEFAULT_CONTENT: HeroContent = {
@@ -37,18 +36,27 @@ const DEFAULT_CONTENT: HeroContent = {
   btn1Href: '/menu',
   btn2Label: 'Book A Table',
   btn2Href: '/contact#reservation',
-  heroLogo: '',
 }
 
 export function Hero() {
   const [slides, setSlides] = useState(SLIDES)
   const [current, setCurrent] = useState(0)
   const [content, setContent] = useState<HeroContent>(DEFAULT_CONTENT)
+  const [heroLogo, setHeroLogo] = useState('')
 
   useEffect(() => {
     fetch('/api/admin/page-images')
       .then(r => r.json())
-      .then(d => { if (d.homeHero) setSlides([d.homeHero, ...SLIDES.slice(1)]) })
+      .then(d => {
+        if (Array.isArray(d.homeHeroSlides)) {
+          setSlides(d.homeHeroSlides.filter(Boolean))
+          setCurrent(0)
+        } else if (d.homeHero) {
+          setSlides([d.homeHero, ...SLIDES.slice(1)])
+          setCurrent(0)
+        }
+        setHeroLogo(typeof d.heroLogo === 'string' ? d.heroLogo : '')
+      })
       .catch(() => {})
     fetch('/api/admin/hero-content')
       .then(r => r.json())
@@ -57,6 +65,7 @@ export function Hero() {
   }, [])
 
   useEffect(() => {
+    if (!slides.length) return
     const timer = setInterval(() => setCurrent(c => (c + 1) % slides.length), INTERVAL)
     return () => clearInterval(timer)
   }, [slides.length])
@@ -97,7 +106,7 @@ export function Hero() {
             </span>
           </motion.div>
 
-          {content.heroLogo && (
+          {heroLogo && (
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -105,13 +114,13 @@ export function Hero() {
               className="flex justify-center sm:justify-start"
             >
               <Image
-                src={content.heroLogo}
+                src={heroLogo}
                 alt="Bravo Brazilian Steakhouse"
                 width={760}
                 height={527}
                 priority
                 className="h-auto w-[min(55vw,200px)] object-contain mix-blend-screen sm:w-[min(40vw,300px)] lg:w-[min(30vw,380px)]"
-                unoptimized={content.heroLogo.startsWith('/uploads') || content.heroLogo.startsWith('/pages') || content.heroLogo.startsWith('/logos')}
+                unoptimized={heroLogo.startsWith('/uploads') || heroLogo.startsWith('/pages') || heroLogo.startsWith('/logos')}
               />
             </motion.div>
           )}

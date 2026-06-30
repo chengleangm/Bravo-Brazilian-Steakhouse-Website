@@ -5,6 +5,8 @@ import { AdminLayout, Toast, input, btnPrimary, btnSecondary, btnDanger } from '
 
 type PageImages = {
   homeHero: string
+  homeHeroSlides: string[]
+  heroLogo: string
   experience: string
   testimonialsBg: string
   ctaImage: string
@@ -16,8 +18,10 @@ type PageImages = {
   menuHero: string
 }
 
+type PageImageKey = Exclude<keyof PageImages, 'homeHeroSlides'>
+
 type ImageMeta = {
-  key: keyof PageImages
+  key: PageImageKey
   label: string
   page: 'Home' | 'About' | 'Menu'
   pageHref: string
@@ -27,7 +31,7 @@ type ImageMeta = {
 }
 
 const META: ImageMeta[] = [
-  { key: 'homeHero', label: 'Main home photo', page: 'Home', pageHref: '/', section: 'Top of the home page', bestSize: 'Wide landscape', icon: 'fa-house' },
+  { key: 'heroLogo', label: 'Hero logo image', page: 'Home', pageHref: '/', section: 'Logo over the hero background', bestSize: 'Transparent PNG or wide logo', icon: 'fa-certificate' },
   { key: 'experience', label: 'Experience photo', page: 'Home', pageHref: '/', section: 'Grilling / experience section', bestSize: 'Landscape or square', icon: 'fa-fire-flame-curved' },
   { key: 'testimonialsBg', label: 'Reviews background', page: 'Home', pageHref: '/', section: 'Behind customer reviews', bestSize: 'Wide landscape', icon: 'fa-star' },
   { key: 'ctaImage', label: 'Booking photo', page: 'Home', pageHref: '/', section: 'Reserve your table section', bestSize: 'Wide landscape', icon: 'fa-calendar-check' },
@@ -46,15 +50,37 @@ export default function AdminPageImages() {
   const [activePage, setActivePage] = useState<(typeof PAGES)[number]>('Home')
   const [saving, setSaving] = useState(false)
   const [toast, setToast] = useState('')
-  const [uploading, setUploading] = useState<keyof PageImages | null>(null)
-  const [editingUrl, setEditingUrl] = useState<keyof PageImages | null>(null)
+  const [uploading, setUploading] = useState<string | null>(null)
+  const [editingUrl, setEditingUrl] = useState<PageImageKey | null>(null)
+  const [newSlideUrl, setNewSlideUrl] = useState('')
   const [dirty, setDirty] = useState(false)
   const fileRefs = useRef<Record<string, HTMLInputElement | null>>({})
+  const slideFileRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     fetch('/api/admin/page-images', { cache: 'no-store' })
       .then(r => r.json())
-      .then(setImages)
+      .then(d => {
+        const data = d as Partial<PageImages>
+        setImages({
+          homeHero: data.homeHero ?? '',
+          homeHeroSlides: Array.isArray(data.homeHeroSlides)
+            ? data.homeHeroSlides.filter(Boolean)
+            : data.homeHero
+              ? [data.homeHero]
+              : [],
+          heroLogo: data.heroLogo ?? '',
+          experience: data.experience ?? '',
+          testimonialsBg: data.testimonialsBg ?? '',
+          ctaImage: data.ctaImage ?? '',
+          aboutHero: data.aboutHero ?? '',
+          aboutStory: data.aboutStory ?? '',
+          aboutChurrascaria: data.aboutChurrascaria ?? '',
+          aboutTeamGroup: data.aboutTeamGroup ?? '',
+          aboutCTA: data.aboutCTA ?? '',
+          menuHero: data.menuHero ?? '',
+        })
+      })
       .catch(() => {})
   }, [])
 
@@ -86,18 +112,18 @@ export default function AdminPageImages() {
     }
   }
 
-  function updateImage(key: keyof PageImages, value: string) {
+  function updateImage(key: PageImageKey, value: string) {
     setImages(prev => prev ? { ...prev, [key]: value } : prev)
     setDirty(true)
   }
 
-  async function handleUpload(key: keyof PageImages, file: File) {
+  async function handleUpload(key: PageImageKey, file: File) {
     if (!images) return
     setUploading(key)
     try {
       const fd = new FormData()
       fd.append('file', file)
-      fd.append('folder', 'pages')
+      fd.append('folder', key === 'heroLogo' ? 'logos' : 'pages')
       const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
       const d = await res.json()
       if (!res.ok) {
@@ -111,6 +137,81 @@ export default function AdminPageImages() {
         if (ok) {
           setDirty(false)
           setToast('Photo uploaded and saved')
+        }
+      }
+    } catch (e) {
+      alert('Upload failed: ' + String(e))
+    } finally {
+      setUploading(null)
+    }
+  }
+
+  function updateHeroSlide(index: number, value: string) {
+    setImages(prev => {
+      if (!prev) return prev
+      const slides = [...prev.homeHeroSlides]
+      slides[index] = value
+      return { ...prev, homeHero: slides[0] ?? '', homeHeroSlides: slides }
+    })
+    setDirty(true)
+  }
+
+  function removeHeroSlide(index: number) {
+    setImages(prev => {
+      if (!prev) return prev
+      const slides = prev.homeHeroSlides.filter((_, i) => i !== index)
+      return { ...prev, homeHero: slides[0] ?? '', homeHeroSlides: slides }
+    })
+    setDirty(true)
+  }
+
+  function moveHeroSlide(index: number, direction: -1 | 1) {
+    setImages(prev => {
+      if (!prev) return prev
+      const target = index + direction
+      if (target < 0 || target >= prev.homeHeroSlides.length) return prev
+      const slides = [...prev.homeHeroSlides]
+      const current = slides[index]
+      slides[index] = slides[target]
+      slides[target] = current
+      return { ...prev, homeHero: slides[0] ?? '', homeHeroSlides: slides }
+    })
+    setDirty(true)
+  }
+
+  function addHeroSlideUrl() {
+    const value = newSlideUrl.trim()
+    if (!value) return
+    setImages(prev => {
+      if (!prev) return prev
+      const slides = [...prev.homeHeroSlides, value]
+      return { ...prev, homeHero: slides[0] ?? '', homeHeroSlides: slides }
+    })
+    setNewSlideUrl('')
+    setDirty(true)
+  }
+
+  async function handleHeroSlideUpload(file: File) {
+    if (!images) return
+    setUploading('homeHeroSlides')
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('folder', 'pages')
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const d = await res.json()
+      if (!res.ok) {
+        alert('Upload failed: ' + (d.error ?? res.status))
+        return
+      }
+      if (d.url) {
+        const slides = [...images.homeHeroSlides, d.url]
+        const updated = { ...images, homeHero: slides[0] ?? '', homeHeroSlides: slides }
+        setImages(updated)
+        const ok = await saveToKV(updated)
+        if (ok) {
+          setDirty(false)
+          setToast('Hero slide uploaded and saved')
         }
       }
     } catch (e) {
@@ -166,7 +267,7 @@ export default function AdminPageImages() {
         <div className="flex flex-wrap gap-2">
           {PAGES.map(page => {
             const active = activePage === page
-            const count = META.filter(item => item.page === page).length
+            const count = META.filter(item => item.page === page).length + (page === 'Home' ? images.homeHeroSlides.length : 0)
             return (
               <button
                 key={page}
@@ -187,17 +288,134 @@ export default function AdminPageImages() {
           })}
         </div>
 
+        {activePage === 'Home' && (
+          <section className="overflow-hidden rounded-lg border border-[#D4A373]/15 bg-[#130c08]">
+            <div className="border-b border-[#D4A373]/10 p-4 sm:p-5">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-[#fd850b]">Home hero slideshow</p>
+                  <h3 className="mt-1 text-lg font-black uppercase leading-tight text-[#FFF7ED]">Rotating background photos</h3>
+                  <p className="mt-2 max-w-2xl text-sm leading-6 text-[#C7B8A8]">
+                    These are the large photos behind the first home page section. The first slide is shown first.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => slideFileRef.current?.click()}
+                  disabled={uploading === 'homeHeroSlides'}
+                  className={btnPrimary}
+                >
+                  {uploading === 'homeHeroSlides'
+                    ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading...</>
+                    : <><i className="fa-solid fa-upload" /> Upload Slide</>
+                  }
+                </button>
+                <input
+                  ref={slideFileRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={e => {
+                    const file = e.target.files?.[0]
+                    if (file) handleHeroSlideUpload(file)
+                    e.target.value = ''
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-4 p-4 sm:p-5">
+              <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
+                <input
+                  type="text"
+                  value={newSlideUrl}
+                  onChange={e => setNewSlideUrl(e.target.value)}
+                  placeholder="Paste a hero slide image link"
+                  className={input}
+                />
+                <button type="button" onClick={addHeroSlideUrl} className={btnSecondary}>
+                  <i className="fa-solid fa-plus" /> Add Link
+                </button>
+              </div>
+
+              {images.homeHeroSlides.length === 0 ? (
+                <div className="flex min-h-48 items-center justify-center rounded-lg border border-dashed border-[#D4A373]/20 bg-[#0d0905] text-center text-[#C7B8A8]/55">
+                  <div>
+                    <i className="fa-solid fa-images mb-3 block text-4xl" />
+                    <p className="text-sm font-black uppercase tracking-wide text-[#FFF7ED]">No hero slides yet</p>
+                    <p className="mt-1 text-sm">Upload a photo or paste an image link to start the slideshow.</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="grid gap-4 lg:grid-cols-2">
+                  {images.homeHeroSlides.map((slide, index) => (
+                    <article key={`${slide}-${index}`} className="overflow-hidden rounded-lg border border-[#D4A373]/12 bg-[#0d0905]">
+                      <div className="relative aspect-[16/9] bg-black">
+                        {slide ? (
+                          <img src={slide} alt={`Home hero slide ${index + 1}`} className="absolute inset-0 h-full w-full object-cover" />
+                        ) : (
+                          <div className="flex h-full items-center justify-center text-[#C7B8A8]/45">
+                            <i className="fa-solid fa-image text-3xl" />
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between gap-3 p-4">
+                          <div>
+                            <p className="text-[0.62rem] font-black uppercase tracking-[0.18em] text-[#fd850b]">
+                              {index === 0 ? 'First slide' : `Slide ${index + 1}`}
+                            </p>
+                            <p className="mt-1 text-sm font-bold text-white">{index === 0 ? 'Shows first on page load' : 'Rotates after the first slide'}</p>
+                          </div>
+                          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#fd850b] text-sm font-black text-black">
+                            {index + 1}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3 p-4">
+                        <input
+                          type="text"
+                          value={slide}
+                          onChange={e => updateHeroSlide(index, e.target.value)}
+                          placeholder="Image URL"
+                          className={input}
+                        />
+                        <div className="flex flex-wrap gap-2">
+                          <button type="button" onClick={() => moveHeroSlide(index, -1)} disabled={index === 0} className={btnSecondary}>
+                            <i className="fa-solid fa-arrow-up" /> Earlier
+                          </button>
+                          <button type="button" onClick={() => moveHeroSlide(index, 1)} disabled={index === images.homeHeroSlides.length - 1} className={btnSecondary}>
+                            <i className="fa-solid fa-arrow-down" /> Later
+                          </button>
+                          <button type="button" onClick={() => removeHeroSlide(index)} className={btnDanger}>
+                            <i className="fa-solid fa-trash" /> Remove
+                          </button>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
         <div className="grid gap-4 lg:grid-cols-2">
           {activeItems.map((item) => {
             const value = images[item.key]
             const isUploading = uploading === item.key
             const showUrl = editingUrl === item.key
+            const isLogo = item.key === 'heroLogo'
 
             return (
               <article key={item.key} className="overflow-hidden rounded-lg border border-[#D4A373]/15 bg-[#130c08]">
                 <div className="relative aspect-[16/9] bg-[#0d0905]">
                   {value ? (
-                    <img src={value} alt={item.label} className="absolute inset-0 h-full w-full object-cover" />
+                    <img
+                      src={value}
+                      alt={item.label}
+                      className={`absolute inset-0 h-full w-full ${isLogo ? 'object-contain p-8' : 'object-cover'}`}
+                    />
                   ) : (
                     <div className="flex h-full items-center justify-center">
                       <div className="text-center text-[#C7B8A8]/45">
@@ -282,6 +500,11 @@ export default function AdminPageImages() {
                     <span className="truncate text-xs text-[#C7B8A8]/65">
                       {value ? value.replace(/^https?:\/\//, '') : 'No image URL saved'}
                     </span>
+                    {isLogo && !value && (
+                      <button type="button" onClick={() => updateImage(item.key, '/logo.png')} className={btnSecondary}>
+                        <i className="fa-solid fa-rotate-left" /> Use Old Logo
+                      </button>
+                    )}
                     {value && (
                       <button type="button" onClick={() => updateImage(item.key, '')} className={btnDanger}>
                         <i className="fa-solid fa-trash" /> Clear

@@ -9,6 +9,5 @@
   "btn1Label": "View Menu",
   "btn1Href": "/menu",
   "btn2Label": "Book A Table",
-  "btn2Href": "/contact#reservation",
-  "heroLogo": ""
+  "btn2Href": "/contact#reservation"
 }
