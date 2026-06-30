@@ -10,6 +10,7 @@ const NAV_GROUPS = [
     items: [
       { href: '/admin/dashboard', icon: 'fa-gauge-high', label: 'Dashboard', desc: 'Start here' },
       { href: '/admin/hero-content', icon: 'fa-heading', label: 'Hero text', desc: 'Tagline, stats, buttons' },
+      { href: '/admin/home-sections', icon: 'fa-pen-to-square', label: 'Home sections', desc: 'About, offers, CTA text' },
       { href: '/admin/page-images', icon: 'fa-panorama', label: 'Page images', desc: 'Home, about, menu photos' },
       { href: '/admin/images', icon: 'fa-star', label: 'Featured dishes', desc: 'Home dishes and photo strip' },
       { href: '/admin/promo-video', icon: 'fa-circle-play', label: 'Promo video', desc: 'Home video section' },
@@ -30,6 +31,7 @@ const NAV_GROUPS = [
 const LIVE_PAGE_BY_ADMIN_PATH: Record<string, string> = {
   '/admin/dashboard': '/',
   '/admin/hero-content': '/',
+  '/admin/home-sections': '/',
   '/admin/page-images': '/',
   '/admin/images': '/',
   '/admin/promo-video': '/',
@@ -38,6 +40,67 @@ const LIVE_PAGE_BY_ADMIN_PATH: Record<string, string> = {
   '/admin/catering': '/catering',
   '/admin/gallery': '/gallery',
   '/admin/short-videos': '/gallery',
+}
+
+const SECTION_HELP: Record<string, { title: string; copy: string; items: string[] }> = {
+  '/admin/hero-content': {
+    title: 'Home hero',
+    copy: 'Controls the first thing customers see on the home page.',
+    items: ['Tagline and subtitle', 'Hero stats', 'Primary and secondary buttons'],
+  },
+  '/admin/home-sections': {
+    title: 'Home sections',
+    copy: 'Controls the editable text across the rest of the home page.',
+    items: ['Welcome section', 'Experience section', 'Special offer cards', 'Reservation CTA'],
+  },
+  '/admin/page-images': {
+    title: 'Page images',
+    copy: 'Controls hero and background photos used across Home, About, and Menu.',
+    items: ['Paste an image URL', 'Upload a file', 'Save after changing manual URLs'],
+  },
+  '/admin/images': {
+    title: 'Home media',
+    copy: 'Controls the home page photo strip and featured dishes cards.',
+    items: ['Photo strip order', 'Featured dish text', 'Featured dish images'],
+  },
+  '/admin/promo-video': {
+    title: 'Home promo video',
+    copy: 'Controls the square video section on the home page.',
+    items: ['Local video path', 'YouTube URL', 'Section title and subtitle'],
+  },
+  '/admin/menu': {
+    title: 'Menu and team',
+    copy: 'Controls the Menu page items and the team profile shown on About.',
+    items: ['A la carte dishes', 'Grill cuts', 'Team member profile'],
+  },
+  '/admin/events': {
+    title: 'Promotions page',
+    copy: 'Controls the public Promotions page and event-style offers.',
+    items: ['Active promotion banners', 'Event types', 'Packages and feature cards'],
+  },
+  '/admin/catering': {
+    title: 'Catering page',
+    copy: 'Controls catering pricing, package cards, and the catering hero image.',
+    items: ['Package price', 'Minimum guests', 'Included features'],
+  },
+  '/admin/gallery': {
+    title: 'Gallery photos',
+    copy: 'Controls gallery photos, categories, featured flags, and story cards.',
+    items: ['Bulk upload photos', 'Assign categories', 'Build story cards'],
+  },
+  '/admin/short-videos': {
+    title: 'Gallery videos',
+    copy: 'Controls the three vertical clips shown on the Gallery page.',
+    items: ['Portrait video paths', 'Clip labels', 'Gallery preview clips'],
+  },
+}
+
+type AdminStatus = {
+  isHosted: boolean
+  contentStorage: 'ready' | 'missing' | 'local'
+  mediaStorage: 'ready' | 'missing' | 'local'
+  canSaveContent: boolean
+  canUploadMedia: boolean
 }
 
 function getActiveItem(pathname: string) {
@@ -58,8 +121,17 @@ export function AdminLayout({
   const pathname = usePathname()
   const router = useRouter()
   const [open, setOpen] = useState(false)
+  const [status, setStatus] = useState<AdminStatus | null>(null)
   const activeItem = getActiveItem(pathname)
   const liveHref = LIVE_PAGE_BY_ADMIN_PATH[pathname] ?? '/'
+  const guide = SECTION_HELP[pathname]
+
+  useEffect(() => {
+    fetch('/api/admin/status', { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : null)
+      .then(setStatus)
+      .catch(() => setStatus(null))
+  }, [])
 
   async function logout() {
     await fetch('/api/admin/auth', { method: 'DELETE' })
@@ -208,7 +280,53 @@ export function AdminLayout({
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto">{children}</main>
+        <main className="flex-1 overflow-auto">
+          {(guide || status?.contentStorage === 'missing' || status?.mediaStorage === 'missing') && (
+            <div className="border-b border-[#D4A373]/10 bg-[#100b07] px-4 py-4 sm:px-6">
+              <div className="mx-auto flex max-w-7xl flex-col gap-3 lg:flex-row lg:items-stretch">
+                {guide && (
+                  <div className="flex-1 rounded-lg border border-[#D4A373]/14 bg-[#130c08] p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#fd850b]/15 text-[#fd850b]">
+                        <i className="fa-solid fa-circle-info text-sm" />
+                      </span>
+                      <div className="min-w-0">
+                        <p className="text-sm font-black uppercase tracking-wide text-[#FFF7ED]">{guide.title}</p>
+                        <p className="mt-1 text-sm leading-5 text-[#C7B8A8]">{guide.copy}</p>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {guide.items.map(item => (
+                            <span key={item} className="rounded bg-[#0d0905] px-2.5 py-1 text-[0.68rem] font-bold text-[#C7B8A8]">
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {status && (status.contentStorage === 'missing' || status.mediaStorage === 'missing') && (
+                  <div className="rounded-lg border border-red-500/30 bg-red-950/25 p-4 lg:w-[360px]">
+                    <div className="flex items-start gap-3">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-500/15 text-red-300">
+                        <i className="fa-solid fa-triangle-exclamation text-sm" />
+                      </span>
+                      <div>
+                        <p className="text-sm font-black uppercase tracking-wide text-red-200">Host storage setup needed</p>
+                        <p className="mt-1 text-xs leading-5 text-red-100/80">
+                          {status.contentStorage === 'missing' && 'Connect Vercel KV so text changes save on the hosted site. '}
+                          {status.mediaStorage === 'missing' && 'Connect Vercel Blob so image uploads work on the hosted site.'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {children}
+        </main>
       </div>
     </div>
   )

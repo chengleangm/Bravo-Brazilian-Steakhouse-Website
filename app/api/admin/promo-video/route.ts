@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server'
 import defaultData from '../../../../data/promo-video.json'
+import { noStoreHeaders, revalidatePublicPages } from '../_utils/cache'
 
 export const dynamic = 'force-dynamic'
 
 const KEY = 'bravo:promo-video'
 
 async function read() {
-  if (!process.env.KV_REST_API_URL) {
+  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
     const { promises: fs } = await import('fs')
     const path = await import('path')
     const raw = await fs.readFile(path.join(process.cwd(), 'data', 'promo-video.json'), 'utf8')
@@ -17,7 +18,10 @@ async function read() {
 }
 
 async function write(body: unknown) {
-  if (!process.env.KV_REST_API_URL) {
+  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
+    if (process.env.VERCEL) {
+      throw new Error('Vercel KV is not connected. Add KV_REST_API_URL and KV_REST_API_TOKEN, then redeploy.')
+    }
     const { promises: fs } = await import('fs')
     const path = await import('path')
     await fs.writeFile(path.join(process.cwd(), 'data', 'promo-video.json'), JSON.stringify(body, null, 2))
@@ -30,9 +34,9 @@ async function write(body: unknown) {
 export async function GET() {
   try {
     const data = await read()
-    return NextResponse.json(data ?? defaultData, { headers: { 'Cache-Control': 'no-store' } })
+    return NextResponse.json(data ?? defaultData, { headers: noStoreHeaders })
   } catch {
-    return NextResponse.json(defaultData, { headers: { 'Cache-Control': 'no-store' } })
+    return NextResponse.json(defaultData, { headers: noStoreHeaders })
   }
 }
 
@@ -40,8 +44,10 @@ export async function PUT(request: Request) {
   try {
     const body = await request.json()
     await write(body)
-    return NextResponse.json({ ok: true })
-  } catch {
-    return NextResponse.json({ error: 'Failed to save' }, { status: 500 })
+    revalidatePublicPages(['/'])
+    return NextResponse.json({ ok: true, revalidated: ['/'] }, { headers: noStoreHeaders })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to save'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

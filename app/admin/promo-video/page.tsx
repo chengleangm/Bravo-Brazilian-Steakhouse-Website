@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { AdminLayout, Toast, input, btnPrimary } from '../components/AdminLayout'
+import { useEffect, useRef, useState } from 'react'
+import { AdminLayout, Toast, input, btnPrimary, btnSecondary } from '../components/AdminLayout'
 
 type VideoData = { url: string; title: string; subtitle: string }
 
@@ -17,7 +17,9 @@ const card = 'bg-[#130c08] border border-[#D4A373]/12 rounded-2xl p-5 space-y-4'
 export default function AdminPromoVideo() {
   const [data, setData] = useState<VideoData>(DEFAULT)
   const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [toast, setToast] = useState('')
+  const fileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     fetch('/api/admin/promo-video')
@@ -30,6 +32,26 @@ export default function AdminPromoVideo() {
     setData(prev => ({ ...prev, [key]: val }))
   }
 
+  async function uploadVideo(file: File) {
+    setUploading(true)
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('folder', 'videos')
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const json = await res.json()
+      if (!res.ok) {
+        alert('Upload failed: ' + (json.error ?? res.status))
+        return
+      }
+      if (json.url) set('url', json.url)
+    } catch (error) {
+      alert('Upload failed: ' + String(error))
+    } finally {
+      setUploading(false)
+    }
+  }
+
   async function handleSave() {
     setSaving(true)
     try {
@@ -38,10 +60,13 @@ export default function AdminPromoVideo() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-      if (!res.ok) throw new Error('Failed')
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}))
+        throw new Error(json.error ?? `HTTP ${res.status}`)
+      }
       setToast('Video saved!')
-    } catch {
-      alert('Save failed. Please try again.')
+    } catch (error) {
+      alert('Save failed: ' + String(error instanceof Error ? error.message : error))
     } finally {
       setSaving(false)
     }
@@ -101,6 +126,22 @@ export default function AdminPromoVideo() {
               placeholder="/Home/video.mp4 or https://youtu.be/..."
               className={input}
             />
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading} className={btnSecondary}>
+                {uploading ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading...</> : <><i className="fa-solid fa-upload" /> Upload video</>}
+              </button>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="video/mp4,video/webm,video/quicktime"
+                className="hidden"
+                onChange={async e => {
+                  const file = e.target.files?.[0]
+                  if (file) await uploadVideo(file)
+                  e.target.value = ''
+                }}
+              />
+            </div>
             {isLocal && (
               <p className="mt-1.5 text-[0.68rem] text-[#C7B8A8]/60">
                 Local file — place it in <code className="text-[#fd850b]">public/Home/</code>

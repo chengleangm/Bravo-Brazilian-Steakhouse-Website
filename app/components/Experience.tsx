@@ -5,14 +5,25 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 const DEFAULT_VIDEO = '/Home/video_2026-06-30_20-27-44.mp4'
+const DEFAULT_CONTENT = {
+  title: 'Grilling, carved hot from the skewer',
+  body: 'Our churrasco service is built around theatre and generosity. Cuts are seasoned simply, grilled with patience, and served fresh at the table so every guest can taste the heat, smoke, and tenderness at its peak.',
+  buttonLabel: 'Discover The Experience',
+  buttonHref: '/gallery',
+}
 
 export function Experience() {
   const [videoUrl, setVideoUrl] = useState(DEFAULT_VIDEO)
+  const [content, setContent] = useState(DEFAULT_CONTENT)
 
   useEffect(() => {
     fetch('/api/admin/promo-video')
       .then(r => r.json())
       .then(d => { if (d.url) setVideoUrl(d.url) })
+      .catch(() => {})
+    fetch('/api/admin/home-sections')
+      .then(r => r.json())
+      .then(d => setContent(prev => ({ ...prev, ...d.experience })))
       .catch(() => {})
   }, [])
 
@@ -49,16 +60,16 @@ export function Experience() {
         >
           <div className="mb-3 h-px w-24 bg-[#FFF7ED]/60 sm:mb-5 sm:w-44 sm:bg-[#FFF7ED]" />
           <h2 className="font-serif text-2xl uppercase leading-[0.94] sm:text-4xl sm:leading-[0.88] lg:text-5xl">
-            Grilling, carved hot from the skewer
+            {content.title}
           </h2>
           <p className="mt-3 max-w-xl text-[0.82rem] leading-[1.55] text-[#f4d8c5] sm:mt-6 sm:text-lg sm:leading-8">
-            Our churrasco service is built around theatre and generosity. Cuts are seasoned simply, grilled with patience, and served fresh at the table so every guest can taste the heat, smoke, and tenderness at its peak.
+            {content.body}
           </p>
           <Link
-            href="/gallery"
+            href={content.buttonHref}
             className="mt-4 inline-flex min-h-9 items-center justify-center bg-[#fd850b] px-3 py-2 text-[0.62rem] font-black uppercase text-black shadow-[0_14px_34px_rgba(253,133,11,0.28)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_46px_rgba(253,133,11,0.46)] sm:mt-8 sm:min-h-11 sm:px-6 sm:py-3 sm:text-xs"
           >
-            Discover The Experience
+            {content.buttonLabel}
           </Link>
         </motion.div>
       </div>

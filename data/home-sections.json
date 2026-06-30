@@ -1,0 +1,95 @@
+{
+  "about": {
+    "kicker": "Welcome to Bravo",
+    "title": "Authentic Brazilian flavours crafted with fire and passion",
+    "body": "At BRAVO, skewers move from open flame to your table with bold aroma, coarse salt, and slow-roasted heat. Gather for a generous buffet, premium grilled cuts, fresh sides, and a warm dining room made for families, friends, and celebrations.",
+    "buttonLabel": "Learn More About Us",
+    "buttonHref": "/about"
+  },
+  "dishes": {
+    "kicker": "Popular Plates",
+    "title": "Dishes that keep guests coming back"
+  },
+  "experience": {
+    "title": "Grilling, carved hot from the skewer",
+    "body": "Our churrasco service is built around theatre and generosity. Cuts are seasoned simply, grilled with patience, and served fresh at the table so every guest can taste the heat, smoke, and tenderness at its peak.",
+    "buttonLabel": "Discover The Experience",
+    "buttonHref": "/gallery"
+  },
+  "specials": {
+    "kicker": "Specials & Offers",
+    "title": "What's On at BRAVO",
+    "body": "From daily lunch deals to private event packages - something for every occasion.",
+    "buttonLabel": "View All Promotions",
+    "buttonHref": "/promotions",
+    "items": [
+      {
+        "tag": "Daily - Mon - Fri",
+        "title": "Lunch Buffet",
+        "copy": "All-you-can-eat churrasco + full buffet bar. Unlimited grill cuts carved tableside from 11:00 AM.",
+        "icon": "fa-sun",
+        "ctaLabel": "Book Lunch",
+        "ctaHref": "/contact#reservation"
+      },
+      {
+        "tag": "Sat & Sun",
+        "title": "Weekend Family Table",
+        "copy": "Bring the whole family. Special group pricing on weekends - perfect for large tables and celebrations.",
+        "icon": "fa-people-group",
+        "ctaLabel": "Reserve Now",
+        "ctaHref": "/contact#reservation"
+      },
+      {
+        "tag": "Any Night",
+        "title": "Private Dining",
+        "copy": "Birthdays, corporate dinners, romantic dates. We close off the space and set everything up for you.",
+        "icon": "fa-champagne-glasses",
+        "ctaLabel": "Enquire",
+        "ctaHref": "/contact#reservation"
+      },
+      {
+        "tag": "Group Offer",
+        "title": "Party of 10+",
+        "copy": "Booking a big group? Ask about our group packages with fixed menus, drinks, and reserved seating.",
+        "icon": "fa-users",
+        "ctaLabel": "Get a Quote",
+        "ctaHref": "/catering"
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Dinner that feels like a celebration"
+  },
+  "reservation": {
+    "kicker": "Book Bravo",
+    "title": "Reserve your table today",
+    "body": "Bring your guests to the flame. Book a table for churrasco, celebrations, family dinners, and nights built around bold Brazilian steakhouse flavor.",
+    "primaryLabel": "Book Now",
+    "primaryHref": "/contact#reservation",
+    "secondaryLabel": "Message Us",
+    "secondaryHref": "https://wa.me/85510231121",
+    "imageKicker": "Tonight at Bravo",
+    "imageTitle": "Hot skewers, cold drinks, full tables",
+    "bestForLabel": "Best for",
+    "bestForValue": "Birthdays, date nights, team dinners",
+    "locationLabel": "Location",
+    "locationValue": "Phnom Penh, Cambodia",
+    "details": [
+      {
+        "icon": "fa-calendar-check",
+        "label": "Quick booking",
+        "value": "Choose your date and party size"
+      },
+      {
+        "icon": "fa-clock",
+        "label": "Open daily",
+        "value": "Lunch, dinner, and weekend gatherings"
+      },
+      {
+        "icon": "fa-fire-flame-curved",
+        "label": "Churrasco service",
+        "value": "Fire-grilled cuts served tableside"
+      }
+    ]
+  }
+}

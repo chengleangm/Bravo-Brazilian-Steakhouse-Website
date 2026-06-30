@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { AdminLayout, Toast, input, btnPrimary } from '../components/AdminLayout'
+import { useEffect, useRef, useState } from 'react'
+import { AdminLayout, Toast, input, btnPrimary, btnSecondary } from '../components/AdminLayout'
 
 type ShortVideo = { url: string; title: string }
 
@@ -17,7 +17,9 @@ const card = 'bg-[#130c08] border border-[#D4A373]/12 rounded-2xl p-5 space-y-4'
 export default function AdminShortVideos() {
   const [videos, setVideos] = useState<ShortVideo[]>(DEFAULT)
   const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState<number | null>(null)
   const [toast, setToast] = useState('')
+  const fileRefs = useRef<Record<number, HTMLInputElement | null>>({})
 
   useEffect(() => {
     fetch('/api/admin/short-videos')
@@ -30,6 +32,26 @@ export default function AdminShortVideos() {
     setVideos(prev => prev.map((v, idx) => idx === i ? { ...v, [field]: val } : v))
   }
 
+  async function uploadClip(i: number, file: File) {
+    setUploading(i)
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('folder', 'gallery-videos')
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const json = await res.json()
+      if (!res.ok) {
+        alert('Upload failed: ' + (json.error ?? res.status))
+        return
+      }
+      if (json.url) update(i, 'url', json.url)
+    } catch (error) {
+      alert('Upload failed: ' + String(error))
+    } finally {
+      setUploading(null)
+    }
+  }
+
   async function handleSave() {
     setSaving(true)
     try {
@@ -38,10 +60,13 @@ export default function AdminShortVideos() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(videos),
       })
-      if (!res.ok) throw new Error('Failed')
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}))
+        throw new Error(json.error ?? `HTTP ${res.status}`)
+      }
       setToast('Short videos saved!')
-    } catch {
-      alert('Save failed. Please try again.')
+    } catch (error) {
+      alert('Save failed: ' + String(error instanceof Error ? error.message : error))
     } finally {
       setSaving(false)
     }
@@ -93,6 +118,20 @@ export default function AdminShortVideos() {
                 onChange={e => update(i, 'url', e.target.value)}
                 placeholder="/Home/my-video.mp4"
                 className={input}
+              />
+              <button type="button" onClick={() => fileRefs.current[i]?.click()} disabled={uploading === i} className={`${btnSecondary} mt-2`}>
+                {uploading === i ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading...</> : <><i className="fa-solid fa-upload" /> Upload clip</>}
+              </button>
+              <input
+                ref={el => { fileRefs.current[i] = el }}
+                type="file"
+                accept="video/mp4,video/webm,video/quicktime"
+                className="hidden"
+                onChange={async e => {
+                  const file = e.target.files?.[0]
+                  if (file) await uploadClip(i, file)
+                  e.target.value = ''
+                }}
               />
               <p className="mt-1 text-[0.65rem] text-[#C7B8A8]/50">
                 Local files go in <code className="text-[#fd850b]">public/Home/</code> — leave empty to show placeholder.

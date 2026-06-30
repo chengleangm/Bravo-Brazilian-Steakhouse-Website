@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { noStoreHeaders } from '../_utils/cache'
 
 export async function POST(request: NextRequest) {
   try {
@@ -7,7 +8,7 @@ export async function POST(request: NextRequest) {
     const folder = (formData.get('folder') as string) || 'uploads'
 
     if (!file || file.size === 0) {
-      return NextResponse.json({ error: 'No file provided' }, { status: 400 })
+      return NextResponse.json({ error: 'No file provided' }, { status: 400, headers: noStoreHeaders })
     }
 
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-')
@@ -24,14 +25,14 @@ export async function POST(request: NextRequest) {
         contentType: file.type || 'application/octet-stream',
         token,
       })
-      return NextResponse.json({ url: blob.url })
+      return NextResponse.json({ url: blob.url }, { headers: noStoreHeaders })
     }
 
     // On Vercel without Blob token → fail clearly instead of trying filesystem
     if (process.env.VERCEL) {
       return NextResponse.json(
         { error: 'BLOB_READ_WRITE_TOKEN is not set. Go to Vercel → Storage → your Blob store → connect it to this project, then redeploy.' },
-        { status: 500 }
+        { status: 500, headers: noStoreHeaders }
       )
     }
 
@@ -42,10 +43,10 @@ export async function POST(request: NextRequest) {
     const uploadDir = path.join(process.cwd(), 'public', folder)
     await fs.mkdir(uploadDir, { recursive: true })
     await fs.writeFile(path.join(uploadDir, filename), Buffer.from(bytes))
-    return NextResponse.json({ url: `/${folder}/${filename}` })
+    return NextResponse.json({ url: `/${folder}/${filename}` }, { headers: noStoreHeaders })
   } catch (err) {
     console.error('[upload error]', err)
     const message = err instanceof Error ? err.message : String(err)
-    return NextResponse.json({ error: message }, { status: 500 })
+    return NextResponse.json({ error: message }, { status: 500, headers: noStoreHeaders })
   }
 }

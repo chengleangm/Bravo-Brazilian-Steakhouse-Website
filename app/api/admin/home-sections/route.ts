@@ -1,16 +1,16 @@
 import { NextResponse } from 'next/server'
-import defaultData from '../../../../data/events.json'
+import defaultData from '../../../../data/home-sections.json'
 import { noStoreHeaders, revalidatePublicPages } from '../_utils/cache'
 
 export const dynamic = 'force-dynamic'
 
-const KEY = 'bravo:events'
+const KEY = 'bravo:home-sections'
 
 async function read() {
   if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
     const { promises: fs } = await import('fs')
     const path = await import('path')
-    const raw = await fs.readFile(path.join(process.cwd(), 'data', 'events.json'), 'utf8')
+    const raw = await fs.readFile(path.join(process.cwd(), 'data', 'home-sections.json'), 'utf8')
     return JSON.parse(raw)
   }
   const { kv } = await import('@vercel/kv')
@@ -22,10 +22,9 @@ async function write(body: unknown) {
     if (process.env.VERCEL) {
       throw new Error('Vercel KV is not connected. Add KV_REST_API_URL and KV_REST_API_TOKEN, then redeploy.')
     }
-    // Local dev: write back to JSON file
     const { promises: fs } = await import('fs')
     const path = await import('path')
-    await fs.writeFile(path.join(process.cwd(), 'data', 'events.json'), JSON.stringify(body, null, 2))
+    await fs.writeFile(path.join(process.cwd(), 'data', 'home-sections.json'), JSON.stringify(body, null, 2))
     return
   }
   const { kv } = await import('@vercel/kv')
@@ -45,8 +44,8 @@ export async function PUT(request: Request) {
   try {
     const body = await request.json()
     await write(body)
-    revalidatePublicPages(['/promotions'])
-    return NextResponse.json({ ok: true, revalidated: ['/promotions'] }, { headers: noStoreHeaders })
+    revalidatePublicPages(['/'])
+    return NextResponse.json({ ok: true, revalidated: ['/'] }, { headers: noStoreHeaders })
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to save'
     return NextResponse.json({ error: message }, { status: 500 })

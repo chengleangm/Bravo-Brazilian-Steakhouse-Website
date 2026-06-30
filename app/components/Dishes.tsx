@@ -14,14 +14,23 @@ const DEFAULT_DISHES = [
 
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.12 } } }
 const item = { hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0 } }
+const DEFAULT_TEXT = {
+  kicker: 'Popular Plates',
+  title: 'Dishes that keep guests coming back',
+}
 
 export function Dishes() {
   const [dishes, setDishes] = useState(DEFAULT_DISHES)
+  const [text, setText] = useState(DEFAULT_TEXT)
 
   useEffect(() => {
     fetch('/api/admin/site-images')
       .then(r => r.json())
       .then(data => { if (data.dishes?.length) setDishes(data.dishes) })
+      .catch(() => {})
+    fetch('/api/admin/home-sections')
+      .then(r => r.json())
+      .then(data => setText(prev => ({ ...prev, ...data.dishes })))
       .catch(() => {})
   }, [])
 
@@ -35,8 +44,8 @@ export function Dishes() {
           transition={{ duration: 0.65 }}
           className="mx-auto max-w-4xl text-center"
         >
-          <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.14em] text-[#fd850b] sm:mb-4 sm:text-xs sm:tracking-normal">Popular Plates</p>
-          <h2 className="font-serif text-2xl uppercase leading-[0.88] sm:text-4xl lg:text-5xl">Dishes that keep guests coming back</h2>
+          <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.14em] text-[#fd850b] sm:mb-4 sm:text-xs sm:tracking-normal">{text.kicker}</p>
+          <h2 className="font-serif text-2xl uppercase leading-[0.88] sm:text-4xl lg:text-5xl">{text.title}</h2>
         </motion.div>
 
         <motion.div

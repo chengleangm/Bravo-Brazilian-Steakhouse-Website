@@ -36,6 +36,7 @@ const PAGE_GROUPS = [
     description: 'Use these first when the main landing page changes.',
     items: [
       { href: '/admin/hero-content', label: 'Hero text', helper: 'Tagline, subtitle, stats, and buttons', icon: 'fa-heading' },
+      { href: '/admin/home-sections', label: 'Home section text', helper: 'Welcome, offers, reviews, and reservation copy', icon: 'fa-pen-to-square' },
       { href: '/admin/page-images', label: 'Hero and backgrounds', helper: 'Home hero, experience, reviews, and CTA photos', icon: 'fa-panorama' },
       { href: '/admin/images', label: 'Dishes and photo strip', helper: 'Featured dishes plus the six-image strip', icon: 'fa-star' },
       { href: '/admin/promo-video', label: 'Promo video', helper: 'The square video section on the home page', icon: 'fa-circle-play' },

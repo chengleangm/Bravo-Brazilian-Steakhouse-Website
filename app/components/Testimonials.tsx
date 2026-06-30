@@ -5,6 +5,9 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 const DEFAULT_BG = 'https://images.unsplash.com/photo-1432139555190-58524dae6a55?auto=format&fit=crop&w=2000&q=90'
+const DEFAULT_CONTENT = {
+  title: 'Dinner that feels like a celebration',
+}
 
 const reviews = [
   { name: 'David & Patti Ens', stars: 5, badge: 'Local Guide', quote: "I wanted Brazilian BBQ for my birthday and found Bravo on Street 155. If it's your birth month, you only pay half — called everyone and we had a fantastic time!" },
@@ -46,6 +49,7 @@ const PER_PAGE = 3
 
 export function Testimonials() {
   const [backgroundImage, setBackgroundImage] = useState(DEFAULT_BG)
+  const [content, setContent] = useState(DEFAULT_CONTENT)
   const [page, setPage] = useState(0)
   const [direction, setDirection] = useState(0)
   const totalPages = Math.ceil(reviews.length / PER_PAGE)
@@ -55,6 +59,10 @@ export function Testimonials() {
     fetch('/api/admin/page-images')
       .then(r => r.json())
       .then(d => { if (d.testimonialsBg) setBackgroundImage(d.testimonialsBg) })
+      .catch(() => {})
+    fetch('/api/admin/home-sections')
+      .then(r => r.json())
+      .then(d => setContent(prev => ({ ...prev, ...d.testimonials })))
       .catch(() => {})
   }, [])
 
@@ -83,7 +91,7 @@ export function Testimonials() {
           transition={{ duration: 0.68 }}
           className="mx-auto max-w-[22rem] text-center font-serif text-xl uppercase leading-[0.9] sm:max-w-4xl sm:text-4xl lg:text-5xl"
         >
-          Dinner that feels like a celebration
+          {content.title}
         </motion.h2>
 
         <div className="mt-7 sm:mt-12">

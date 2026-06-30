@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { AdminLayout, Toast, input, btnPrimary, btnSecondary } from '../components/AdminLayout'
+import { AdminLayout, Toast, input, btnPrimary, btnSecondary, btnDanger } from '../components/AdminLayout'
 
 type PageImages = {
   homeHero: string
@@ -16,32 +16,54 @@ type PageImages = {
   menuHero: string
 }
 
-const META: { key: keyof PageImages; label: string; page: string; hint: string }[] = [
-  { key: 'homeHero', label: 'Home Hero', page: '/', hint: 'Full-screen background on the home page' },
-  { key: 'experience', label: 'Experience Section', page: '/', hint: 'Image beside the "Grilling, carved hot from the skewer" section' },
-  { key: 'testimonialsBg', label: 'Testimonials Background', page: '/', hint: 'Background photo behind the customer reviews section' },
-  { key: 'ctaImage', label: 'Reservation CTA', page: '/', hint: 'Background of the "Reserve your table today" section' },
-  { key: 'aboutHero', label: 'About Hero', page: '/about', hint: 'Full-screen hero on the About page' },
-  { key: 'aboutStory', label: 'About Story', page: '/about', hint: 'Photo in the story/history section' },
-  { key: 'aboutChurrascaria', label: 'About Churrascaria', page: '/about', hint: 'Photo in the churrascaria section' },
-  { key: 'aboutTeamGroup', label: 'About Team', page: '/about', hint: 'Team group photo on the About page' },
-  { key: 'aboutCTA', label: 'About CTA', page: '/about', hint: 'Background of the CTA section on About page' },
-  { key: 'menuHero', label: 'Menu Hero', page: '/menu', hint: 'Full-screen hero on the Menu page' },
+type ImageMeta = {
+  key: keyof PageImages
+  label: string
+  page: 'Home' | 'About' | 'Menu'
+  pageHref: string
+  section: string
+  bestSize: string
+  icon: string
+}
+
+const META: ImageMeta[] = [
+  { key: 'homeHero', label: 'Main home photo', page: 'Home', pageHref: '/', section: 'Top of the home page', bestSize: 'Wide landscape', icon: 'fa-house' },
+  { key: 'experience', label: 'Experience photo', page: 'Home', pageHref: '/', section: 'Grilling / experience section', bestSize: 'Landscape or square', icon: 'fa-fire-flame-curved' },
+  { key: 'testimonialsBg', label: 'Reviews background', page: 'Home', pageHref: '/', section: 'Behind customer reviews', bestSize: 'Wide landscape', icon: 'fa-star' },
+  { key: 'ctaImage', label: 'Booking photo', page: 'Home', pageHref: '/', section: 'Reserve your table section', bestSize: 'Wide landscape', icon: 'fa-calendar-check' },
+  { key: 'aboutHero', label: 'About page main photo', page: 'About', pageHref: '/about', section: 'Top of the About page', bestSize: 'Wide landscape', icon: 'fa-book-open' },
+  { key: 'aboutStory', label: 'Story photo', page: 'About', pageHref: '/about', section: 'Restaurant story section', bestSize: 'Portrait or square', icon: 'fa-scroll' },
+  { key: 'aboutChurrascaria', label: 'Churrascaria photo', page: 'About', pageHref: '/about', section: 'Brazilian dining section', bestSize: 'Landscape', icon: 'fa-drumstick-bite' },
+  { key: 'aboutTeamGroup', label: 'Team photo', page: 'About', pageHref: '/about', section: 'Team section', bestSize: 'Landscape group photo', icon: 'fa-users' },
+  { key: 'aboutCTA', label: 'About booking photo', page: 'About', pageHref: '/about', section: 'Bottom call-to-action', bestSize: 'Wide landscape', icon: 'fa-bell-concierge' },
+  { key: 'menuHero', label: 'Menu page main photo', page: 'Menu', pageHref: '/menu', section: 'Top of the Menu page', bestSize: 'Wide landscape', icon: 'fa-utensils' },
 ]
+
+const PAGES = ['Home', 'About', 'Menu'] as const
 
 export default function AdminPageImages() {
   const [images, setImages] = useState<PageImages | null>(null)
+  const [activePage, setActivePage] = useState<(typeof PAGES)[number]>('Home')
   const [saving, setSaving] = useState(false)
   const [toast, setToast] = useState('')
-  const [uploading, setUploading] = useState<string | null>(null)
+  const [uploading, setUploading] = useState<keyof PageImages | null>(null)
+  const [editingUrl, setEditingUrl] = useState<keyof PageImages | null>(null)
+  const [dirty, setDirty] = useState(false)
   const fileRefs = useRef<Record<string, HTMLInputElement | null>>({})
 
   useEffect(() => {
-    fetch('/api/admin/page-images').then(r => r.json()).then(setImages)
+    fetch('/api/admin/page-images', { cache: 'no-store' })
+      .then(r => r.json())
+      .then(setImages)
+      .catch(() => {})
   }, [])
 
   async function saveToKV(data: PageImages): Promise<boolean> {
-    const res = await fetch('/api/admin/page-images', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+    const res = await fetch('/api/admin/page-images', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
     if (!res.ok) {
       const j = await res.json().catch(() => ({}))
       alert('Save failed: ' + (j.error ?? res.status) + '. Check that KV is connected in Vercel.')
@@ -55,13 +77,22 @@ export default function AdminPageImages() {
     setSaving(true)
     try {
       const ok = await saveToKV(images)
-      if (ok) setToast('All images saved!')
+      if (ok) {
+        setDirty(false)
+        setToast('Photos saved')
+      }
     } finally {
       setSaving(false)
     }
   }
 
+  function updateImage(key: keyof PageImages, value: string) {
+    setImages(prev => prev ? { ...prev, [key]: value } : prev)
+    setDirty(true)
+  }
+
   async function handleUpload(key: keyof PageImages, file: File) {
+    if (!images) return
     setUploading(key)
     try {
       const fd = new FormData()
@@ -69,122 +100,204 @@ export default function AdminPageImages() {
       fd.append('folder', 'pages')
       const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
       const d = await res.json()
-      if (!res.ok) { alert('Upload failed: ' + (d.error ?? res.status)); return }
+      if (!res.ok) {
+        alert('Upload failed: ' + (d.error ?? res.status))
+        return
+      }
       if (d.url) {
-        const updated = { ...images!, [key]: d.url }
+        const updated = { ...images, [key]: d.url }
         setImages(updated)
         const ok = await saveToKV(updated)
-        if (ok) setToast('Image uploaded & saved!')
+        if (ok) {
+          setDirty(false)
+          setToast('Photo uploaded and saved')
+        }
       }
-    } catch (e) { alert('Upload failed: ' + String(e)) }
-    finally { setUploading(null) }
+    } catch (e) {
+      alert('Upload failed: ' + String(e))
+    } finally {
+      setUploading(null)
+    }
   }
 
-  if (!images) return (
-    <AdminLayout title="Page Images">
-      <div className="flex items-center justify-center h-64 text-[#C7B8A8]"><i className="fa-solid fa-spinner fa-spin mr-2" /> Loading…</div>
-    </AdminLayout>
-  )
-
-  const grouped = {
-    'Home Page': META.filter(m => m.page === '/'),
-    'About Page': META.filter(m => m.page === '/about'),
-    'Menu Page': META.filter(m => m.page === '/menu'),
+  if (!images) {
+    return (
+      <AdminLayout title="Page Images" subtitle="Change the main photos used across the website">
+        <div className="flex h-64 items-center justify-center text-[#C7B8A8]">
+          <i className="fa-solid fa-spinner fa-spin mr-2" /> Loading...
+        </div>
+      </AdminLayout>
+    )
   }
+
+  const activeItems = META.filter(item => item.page === activePage)
+  const activeHref = activeItems[0]?.pageHref ?? '/'
 
   return (
     <AdminLayout
       title="Page Images"
-      subtitle="Hero and background images across the whole website"
+      subtitle="Change customer-facing photos by page"
       action={
-        <button onClick={handleSave} disabled={saving} className={btnPrimary}>
-          {saving ? 'Saving…' : <><i className="fa-solid fa-floppy-disk" /> Save All</>}
+        <button type="button" onClick={handleSave} disabled={saving || !dirty} className={btnPrimary}>
+          {saving ? 'Saving...' : <><i className="fa-solid fa-floppy-disk" /> {dirty ? 'Save Changes' : 'Saved'}</>}
         </button>
       }
     >
       {toast && <Toast msg={toast} onDone={() => setToast('')} />}
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 space-y-8">
-        <p className="text-sm text-[#C7B8A8]">
-          Update any background or hero image. Paste a URL or upload a file. Click <strong className="text-[#FFF7ED]">Save All</strong> to apply changes to the live site.
-        </p>
-
-        {Object.entries(grouped).map(([groupLabel, items]) => (
-          <div key={groupLabel}>
-            <div className="flex items-center gap-3 mb-4">
-              <p className="text-xs font-black uppercase tracking-widest text-[#fd850b]">{groupLabel}</p>
-              <div className="flex-1 h-px bg-[#D4A373]/15" />
+      <div className="mx-auto max-w-6xl space-y-6 px-4 py-6 sm:px-6">
+        <section className="rounded-lg border border-[#D4A373]/15 bg-[#130c08] p-4 sm:p-5">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#fd850b]">Photo manager</p>
+              <h2 className="mt-1 text-xl font-black uppercase leading-tight text-[#FFF7ED] sm:text-2xl">
+                Pick a page, then replace the photo.
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#C7B8A8]">
+                Upload from the computer for normal changes. Use image links only when the photo is already hosted somewhere else.
+              </p>
             </div>
+            <a href={activeHref} target="_blank" rel="noreferrer" className={btnSecondary}>
+              <i className="fa-solid fa-eye" /> View {activePage}
+            </a>
+          </div>
+        </section>
 
-            <div className="grid sm:grid-cols-2 gap-4">
-              {items.map(({ key, label, hint }) => (
-                <div key={key} className="bg-[#130c08] border border-[#D4A373]/12 rounded-2xl overflow-hidden">
-                  {/* Preview */}
-                  <div className="relative h-36 bg-[#0d0905]">
-                    {images[key] ? (
-                      <img src={images[key]} alt={label} className="absolute inset-0 w-full h-full object-cover" />
-                    ) : (
-                      <div className="flex h-full items-center justify-center">
-                        <div className="text-center text-[#C7B8A8]/30">
-                          <i className="fa-solid fa-image text-2xl block mb-1" />
-                          <span className="text-xs">No image</span>
-                        </div>
+        <div className="flex flex-wrap gap-2">
+          {PAGES.map(page => {
+            const active = activePage === page
+            const count = META.filter(item => item.page === page).length
+            return (
+              <button
+                key={page}
+                type="button"
+                onClick={() => setActivePage(page)}
+                className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border px-4 py-2 text-sm font-black uppercase tracking-wide transition ${
+                  active
+                    ? 'border-[#fd850b] bg-[#fd850b] text-black'
+                    : 'border-[#D4A373]/25 bg-[#130c08] text-[#C7B8A8] hover:border-[#fd850b] hover:text-[#fd850b]'
+                }`}
+              >
+                {page}
+                <span className={`rounded-full px-2 py-0.5 text-xs ${active ? 'bg-black/15 text-black' : 'bg-white/8 text-[#C7B8A8]'}`}>
+                  {count}
+                </span>
+              </button>
+            )
+          })}
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          {activeItems.map((item) => {
+            const value = images[item.key]
+            const isUploading = uploading === item.key
+            const showUrl = editingUrl === item.key
+
+            return (
+              <article key={item.key} className="overflow-hidden rounded-lg border border-[#D4A373]/15 bg-[#130c08]">
+                <div className="relative aspect-[16/9] bg-[#0d0905]">
+                  {value ? (
+                    <img src={value} alt={item.label} className="absolute inset-0 h-full w-full object-cover" />
+                  ) : (
+                    <div className="flex h-full items-center justify-center">
+                      <div className="text-center text-[#C7B8A8]/45">
+                        <i className="fa-solid fa-image mb-2 block text-3xl" />
+                        <span className="text-xs font-bold uppercase tracking-wide">No photo selected</span>
                       </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute bottom-2 left-3 right-3 flex items-end justify-between">
-                      <span className="text-xs font-black uppercase text-white">{label}</span>
                     </div>
-                  </div>
-
-                  {/* Controls */}
-                  <div className="p-4 space-y-3">
-                    <p className="text-[0.68rem] text-[#C7B8A8]/60">{hint}</p>
-                    <input
-                      type="text"
-                      value={images[key]}
-                      onChange={e => setImages(prev => prev ? { ...prev, [key]: e.target.value } : prev)}
-                      placeholder="Paste image URL…"
-                      className={input}
-                    />
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => fileRefs.current[key]?.click()}
-                        disabled={uploading === key}
-                        className={`${btnSecondary} flex-1 justify-center`}
-                      >
-                        {uploading === key
-                          ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading…</>
-                          : <><i className="fa-solid fa-upload" /> Upload file</>
-                        }
-                      </button>
-                      <input
-                        ref={el => { fileRefs.current[key] = el }}
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={e => { const f = e.target.files?.[0]; if (f) handleUpload(key, f); e.target.value = '' }}
-                      />
-                      {images[key] && (
-                        <button
-                          onClick={() => setImages(prev => prev ? { ...prev, [key]: '' } : prev)}
-                          className="px-3 py-2 bg-red-900/20 text-red-400 rounded-lg text-xs hover:bg-red-700 hover:text-white transition-colors"
-                          title="Clear image"
-                        >
-                          <i className="fa-solid fa-trash" />
-                        </button>
-                      )}
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <div className="flex items-end justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="mb-1 text-[0.65rem] font-black uppercase tracking-[0.18em] text-[#fd850b]">{item.page}</p>
+                        <h3 className="truncate text-lg font-black uppercase leading-tight text-white">{item.label}</h3>
+                      </div>
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#fd850b] text-black">
+                        <i className={`fa-solid ${item.icon} text-sm`} />
+                      </span>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        ))}
 
-        <div className="flex justify-end pb-6">
-          <button onClick={handleSave} disabled={saving} className={btnPrimary}>
-            {saving ? 'Saving…' : <><i className="fa-solid fa-floppy-disk" /> Save All Changes</>}
+                <div className="space-y-4 p-4">
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="rounded-lg border border-[#D4A373]/10 bg-[#0d0905] p-3">
+                      <p className="text-[0.62rem] font-black uppercase tracking-wide text-[#C7B8A8]/60">Shows on</p>
+                      <p className="mt-1 text-sm font-bold text-[#FFF7ED]">{item.section}</p>
+                    </div>
+                    <div className="rounded-lg border border-[#D4A373]/10 bg-[#0d0905] p-3">
+                      <p className="text-[0.62rem] font-black uppercase tracking-wide text-[#C7B8A8]/60">Best photo shape</p>
+                      <p className="mt-1 text-sm font-bold text-[#FFF7ED]">{item.bestSize}</p>
+                    </div>
+                  </div>
+
+                  <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
+                    <button
+                      type="button"
+                      onClick={() => fileRefs.current[item.key]?.click()}
+                      disabled={isUploading}
+                      className={`${btnPrimary} min-h-11`}
+                    >
+                      {isUploading
+                        ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading...</>
+                        : <><i className="fa-solid fa-upload" /> Upload New Photo</>
+                      }
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditingUrl(showUrl ? null : item.key)}
+                      className={`${btnSecondary} min-h-11`}
+                    >
+                      <i className="fa-solid fa-link" /> Image Link
+                    </button>
+                  </div>
+
+                  <input
+                    ref={el => { fileRefs.current[item.key] = el }}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={e => {
+                      const file = e.target.files?.[0]
+                      if (file) handleUpload(item.key, file)
+                      e.target.value = ''
+                    }}
+                  />
+
+                  {showUrl && (
+                    <div className="rounded-lg border border-[#D4A373]/12 bg-[#0d0905] p-3">
+                      <label className="mb-1.5 block text-xs font-black uppercase tracking-wide text-[#C7B8A8]">Image URL</label>
+                      <input
+                        type="text"
+                        value={value}
+                        onChange={e => updateImage(item.key, e.target.value)}
+                        placeholder="https://example.com/photo.jpg"
+                        className={input}
+                      />
+                    </div>
+                  )}
+
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#D4A373]/10 pt-3">
+                    <span className="truncate text-xs text-[#C7B8A8]/65">
+                      {value ? value.replace(/^https?:\/\//, '') : 'No image URL saved'}
+                    </span>
+                    {value && (
+                      <button type="button" onClick={() => updateImage(item.key, '')} className={btnDanger}>
+                        <i className="fa-solid fa-trash" /> Clear
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </article>
+            )
+          })}
+        </div>
+
+        <div className="flex items-center justify-end gap-3 pb-6">
+          {dirty && <span className="text-xs font-bold text-[#C7B8A8]">Unsaved changes</span>}
+          <button type="button" onClick={handleSave} disabled={saving || !dirty} className={btnPrimary}>
+            {saving ? 'Saving...' : <><i className="fa-solid fa-floppy-disk" /> {dirty ? 'Save Changes' : 'Saved'}</>}
           </button>
         </div>
       </div>

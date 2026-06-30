@@ -22,6 +22,7 @@ type HeroContent = {
   btn1Href: string
   btn2Label: string
   btn2Href: string
+  heroLogo: string
 }
 
 const DEFAULT_CONTENT: HeroContent = {
@@ -36,6 +37,7 @@ const DEFAULT_CONTENT: HeroContent = {
   btn1Href: '/menu',
   btn2Label: 'Book A Table',
   btn2Href: '/contact#reservation',
+  heroLogo: '',
 }
 
 export function Hero() {
@@ -95,21 +97,24 @@ export function Hero() {
             </span>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.15, duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-            className="flex justify-center sm:justify-start"
-          >
-            <Image
-              src="/logo.png"
-              alt="Bravo Brazilian Steakhouse"
-              width={760}
-              height={527}
-              priority
-              className="h-auto w-[min(55vw,200px)] object-contain mix-blend-screen sm:w-[min(40vw,300px)] lg:w-[min(30vw,380px)]"
-            />
-          </motion.div>
+          {content.heroLogo && (
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.15, duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+              className="flex justify-center sm:justify-start"
+            >
+              <Image
+                src={content.heroLogo}
+                alt="Bravo Brazilian Steakhouse"
+                width={760}
+                height={527}
+                priority
+                className="h-auto w-[min(55vw,200px)] object-contain mix-blend-screen sm:w-[min(40vw,300px)] lg:w-[min(30vw,380px)]"
+                unoptimized={content.heroLogo.startsWith('/uploads') || content.heroLogo.startsWith('/pages') || content.heroLogo.startsWith('/logos')}
+              />
+            </motion.div>
+          )}
 
           <motion.p
             initial={{ opacity: 0, x: -24 }}

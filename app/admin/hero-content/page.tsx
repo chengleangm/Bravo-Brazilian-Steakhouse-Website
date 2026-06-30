@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AdminLayout, Toast, input, btnPrimary, btnSecondary } from '../components/AdminLayout'
 
 type Stat = { value: string; label: string }
@@ -13,6 +13,7 @@ type HeroContent = {
   btn1Href: string
   btn2Label: string
   btn2Href: string
+  heroLogo: string
 }
 
 const DEFAULT: HeroContent = {
@@ -27,6 +28,7 @@ const DEFAULT: HeroContent = {
   btn1Href: '/menu',
   btn2Label: 'Book A Table',
   btn2Href: '/contact#reservation',
+  heroLogo: '',
 }
 
 const fieldClass = input
@@ -36,7 +38,9 @@ const card = 'bg-[#130c08] border border-[#D4A373]/12 rounded-2xl p-5 space-y-4'
 export default function AdminHeroContent() {
   const [data, setData] = useState<HeroContent>(DEFAULT)
   const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [toast, setToast] = useState('')
+  const logoInputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     fetch('/api/admin/hero-content')
@@ -70,12 +74,47 @@ export default function AdminHeroContent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-      if (!res.ok) throw new Error('Failed')
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}))
+        throw new Error(json.error ?? `HTTP ${res.status}`)
+      }
       setToast('Hero content saved!')
-    } catch {
-      alert('Save failed. Please try again.')
+    } catch (error) {
+      alert('Save failed: ' + String(error instanceof Error ? error.message : error))
     } finally {
       setSaving(false)
+    }
+  }
+
+  async function handleLogoUpload(file: File) {
+    setUploading(true)
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('folder', 'logos')
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const json = await res.json()
+      if (!res.ok) {
+        throw new Error(json.error ?? `HTTP ${res.status}`)
+      }
+      if (json.url) {
+        const updated = { ...data, heroLogo: json.url }
+        setData(updated)
+        const saveRes = await fetch('/api/admin/hero-content', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updated),
+        })
+        if (!saveRes.ok) {
+          const saveJson = await saveRes.json().catch(() => ({}))
+          throw new Error(saveJson.error ?? `HTTP ${saveRes.status}`)
+        }
+        setToast('Hero logo uploaded and saved!')
+      }
+    } catch (error) {
+      alert('Upload failed: ' + String(error instanceof Error ? error.message : error))
+    } finally {
+      setUploading(false)
     }
   }
 
@@ -96,6 +135,15 @@ export default function AdminHeroContent() {
         {/* Live preview strip */}
         <div className="rounded-2xl overflow-hidden border border-[#D4A373]/12 bg-[#120807] px-6 py-8 text-[#FFF7ED]">
           <p className="text-[0.6rem] font-bold uppercase tracking-[0.25em] text-[#fd850b] mb-2">{data.tagline}</p>
+          {data.heroLogo ? (
+            <div className="mb-4 flex">
+              <img src={data.heroLogo} alt="Hero logo preview" className="h-auto max-h-24 max-w-[220px] object-contain mix-blend-screen" />
+            </div>
+          ) : (
+            <div className="mb-4 inline-flex items-center gap-2 rounded-lg border border-dashed border-[#D4A373]/25 px-3 py-2 text-xs font-bold text-[#C7B8A8]">
+              <i className="fa-solid fa-image" /> No hero logo selected
+            </div>
+          )}
           <p className="font-black text-lg leading-snug mb-3">{data.subtitle}</p>
           <div className="flex gap-5 mb-4">
             {data.stats.map((s, i) => (
@@ -108,6 +156,76 @@ export default function AdminHeroContent() {
           <div className="flex gap-3">
             <span className="bg-[#fd850b] text-black px-4 py-1.5 text-xs font-black uppercase">{data.btn1Label}</span>
             <span className="border border-white/40 text-white px-4 py-1.5 text-xs font-black uppercase">{data.btn2Label}</span>
+          </div>
+        </div>
+
+        {/* Logo */}
+        <div className={card}>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs font-black uppercase tracking-widest text-[#fd850b]">Hero Logo Image</p>
+              <p className="mt-1 text-xs leading-5 text-[#C7B8A8]/75">
+                This is the image shown between the orange tagline and the subtitle. Leave it empty to hide the logo.
+              </p>
+            </div>
+            {data.heroLogo && (
+              <button
+                type="button"
+                onClick={() => set('heroLogo', '')}
+                className="rounded-lg bg-red-900/20 px-3 py-2 text-xs font-bold text-red-400 transition-colors hover:bg-red-700 hover:text-white"
+              >
+                <i className="fa-solid fa-trash mr-1" /> Clear
+              </button>
+            )}
+          </div>
+
+          <div className="rounded-lg border border-[#D4A373]/12 bg-[#0d0905] p-4">
+            {data.heroLogo ? (
+              <img src={data.heroLogo} alt="Current hero logo" className="mx-auto h-auto max-h-40 max-w-full object-contain mix-blend-screen" />
+            ) : (
+              <div className="flex min-h-32 items-center justify-center text-center text-[#C7B8A8]/50">
+                <div>
+                  <i className="fa-solid fa-image mb-2 block text-3xl" />
+                  <p className="text-xs font-bold uppercase tracking-wide">No logo will show on the home hero</p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
+            <button
+              type="button"
+              onClick={() => logoInputRef.current?.click()}
+              disabled={uploading}
+              className={btnPrimary}
+            >
+              {uploading ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading...</> : <><i className="fa-solid fa-upload" /> Upload Logo</>}
+            </button>
+            <input
+              ref={logoInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={e => {
+                const file = e.target.files?.[0]
+                if (file) handleLogoUpload(file)
+                e.target.value = ''
+              }}
+            />
+            <button type="button" onClick={() => set('heroLogo', '/logo.png')} className={btnSecondary}>
+              <i className="fa-solid fa-rotate-left" /> Use Old Logo
+            </button>
+          </div>
+
+          <div>
+            <label className={label}>Logo image link</label>
+            <input
+              type="text"
+              value={data.heroLogo}
+              onChange={e => set('heroLogo', e.target.value)}
+              placeholder="Leave empty to hide logo"
+              className={fieldClass}
+            />
           </div>
         </div>
 

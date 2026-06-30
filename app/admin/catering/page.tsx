@@ -53,7 +53,7 @@ export default function AdminCatering() {
       const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
       const json = await res.json()
       if (json.url) setData(prev => ({ ...prev, heroImage: json.url }))
-    } catch { alert('Upload failed') } finally { setUploading(false) }
+    } catch (error) { alert('Upload failed: ' + String(error)) } finally { setUploading(false) }
   }
 
   function setPackage<K extends keyof Package>(idx: number, key: K, val: Package[K]) {
@@ -100,10 +100,13 @@ export default function AdminCatering() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-      if (!res.ok) throw new Error('Failed')
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}))
+        throw new Error(json.error ?? `HTTP ${res.status}`)
+      }
       setToast('Catering content saved!')
-    } catch {
-      alert('Save failed. Please try again.')
+    } catch (error) {
+      alert('Save failed: ' + String(error instanceof Error ? error.message : error))
     } finally {
       setSaving(false)
     }

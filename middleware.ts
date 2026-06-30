@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const PUBLIC_READ_APIS = /^\/api\/admin\/(menu-items|page-images|site-images|gallery|events)$/
+const PUBLIC_READ_APIS = /^\/api\/admin\/(menu-items|page-images|site-images|gallery|events|home-sections|hero-content|promo-video|short-videos|catering-content)$/
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl

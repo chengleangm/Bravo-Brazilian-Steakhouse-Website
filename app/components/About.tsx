@@ -2,8 +2,34 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
+
+type AboutContent = {
+  kicker: string
+  title: string
+  body: string
+  buttonLabel: string
+  buttonHref: string
+}
+
+const DEFAULT_CONTENT: AboutContent = {
+  kicker: 'Welcome to Bravo',
+  title: 'Authentic Brazilian flavours crafted with fire and passion',
+  body: 'At BRAVO, skewers move from open flame to your table with bold aroma, coarse salt, and slow-roasted heat. Gather for a generous buffet, premium grilled cuts, fresh sides, and a warm dining room made for families, friends, and celebrations.',
+  buttonLabel: 'Learn More About Us',
+  buttonHref: '/about',
+}
 
 export function About() {
+  const [content, setContent] = useState(DEFAULT_CONTENT)
+
+  useEffect(() => {
+    fetch('/api/admin/home-sections')
+      .then(r => r.json())
+      .then(d => setContent(prev => ({ ...prev, ...d.about })))
+      .catch(() => {})
+  }, [])
+
   return (
     <section
       id="about"
@@ -17,10 +43,10 @@ export function About() {
           transition={{ duration: 0.7 }}
         >
           <p className="mb-4 text-xs font-black uppercase text-[#fd850b]">
-            Welcome to Bravo
+            {content.kicker}
           </p>
           <h2 className="font-serif text-3xl uppercase leading-[0.9] text-[#1c0d09] sm:text-4xl md:text-5xl lg:text-6xl">
-            Authentic Brazilian flavours crafted with fire and passion
+            {content.title}
           </h2>
         </motion.div>
 
@@ -32,16 +58,13 @@ export function About() {
           className="pt-1 lg:pt-10"
         >
           <p className="max-w-xl text-base leading-8 text-[#3c2b24] sm:text-lg">
-            At BRAVO, skewers move from open flame to your table with bold
-            aroma, coarse salt, and slow-roasted heat. Gather for a generous
-            buffet, premium grilled cuts, fresh sides, and a warm dining room
-            made for families, friends, and celebrations.
+            {content.body}
           </p>
           <Link
-            href="/about"
+            href={content.buttonHref}
             className="mt-8 inline-flex min-h-11 items-center justify-center bg-[#1c0d09] px-6 py-3 text-xs font-black uppercase text-[#FFF7ED] transition duration-300 hover:-translate-y-1 hover:bg-[#fd850b] hover:text-black"
           >
-            Learn More About Us
+            {content.buttonLabel}
           </Link>
         </motion.div>
       </div>
