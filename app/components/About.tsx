@@ -19,7 +19,7 @@ export function About() {
           <p className="mb-4 text-xs font-black uppercase text-[#fd850b]">
             Welcome to Bravo
           </p>
-          <h2 className="font-serif text-5xl uppercase leading-[0.9] text-[#1c0d09] sm:text-6xl md:text-7xl lg:text-8xl">
+          <h2 className="font-serif text-3xl uppercase leading-[0.9] text-[#1c0d09] sm:text-4xl md:text-5xl lg:text-6xl">
             Authentic Brazilian flavours crafted with fire and passion
           </h2>
         </motion.div>

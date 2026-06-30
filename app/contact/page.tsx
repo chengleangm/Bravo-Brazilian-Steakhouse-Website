@@ -247,7 +247,7 @@ export default function ContactPage() {
         <section className="relative min-h-96 flex items-center justify-center bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85')] pt-32 pb-16 px-5 text-center text-white">
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-black/70"></div>
           <div className="relative z-10">
-            <h1 className="font-black text-8xl md:text-9xl uppercase leading-none drop-shadow-lg">CONTACT US</h1>
+            <h1 className="font-black text-5xl md:text-7xl uppercase leading-none drop-shadow-lg">CONTACT US</h1>
           </div>
         </section>
 

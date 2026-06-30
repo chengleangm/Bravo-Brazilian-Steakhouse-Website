@@ -69,7 +69,7 @@ export default function AboutPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/30 to-black/75" />
           <div className="relative z-10">
             <p className="mb-3 text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:mb-4 sm:text-xs">Phnom Penh · Est. 2024</p>
-            <h1 className="font-serif text-5xl font-black uppercase leading-none drop-shadow-lg sm:text-7xl md:text-9xl">About Bravo</h1>
+            <h1 className="font-serif text-3xl font-black uppercase leading-none drop-shadow-lg sm:text-5xl md:text-7xl">About Bravo</h1>
             <p className="mx-auto mt-4 max-w-sm text-sm text-white/80 sm:mt-6 sm:max-w-md sm:text-lg">Our story, our team, our mission</p>
           </div>
         </section>

@@ -39,7 +39,7 @@ export function ReservationCTA() {
       >
         <div>
           <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.12em] text-[#fd850b] sm:mb-4 sm:text-xs sm:tracking-normal">Book Bravo</p>
-          <h2 className="font-serif text-[1.95rem] uppercase leading-[0.9] sm:text-6xl sm:leading-[0.88] lg:text-7xl">Reserve your table today</h2>
+          <h2 className="font-serif text-2xl uppercase leading-[0.9] sm:text-4xl sm:leading-[0.88] lg:text-5xl">Reserve your table today</h2>
           <p className="mt-3 max-w-xl text-[0.82rem] leading-[1.55] text-[#f4d8c5] sm:mt-6 sm:text-lg sm:leading-8">
             Bring your guests to the flame. Book a table for churrasco, celebrations, family dinners, and nights built around bold Brazilian steakhouse flavor.
           </p>

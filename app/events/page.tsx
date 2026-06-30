@@ -142,7 +142,7 @@ export default function EventsPage() {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-black/70"></div>
           <div className="relative z-10">
-            <h1 className="font-black text-8xl md:text-9xl uppercase leading-none drop-shadow-lg">EVENTS</h1>
+            <h1 className="font-black text-5xl md:text-7xl uppercase leading-none drop-shadow-lg">EVENTS</h1>
             <p className="text-white/90 text-xl mt-6">Celebrate at BRAVO</p>
           </div>
         </section>

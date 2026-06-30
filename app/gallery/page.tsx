@@ -12,6 +12,7 @@ const fadeUp = { hidden: { opacity: 0, y: 32 }, show: { opacity: 1, y: 0 } }
 const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.09 } } }
 const vp = { once: true, amount: 0.15 }
 
+type ShortVideo = { url: string; title: string }
 type GalleryCategory = 'all' | 'food' | 'grill' | 'interior' | 'events'
 type GalleryImage = { id: number; src: string; category: Exclude<GalleryCategory, 'all'>; alt: string; featured?: boolean }
 type GalleryStory = { title: string; copy: string; image: string; filter: Exclude<GalleryCategory, 'all'>; icon: string }
@@ -39,6 +40,12 @@ const DEFAULT_STORIES: GalleryStory[] = [
 
 const DEFAULT_HERO = 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=2000&q=90'
 
+const DEFAULT_SHORT_VIDEOS: ShortVideo[] = [
+  { url: '/Gallery/VIDEO/IMG_2122.MOV', title: 'The Grill' },
+  { url: '/Gallery/VIDEO/video_2026-06-30_20-33-55.mp4', title: 'The Experience' },
+  { url: '/Gallery/VIDEO/video_2026-06-30_20-35-04.mp4', title: 'The Atmosphere' },
+]
+
 const filterOptions: { id: GalleryCategory; label: string; icon: string }[] = [
   { id: 'all', label: 'All', icon: 'fa-border-all' },
   { id: 'food', label: 'Food', icon: 'fa-utensils' },
@@ -54,6 +61,7 @@ export default function GalleryPage() {
   const [galleryStories, setGalleryStories] = useState<GalleryStory[]>(DEFAULT_STORIES)
   const [heroImage, setHeroImage] = useState(DEFAULT_HERO)
   const [storyPage, setStoryPage] = useState(0)
+  const [shortVideos, setShortVideos] = useState<ShortVideo[]>(DEFAULT_SHORT_VIDEOS)
 
   useEffect(() => {
     fetch('/api/admin/gallery', { cache: 'no-store' })
@@ -63,6 +71,10 @@ export default function GalleryPage() {
         if (Array.isArray(data.stories) && data.stories.length) { setGalleryStories(data.stories); setStoryPage(0) }
         if (data.heroImage) setHeroImage(data.heroImage)
       })
+      .catch(() => {})
+    fetch('/api/admin/short-videos')
+      .then(r => r.json())
+      .then(d => { if (Array.isArray(d)) setShortVideos(d) })
       .catch(() => {})
   }, [])
 
@@ -80,7 +92,7 @@ export default function GalleryPage() {
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,8,7,0.92),rgba(18,8,7,0.5),rgba(18,8,7,0.92))]" />
           <div className="relative z-10 pt-14">
             <p className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-[#fd850b]">Gallery</p>
-            <h1 className="font-serif text-4xl font-black leading-tight sm:text-6xl lg:text-8xl">Moments at BRAVO</h1>
+            <h1 className="font-serif text-3xl font-black leading-tight sm:text-4xl lg:text-6xl">Moments at BRAVO</h1>
           </div>
         </section>
 
@@ -178,6 +190,52 @@ export default function GalleryPage() {
             </div>
           </div>
         </section>
+
+        {/* 9:16 Short Videos */}
+        {shortVideos.some(v => v.url) && (
+          <section className="bg-[#0e0905] px-4 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-28">
+            <div className="mx-auto max-w-6xl">
+              <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="mb-10 text-center sm:mb-14">
+                <div className="mb-4 flex items-center justify-center gap-4">
+                  <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:text-xs">Short Clips</span>
+                  <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
+                </div>
+                <h2 className="font-serif text-2xl uppercase leading-tight text-white sm:text-3xl lg:text-4xl">Bravo in motion</h2>
+                <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-[#C7B8A8] sm:text-base">Behind-the-scenes moments from the kitchen, grill, and dining room.</p>
+              </motion.div>
+
+              <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className="grid grid-cols-3 gap-3 sm:gap-5 lg:gap-8">
+                {shortVideos.map((vid, i) => (
+                  <motion.div key={i} variants={fadeUp} transition={{ duration: 0.55 }} className="flex flex-col gap-3">
+                    <div className="relative overflow-hidden rounded-xl border border-[#fd850b]/20 bg-[#1a0e0a] shadow-[0_16px_56px_rgba(0,0,0,0.5)]" style={{ aspectRatio: '9/16' }}>
+                      {vid.url ? (
+                        <video
+                          className="absolute inset-0 h-full w-full object-cover"
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                          preload="auto"
+                        >
+                          <source src={vid.url} />
+                        </video>
+                      ) : (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-[#C7B8A8]/40">
+                          <i className="fa-solid fa-video text-2xl sm:text-4xl" />
+                          <span className="text-[0.6rem] font-black uppercase tracking-widest sm:text-xs">Coming soon</span>
+                        </div>
+                      )}
+                    </div>
+                    {vid.title && (
+                      <p className="text-center text-[0.72rem] font-black uppercase tracking-[0.18em] text-[#C7B8A8] sm:text-xs">{vid.title}</p>
+                    )}
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          </section>
+        )}
       </main>
 
       {selectedImage ? (

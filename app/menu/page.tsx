@@ -256,10 +256,10 @@ function AlaCarteSection({ section }: { section: MenuSection }) {
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:text-xs">Bravo Restaurant</span>
             <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
           </div>
-          <h2 className="font-serif text-3xl font-black uppercase leading-none text-white sm:text-7xl lg:text-[7rem]">
+          <h2 className="font-serif text-3xl font-black uppercase leading-none text-white sm:text-4xl lg:text-5xl">
             À La Carte
           </h2>
-          <p className="-mt-1 font-serif text-2xl font-black uppercase leading-none text-[#fd850b] sm:-mt-3 sm:text-6xl lg:text-7xl">
+          <p className="-mt-1 font-serif text-2xl font-black uppercase leading-none text-[#fd850b] sm:-mt-2 sm:text-3xl lg:text-4xl">
             Menu
           </p>
           <div className="mt-4 inline-flex items-center gap-2 bg-[#fd850b] px-4 py-1.5 shadow-[0_8px_28px_rgba(253,133,11,0.35)] sm:mt-7 sm:gap-2.5 sm:px-6 sm:py-2">
@@ -555,7 +555,7 @@ export default function MenuPage() {
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,8,7,0.92),rgba(18,8,7,0.5),rgba(18,8,7,0.92))]" />
           <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.8 }} className="relative z-10 mx-auto max-w-4xl pt-16">
             <p className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-[#fd850b]">Bravo Menu</p>
-            <h1 className="font-serif text-4xl font-black leading-tight sm:text-6xl lg:text-8xl">Buffet, Grill & À La Carte</h1>
+            <h1 className="font-serif text-3xl font-black leading-tight sm:text-4xl lg:text-6xl">Buffet, Grill & À La Carte</h1>
             <p className="mx-auto mt-6 max-w-2xl text-xl leading-8 text-[#FCE7D3]">Premium Brazilian BBQ packages, individual plates, and drinks — all in one place.</p>
           </motion.div>
         </section>
@@ -569,10 +569,10 @@ export default function MenuPage() {
                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:text-xs">Signature Service</span>
                 <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
               </div>
-              <h2 className="font-serif text-5xl font-black uppercase leading-none text-white sm:text-7xl lg:text-[7rem]">
+              <h2 className="font-serif text-3xl font-black uppercase leading-none text-white sm:text-4xl lg:text-5xl">
                 Menu Buffet
               </h2>
-              <p className="-mt-2 font-serif text-4xl font-black uppercase leading-none text-[#fd850b] sm:-mt-3 sm:text-6xl lg:text-7xl">
+              <p className="-mt-2 font-serif text-2xl font-black uppercase leading-none text-[#fd850b] sm:-mt-2 sm:text-3xl lg:text-4xl">
                 &amp; Grill
               </p>
               <p className="mt-6 text-base leading-7 text-[#C7B8A8] sm:text-lg sm:leading-8">Unlimited buffet sides with your choice of fire-grilled cuts.</p>
@@ -633,7 +633,7 @@ export default function MenuPage() {
                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#fd850b] sm:text-xs">{menuSections[1].eyebrow}</span>
                 <div className="h-px w-16 bg-[#fd850b]/40 sm:w-28" />
               </div>
-              <h2 className="font-serif text-5xl font-black uppercase leading-none text-white sm:text-7xl lg:text-[7rem]">
+              <h2 className="font-serif text-3xl font-black uppercase leading-none text-white sm:text-4xl lg:text-5xl">
                 {menuSections[1].title}
               </h2>
               <p className="mt-6 text-base leading-7 text-[#C7B8A8] sm:text-lg sm:leading-8">{menuSections[1].description}</p>

@@ -90,7 +90,7 @@ export default function PromotionsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-black text-7xl md:text-9xl uppercase leading-none drop-shadow-lg"
+              className="font-black text-5xl md:text-7xl uppercase leading-none drop-shadow-lg"
             >
               PROMOTIONS
             </motion.h1>

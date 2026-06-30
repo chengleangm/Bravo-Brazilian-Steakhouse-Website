@@ -59,6 +59,33 @@ const SECTIONS = [
     bg: 'from-pink-950/60 to-pink-900/20',
     border: 'border-pink-700/25',
   },
+  {
+    href: '/admin/hero-content',
+    icon: 'fa-wand-magic-sparkles',
+    label: 'Hero Content',
+    desc: 'Edit the home page tagline, subtitle, stats, and CTA buttons.',
+    color: '#a78bfa',
+    bg: 'from-violet-950/60 to-violet-900/20',
+    border: 'border-violet-700/25',
+  },
+  {
+    href: '/admin/promo-video',
+    icon: 'fa-circle-play',
+    label: 'Promo Video',
+    desc: 'Manage the video shown on the home page — YouTube or local file.',
+    color: '#34d399',
+    bg: 'from-emerald-950/60 to-emerald-900/20',
+    border: 'border-emerald-700/25',
+  },
+  {
+    href: '/admin/short-videos',
+    icon: 'fa-film',
+    label: 'Short Videos',
+    desc: '3 portrait (9:16) clips shown in the Gallery page.',
+    color: '#f87171',
+    bg: 'from-red-950/60 to-red-900/20',
+    border: 'border-red-700/25',
+  },
 ]
 
 export default function AdminDashboard() {

@@ -36,7 +36,7 @@ export function Dishes() {
           className="mx-auto max-w-4xl text-center"
         >
           <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.14em] text-[#fd850b] sm:mb-4 sm:text-xs sm:tracking-normal">Popular Plates</p>
-          <h2 className="font-serif text-[2.25rem] uppercase leading-[0.88] sm:text-6xl lg:text-7xl">Dishes that keep guests coming back</h2>
+          <h2 className="font-serif text-2xl uppercase leading-[0.88] sm:text-4xl lg:text-5xl">Dishes that keep guests coming back</h2>
         </motion.div>
 
         <motion.div

@@ -195,7 +195,7 @@ export default function CateringPage() {
             </motion.p>
             <motion.h1
               initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, delay: 0.1 }}
-              className="font-black text-6xl uppercase leading-none drop-shadow-lg md:text-8xl lg:text-9xl"
+              className="font-black text-4xl uppercase leading-none drop-shadow-lg md:text-6xl lg:text-7xl"
             >
               CATERING
             </motion.h1>

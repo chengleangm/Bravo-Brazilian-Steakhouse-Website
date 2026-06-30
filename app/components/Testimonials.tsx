@@ -80,7 +80,7 @@ export function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.68 }}
-          className="mx-auto max-w-[22rem] text-center font-serif text-[2.05rem] uppercase leading-[0.9] sm:max-w-4xl sm:text-6xl lg:text-7xl"
+          className="mx-auto max-w-[22rem] text-center font-serif text-xl uppercase leading-[0.9] sm:max-w-4xl sm:text-4xl lg:text-5xl"
         >
           Dinner that feels like a celebration
         </motion.h2>
