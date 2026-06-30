@@ -14,14 +14,43 @@ const SLIDES = [
 
 const INTERVAL = 5500
 
+type HeroContent = {
+  tagline: string
+  subtitle: string
+  stats: { value: string; label: string }[]
+  btn1Label: string
+  btn1Href: string
+  btn2Label: string
+  btn2Href: string
+}
+
+const DEFAULT_CONTENT: HeroContent = {
+  tagline: 'Phnom Penh · Est. 2024',
+  subtitle: 'Authentic Brazilian churrasco — fire-carved tableside, everyday.',
+  stats: [
+    { value: '15+', label: 'Cuts of Meats' },
+    { value: '30+', label: 'Side dishes' },
+    { value: '100%', label: 'Brazilian style' },
+  ],
+  btn1Label: 'View Menu',
+  btn1Href: '/menu',
+  btn2Label: 'Book A Table',
+  btn2Href: '/contact#reservation',
+}
+
 export function Hero() {
   const [slides, setSlides] = useState(SLIDES)
   const [current, setCurrent] = useState(0)
+  const [content, setContent] = useState<HeroContent>(DEFAULT_CONTENT)
 
   useEffect(() => {
     fetch('/api/admin/page-images')
       .then(r => r.json())
       .then(d => { if (d.homeHero) setSlides([d.homeHero, ...SLIDES.slice(1)]) })
+      .catch(() => {})
+    fetch('/api/admin/hero-content')
+      .then(r => r.json())
+      .then(d => setContent(prev => ({ ...prev, ...d })))
       .catch(() => {})
   }, [])
 
