@@ -294,11 +294,21 @@ export default function AdminGalleryPage() {
 
           {/* Add tile */}
           <button
-            onClick={openAdd}
+            onClick={() => bulkRef.current?.click()}
+            disabled={!!bulkProgress}
             className="aspect-[4/3] border-2 border-dashed border-[#D4A373]/20 rounded-xl flex flex-col items-center justify-center gap-2 text-[#C7B8A8] hover:border-[#fd850b] hover:text-[#fd850b] transition-colors"
           >
-            <i className="fa-solid fa-plus text-2xl" />
-            <span className="text-xs font-black uppercase tracking-wider">Add Photo</span>
+            {bulkProgress ? (
+              <>
+                <i className="fa-solid fa-spinner fa-spin text-2xl" />
+                <span className="text-xs font-black uppercase tracking-wider">{bulkProgress.done}/{bulkProgress.total}</span>
+              </>
+            ) : (
+              <>
+                <i className="fa-solid fa-plus text-2xl" />
+                <span className="text-xs font-black uppercase tracking-wider">Add Photo</span>
+              </>
+            )}
           </button>
         </div>
 
