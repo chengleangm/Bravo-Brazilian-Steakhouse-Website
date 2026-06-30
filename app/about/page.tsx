@@ -59,7 +59,7 @@ export default function AboutPage() {
   const u = (src: string) => !src.includes('unsplash.com')
 
   return (
-    <>
+    <div className="min-h-screen bg-[#120807]">
       <Header />
       <main>
 
@@ -93,7 +93,7 @@ export default function AboutPage() {
         <section id="churrascaria" className="bg-[#120807] px-5 py-12 text-[#FFF7ED] sm:py-20 lg:py-28">
           <div className="mx-auto grid max-w-6xl items-center gap-8 md:grid-cols-2 md:gap-16">
             <motion.div variants={fadeLeft} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="relative h-56 overflow-hidden rounded shadow-lg sm:h-80 md:h-96 md:order-1">
-              <Image src={imgs.aboutChurrascaria} alt="Churrasco grilling" fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover" unoptimized={u(imgs.aboutChurrascaria)} />
+              <Image src={imgs.aboutChurrascaria} alt="Churrasco grilling" fill priority sizes="(max-width:768px) 100vw, 50vw" className="object-cover" unoptimized={u(imgs.aboutChurrascaria)} />
             </motion.div>
             <motion.div variants={fadeRight} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7, delay: 0.1 }} className="md:order-2">
               <p className="mb-2 text-[10px] font-black uppercase tracking-widest text-[#fd850b] sm:mb-3 sm:text-xs">Brazilian Tradition</p>
@@ -212,6 +212,6 @@ export default function AboutPage() {
 
       </main>
       <Footer />
-    </>
+    </div>
   )
 }

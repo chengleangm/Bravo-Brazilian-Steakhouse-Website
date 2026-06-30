@@ -6,215 +6,245 @@ import { AdminLayout } from '../components/AdminLayout'
 
 type Stats = {
   galleryCount: number
-  eventsPackages: number
+  shortVideoCount: number
+  promotionCount: number
+  activePromotionCount: number
   alacarteCount: number
   grillCount: number
   dishCount: number
   stripCount: number
+  cateringPackageCount: number
 }
 
-const SECTIONS = [
+const DEFAULT_STATS: Stats = {
+  galleryCount: 0,
+  shortVideoCount: 0,
+  promotionCount: 0,
+  activePromotionCount: 0,
+  alacarteCount: 0,
+  grillCount: 0,
+  dishCount: 0,
+  stripCount: 0,
+  cateringPackageCount: 0,
+}
+
+const PAGE_GROUPS = [
   {
-    href: '/admin/page-images',
-    icon: 'fa-panorama',
-    label: 'Page Images',
-    desc: 'Hero & background images across every page of the site.',
-    color: '#fd850b',
-    bg: 'from-orange-950/60 to-orange-900/20',
-    border: 'border-[#fd850b]/25',
+    title: 'Home page',
+    liveHref: '/',
+    icon: 'fa-house',
+    description: 'Use these first when the main landing page changes.',
+    items: [
+      { href: '/admin/hero-content', label: 'Hero text', helper: 'Tagline, subtitle, stats, and buttons', icon: 'fa-heading' },
+      { href: '/admin/page-images', label: 'Hero and backgrounds', helper: 'Home hero, experience, reviews, and CTA photos', icon: 'fa-panorama' },
+      { href: '/admin/images', label: 'Dishes and photo strip', helper: 'Featured dishes plus the six-image strip', icon: 'fa-star' },
+      { href: '/admin/promo-video', label: 'Promo video', helper: 'The square video section on the home page', icon: 'fa-circle-play' },
+    ],
   },
   {
-    href: '/admin/menu',
+    title: 'Menu page',
+    liveHref: '/menu',
     icon: 'fa-utensils',
-    label: 'Menu Items',
-    desc: 'À la carte dishes and grill cuts — names, prices, images.',
-    color: '#4ade80',
-    bg: 'from-green-950/60 to-green-900/20',
-    border: 'border-green-700/25',
+    description: 'Edit food listings, grill cuts, prices, and menu hero image.',
+    items: [
+      { href: '/admin/menu', label: 'Menu items', helper: 'A la carte dishes and grill cuts', icon: 'fa-utensils' },
+      { href: '/admin/page-images', label: 'Menu hero image', helper: 'Change the top menu page photo', icon: 'fa-image' },
+    ],
   },
   {
-    href: '/admin/images',
-    icon: 'fa-photo-film',
-    label: 'Site Images',
-    desc: 'Home page photo strip and featured dishes section.',
-    color: '#D4A373',
-    bg: 'from-amber-950/60 to-amber-900/20',
-    border: 'border-amber-700/25',
+    title: 'Promotions page',
+    liveHref: '/promotions',
+    icon: 'fa-tags',
+    description: 'Control live offers, event banners, and promotion page content.',
+    items: [
+      { href: '/admin/events', label: 'Promotions and events', helper: 'Active offers, hero photo, event types, and packages', icon: 'fa-tags' },
+    ],
   },
   {
-    href: '/admin/gallery',
-    icon: 'fa-images',
-    label: 'Gallery',
-    desc: 'Upload, categorize, and manage the full photo gallery.',
-    color: '#fbbf24',
-    bg: 'from-yellow-950/60 to-yellow-900/20',
-    border: 'border-yellow-700/25',
-  },
-  {
-    href: '/admin/hero-content',
-    icon: 'fa-wand-magic-sparkles',
-    label: 'Hero Content',
-    desc: 'Edit the home page tagline, subtitle, stats, and CTA buttons.',
-    color: '#a78bfa',
-    bg: 'from-violet-950/60 to-violet-900/20',
-    border: 'border-violet-700/25',
-  },
-  {
-    href: '/admin/promo-video',
-    icon: 'fa-circle-play',
-    label: 'Promo Video',
-    desc: 'Manage the video shown on the home page — YouTube or local file.',
-    color: '#34d399',
-    bg: 'from-emerald-950/60 to-emerald-900/20',
-    border: 'border-emerald-700/25',
-  },
-  {
-    href: '/admin/short-videos',
-    icon: 'fa-film',
-    label: 'Short Videos',
-    desc: '3 portrait (9:16) clips shown in the Gallery page.',
-    color: '#f87171',
-    bg: 'from-red-950/60 to-red-900/20',
-    border: 'border-red-700/25',
-  },
-  {
-    href: '/admin/events',
-    icon: 'fa-tag',
-    label: 'Promotions',
-    desc: 'Manage promotion banners, special offers, and event listings on the Promotions page.',
-    color: '#f59e0b',
-    bg: 'from-amber-950/60 to-amber-900/20',
-    border: 'border-amber-700/25',
-  },
-  {
-    href: '/admin/catering',
+    title: 'Catering page',
+    liveHref: '/catering',
     icon: 'fa-truck-fast',
-    label: 'Catering Services',
-    desc: 'Edit catering packages, prices, features, and hero background image.',
-    color: '#fb923c',
-    bg: 'from-orange-950/60 to-orange-900/20',
-    border: 'border-orange-700/25',
+    description: 'Update the catering hero, packages, prices, and inclusions.',
+    items: [
+      { href: '/admin/catering', label: 'Catering services', helper: 'Packages, price, minimum guests, and hero image', icon: 'fa-truck-fast' },
+    ],
   },
   {
-    href: '/admin/page-images',
+    title: 'Gallery page',
+    liveHref: '/gallery',
+    icon: 'fa-images',
+    description: 'Manage photo galleries, story cards, and vertical videos.',
+    items: [
+      { href: '/admin/gallery', label: 'Gallery photos', helper: 'Photos, categories, featured state, and story cards', icon: 'fa-images' },
+      { href: '/admin/short-videos', label: 'Short videos', helper: 'The three portrait videos on the gallery page', icon: 'fa-film' },
+    ],
+  },
+  {
+    title: 'About page',
+    liveHref: '/about',
     icon: 'fa-book-open',
-    label: 'Our Story',
-    desc: 'Update About page hero, story photos, churrascaria section, and team images.',
-    color: '#a3e635',
-    bg: 'from-lime-950/60 to-lime-900/20',
-    border: 'border-lime-700/25',
+    description: 'About page images live inside Page Images.',
+    items: [
+      { href: '/admin/page-images', label: 'About images', helper: 'Hero, story, churrascaria, team, and CTA photos', icon: 'fa-book-open' },
+      { href: '/admin/menu', label: 'Team member', helper: 'Chef/team profile data is saved with menu content', icon: 'fa-user-tie' },
+    ],
   },
 ]
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState<Stats>({ galleryCount: 0, eventsPackages: 0, alacarteCount: 0, grillCount: 0, dishCount: 0, stripCount: 0 })
+  const [stats, setStats] = useState<Stats>(DEFAULT_STATS)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function load() {
       try {
-        const [gallery, events, images, menu] = await Promise.all([
+        const [gallery, events, images, menu, catering, shortVideos] = await Promise.all([
           fetch('/api/admin/gallery').then(r => r.json()),
           fetch('/api/admin/events').then(r => r.json()),
           fetch('/api/admin/site-images').then(r => r.json()),
           fetch('/api/admin/menu-items').then(r => r.json()),
+          fetch('/api/admin/catering-content').then(r => r.json()),
+          fetch('/api/admin/short-videos').then(r => r.json()),
         ])
+
+        const promotions = Array.isArray(events.promotions) ? events.promotions : []
+
         setStats({
           galleryCount: gallery.images?.length ?? 0,
-          eventsPackages: events.packages?.length ?? 0,
+          shortVideoCount: Array.isArray(shortVideos) ? shortVideos.length : 0,
+          promotionCount: promotions.length,
+          activePromotionCount: promotions.filter((promo: { active?: boolean }) => promo.active).length,
           alacarteCount: menu.alacarte?.length ?? 0,
           grillCount: menu.grillCuts?.length ?? 0,
           dishCount: images.dishes?.length ?? 0,
           stripCount: images.stripImages?.length ?? 0,
+          cateringPackageCount: catering.packages?.length ?? 0,
         })
-      } catch {}
-      setLoading(false)
+      } catch {
+        setStats(DEFAULT_STATS)
+      } finally {
+        setLoading(false)
+      }
     }
+
     load()
   }, [])
 
   const statCards = [
-    { label: 'Gallery Photos', value: stats.galleryCount, icon: 'fa-images', color: '#fbbf24' },
-    { label: 'Menu Items', value: stats.alacarteCount + stats.grillCount, icon: 'fa-utensils', color: '#4ade80' },
-    { label: 'Grill Cuts', value: stats.grillCount, icon: 'fa-fire', color: '#fd850b' },
-    { label: 'Event Packages', value: stats.eventsPackages, icon: 'fa-calendar-star', color: '#f472b6' },
-    { label: 'Featured Dishes', value: stats.dishCount, icon: 'fa-bowl-food', color: '#D4A373' },
-    { label: 'Strip Images', value: stats.stripCount, icon: 'fa-photo-film', color: '#60a5fa' },
+    { label: 'Menu items', value: stats.alacarteCount + stats.grillCount, icon: 'fa-utensils' },
+    { label: 'Home dishes', value: stats.dishCount, icon: 'fa-star' },
+    { label: 'Gallery photos', value: stats.galleryCount, icon: 'fa-images' },
+    { label: 'Short videos', value: stats.shortVideoCount, icon: 'fa-film' },
+    { label: 'Active promos', value: `${stats.activePromotionCount}/${stats.promotionCount}`, icon: 'fa-tags' },
+    { label: 'Catering plans', value: stats.cateringPackageCount, icon: 'fa-truck-fast' },
   ]
 
   return (
-    <AdminLayout title="Dashboard" subtitle="Welcome back — all your content in one place">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-8">
-
-        {/* Stats row */}
-        <div>
-          <p className="text-xs font-black uppercase tracking-widest text-[#C7B8A8] mb-3">Site Overview</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            {statCards.map(s => (
-              <div key={s.label} className="bg-[#130c08] border border-[#D4A373]/12 rounded-xl p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <i className={`fa-solid ${s.icon} text-xs`} style={{ color: s.color }} />
-                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-[#C7B8A8] truncate">{s.label}</span>
-                </div>
-                <p className="text-3xl font-black text-[#FFF7ED]">
-                  {loading ? <span className="text-[#C7B8A8]/40 text-lg">—</span> : s.value}
-                </p>
+    <AdminLayout title="Dashboard" subtitle="Choose the website page you want to update">
+      <div className="mx-auto max-w-7xl space-y-7 px-4 py-6 sm:px-6 sm:py-8">
+        <section className="overflow-hidden rounded-lg border border-[#D4A373]/15 bg-[#130c08]">
+          <div className="grid gap-0 lg:grid-cols-[1fr_360px]">
+            <div className="p-5 sm:p-7">
+              <p className="mb-2 text-xs font-black uppercase tracking-[0.18em] text-[#fd850b]">Website manager</p>
+              <h2 className="text-2xl font-black uppercase leading-tight text-[#FFF7ED] sm:text-4xl">
+                Edit Bravo by page, not by file name.
+              </h2>
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-[#C7B8A8]">
+                Start with the page your customer sees, then open the matching editor. This dashboard now follows the current public website: Home, Menu, Promotions, Catering, Gallery, and About.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                <Link href="/admin/hero-content" className="inline-flex items-center gap-2 rounded-lg bg-[#fd850b] px-4 py-2.5 text-sm font-black uppercase tracking-wide text-black transition hover:bg-[#ff9a2e]">
+                  <i className="fa-solid fa-heading" />
+                  Edit home page
+                </Link>
+                <a href="/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-[#D4A373]/30 px-4 py-2.5 text-sm font-black uppercase tracking-wide text-[#C7B8A8] transition hover:border-[#fd850b] hover:text-[#fd850b]">
+                  <i className="fa-solid fa-eye" />
+                  View website
+                </a>
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
 
-        {/* Section links */}
-        <div>
-          <p className="text-xs font-black uppercase tracking-widest text-[#C7B8A8] mb-3">Manage Content</p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {SECTIONS.map(s => (
-              <Link
-                key={s.href}
-                href={s.href}
-                className={`group bg-gradient-to-br ${s.bg} border ${s.border} rounded-2xl p-5 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)] transition-all duration-200`}
-              >
-                <div className="flex items-start gap-4">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
-                    style={{ background: `${s.color}20` }}
-                  >
-                    <i className={`fa-solid ${s.icon} text-sm`} style={{ color: s.color }} />
+            <div className="border-t border-[#D4A373]/12 bg-[#0d0905] p-5 lg:border-l lg:border-t-0">
+              <p className="mb-3 text-xs font-black uppercase tracking-[0.16em] text-[#C7B8A8]">Current content</p>
+              <div className="grid grid-cols-2 gap-2">
+                {statCards.map(stat => (
+                  <div key={stat.label} className="rounded-lg border border-[#D4A373]/12 bg-[#130c08] p-3">
+                    <div className="mb-2 flex items-center gap-2 text-[#fd850b]">
+                      <i className={`fa-solid ${stat.icon} text-xs`} />
+                      <span className="truncate text-[0.62rem] font-black uppercase tracking-wide text-[#C7B8A8]">{stat.label}</span>
+                    </div>
+                    <p className="text-2xl font-black text-[#FFF7ED]">
+                      {loading ? <span className="text-[#C7B8A8]/35">...</span> : stat.value}
+                    </p>
                   </div>
-                  <div className="min-w-0">
-                    <p className="font-black text-sm uppercase tracking-wide text-[#FFF7ED]">{s.label}</p>
-                    <p className="text-[#C7B8A8] text-xs leading-5 mt-1">{s.desc}</p>
-                  </div>
-                </div>
-                <div className="mt-4 flex items-center gap-1 text-xs font-black uppercase tracking-widest" style={{ color: s.color }}>
-                  Open <i className="fa-solid fa-arrow-right text-[0.55rem] group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* Tips */}
-        <div className="bg-[#130c08] border border-[#D4A373]/12 rounded-2xl p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <i className="fa-solid fa-lightbulb text-[#fd850b] text-sm" />
-            <p className="text-xs font-black uppercase tracking-widest text-[#C7B8A8]">Quick Tips</p>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-3">
-            {[
-              { icon: 'fa-floppy-disk', tip: 'Always click Save after making changes — edits won\'t apply until saved.' },
-              { icon: 'fa-upload', tip: 'You can paste an image URL or upload a file directly from your computer.' },
-              { icon: 'fa-rotate', tip: 'Changes go live immediately on the website after saving.' },
-              { icon: 'fa-folder-open', tip: 'Uploaded files are stored in public/uploads/ — they\'re permanent.' },
-            ].map((t, i) => (
-              <div key={i} className="flex items-start gap-3 bg-[#0d0905] rounded-xl px-4 py-3">
-                <i className={`fa-solid ${t.icon} text-[#fd850b] text-xs mt-0.5 shrink-0`} />
-                <p className="text-xs text-[#C7B8A8] leading-5">{t.tip}</p>
+                ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#fd850b]">Edit by page</p>
+              <p className="mt-1 text-sm text-[#C7B8A8]">Pick the page, then pick the part you need to change.</p>
+            </div>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-2">
+            {PAGE_GROUPS.map(group => (
+              <article key={group.title} className="rounded-lg border border-[#D4A373]/15 bg-[#130c08] p-4">
+                <div className="mb-4 flex items-start gap-3">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#fd850b]/15 text-[#fd850b]">
+                    <i className={`fa-solid ${group.icon} text-sm`} />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between gap-3">
+                      <h3 className="text-base font-black uppercase leading-tight text-[#FFF7ED]">{group.title}</h3>
+                      <a href={group.liveHref} target="_blank" rel="noreferrer" className="shrink-0 text-[0.65rem] font-black uppercase tracking-wide text-[#fd850b] hover:text-[#ffb15c]">
+                        View
+                      </a>
+                    </div>
+                    <p className="mt-1 text-xs leading-5 text-[#C7B8A8]">{group.description}</p>
+                  </div>
+                </div>
+
+                <div className="grid gap-2">
+                  {group.items.map(item => (
+                    <Link
+                      key={`${group.title}-${item.href}-${item.label}`}
+                      href={item.href}
+                      className="group flex items-center gap-3 rounded-lg border border-[#D4A373]/10 bg-[#0d0905] px-3 py-3 transition hover:border-[#fd850b]/45 hover:bg-[#fd850b]/8"
+                    >
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/6 text-[#fd850b]">
+                        <i className={`fa-solid ${item.icon} text-xs`} />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-sm font-black text-[#FFF7ED]">{item.label}</span>
+                        <span className="block truncate text-xs text-[#C7B8A8]/75">{item.helper}</span>
+                      </span>
+                      <i className="fa-solid fa-arrow-right text-[0.65rem] text-[#C7B8A8]/45 transition group-hover:translate-x-1 group-hover:text-[#fd850b]" />
+                    </Link>
+                  ))}
+                </div>
+              </article>
             ))}
           </div>
-        </div>
+        </section>
 
+        <section className="rounded-lg border border-[#D4A373]/12 bg-[#130c08] p-5">
+          <div className="flex items-start gap-3">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#fd850b]/15 text-[#fd850b]">
+              <i className="fa-solid fa-circle-info text-sm" />
+            </span>
+            <div>
+              <p className="text-sm font-black uppercase tracking-wide text-[#FFF7ED]">Simple rule</p>
+              <p className="mt-1 text-sm leading-6 text-[#C7B8A8]">
+                After editing a form, click Save. Most changes appear on the public site immediately. If a page still shows old content, refresh the page once.
+              </p>
+            </div>
+          </div>
+        </section>
       </div>
     </AdminLayout>
   )

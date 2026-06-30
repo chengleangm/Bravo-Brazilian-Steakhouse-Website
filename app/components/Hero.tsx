@@ -68,7 +68,7 @@ export function Hero() {
           src={src}
           alt="Bravo Brazilian Steakhouse"
           fill
-          priority={i === 0}
+          priority
           sizes="100vw"
           className={`object-cover object-center transition-opacity duration-[1200ms] ease-in-out ${
             i === current ? 'opacity-100' : 'opacity-0'

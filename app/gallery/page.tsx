@@ -81,7 +81,7 @@ export default function GalleryPage() {
   const visibleStories = galleryStories.slice(storyPage * 3, storyPage * 3 + 3)
 
   return (
-    <>
+    <div className="min-h-screen bg-[#120807]">
       <Header />
       <main className="bg-[#120807] text-[#FFF7ED]">
         <section className="relative flex min-h-[62vh] items-center justify-center overflow-hidden px-5 py-28 text-center sm:px-8 lg:px-10">
@@ -220,6 +220,6 @@ export default function GalleryPage() {
       ) : null}
 
       <Footer />
-    </>
+    </div>
   )
 }

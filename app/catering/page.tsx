@@ -15,11 +15,11 @@ const WHATSAPP_URL = 'https://wa.me/85510231121'
 const TELEGRAM_URL = 'https://t.me/BravoReservationsTTP'
 
 const INPUT_CLASS =
-  'w-full min-w-0 rounded border border-white/15 bg-white/10 px-2.5 py-1.5 text-[0.82rem] leading-tight text-[#FFF7ED] outline-none transition-all placeholder:text-[#FFF7ED]/35 focus:border-[#fd850b] focus:bg-white/15 focus:shadow-[0_0_0_3px_rgba(253,133,11,0.18)] sm:px-4 sm:py-3.5 sm:text-base sm:leading-normal'
+  'h-8 w-full min-w-0 rounded border border-white/15 bg-white/10 px-2.5 text-xs leading-none text-[#FFF7ED] outline-none transition-all placeholder:text-[#FFF7ED]/35 focus:border-[#fd850b] focus:bg-white/15 focus:shadow-[0_0_0_3px_rgba(253,133,11,0.18)]'
 const LABEL_CLASS =
-  'mb-1 block text-[0.66rem] font-black uppercase tracking-[0.14em] text-[#FFF7ED]/90 sm:mb-2.5 sm:text-xs sm:tracking-[0.18em]'
+  'mb-1 block text-[0.6rem] font-black uppercase tracking-[0.12em] text-[#FFF7ED]/90'
 const SELECT_CLASS =
-  'w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 py-2 sm:py-3.5 rounded text-[0.82rem] sm:text-base focus:outline-none focus:border-[#fd850b] transition-all'
+  'h-8 w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 rounded text-xs focus:outline-none focus:border-[#fd850b] transition-all'
 
 const FEATURES = [
   { icon: 'fa-truck-fast',          title: 'Delivery & Setup',       desc: 'We bring the full churrasco experience to your venue — grill, staff, equipment, and service included.' },
@@ -176,7 +176,7 @@ export default function CateringPage() {
   }
 
   return (
-    <>
+    <div className="min-h-screen bg-[#120807]">
       <Header />
 
       <main className="bg-[#120807] text-[#FFF7ED]">
@@ -388,20 +388,20 @@ export default function CateringPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit}
-                className="rounded border border-white/10 bg-[#201615]/90 p-3 shadow-2xl backdrop-blur sm:p-8 lg:p-10">
+                className="rounded border border-white/10 bg-[#201615]/90 p-3 shadow-2xl backdrop-blur sm:p-5 lg:p-6">
 
-                <div className="mb-3 flex flex-col gap-1 border-b border-white/10 pb-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between sm:gap-3 sm:pb-6">
+                <div className="mb-3 flex flex-col gap-1 border-b border-white/10 pb-3">
                   <div>
-                    <p className="mb-1 text-[0.66rem] font-black uppercase tracking-[0.16em] text-[#fd850b] sm:mb-2 sm:text-xs sm:tracking-[0.2em]">Catering Details</p>
-                    <h3 className="font-black text-[1.35rem] uppercase leading-none sm:text-3xl">Tell us about your event</h3>
+                    <p className="mb-0.5 text-[0.58rem] font-black uppercase tracking-[0.16em] text-[#fd850b]">Catering Details</p>
+                    <h3 className="font-black text-base uppercase leading-none">Tell us about your event</h3>
                   </div>
-                  <p className="text-xs font-medium text-[#FFF7ED]/55 sm:text-sm">Required fields marked *</p>
+                  <p className="text-[0.6rem] font-medium text-[#FFF7ED]/55">Required fields marked *</p>
                 </div>
 
-                <div className="flex flex-col gap-2.5 sm:gap-4">
+                <div className="flex flex-col gap-2">
 
                   {/* Name + Phone */}
-                  <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+                  <div className="grid grid-cols-2 gap-2">
                     <div>
                       <label className={LABEL_CLASS}>Name *</label>
                       <input type="text" name="name" value={form.name} onChange={handleChange}
@@ -442,7 +442,7 @@ export default function CateringPage() {
                   </div>
 
                   {/* Guests + Event Type */}
-                  <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+                  <div className="grid grid-cols-2 gap-2">
                     <div>
                       <label className={LABEL_CLASS}>No. of Guests *</label>
                       <input type="number" name="guests" value={form.guests} onChange={handleChange}
@@ -474,13 +474,13 @@ export default function CateringPage() {
                   <div>
                     <label className={LABEL_CLASS}>Additional Details</label>
                     <textarea name="message" value={form.message} onChange={handleChange}
-                      className={`${INPUT_CLASS} min-h-16 resize-none sm:min-h-28`}
+                      className={`${INPUT_CLASS} min-h-14 resize-none`}
                       placeholder="Dietary requirements, theme, or anything else we should know…" />
                   </div>
                 </div>
 
                 <button type="submit" disabled={submitting}
-                  className="mt-3 flex w-full items-center justify-center rounded bg-gradient-to-r from-[#e87200] to-[#fd850b] px-4 py-3 text-sm font-black uppercase tracking-wider text-black shadow-lg transition-all hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(253,133,11,0.45)] disabled:cursor-not-allowed disabled:opacity-60 sm:mt-6 sm:px-6 sm:py-4">
+                  className="mt-2 flex w-full items-center justify-center rounded bg-gradient-to-r from-[#e87200] to-[#fd850b] px-4 py-2.5 text-xs font-black uppercase tracking-wider text-black shadow-lg transition-all hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(253,133,11,0.45)] disabled:cursor-not-allowed disabled:opacity-60">
                   {submitting
                     ? <><i className="fa-solid fa-spinner fa-spin mr-2" />Sending…</>
                     : <><i className="fa-solid fa-paper-plane mr-2" />Send Catering Request</>}
@@ -500,6 +500,6 @@ export default function CateringPage() {
       </main>
 
       <Footer />
-    </>
+    </div>
   )
 }

@@ -67,7 +67,7 @@ export default function PromotionsPage() {
   }, [])
 
   return (
-    <>
+    <div className="min-h-screen bg-[#120807]">
       <Header />
 
       <main>
@@ -253,6 +253,6 @@ export default function PromotionsPage() {
       </main>
 
       <Footer />
-    </>
+    </div>
   )
 }

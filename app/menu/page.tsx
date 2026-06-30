@@ -545,7 +545,7 @@ export default function MenuPage() {
   }, [])
 
   return (
-    <>
+    <div className="min-h-screen bg-[#120807]">
       <Header />
       <main className="bg-[#120807] text-[#FFF7ED]">
 
@@ -679,6 +679,6 @@ export default function MenuPage() {
         </section>
       </main>
       <Footer />
-    </>
+    </div>
   )
 }

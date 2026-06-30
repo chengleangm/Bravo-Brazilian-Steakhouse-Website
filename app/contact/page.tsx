@@ -20,7 +20,7 @@ const TIKTOK_URL = 'https://www.tiktok.com/@bravobraziliansteakhouse'
 
 const FAQS = [
   {
-    q: 'How much does the churrasco buffet cost?',
+    q: 'How much is the buffet?',
     a: 'Our pricing depends on the time of day and package selected. Message us on WhatsApp or call for the latest rates — we update them seasonally.',
   },
   {
@@ -32,11 +32,11 @@ const FAQS = [
     a: 'Walk-ins are welcome, but we strongly recommend booking ahead — especially on weekends and public holidays — to guarantee your table.',
   },
   {
-    q: 'Can you host birthday parties and group events?',
-    a: 'Absolutely. We love hosting celebrations. Message us on WhatsApp or visit our Private Dining page to discuss packages for birthdays, corporate dinners, and group bookings.',
+    q: 'Do you host private events?',
+    a: 'Absolutely. We love hosting celebrations. Message us on WhatsApp to discuss packages for birthdays, corporate dinners, and group bookings.',
   },
   {
-    q: 'Do you have vegetarian or dietary options?',
+    q: 'Any vegetarian options?',
     a: 'Our buffet bar includes vegetarian-friendly sides and salads. Please let us know about dietary requirements when you book and we\'ll do our best to accommodate.',
   },
   {
@@ -54,25 +54,40 @@ const FAQS = [
 ]
 
 function FAQ() {
-  const [open, setOpen] = useState<number | null>(null)
+  const [openSet, setOpenSet] = useState<Set<number>>(new Set())
+  const toggle = (i: number) => setOpenSet(prev => {
+    const next = new Set(prev)
+    next.has(i) ? next.delete(i) : next.add(i)
+    return next
+  })
+
+  const renderItem = (item: typeof FAQS[0], i: number) => (
+    <motion.div key={i} variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.4 }}
+      className="overflow-hidden rounded-xl border border-[#D4A373]/15 bg-[#1A0E0A]">
+      <button
+        type="button"
+        onClick={() => toggle(i)}
+        className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-[0.65rem] font-black uppercase tracking-[0.06em] transition hover:text-[#fd850b] sm:px-5 sm:py-3.5"
+      >
+        <span className="truncate">{item.q}</span>
+        <i className={`fa-solid fa-chevron-down text-[#fd850b] text-[0.55rem] shrink-0 transition-transform duration-300 ${openSet.has(i) ? 'rotate-180' : ''}`} />
+      </button>
+      <div className={`overflow-hidden transition-all duration-300 ${openSet.has(i) ? 'max-h-40' : 'max-h-0'}`}>
+        <p className="border-t border-[#D4A373]/10 px-4 py-3 text-xs leading-5 text-[#C7B8A8] sm:px-5 sm:py-4 sm:text-sm sm:leading-6">{item.a}</p>
+      </div>
+    </motion.div>
+  )
+
+  const half = Math.ceil(FAQS.length / 2)
+
   return (
-    <div className="space-y-2">
-      {FAQS.map((item, i) => (
-        <motion.div key={i} variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.4 }}
-          className="overflow-hidden rounded-xl border border-[#D4A373]/15 bg-[#1A0E0A]">
-          <button
-            type="button"
-            onClick={() => setOpen(open === i ? null : i)}
-            className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-black uppercase tracking-[0.08em] transition hover:text-[#fd850b] sm:px-6 sm:py-5 sm:text-base"
-          >
-            {item.q}
-            <i className={`fa-solid fa-chevron-down text-[#fd850b] text-xs shrink-0 transition-transform duration-300 ${open === i ? 'rotate-180' : ''}`} />
-          </button>
-          <div className={`overflow-hidden transition-all duration-300 ${open === i ? 'max-h-40' : 'max-h-0'}`}>
-            <p className="border-t border-[#D4A373]/10 px-5 py-4 text-sm leading-6 text-[#C7B8A8] sm:px-6 sm:py-5 sm:text-base sm:leading-7">{item.a}</p>
-          </div>
-        </motion.div>
-      ))}
+    <div className="flex gap-2">
+      <div className="flex flex-1 flex-col gap-2">
+        {FAQS.slice(0, half).map((item, i) => renderItem(item, i))}
+      </div>
+      <div className="flex flex-1 flex-col gap-2">
+        {FAQS.slice(half).map((item, i) => renderItem(item, i + half))}
+      </div>
     </div>
   )
 }
@@ -96,10 +111,10 @@ const RESERVATION_PERKS = [
 ]
 
 const RESERVATION_INPUT_CLASS =
-  'w-full min-w-0 rounded border border-white/15 bg-white/10 px-2.5 py-1.5 text-[0.82rem] leading-tight text-cream outline-none transition-all placeholder:text-cream/35 focus:border-orange focus:bg-white/15 focus:shadow-[0_0_0_3px_rgba(253,133,11,0.18)] sm:px-4 sm:py-3.5 sm:text-base sm:leading-normal'
+  'h-8 w-full min-w-0 rounded border border-white/15 bg-white/10 px-2.5 text-xs leading-none text-cream outline-none transition-all placeholder:text-cream/35 focus:border-orange focus:bg-white/15 focus:shadow-[0_0_0_3px_rgba(253,133,11,0.18)]'
 
 const RESERVATION_LABEL_CLASS =
-  'mb-1 block text-[0.66rem] font-black uppercase tracking-[0.14em] text-cream/90 sm:mb-2.5 sm:text-xs sm:tracking-[0.18em]'
+  'mb-1 block text-[0.6rem] font-black uppercase tracking-[0.12em] text-cream/90'
 
 const CONTACT_METHODS = [
   {
@@ -141,10 +156,10 @@ const CONTACT_METHODS = [
 ]
 
 const CONTACT_INPUT_CLASS =
-  'w-full min-w-0 rounded border border-dark/10 bg-white/75 px-2.5 py-1.5 text-[0.82rem] leading-tight text-dark outline-none transition-all placeholder:text-dark/35 focus:border-orange focus:bg-white focus:shadow-[0_0_0_3px_rgba(253,133,11,0.14)] sm:px-4 sm:py-3.5 sm:text-base sm:leading-normal'
+  'w-full min-w-0 rounded border border-dark/10 bg-white/75 px-2.5 py-1.5 text-xs leading-tight text-dark outline-none transition-all placeholder:text-dark/35 focus:border-orange focus:bg-white focus:shadow-[0_0_0_3px_rgba(253,133,11,0.14)]'
 
 const CONTACT_LABEL_CLASS =
-  'mb-1 block text-[0.66rem] font-black uppercase tracking-[0.14em] text-dark sm:mb-2.5 sm:text-xs sm:tracking-[0.18em]'
+  'mb-1 block text-[0.6rem] font-black uppercase tracking-[0.12em] text-dark'
 
 const LOCATION_DETAILS = [
   {
@@ -301,7 +316,7 @@ export default function ContactPage() {
     }
   }
   return (
-    <>
+    <div className="min-h-screen bg-[#120807]">
       <Header />
 
       <main>
@@ -397,17 +412,15 @@ export default function ContactPage() {
                 Save your table for churrasco, buffet sides, cold drinks, and a full Brazilian steakhouse night in Phnom Penh.
               </p>
 
-              <div className="mt-5 grid gap-2 sm:mt-8 sm:grid-cols-3 sm:gap-3 lg:grid-cols-1">
+              <div className="mt-4 grid gap-2">
                 {RESERVATION_PERKS.map((item) => (
-                  <div key={item.label} className="rounded border border-white/10 bg-white/8 p-3 sm:p-4">
-                    <div className="flex items-start gap-2.5 sm:gap-3">
-                      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded bg-orange text-black sm:h-9 sm:w-9">
-                        <i className={`fa-solid ${item.icon} text-xs sm:text-sm`}></i>
-                      </span>
-                      <div>
-                        <h3 className="text-sm font-black uppercase leading-tight sm:text-base">{item.label}</h3>
-                        <p className="mt-0.5 text-xs leading-5 text-cream/65 sm:mt-1 sm:text-sm sm:leading-6">{item.copy}</p>
-                      </div>
+                  <div key={item.label} className="flex items-center gap-3 rounded-lg border border-[#fd850b]/20 bg-[#fd850b]/6 px-3 py-2.5">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#fd850b]/20">
+                      <i className={`fa-solid ${item.icon} text-[#fd850b] text-[0.6rem]`}></i>
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-[0.65rem] font-black uppercase tracking-[0.1em] text-cream">{item.label}</p>
+                      <p className="text-[0.6rem] leading-4 text-cream/55">{item.copy}</p>
                     </div>
                   </div>
                 ))}
@@ -435,19 +448,19 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <form onSubmit={handleReservationSubmit} className="order-1 rounded border border-white/10 bg-[#201615]/90 p-3 shadow-2xl backdrop-blur sm:p-8 lg:order-none lg:p-10">
-              <div className="mb-3 flex flex-col gap-1 border-b border-white/10 pb-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between sm:gap-3 sm:pb-6">
+            <form onSubmit={handleReservationSubmit} className="order-1 rounded border border-white/10 bg-[#201615]/90 p-3 shadow-2xl backdrop-blur sm:p-5 lg:order-none lg:p-6">
+              <div className="mb-3 flex flex-col gap-1 border-b border-white/10 pb-3">
                 <div>
-                  <p className="mb-1 text-[0.66rem] font-black uppercase tracking-[0.16em] text-orange sm:mb-2 sm:text-xs sm:tracking-[0.2em]">Reservation Details</p>
-                  <h3 className="font-black text-[1.35rem] uppercase leading-none sm:text-3xl">Tell us about your table</h3>
+                  <p className="mb-0.5 text-[0.58rem] font-black uppercase tracking-[0.16em] text-orange">Reservation Details</p>
+                  <h3 className="font-black text-base uppercase leading-none">Tell us about your table</h3>
                 </div>
-                <p className="text-xs font-medium text-cream/55 sm:text-sm">Required fields marked *</p>
+                <p className="text-[0.6rem] font-medium text-cream/55">Required fields marked *</p>
               </div>
 
-              <div className="flex flex-col gap-2.5 sm:gap-4">
+              <div className="flex flex-col gap-2">
 
                 {/* Name + Phone side by side */}
-                <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+                <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className={RESERVATION_LABEL_CLASS}>Name *</label>
                     <input
@@ -458,6 +471,7 @@ export default function ContactPage() {
                       className={RESERVATION_INPUT_CLASS}
                       placeholder="Your name"
                       autoComplete="name"
+                      suppressHydrationWarning
                     />
                   </div>
                   <div>
@@ -471,6 +485,7 @@ export default function ContactPage() {
                       placeholder="Your phone"
                       autoComplete="tel"
                       inputMode="tel"
+                      suppressHydrationWarning
                     />
                   </div>
                 </div>
@@ -482,7 +497,7 @@ export default function ContactPage() {
                     <select
                       value={resDateMonth}
                       onChange={e => handleResDatePartChange('month', e.target.value)}
-                      className="w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 py-2 sm:py-3.5 rounded text-[0.82rem] sm:text-base focus:outline-none focus:border-orange transition-all"
+                      className="h-8 w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 rounded text-xs focus:outline-none focus:border-orange transition-all"
                     >
                       <option value="">Month</option>
                       {['01','02','03','04','05','06','07','08','09','10','11','12'].map((m, i) => (
@@ -494,7 +509,7 @@ export default function ContactPage() {
                     <select
                       value={resDateDay}
                       onChange={e => handleResDatePartChange('day', e.target.value)}
-                      className="w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 py-2 sm:py-3.5 rounded text-[0.82rem] sm:text-base focus:outline-none focus:border-orange transition-all"
+                      className="h-8 w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 rounded text-xs focus:outline-none focus:border-orange transition-all"
                     >
                       <option value="">Day</option>
                       {Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0')).map(d => (
@@ -504,7 +519,7 @@ export default function ContactPage() {
                     <select
                       value={resDateYear}
                       onChange={e => handleResDatePartChange('year', e.target.value)}
-                      className="w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 py-2 sm:py-3.5 rounded text-[0.82rem] sm:text-base focus:outline-none focus:border-orange transition-all"
+                      className="h-8 w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 rounded text-xs focus:outline-none focus:border-orange transition-all"
                     >
                       <option value="">Year</option>
                       {['2026','2027','2028'].map(y => (
@@ -515,14 +530,14 @@ export default function ContactPage() {
                 </div>
 
                 {/* Time + Guests side by side */}
-                <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+                <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className={RESERVATION_LABEL_CLASS}>Time *</label>
                     <select
                       name="time"
                       value={reservationFormData.time}
                       onChange={handleReservationChange}
-                      className="w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 py-2 sm:py-3.5 rounded text-[0.82rem] sm:text-base focus:outline-none focus:border-orange transition-all"
+                      className="h-8 w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 rounded text-xs focus:outline-none focus:border-orange transition-all"
                     >
                       <option value="">Select time</option>
                       {['11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','5:00 PM','5:30 PM','6:00 PM','6:30 PM','7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM'].map(t => (
@@ -542,6 +557,7 @@ export default function ContactPage() {
                       min="1"
                       max="20"
                       inputMode="numeric"
+                      suppressHydrationWarning
                     />
                   </div>
                 </div>
@@ -553,8 +569,9 @@ export default function ContactPage() {
                     name="message"
                     value={reservationFormData.message}
                     onChange={handleReservationChange}
-                    className={`${RESERVATION_INPUT_CLASS} min-h-16 resize-none sm:min-h-28`}
+                    className={`${RESERVATION_INPUT_CLASS} min-h-14 resize-none`}
                     placeholder="Any special requests or dietary requirements?"
+                    suppressHydrationWarning
                   ></textarea>
                 </div>
               </div>
@@ -562,7 +579,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="mt-3 flex w-full items-center justify-center rounded bg-gradient-to-r from-yellow to-orange px-4 py-3 text-sm font-black uppercase tracking-wider text-black shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed sm:mt-6 sm:px-6 sm:py-4"
+                className="mt-2 flex w-full items-center justify-center rounded bg-gradient-to-r from-yellow to-orange px-4 py-2.5 text-xs font-black uppercase tracking-wider text-black shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {submitting ? (
                   <><i className="fa-solid fa-spinner fa-spin mr-2"></i> Sending…</>
@@ -585,16 +602,16 @@ export default function ContactPage() {
                 Questions about reservations, private events, menu details, or feedback? Send us a note and the BRAVO team will help.
               </p>
 
-              <div className="mt-5 grid gap-2 sm:mt-8 sm:grid-cols-2 sm:gap-3 lg:grid-cols-1">
-                {CONTACT_METHODS.map((method) => {
+              <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-6">
+                {CONTACT_METHODS.map((method, i) => {
                   const content = (
                     <>
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-dark text-orange sm:h-11 sm:w-11">
-                        <i className={`${method.icon} text-sm sm:text-base`}></i>
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded bg-dark text-orange">
+                        <i className={`${method.icon} text-xs`}></i>
                       </span>
                       <span>
-                        <span className="block text-[0.68rem] font-black uppercase tracking-[0.16em] text-orange sm:text-xs sm:tracking-[0.18em]">{method.label}</span>
-                        <span className="mt-0.5 block text-sm font-black leading-tight text-dark sm:mt-1 sm:text-base">{method.value}</span>
+                        <span className="block text-[0.6rem] font-black uppercase tracking-[0.14em] text-orange">{method.label}</span>
+                        <span className="mt-0.5 block text-xs font-black leading-tight text-dark">{method.value}</span>
                       </span>
                     </>
                   )
@@ -602,11 +619,11 @@ export default function ContactPage() {
                   if (method.href) {
                     return (
                       <a
-                        key={method.label}
+                        key={i}
                         href={method.href}
                         target={method.href.startsWith('http') ? '_blank' : undefined}
                         rel={method.href.startsWith('http') ? 'noreferrer' : undefined}
-                        className="flex items-center gap-3 rounded border border-dark/10 bg-white/75 p-3 shadow-custom transition-all hover:-translate-y-1 hover:border-orange/50 hover:bg-white sm:gap-4 sm:p-4"
+                        className="flex items-center gap-2 rounded border border-dark/10 bg-white/75 p-2.5 shadow-custom transition-all hover:-translate-y-0.5 hover:border-orange/50 hover:bg-white"
                       >
                         {content}
                       </a>
@@ -614,7 +631,7 @@ export default function ContactPage() {
                   }
 
                   return (
-                    <div key={method.label} className="flex items-center gap-3 rounded border border-dark/10 bg-white/75 p-3 shadow-custom sm:gap-4 sm:p-4">
+                    <div key={i} className="flex items-center gap-2 rounded border border-dark/10 bg-white/75 p-2.5 shadow-custom">
                       {content}
                     </div>
                   )
@@ -622,19 +639,19 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <form onSubmit={handleContactSubmit} className="order-1 rounded border border-dark/10 bg-white/90 p-3 shadow-2xl backdrop-blur sm:p-8 lg:order-none lg:p-10">
-              <div className="mb-3 flex flex-col gap-1 border-b border-dark/10 pb-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between sm:gap-3 sm:pb-6">
+            <form onSubmit={handleContactSubmit} className="order-1 rounded border border-dark/10 bg-white/90 p-3 shadow-2xl backdrop-blur sm:p-5 lg:order-none lg:p-6">
+              <div className="mb-3 flex flex-col gap-1 border-b border-dark/10 pb-3">
                 <div>
-                  <p className="mb-1 text-[0.66rem] font-black uppercase tracking-[0.16em] text-orange sm:mb-2 sm:text-xs sm:tracking-[0.2em]">Message Details</p>
-                  <h3 className="font-black text-[1.35rem] uppercase leading-none sm:text-3xl">How can we help?</h3>
+                  <p className="mb-0.5 text-[0.58rem] font-black uppercase tracking-[0.16em] text-orange">Message Details</p>
+                  <h3 className="font-black text-base uppercase leading-none">How can we help?</h3>
                 </div>
-                <p className="text-xs font-medium text-dark/55 sm:text-sm">Required fields marked *</p>
+                <p className="text-[0.6rem] font-medium text-dark/55">Required fields marked *</p>
               </div>
 
-              <div className="flex flex-col gap-2.5 sm:gap-4">
+              <div className="flex flex-col gap-2">
 
                 {/* Name + Email side by side */}
-                <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+                <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className={CONTACT_LABEL_CLASS}>Name *</label>
                     <input
@@ -645,6 +662,7 @@ export default function ContactPage() {
                       className={CONTACT_INPUT_CLASS}
                       placeholder="Your name"
                       autoComplete="name"
+                      suppressHydrationWarning
                     />
                   </div>
                   <div>
@@ -663,7 +681,7 @@ export default function ContactPage() {
                 </div>
 
                 {/* Phone + Subject side by side */}
-                <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+                <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className={CONTACT_LABEL_CLASS}>Phone *</label>
                     <input
@@ -697,7 +715,7 @@ export default function ContactPage() {
                     name="message"
                     value={contactFormData.message}
                     onChange={handleContactChange}
-                    className={`${CONTACT_INPUT_CLASS} min-h-16 resize-none sm:min-h-32`}
+                    className={`${CONTACT_INPUT_CLASS} min-h-16 resize-none`}
                     placeholder="Your message"
                   ></textarea>
                 </div>
@@ -706,7 +724,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="mt-3 flex w-full items-center justify-center rounded bg-dark px-4 py-3 text-sm font-black uppercase tracking-wider text-cream shadow-lg transition-all hover:-translate-y-1 hover:bg-orange hover:text-black hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed sm:mt-6 sm:px-6 sm:py-4"
+                className="mt-2 flex w-full items-center justify-center rounded bg-dark px-4 py-2.5 text-xs font-black uppercase tracking-wider text-cream shadow-lg transition-all hover:-translate-y-1 hover:bg-orange hover:text-black hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {submitting ? (
                   <><i className="fa-solid fa-spinner fa-spin mr-2"></i> Sending…</>
@@ -809,9 +827,9 @@ export default function ContactPage() {
         <section className="bg-[#120807] px-4 py-16 text-[#FFF7ED] sm:px-8 sm:py-24 lg:px-10 lg:py-32">
           <div className="absolute inset-x-0 top-0 h-px bg-[#fd850b]/20" />
           <div className="mx-auto max-w-3xl">
-            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="mb-10 text-center sm:mb-14">
-              <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.24em] text-[#fd850b] sm:text-xs">FAQ</p>
-              <h2 className="font-serif text-3xl uppercase leading-tight sm:text-4xl">Common Questions</h2>
+            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="mb-6 text-center sm:mb-8">
+              <p className="mb-1 text-[0.62rem] font-black uppercase tracking-[0.24em] text-[#fd850b]">FAQ</p>
+              <h2 className="font-serif text-2xl uppercase leading-tight sm:text-3xl">Common Questions</h2>
             </motion.div>
             <FAQ />
           </div>
@@ -836,24 +854,34 @@ export default function ContactPage() {
               </Link>
             </div>
 
-            <div className="grid gap-2.5 sm:gap-4">
-              {HOURS.map((item) => (
-                <div
-                  key={item.day}
-                  className="grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-2 rounded border border-dark/10 bg-white/75 p-3 shadow-custom transition-all hover:-translate-y-1 hover:border-orange/50 hover:shadow-2xl sm:flex sm:p-5 sm:flex-row sm:items-center sm:justify-between"
-                >
-                  <div className="contents sm:flex sm:items-center sm:gap-4">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-dark text-orange sm:h-12 sm:w-12">
-                      <i className={`fa-solid ${item.icon} text-xs sm:text-base`}></i>
-                    </span>
-                    <div className="min-w-0">
-                      <h3 className="font-black text-lg leading-none sm:text-2xl">{item.day}</h3>
-                      <p className="mt-1 text-xs font-medium leading-4 text-dark/65 sm:mt-2 sm:text-sm sm:leading-5">{item.note}</p>
+            <div className="grid gap-2">
+              {HOURS.map((item) => {
+                const [lunch, dinner] = item.time.split('·').map(s => s.trim())
+                return (
+                  <div
+                    key={item.day}
+                    className="flex items-center justify-between gap-3 rounded border border-dark/10 bg-white/75 px-3 py-2.5 shadow-custom transition-all hover:-translate-y-0.5 hover:border-orange/40 hover:shadow-lg sm:px-4 sm:py-3"
+                  >
+                    <div className="flex items-center gap-2.5 sm:gap-3">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-dark text-orange sm:h-9 sm:w-9">
+                        <i className={`fa-solid ${item.icon} text-xs`}></i>
+                      </span>
+                      <div>
+                        <p className="text-xs font-black uppercase leading-none tracking-wide text-dark sm:text-sm">{item.day}</p>
+                        <p className="mt-0.5 text-[0.6rem] font-medium text-dark/50 sm:text-xs">{item.note}</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-end gap-1">
+                      <span className="inline-flex items-center gap-1 rounded bg-orange/10 px-2 py-0.5 text-[0.6rem] font-black uppercase tracking-wide text-orange sm:text-xs">
+                        <i className="fa-solid fa-sun text-[0.5rem]" /> {lunch}
+                      </span>
+                      <span className="inline-flex items-center gap-1 rounded bg-dark/8 px-2 py-0.5 text-[0.6rem] font-black uppercase tracking-wide text-dark/70 sm:text-xs">
+                        <i className="fa-solid fa-moon text-[0.5rem]" /> {dinner}
+                      </span>
                     </div>
                   </div>
-                  <p className="col-span-2 text-base font-black leading-none text-orange sm:text-2xl sm:text-right">{item.time}</p>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
         </section>
@@ -879,6 +907,6 @@ export default function ContactPage() {
       )}
 
       <Footer />
-    </>
+    </div>
   )
 }

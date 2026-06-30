@@ -68,6 +68,7 @@ export function Testimonials() {
         alt="Steak dinner plated for a celebration"
         fill
         sizes="100vw"
+        priority
         className="object-cover object-center"
         unoptimized={!backgroundImage.includes('unsplash.com')}
       />
