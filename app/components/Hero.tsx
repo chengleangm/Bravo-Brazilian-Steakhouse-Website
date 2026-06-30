@@ -39,7 +39,7 @@ const DEFAULT_CONTENT: HeroContent = {
 }
 
 export function Hero() {
-  const [slides, setSlides] = useState(SLIDES)
+  const [slides, setSlides] = useState<string[]>([])
   const [current, setCurrent] = useState(0)
   const [content, setContent] = useState<HeroContent>(DEFAULT_CONTENT)
   const [heroLogo, setHeroLogo] = useState('')
@@ -51,14 +51,15 @@ export function Hero() {
         const adminSlides = Array.isArray(d.homeHeroSlides) ? (d.homeHeroSlides as string[]).filter(Boolean) : []
         if (adminSlides.length > 0) {
           setSlides(adminSlides)
-          setCurrent(0)
         } else if (typeof d.homeHero === 'string' && d.homeHero) {
-          setSlides([d.homeHero, ...SLIDES.slice(1)])
-          setCurrent(0)
+          setSlides([d.homeHero])
+        } else {
+          setSlides(SLIDES)
         }
+        setCurrent(0)
         setHeroLogo(typeof d.heroLogo === 'string' ? d.heroLogo : '')
       })
-      .catch(() => {})
+      .catch(() => { setSlides(SLIDES) })
     fetch('/api/admin/hero-content', { cache: 'no-store' })
       .then(r => r.json())
       .then(d => setContent(prev => ({ ...prev, ...d })))
