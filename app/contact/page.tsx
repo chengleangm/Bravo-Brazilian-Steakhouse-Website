@@ -18,6 +18,65 @@ const FACEBOOK_URL = 'https://www.facebook.com/bravosteakhousechurrascaria'
 const INSTAGRAM_URL = 'https://www.instagram.com/bravobraziliansteakhouse/'
 const TIKTOK_URL = 'https://www.tiktok.com/@bravobraziliansteakhouse'
 
+const FAQS = [
+  {
+    q: 'How much does the churrasco buffet cost?',
+    a: 'Our pricing depends on the time of day and package selected. Message us on WhatsApp or call for the latest rates — we update them seasonally.',
+  },
+  {
+    q: 'Is it all-you-can-eat?',
+    a: 'Yes! Our churrasco buffet includes unlimited grill cuts carved tableside by our passadores, plus a full buffet bar of sides, salads, and sauces.',
+  },
+  {
+    q: 'Do you accept walk-ins?',
+    a: 'Walk-ins are welcome, but we strongly recommend booking ahead — especially on weekends and public holidays — to guarantee your table.',
+  },
+  {
+    q: 'Can you host birthday parties and group events?',
+    a: 'Absolutely. We love hosting celebrations. Message us on WhatsApp or visit our Private Dining page to discuss packages for birthdays, corporate dinners, and group bookings.',
+  },
+  {
+    q: 'Do you have vegetarian or dietary options?',
+    a: 'Our buffet bar includes vegetarian-friendly sides and salads. Please let us know about dietary requirements when you book and we\'ll do our best to accommodate.',
+  },
+  {
+    q: 'Is there parking nearby?',
+    a: 'Yes, there is parking available near the restaurant in Toul Tom Poung, Phnom Penh. Open Google Maps for directions.',
+  },
+  {
+    q: 'What is the dress code?',
+    a: 'Smart casual. Come comfortable — this is a place to relax and enjoy a great meal with people you love.',
+  },
+  {
+    q: 'How do I make a reservation?',
+    a: 'Use the reservation form on this page, message us on WhatsApp, or call us directly. We\'ll confirm your booking as quickly as possible.',
+  },
+]
+
+function FAQ() {
+  const [open, setOpen] = useState<number | null>(null)
+  return (
+    <div className="space-y-2">
+      {FAQS.map((item, i) => (
+        <motion.div key={i} variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.4 }}
+          className="overflow-hidden rounded-xl border border-[#D4A373]/15 bg-[#1A0E0A]">
+          <button
+            type="button"
+            onClick={() => setOpen(open === i ? null : i)}
+            className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-black uppercase tracking-[0.08em] transition hover:text-[#fd850b] sm:px-6 sm:py-5 sm:text-base"
+          >
+            {item.q}
+            <i className={`fa-solid fa-chevron-down text-[#fd850b] text-xs shrink-0 transition-transform duration-300 ${open === i ? 'rotate-180' : ''}`} />
+          </button>
+          <div className={`overflow-hidden transition-all duration-300 ${open === i ? 'max-h-40' : 'max-h-0'}`}>
+            <p className="border-t border-[#D4A373]/10 px-5 py-4 text-sm leading-6 text-[#C7B8A8] sm:px-6 sm:py-5 sm:text-base sm:leading-7">{item.a}</p>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  )
+}
+
 const RESERVATION_PERKS = [
   {
     label: 'Quick Confirmation',
@@ -742,6 +801,18 @@ export default function ContactPage() {
                 ></iframe>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section className="bg-[#120807] px-4 py-16 text-[#FFF7ED] sm:px-8 sm:py-24 lg:px-10 lg:py-32">
+          <div className="absolute inset-x-0 top-0 h-px bg-[#fd850b]/20" />
+          <div className="mx-auto max-w-3xl">
+            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="mb-10 text-center sm:mb-14">
+              <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.24em] text-[#fd850b] sm:text-xs">FAQ</p>
+              <h2 className="font-serif text-3xl uppercase leading-tight sm:text-4xl">Common Questions</h2>
+            </motion.div>
+            <FAQ />
           </div>
         </section>
 

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Anton, Kantumruy_Pro, Montserrat } from 'next/font/google'
 import './styles/globals.css'
 import { PageTransition } from './components/PageTransition'
+import { WhatsAppFloat } from './components/WhatsAppFloat'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -61,6 +62,7 @@ export default function RootLayout({
         <PageTransition>
           {children}
         </PageTransition>
+        <WhatsAppFloat />
       </body>
     </html>
   )

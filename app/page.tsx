@@ -6,6 +6,7 @@ import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { ImageStrip } from './components/ImageStrip'
 import { ReservationCTA } from './components/ReservationCTA'
+import { Specials } from './components/Specials'
 import { Testimonials } from './components/Testimonials'
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
         <About />
         <ImageStrip />
         <Dishes />
+        <Specials />
         <Experience />
         <Testimonials />
         <ReservationCTA />

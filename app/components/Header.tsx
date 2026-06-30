@@ -18,8 +18,8 @@ const navItems = [
   { href: '/menu', label: 'Menu' },
   { href: '/about', label: 'About' },
   { href: '/events', label: 'Events' },
+  { href: '/private-dining', label: 'Private Dining' },
   { href: '/promotions', label: 'Promotions' },
-  { href: '/catering', label: 'Catering' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/contact', label: 'Contact' },
 ]
@@ -130,7 +130,7 @@ export function Header() {
           {/* Reservations — full-height gold block */}
           <Link
             href="/contact#reservation"
-            className="hidden h-[64px] shrink-0 items-center justify-center bg-[#C4A06B] px-8 text-[11px] font-bold tracking-[0.15em] uppercase text-[#1a0d08] transition duration-200 hover:bg-[#d4b07b] lg:inline-flex"
+            className="hidden h-[64px] shrink-0 items-center justify-center bg-[#fd850b] px-8 text-[11px] font-bold tracking-[0.15em] uppercase text-[#120807] transition duration-200 hover:bg-[#e87200] lg:inline-flex"
           >
             Reservations
           </Link>
