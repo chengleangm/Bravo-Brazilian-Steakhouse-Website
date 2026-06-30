@@ -13,6 +13,8 @@ const links = [
 ]
 
 const TELEGRAM_URL = 'https://t.me/BravoReservationsTTP'
+const FACEBOOK_URL = 'https://www.facebook.com/bravosteakhousechurrascaria'
+const INSTAGRAM_URL = 'https://www.instagram.com/bravobraziliansteakhouse/'
 
 const contactLinks = [
   {
@@ -44,6 +46,16 @@ const contactLinks = [
     href: TELEGRAM_URL,
     icon: 'fa-brands fa-telegram',
     label: 'Telegram reservations',
+  },
+  {
+    href: FACEBOOK_URL,
+    icon: 'fa-brands fa-facebook-f',
+    label: 'Facebook',
+  },
+  {
+    href: INSTAGRAM_URL,
+    icon: 'fa-brands fa-instagram',
+    label: 'Instagram',
   },
 ]
 
