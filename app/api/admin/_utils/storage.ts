@@ -31,6 +31,7 @@ export async function writeBlobJson(blobName: string, localJsonPath: string, bod
     await put(`config/${blobName}.json`, JSON.stringify(body), {
       access: 'public',
       addRandomSuffix: false,
+      allowOverwrite: true,
       contentType: 'application/json',
       token,
     })

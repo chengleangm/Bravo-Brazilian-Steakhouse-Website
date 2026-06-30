@@ -135,7 +135,7 @@ export default function AdminPageImages() {
     })
     if (!res.ok) {
       const j = await res.json().catch(() => ({}))
-      alert('Save failed: ' + (j.error ?? res.status) + '. Check that KV is connected in Vercel.')
+      alert('Save failed: ' + (j.error ?? res.status))
       return false
     }
     return true
@@ -261,13 +261,14 @@ export default function AdminPageImages() {
     setDirty(true)
   }
 
-  function removeHeroSlide(index: number) {
-    setImages(prev => {
-      if (!prev) return prev
-      const slides = prev.homeHeroSlides.filter((_, i) => i !== index)
-      return { ...prev, homeHero: slides[0] ?? '', homeHeroSlides: slides }
-    })
-    setDirty(true)
+  async function removeHeroSlide(index: number) {
+    if (!images) return
+    const slides = images.homeHeroSlides.filter((_, i) => i !== index)
+    const updated = { ...images, homeHero: slides[0] ?? '', homeHeroSlides: slides }
+    setImages(updated)
+    setDirty(false)
+    const ok = await saveToKV(updated)
+    if (ok) setToast('Slide removed')
   }
 
   function moveHeroSlide(index: number, direction: -1 | 1) {
