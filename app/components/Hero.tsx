@@ -12,7 +12,7 @@ const SLIDES = [
   'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=2200&q=90',
 ]
 
-const INTERVAL = 5500
+const INTERVAL = 2000
 
 type HeroContent = {
   tagline: string
@@ -83,7 +83,7 @@ export function Hero() {
           fill
           priority
           sizes="100vw"
-          className={`object-cover object-center transition-opacity duration-[1200ms] ease-in-out ${
+          className={`object-cover object-center transition-opacity duration-[600ms] ease-in-out ${
             i === current ? 'opacity-100' : 'opacity-0'
           }`}
           unoptimized={!src.includes('unsplash.com')}
