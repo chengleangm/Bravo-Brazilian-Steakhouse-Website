@@ -6,8 +6,8 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 const socialLinks = [
-  { href: 'https://www.facebook.com/BravoRestaurant', icon: 'fa-brands fa-facebook-f', label: 'Facebook' },
-  { href: 'https://www.instagram.com/', icon: 'fa-brands fa-instagram', label: 'Instagram' },
+  { href: 'https://www.facebook.com/bravosteakhousechurrascaria', icon: 'fa-brands fa-facebook-f', label: 'Facebook' },
+  { href: 'https://www.instagram.com/bravobraziliansteakhouse/', icon: 'fa-brands fa-instagram', label: 'Instagram' },
   { href: 'https://wa.me/85578938333', icon: 'fa-brands fa-whatsapp', label: 'WhatsApp' },
   { href: 'https://t.me/BravoReservationsTTP', icon: 'fa-brands fa-telegram', label: 'Telegram' },
 ]
