@@ -14,6 +14,9 @@ import styles from './page.module.css'
 const TELEGRAM_URL = 'https://t.me/BravoReservationsTTP'
 const WHATSAPP_URL = 'https://wa.me/85578938333'
 const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/M9Yce1YsMLbfiKqU8'
+const FACEBOOK_URL = 'https://www.facebook.com/bravosteakhousechurrascaria'
+const INSTAGRAM_URL = 'https://www.instagram.com/bravobraziliansteakhouse/'
+const TIKTOK_URL = 'https://www.tiktok.com/@bravobraziliansteakhouse'
 
 const RESERVATION_PERKS = [
   {
@@ -270,7 +273,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className={styles.contactInfoTitle}>Location</h3>
-                  <p className={styles.contactInfoValue}>Phnom Penh, Cambodia</p>
+                  <p className={styles.contactInfoValue}><a href={GOOGLE_MAPS_URL} target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Phnom Penh, Cambodia</a></p>
                 </div>
               </motion.div>
               <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
@@ -279,7 +282,25 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className={styles.contactInfoTitle}>Facebook</h3>
-                  <p className={styles.contactInfoValue}><a href="#" className="hover:text-orange transition-colors">@BravoRestaurant</a></p>
+                  <p className={styles.contactInfoValue}><a href={FACEBOOK_URL} target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Bravo Steakhouse</a></p>
+                </div>
+              </motion.div>
+              <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
+                <div className={styles.contactInfoIcon}>
+                  <i className="fa-brands fa-instagram text-orange"></i>
+                </div>
+                <div>
+                  <h3 className={styles.contactInfoTitle}>Instagram</h3>
+                  <p className={styles.contactInfoValue}><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">@bravobraziliansteakhouse</a></p>
+                </div>
+              </motion.div>
+              <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
+                <div className={styles.contactInfoIcon}>
+                  <i className="fa-brands fa-tiktok text-orange"></i>
+                </div>
+                <div>
+                  <h3 className={styles.contactInfoTitle}>TikTok</h3>
+                  <p className={styles.contactInfoValue}><a href={TIKTOK_URL} target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">@bravobraziliansteakhouse</a></p>
                 </div>
               </motion.div>
               <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
@@ -288,7 +309,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className={styles.contactInfoTitle}>WhatsApp</h3>
-                  <p className={styles.contactInfoValue}><a href="https://wa.me/85578938333" target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Message Us</a></p>
+                  <p className={styles.contactInfoValue}><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Message Us</a></p>
                 </div>
               </motion.div>
               <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
