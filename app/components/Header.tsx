@@ -16,13 +16,10 @@ const socialLinks = [
 const navItems = [
   { href: '/', label: 'Home' },
   { href: '/menu', label: 'Menu' },
-  { href: '/about', label: 'About' },
-  { href: '/events', label: 'Events' },
-  { href: '/catering', label: 'Catering' },
-  { href: '/private-dining', label: 'Private Dining' },
+  { href: '/contact', label: 'Location' },
   { href: '/promotions', label: 'Promotions' },
-  { href: '/gallery', label: 'Gallery' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/catering', label: 'Catering Services' },
+  { href: '/about', label: 'Our Story' },
 ]
 
 export function Header() {

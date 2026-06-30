@@ -6,12 +6,12 @@ import Link from 'next/link'
 const links = [
   { href: '/', label: 'Home' },
   { href: '/menu', label: 'Menu' },
-  { href: '/about', label: 'About' },
-  { href: '/events', label: 'Events' },
+  { href: '/contact', label: 'Location' },
   { href: '/promotions', label: 'Promotions' },
-  { href: '/catering', label: 'Catering' },
+  { href: '/catering', label: 'Catering Services' },
+  { href: '/about', label: 'Our Story' },
   { href: '/gallery', label: 'Gallery' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/events', label: 'Events' },
 ]
 
 const TELEGRAM_URL = 'https://t.me/BravoReservationsTTP'

@@ -1,0 +1,41 @@
+{
+  "heroImage": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1800&q=85",
+  "packages": [
+    {
+      "name": "Essential",
+      "price": "$22.95",
+      "svc": "+10% SVC",
+      "min": 50,
+      "accent": false,
+      "badge": "",
+      "features": ["8 grilled meat cuts", "8 hot buffet dishes", "Salad bar", "Desserts"]
+    },
+    {
+      "name": "Classic",
+      "price": "$26.95",
+      "svc": "+10% SVC",
+      "min": 40,
+      "accent": false,
+      "badge": "",
+      "features": ["10 grilled meat cuts", "10 hot buffet dishes", "Salad bar", "Desserts"]
+    },
+    {
+      "name": "Premium",
+      "price": "$29.95",
+      "svc": "+10% SVC",
+      "min": 30,
+      "accent": true,
+      "badge": "Most Popular",
+      "features": ["16 grilled meat cuts", "10 hot buffet dishes", "Salad bar & cold cuts", "Desserts"]
+    },
+    {
+      "name": "Deluxe",
+      "price": "$39.95",
+      "svc": "+10% SVC",
+      "min": 30,
+      "accent": false,
+      "badge": "",
+      "features": ["16 grilled meat cuts", "10 hot buffet dishes", "Salads, cold cuts & seafood", "Desserts"]
+    }
+  ]
+}
