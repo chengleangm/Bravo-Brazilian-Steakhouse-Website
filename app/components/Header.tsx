@@ -9,7 +9,7 @@ const socialLinks = [
   { href: 'https://www.facebook.com/bravosteakhousechurrascaria', icon: 'fa-brands fa-facebook-f', label: 'Facebook' },
   { href: 'https://www.instagram.com/bravobraziliansteakhouse/', icon: 'fa-brands fa-instagram', label: 'Instagram' },
   { href: 'https://www.tiktok.com/@bravobraziliansteakhouse', icon: 'fa-brands fa-tiktok', label: 'TikTok' },
-  { href: 'https://wa.me/85578938333', icon: 'fa-brands fa-whatsapp', label: 'WhatsApp' },
+  { href: 'https://wa.me/85510231121', icon: 'fa-brands fa-whatsapp', label: 'WhatsApp' },
   { href: 'https://t.me/BravoReservationsTTP', icon: 'fa-brands fa-telegram', label: 'Telegram' },
 ]
 
@@ -18,6 +18,7 @@ const navItems = [
   { href: '/menu', label: 'Menu' },
   { href: '/about', label: 'About' },
   { href: '/events', label: 'Events' },
+  { href: '/catering', label: 'Catering' },
   { href: '/private-dining', label: 'Private Dining' },
   { href: '/promotions', label: 'Promotions' },
   { href: '/gallery', label: 'Gallery' },
@@ -73,7 +74,7 @@ export function Header() {
               Call Us
             </a>
             <a
-              href="https://wa.me/85578938333"
+              href="https://wa.me/85510231121"
               target="_blank"
               rel="noreferrer"
               className="border-r border-white/15 px-3 transition duration-200 hover:text-white/90"

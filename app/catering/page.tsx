@@ -11,7 +11,7 @@ const fadeUp = { hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0 } }
 const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.1 } } }
 const vp = { once: true, amount: 0.15 }
 
-const WHATSAPP_URL = 'https://wa.me/85578938333'
+const WHATSAPP_URL = 'https://wa.me/85510231121'
 const TELEGRAM_URL = 'https://t.me/BravoReservationsTTP'
 
 const INPUT_CLASS =

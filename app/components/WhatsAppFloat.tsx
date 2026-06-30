@@ -15,7 +15,7 @@ export function WhatsAppFloat() {
     <>
       {/* Desktop: floating WhatsApp bubble bottom-right */}
       <a
-        href="https://wa.me/85578938333"
+        href="https://wa.me/85510231121"
         target="_blank"
         rel="noreferrer"
         aria-label="Chat on WhatsApp"
@@ -40,7 +40,7 @@ export function WhatsAppFloat() {
           Call Us
         </a>
         <a
-          href="https://wa.me/85578938333"
+          href="https://wa.me/85510231121"
           target="_blank"
           rel="noreferrer"
           className="flex flex-1 items-center justify-center gap-2 bg-[#fd850b] py-4 text-[0.72rem] font-black uppercase tracking-[0.12em] text-[#120807]"

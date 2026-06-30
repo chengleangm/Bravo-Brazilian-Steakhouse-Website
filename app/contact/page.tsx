@@ -12,7 +12,7 @@ const vp = { once: true, amount: 0.2 }
 import styles from './page.module.css'
 
 const TELEGRAM_URL = 'https://t.me/BravoReservationsTTP'
-const WHATSAPP_URL = 'https://wa.me/85578938333'
+const WHATSAPP_URL = 'https://wa.me/85510231121'
 const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/M9Yce1YsMLbfiKqU8'
 const FACEBOOK_URL = 'https://www.facebook.com/bravosteakhousechurrascaria'
 const INSTAGRAM_URL = 'https://www.instagram.com/bravobraziliansteakhouse/'
@@ -324,6 +324,7 @@ export default function ContactPage() {
                 <div>
                   <h3 className={styles.contactInfoTitle}>Phone</h3>
                   <p className={styles.contactInfoValue}><a href="tel:+85578938333" className="hover:text-orange transition-colors">+855 78 938 333</a></p>
+
                 </div>
               </motion.div>
               <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>

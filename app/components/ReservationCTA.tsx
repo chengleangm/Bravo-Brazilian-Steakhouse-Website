@@ -62,7 +62,7 @@ export function ReservationCTA() {
             <Link href="/contact#reservation" className="inline-flex min-h-9 items-center justify-center gap-2 bg-[#fd850b] px-4 py-2 text-[0.64rem] font-black uppercase text-black shadow-[0_18px_42px_rgba(253,133,11,0.3)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_62px_rgba(253,133,11,0.5)] sm:min-h-12 sm:px-6 sm:py-3 sm:text-sm">
               <i className="fa-solid fa-calendar-check" aria-hidden="true" /> Book Now
             </Link>
-            <a href="https://wa.me/85578938333" target="_blank" rel="noreferrer" className="inline-flex min-h-9 items-center justify-center gap-2 border border-[#FFF7ED]/50 bg-black/20 px-4 py-2 text-[0.64rem] font-black uppercase text-[#FFF7ED] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-black sm:min-h-12 sm:px-6 sm:py-3 sm:text-sm">
+            <a href="https://wa.me/85510231121" target="_blank" rel="noreferrer" className="inline-flex min-h-9 items-center justify-center gap-2 border border-[#FFF7ED]/50 bg-black/20 px-4 py-2 text-[0.64rem] font-black uppercase text-[#FFF7ED] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-black sm:min-h-12 sm:px-6 sm:py-3 sm:text-sm">
               <i className="fa-brands fa-whatsapp" aria-hidden="true" /> Message Us
             </a>
           </div>

@@ -24,7 +24,7 @@ const contactLinks = [
   { href: 'tel:+85578938333',  icon: 'fa-solid fa-phone',        label: '078 938 333' },
   { href: 'tel:+85578853441',  icon: 'fa-solid fa-phone',        label: '078 853 441' },
   { href: '/contact',          icon: 'fa-solid fa-map-pin',      label: 'Phnom Penh, Cambodia' },
-  { href: 'https://wa.me/85578938333', icon: 'fa-brands fa-whatsapp', label: 'WhatsApp' },
+  { href: 'https://wa.me/85510231121', icon: 'fa-brands fa-whatsapp', label: 'WhatsApp' },
   { href: TELEGRAM_URL,        icon: 'fa-brands fa-telegram',    label: 'Telegram' },
 ]
 
