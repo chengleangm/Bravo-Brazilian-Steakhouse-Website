@@ -55,7 +55,6 @@ const filterOptions: { id: GalleryCategory; label: string; icon: string }[] = [
 ]
 
 export default function GalleryPage() {
-  const [activeFilter, setActiveFilter] = useState<GalleryCategory>('all')
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>(DEFAULT_IMAGES)
   const [galleryStories, setGalleryStories] = useState<GalleryStory[]>(DEFAULT_STORIES)
@@ -78,8 +77,6 @@ export default function GalleryPage() {
       .catch(() => {})
   }, [])
 
-  const filteredImages = activeFilter === 'all' ? galleryImages : galleryImages.filter(img => img.category === activeFilter)
-  const getFilterCount = (filter: GalleryCategory) => filter === 'all' ? galleryImages.length : galleryImages.filter(img => img.category === filter).length
   const totalStoryPages = Math.ceil(galleryStories.length / 3)
   const visibleStories = galleryStories.slice(storyPage * 3, storyPage * 3 + 3)
 
@@ -110,7 +107,7 @@ export default function GalleryPage() {
             <div>
               <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className={styles.storyGrid}>
                 {visibleStories.map((story) => (
-                  <motion.button key={story.title} variants={fadeUp} transition={{ duration: 0.5 }} type="button" onClick={() => setActiveFilter(story.filter)}
+                  <motion.button key={story.title} variants={fadeUp} transition={{ duration: 0.5 }} type="button"
                     className={`${styles.storyCard} group relative overflow-hidden border border-[#D4A373]/18 bg-[#120807] text-left shadow-[0_24px_70px_rgba(0,0,0,0.24)] transition duration-300 hover:-translate-y-2 hover:border-[#fd850b]/55`}>
                     <Image src={story.image} alt={story.title} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover transition duration-500 group-hover:scale-[1.05]" unoptimized={!story.image.includes('unsplash.com')} />
                     <span className="absolute inset-0 bg-gradient-to-t from-[#120807]/92 via-[#120807]/34 to-transparent" />
@@ -152,42 +149,14 @@ export default function GalleryPage() {
           </div>
         </section>
 
-        <section className="relative overflow-hidden px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(253,133,11,0.12),transparent_30%)]" />
-          <div className="mx-auto max-w-7xl">
-            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="relative z-10 mx-auto mb-10 max-w-3xl text-center">
-              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-[#fd850b]">Browse the atmosphere</p>
-              <h2 className="font-serif text-3xl uppercase leading-[0.95] sm:text-5xl lg:text-6xl">Fire, food, rooms, and celebrations</h2>
-              <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-[#C7B8A8]">A closer look at the plates, grill moments, dining room, and group nights that shape the BRAVO experience.</p>
-            </motion.div>
-
-            <div className={`${styles.compactFilterBar} relative z-10`}>
-              {filterOptions.map((filter) => (
-                <button key={filter.id} type="button" onClick={() => setActiveFilter(filter.id)} aria-pressed={activeFilter === filter.id}
-                  className={`${styles.compactFilterButton} ${activeFilter === filter.id ? 'bg-[#fd850b] text-[#120807] shadow-[0_18px_42px_rgba(253,133,11,0.3)]' : 'border border-[#D4A373]/26 bg-[#FFF7ED]/5 text-[#FFF7ED] hover:border-[#fd850b]'}`}>
-                  <i className={`fa-solid ${filter.icon} ${styles.compactFilterIcon}`} aria-hidden="true" />
-                  <span>{filter.label}</span>
-                  <span className={`${styles.compactFilterCount} ${activeFilter === filter.id ? 'text-[#120807]/70' : 'text-[#C7B8A8]'}`}>
-                    {getFilterCount(filter.id).toString().padStart(2, '0')}
-                  </span>
-                </button>
-              ))}
-            </div>
-
-            <div className={`${styles.galleryGrid} relative z-10`}>
-              {filteredImages.map((image) => (
-                <button key={image.id} type="button" onClick={() => setSelectedImage(image)}
-                  className={`${styles.galleryTile} group relative overflow-hidden border border-[#D4A373]/18 bg-[#1A0E0A] text-left shadow-[0_24px_70px_rgba(0,0,0,0.24)] transition duration-300 hover:-translate-y-1 hover:border-[#fd850b]/55 ${image.featured ? styles.featuredTile : ''}`}>
-                  <Image src={image.src} alt={image.alt} fill sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-[1.05]" unoptimized={!image.src.includes('unsplash.com')} />
-                  <span className="absolute inset-0 bg-gradient-to-t from-[#120807]/86 via-[#120807]/18 to-transparent opacity-88 transition group-hover:opacity-100" />
-                  <span className="absolute left-3 top-3 bg-[#120807]/72 px-2 py-1 text-[0.58rem] font-black uppercase tracking-[0.14em] text-[#fd850b] backdrop-blur sm:left-4 sm:top-4 sm:px-3 sm:py-2 sm:text-[0.65rem] sm:tracking-[0.18em]">{image.category}</span>
-                  <span className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4">
-                    <span className="block text-[0.82rem] font-black leading-tight text-[#FFF7ED] sm:text-lg lg:text-xl">{image.alt}</span>
-                    <span className="mt-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#C7B8A8] opacity-0 transition group-hover:opacity-100">View full image</span>
-                  </span>
-                </button>
-              ))}
-            </div>
+        <section className="px-3 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+          <div className={`${styles.galleryGrid}`}>
+            {galleryImages.map((image) => (
+              <button key={image.id} type="button" onClick={() => setSelectedImage(image)}
+                className={`${styles.galleryTile} group relative overflow-hidden bg-[#1A0E0A] ${image.featured ? styles.featuredTile : ''}`}>
+                <Image src={image.src} alt={image.alt} fill sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-[1.05]" unoptimized={!image.src.includes('unsplash.com')} />
+              </button>
+            ))}
           </div>
         </section>
 
@@ -216,7 +185,7 @@ export default function GalleryPage() {
                           muted
                           loop
                           playsInline
-                          preload="auto"
+                          preload="none"
                         >
                           <source src={vid.url} />
                         </video>

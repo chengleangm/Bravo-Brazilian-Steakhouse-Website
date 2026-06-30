@@ -25,6 +25,8 @@ export default function AdminGalleryPage() {
   const fileRef = useRef<HTMLInputElement>(null)
   const heroFileRef = useRef<HTMLInputElement>(null)
   const storyFileRef = useRef<HTMLInputElement>(null)
+  const bulkRef = useRef<HTMLInputElement>(null)
+  const [bulkProgress, setBulkProgress] = useState<{ done: number; total: number } | null>(null)
 
   useEffect(() => {
     fetch('/api/admin/gallery').then(r => r.json()).then(setData)
@@ -58,6 +60,23 @@ export default function AdminGalleryPage() {
     } finally {
       setUploading(false)
     }
+  }
+
+  async function bulkUpload(files: FileList) {
+    if (!data) return
+    const total = files.length
+    setBulkProgress({ done: 0, total })
+    const newImages: GalleryImage[] = []
+    for (let i = 0; i < total; i++) {
+      const url = await uploadFile(files[i], 'gallery')
+      if (url) newImages.push({ id: Date.now() + i, src: url, category: 'food', alt: files[i].name.replace(/\.[^.]+$/, ''), featured: false })
+      setBulkProgress({ done: i + 1, total })
+    }
+    if (newImages.length) {
+      const updated = { ...data, images: [...data.images, ...newImages] }
+      await save(updated)
+    }
+    setBulkProgress(null)
   }
 
   function openAdd() { setModal({ open: true, idx: null, val: { ...BLANK, id: Date.now() } }) }
@@ -116,9 +135,19 @@ export default function AdminGalleryPage() {
       title="Gallery"
       subtitle={`${data.images.length} photos`}
       action={
-        <button onClick={openAdd} className={btnPrimary}>
-          <i className="fa-solid fa-plus" /> Add Photo
-        </button>
+        <div className="flex gap-2">
+          <button onClick={() => bulkRef.current?.click()} disabled={!!bulkProgress} className={btnSecondary}>
+            {bulkProgress
+              ? <><i className="fa-solid fa-spinner fa-spin mr-1" /> {bulkProgress.done}/{bulkProgress.total}</>
+              : <><i className="fa-solid fa-images mr-1" /> Bulk Upload</>
+            }
+          </button>
+          <input ref={bulkRef} type="file" accept="image/*" multiple className="hidden"
+            onChange={async e => { if (e.target.files?.length) { await bulkUpload(e.target.files); e.target.value = '' } }} />
+          <button onClick={openAdd} className={btnPrimary}>
+            <i className="fa-solid fa-plus" /> Add Photo
+          </button>
+        </div>
       }
     >
       {toast && <Toast msg={toast} onDone={() => setToast('')} />}
