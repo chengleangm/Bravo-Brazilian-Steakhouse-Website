@@ -149,12 +149,12 @@ export default function GalleryPage() {
           </div>
         </section>
 
-        <section className="px-3 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+        <section className="px-0 py-0">
           <div className={`${styles.galleryGrid}`}>
             {galleryImages.map((image) => (
               <button key={image.id} type="button" onClick={() => setSelectedImage(image)}
-                className={`${styles.galleryTile} group relative overflow-hidden bg-[#1A0E0A] ${image.featured ? styles.featuredTile : ''}`}>
-                <Image src={image.src} alt={image.alt} fill sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-[1.05]" unoptimized={!image.src.includes('unsplash.com')} />
+                className={`${styles.galleryTile} group overflow-hidden bg-[#1A0E0A] ${image.featured ? styles.featuredTile : ''}`}>
+                <Image src={image.src} alt={image.alt} fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw" className="object-cover transition duration-500 group-hover:scale-[1.04]" unoptimized={!image.src.includes('unsplash.com')} />
               </button>
             ))}
           </div>
