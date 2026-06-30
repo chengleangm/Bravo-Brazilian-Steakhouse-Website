@@ -97,7 +97,7 @@ const PACKAGES = [
 
 const MENU_CARDS = [
   {
-    image: 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=1200&q=85',
+    image: '/Catering/photo_2026-06-30_19-40-52.jpg',
     title: 'Full-Service Catering',
     desc: 'Experience the art of Brazilian churrasco with live on-site grilling and tableside service.',
     span: 'lg:col-span-2',
@@ -105,7 +105,7 @@ const MENU_CARDS = [
     href: '#enquire',
   },
   {
-    image: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=800&q=85',
+    image: '/Catering/photo_2026-06-30_19-41-45.jpg',
     title: 'Catering Pick-Up or Delivery',
     desc: 'For groups of 15 or more. Choose the arrangement that\'s right for your event needs, serving choice, and group size.',
     span: 'lg:col-span-1',
@@ -113,7 +113,7 @@ const MENU_CARDS = [
     href: '#enquire',
   },
   {
-    image: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=800&q=85',
+    image: '/Catering/photo_2026-06-30_19-08-35.jpg',
     title: 'Build Your Own Package',
     desc: 'Find the perfect catering package for your occasion — customise meats, sides, and service to fit any budget.',
     span: 'lg:col-span-1',
@@ -121,7 +121,7 @@ const MENU_CARDS = [
     href: '#enquire',
   },
   {
-    image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=85',
+    image: '/Catering/photo_2026-06-30_18-27-37.jpg',
     title: 'Group Dining & Private Events',
     desc: 'Ready to host your group? Premium churrasco experience with dedicated staff and ready-to-serve platters.',
     span: 'lg:col-span-2',
