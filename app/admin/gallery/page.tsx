@@ -84,10 +84,11 @@ export default function AdminGalleryPage() {
 
   function saveModal() {
     if (!data) return
-    if (!modal.val.src || !modal.val.alt) { alert('Image and alt text are required.'); return }
+    if (!modal.val.src) { alert('Please add an image.'); return }
     const images = [...data.images]
-    if (modal.idx === null) images.push(modal.val)
-    else images[modal.idx] = modal.val
+    const entry = { ...modal.val, alt: modal.val.alt || 'Gallery photo' }
+    if (modal.idx === null) images.push(entry)
+    else images[modal.idx] = entry
     save({ ...data, images })
     setModal({ open: false, idx: null, val: BLANK })
   }
@@ -313,63 +314,24 @@ export default function AdminGalleryPage() {
       {modal.open && (
         <Modal title={modal.idx === null ? 'Add Photo' : 'Edit Photo'} onClose={() => setModal({ open: false, idx: null, val: BLANK })}>
           <div className="space-y-4">
-            <Field label="Image">
-              {modal.val.src && (
-                <img src={modal.val.src} alt="" className="h-32 w-full object-cover rounded-xl border border-[#D4A373]/15 mb-2" />
-              )}
-              <input
-                className={input}
-                value={modal.val.src}
-                onChange={e => setModal(m => ({ ...m, val: { ...m.val, src: e.target.value } }))}
-                placeholder="Paste image URL…"
-              />
-              <button
-                type="button"
-                onClick={() => fileRef.current?.click()}
-                disabled={uploading}
-                className={`${btnSecondary} mt-2 w-full justify-center`}
-              >
-                {uploading ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading…</> : <><i className="fa-solid fa-upload" /> Upload from computer</>}
-              </button>
-              <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={async e => { const f = e.target.files?.[0]; if (!f) return; const url = await uploadFile(f); if (url) setModal(m => ({ ...m, val: { ...m.val, src: url } })); e.target.value = '' }} />
-            </Field>
-
-            <Field label="Caption / Alt Text">
-              <input className={input} value={modal.val.alt} onChange={e => setModal(m => ({ ...m, val: { ...m.val, alt: e.target.value } }))} placeholder="Describe the photo" />
-            </Field>
-
-            <Field label="Category">
-              <div className="grid grid-cols-2 gap-2">
-                {CATEGORIES.map(c => (
-                  <button
-                    key={c}
-                    type="button"
-                    onClick={() => setModal(m => ({ ...m, val: { ...m.val, category: c } }))}
-                    className={`py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-colors ${
-                      modal.val.category === c
-                        ? 'bg-[#fd850b] text-black'
-                        : 'border border-[#D4A373]/20 text-[#C7B8A8] hover:border-[#fd850b]'
-                    }`}
-                  >
-                    {c}
-                  </button>
-                ))}
-              </div>
-            </Field>
-
-            <label className="flex items-center gap-3 cursor-pointer bg-[#0d0905] rounded-xl px-4 py-3">
-              <input
-                type="checkbox"
-                checked={modal.val.featured}
-                onChange={e => setModal(m => ({ ...m, val: { ...m.val, featured: e.target.checked } }))}
-                className="w-4 h-4 accent-[#fd850b] rounded"
-              />
-              <div>
-                <p className="text-sm font-bold text-[#FFF7ED]">Featured photo</p>
-                <p className="text-xs text-[#C7B8A8]">Shows as a larger tile in the gallery</p>
-              </div>
-            </label>
-
+            {modal.val.src && (
+              <img src={modal.val.src} alt="" className="h-40 w-full object-cover rounded-xl border border-[#D4A373]/15" />
+            )}
+            <input
+              className={input}
+              value={modal.val.src}
+              onChange={e => setModal(m => ({ ...m, val: { ...m.val, src: e.target.value } }))}
+              placeholder="Paste image URL…"
+            />
+            <button
+              type="button"
+              onClick={() => fileRef.current?.click()}
+              disabled={uploading}
+              className={`${btnSecondary} w-full justify-center`}
+            >
+              {uploading ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading…</> : <><i className="fa-solid fa-upload" /> Upload from computer</>}
+            </button>
+            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={async e => { const f = e.target.files?.[0]; if (!f) return; const url = await uploadFile(f); if (url) setModal(m => ({ ...m, val: { ...m.val, src: url, alt: f.name.replace(/\.[^.]+$/, '') } })); e.target.value = '' }} />
             <div className="flex gap-3 pt-1">
               <button onClick={saveModal} className={`${btnPrimary} flex-1 justify-center`}><i className="fa-solid fa-check" /> Save Photo</button>
               <button onClick={() => setModal({ open: false, idx: null, val: BLANK })} className={btnSecondary}>Cancel</button>
