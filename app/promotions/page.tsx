@@ -56,7 +56,7 @@ export default function PromotionsPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/api/admin/events')
+    fetch('/api/admin/events', { cache: 'no-store' })
       .then(r => r.json())
       .then(data => {
         if (data.heroImage) setHeroImage(data.heroImage)

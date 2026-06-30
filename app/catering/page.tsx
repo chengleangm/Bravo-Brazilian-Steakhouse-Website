@@ -110,7 +110,7 @@ export default function CateringPage() {
   const [packages, setPackages] = useState(PACKAGES)
 
   useEffect(() => {
-    fetch('/api/admin/catering-content')
+    fetch('/api/admin/catering-content', { cache: 'no-store' })
       .then(r => r.json())
       .then(d => {
         if (d.heroImage) setHeroImage(d.heroImage)
