@@ -243,7 +243,7 @@ export default function PromotionsPage() {
           <p className="text-[0.65rem] font-black uppercase tracking-[0.28em] text-[#fd850b] mb-3">Planning something special?</p>
           <h2 className="font-black text-2xl md:text-4xl uppercase text-[#FFF7ED] mb-6">Host Your Event at BRAVO</h2>
           <Link
-            href="/events"
+            href="/catering"
             className="inline-flex items-center gap-2 border border-[#fd850b]/50 bg-[#fd850b]/8 text-[#fd850b] px-7 py-3 text-xs font-black uppercase tracking-widest transition hover:bg-[#fd850b] hover:text-black"
           >
             <i className="fa-solid fa-calendar-star text-xs" />

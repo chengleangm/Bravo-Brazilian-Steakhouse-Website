@@ -11,7 +11,9 @@ export async function readBlobJson(blobName: string, localJsonPath: string): Pro
       const { list } = await import('@vercel/blob')
       const { blobs } = await list({ prefix: `config/${blobName}.json`, token })
       if (blobs.length > 0) {
-        const res = await fetch(blobs[0].url, { cache: 'no-store' })
+        // Add timestamp to bypass Vercel CDN cache (blob CDN caches aggressively)
+        const url = `${blobs[0].url}?t=${Date.now()}`
+        const res = await fetch(url, { cache: 'no-store' })
         if (res.ok) return res.json()
       }
     } catch {
@@ -33,6 +35,7 @@ export async function writeBlobJson(blobName: string, localJsonPath: string, bod
       addRandomSuffix: false,
       allowOverwrite: true,
       contentType: 'application/json',
+      cacheControlMaxAge: 0,
       token,
     })
     return
