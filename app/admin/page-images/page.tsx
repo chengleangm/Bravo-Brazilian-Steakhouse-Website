@@ -23,7 +23,7 @@ type PageImageKey = Exclude<keyof PageImages, 'homeHeroSlides'>
 type ImageMeta = {
   key: PageImageKey
   label: string
-  page: 'Home' | 'About' | 'Menu'
+  page: 'Home' | 'Our Story' | 'Menu'
   pageHref: string
   section: string
   bestSize: string
@@ -35,15 +35,15 @@ const META: ImageMeta[] = [
   { key: 'experience', label: 'Experience photo', page: 'Home', pageHref: '/', section: 'Grilling / experience section', bestSize: 'Landscape or square', icon: 'fa-fire-flame-curved' },
   { key: 'testimonialsBg', label: 'Reviews background', page: 'Home', pageHref: '/', section: 'Behind customer reviews', bestSize: 'Wide landscape', icon: 'fa-star' },
   { key: 'ctaImage', label: 'Booking photo', page: 'Home', pageHref: '/', section: 'Reserve your table section', bestSize: 'Wide landscape', icon: 'fa-calendar-check' },
-  { key: 'aboutHero', label: 'About page main photo', page: 'About', pageHref: '/about', section: 'Top of the About page', bestSize: 'Wide landscape', icon: 'fa-book-open' },
-  { key: 'aboutStory', label: 'Story photo', page: 'About', pageHref: '/about', section: 'Restaurant story section', bestSize: 'Portrait or square', icon: 'fa-scroll' },
-  { key: 'aboutChurrascaria', label: 'Churrascaria photo', page: 'About', pageHref: '/about', section: 'Brazilian dining section', bestSize: 'Landscape', icon: 'fa-drumstick-bite' },
-  { key: 'aboutTeamGroup', label: 'Team photo', page: 'About', pageHref: '/about', section: 'Team section', bestSize: 'Landscape group photo', icon: 'fa-users' },
-  { key: 'aboutCTA', label: 'About booking photo', page: 'About', pageHref: '/about', section: 'Bottom call-to-action', bestSize: 'Wide landscape', icon: 'fa-bell-concierge' },
+  { key: 'aboutHero', label: 'Our Story main photo', page: 'Our Story', pageHref: '/about', section: 'Top of the Our Story page', bestSize: 'Wide landscape', icon: 'fa-book-open' },
+  { key: 'aboutStory', label: 'Story photo', page: 'Our Story', pageHref: '/about', section: 'Restaurant story section', bestSize: 'Portrait or square', icon: 'fa-scroll' },
+  { key: 'aboutChurrascaria', label: 'Churrascaria photo', page: 'Our Story', pageHref: '/about', section: 'Brazilian dining section', bestSize: 'Landscape', icon: 'fa-drumstick-bite' },
+  { key: 'aboutTeamGroup', label: 'Team photo', page: 'Our Story', pageHref: '/about', section: 'Team section', bestSize: 'Landscape group photo', icon: 'fa-users' },
+  { key: 'aboutCTA', label: 'Our Story booking photo', page: 'Our Story', pageHref: '/about', section: 'Bottom call-to-action', bestSize: 'Wide landscape', icon: 'fa-bell-concierge' },
   { key: 'menuHero', label: 'Menu page main photo', page: 'Menu', pageHref: '/menu', section: 'Top of the Menu page', bestSize: 'Wide landscape', icon: 'fa-utensils' },
 ]
 
-const PAGES = ['Home', 'About', 'Menu', 'Gallery', 'Catering', 'Promotions'] as const
+const PAGES = ['Home', 'Our Story', 'Menu', 'Gallery', 'Catering', 'Promotions'] as const
 type PageTab = (typeof PAGES)[number]
 
 type ExtraHero = { heroImage: string; dirty: boolean }
@@ -344,49 +344,24 @@ export default function AdminPageImages() {
   const isMainDirty = dirty
   const isExtraDirty = (page: ExtraPage) => extraHeroes[page].dirty
 
+  const saveBtn = EXTRA_PAGES.includes(activePage as ExtraPage) ? (
+    <button type="button" onClick={() => handleExtraSave(activePage as ExtraPage)} disabled={saving || !isExtraDirty(activePage as ExtraPage)} className={btnPrimary}>
+      <i className="fa-solid fa-floppy-disk" /> {saving ? 'Saving…' : isExtraDirty(activePage as ExtraPage) ? 'Save' : 'Saved'}
+    </button>
+  ) : (
+    <button type="button" onClick={handleSave} disabled={saving || !isMainDirty} className={btnPrimary}>
+      <i className="fa-solid fa-floppy-disk" /> {saving ? 'Saving…' : isMainDirty ? 'Save' : 'Saved'}
+    </button>
+  )
+
   return (
-    <AdminLayout
-      title="Photos"
-      subtitle="Manage hero photos for every page"
-      action={
-        EXTRA_PAGES.includes(activePage as ExtraPage) ? (
-          <button
-            type="button"
-            onClick={() => handleExtraSave(activePage as ExtraPage)}
-            disabled={saving || !isExtraDirty(activePage as ExtraPage)}
-            className={btnPrimary}
-          >
-            {saving ? 'Saving...' : <><i className="fa-solid fa-floppy-disk" /> {isExtraDirty(activePage as ExtraPage) ? 'Save Changes' : 'Saved'}</>}
-          </button>
-        ) : (
-          <button type="button" onClick={handleSave} disabled={saving || !isMainDirty} className={btnPrimary}>
-            {saving ? 'Saving...' : <><i className="fa-solid fa-floppy-disk" /> {isMainDirty ? 'Save Changes' : 'Saved'}</>}
-          </button>
-        )
-      }
-    >
+    <AdminLayout title="Photos" subtitle="Pick a page tab, then upload or paste a URL" action={saveBtn}>
       {toast && <Toast msg={toast} onDone={() => setToast('')} />}
 
-      <div className="mx-auto max-w-6xl space-y-6 px-4 py-6 sm:px-6">
-        <section className="rounded-lg border border-[#D4A373]/15 bg-[#130c08] p-4 sm:p-5">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#fd850b]">Photo manager</p>
-              <h2 className="mt-1 text-xl font-black uppercase leading-tight text-[#FFF7ED] sm:text-2xl">
-                Pick a page, then replace the photo.
-              </h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#C7B8A8]">
-                Upload from the computer for normal changes. Use image links only when the photo is already hosted somewhere else.
-              </p>
-            </div>
-            <a href={activeHref} target="_blank" rel="noreferrer" className={btnSecondary}>
-              <i className="fa-solid fa-eye" /> View {activePage}
-            </a>
-          </div>
-        </section>
+      <div className="mx-auto max-w-5xl px-4 py-4 sm:px-6 space-y-4">
 
         {/* Page tabs */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           {PAGES.map(page => {
             const active = activePage === page
             const count = getTabCount(page)
@@ -395,32 +370,50 @@ export default function AdminPageImages() {
                 key={page}
                 type="button"
                 onClick={() => setActivePage(page)}
-                className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border px-4 py-2 text-sm font-black uppercase tracking-wide transition ${
+                className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-black uppercase tracking-wide transition ${
                   active
                     ? 'border-[#fd850b] bg-[#fd850b] text-black'
                     : 'border-[#D4A373]/25 bg-[#130c08] text-[#C7B8A8] hover:border-[#fd850b] hover:text-[#fd850b]'
                 }`}
               >
                 {page}
-                <span className={`rounded-full px-2 py-0.5 text-xs ${active ? 'bg-black/15 text-black' : 'bg-white/8 text-[#C7B8A8]'}`}>
+                <span className={`rounded-full px-1.5 py-0.5 text-[0.6rem] ${active ? 'bg-black/15 text-black' : 'bg-white/8 text-[#C7B8A8]'}`}>
                   {count}
                 </span>
               </button>
             )
           })}
+          <a href={activeHref} target="_blank" rel="noreferrer" className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-[#D4A373]/25 px-3 py-1.5 text-xs font-bold text-[#C7B8A8] transition hover:border-[#fd850b] hover:text-[#fd850b]">
+            <i className="fa-solid fa-eye" /> View live
+          </a>
         </div>
 
         {/* Home hero slideshow */}
         {activePage === 'Home' && (
-          <section className="overflow-hidden rounded-lg border border-[#D4A373]/15 bg-[#130c08]">
-            <div className="border-b border-[#D4A373]/10 p-4 sm:p-5">
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="overflow-hidden rounded-xl border border-[#D4A373]/15 bg-[#130c08]">
+            <div className="flex items-center justify-between border-b border-[#D4A373]/10 px-4 py-3">
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#fd850b]/15 text-[#fd850b]">
+                  <i className="fa-solid fa-film text-xs" />
+                </span>
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-[#fd850b]">Home hero slideshow</p>
-                  <h3 className="mt-1 text-lg font-black uppercase leading-tight text-[#FFF7ED]">Rotating background photos</h3>
-                  <p className="mt-2 max-w-2xl text-sm leading-6 text-[#C7B8A8]">
-                    These are the large photos behind the first home page section. The first slide is shown first.
-                  </p>
+                  <p className="text-xs font-black uppercase tracking-wider text-[#FFF7ED]">Hero Slideshow</p>
+                  <p className="text-[0.65rem] text-[#C7B8A8]">Rotating photos behind the home page hero</p>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <div className="flex gap-1.5">
+                  <input
+                    type="text"
+                    value={newSlideUrl}
+                    onChange={e => setNewSlideUrl(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && addHeroSlideUrl()}
+                    placeholder="Paste URL…"
+                    className="w-48 rounded-lg border border-[#D4A373]/25 bg-[#0d0905] px-3 py-1.5 text-xs text-[#FFF7ED] placeholder-[#C7B8A8]/40 focus:border-[#fd850b] focus:outline-none"
+                  />
+                  <button type="button" onClick={addHeroSlideUrl} className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#D4A373]/25 text-xs text-[#C7B8A8] hover:border-[#fd850b] hover:text-[#fd850b] transition-colors">
+                    <i className="fa-solid fa-plus" />
+                  </button>
                 </div>
                 <button
                   type="button"
@@ -428,214 +421,110 @@ export default function AdminPageImages() {
                   disabled={uploading === 'homeHeroSlides'}
                   className={btnPrimary}
                 >
-                  {uploading === 'homeHeroSlides'
-                    ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading...</>
-                    : <><i className="fa-solid fa-upload" /> Upload Slide</>
-                  }
+                  {uploading === 'homeHeroSlides' ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading…</> : <><i className="fa-solid fa-upload" /> Upload</>}
                 </button>
-                <input
-                  ref={slideFileRef}
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={e => {
-                    const file = e.target.files?.[0]
-                    if (file) handleHeroSlideUpload(file)
-                    e.target.value = ''
-                  }}
-                />
+                <input ref={slideFileRef} type="file" accept="image/*" className="hidden"
+                  onChange={e => { const f = e.target.files?.[0]; if (f) handleHeroSlideUpload(f); e.target.value = '' }} />
               </div>
             </div>
 
-            <div className="space-y-4 p-4 sm:p-5">
-              <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
-                <input
-                  type="text"
-                  value={newSlideUrl}
-                  onChange={e => setNewSlideUrl(e.target.value)}
-                  placeholder="Paste a hero slide image link"
-                  className={input}
-                />
-                <button type="button" onClick={addHeroSlideUrl} className={btnSecondary}>
-                  <i className="fa-solid fa-plus" /> Add Link
-                </button>
+            {images.homeHeroSlides.length === 0 ? (
+              <div className="flex h-32 items-center justify-center text-center text-[#C7B8A8]/50">
+                <div>
+                  <i className="fa-solid fa-images mb-2 block text-2xl" />
+                  <p className="text-xs font-bold uppercase tracking-wide">No slides — upload a photo or paste a URL above</p>
+                </div>
               </div>
-
-              {images.homeHeroSlides.length === 0 ? (
-                <div className="flex min-h-48 items-center justify-center rounded-lg border border-dashed border-[#D4A373]/20 bg-[#0d0905] text-center text-[#C7B8A8]/55">
-                  <div>
-                    <i className="fa-solid fa-images mb-3 block text-4xl" />
-                    <p className="text-sm font-black uppercase tracking-wide text-[#FFF7ED]">No hero slides yet</p>
-                    <p className="mt-1 text-sm">Upload a photo or paste an image link to start the slideshow.</p>
+            ) : (
+              <div className="grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3">
+                {images.homeHeroSlides.map((slide, index) => (
+                  <div key={`${slide}-${index}`} className="overflow-hidden rounded-lg border border-[#D4A373]/12 bg-[#0d0905]">
+                    <div className="relative aspect-[16/7] bg-black">
+                      {slide
+                        ? <img src={slide} alt={`Slide ${index + 1}`} className="absolute inset-0 h-full w-full object-cover" />
+                        : <div className="flex h-full items-center justify-center text-[#C7B8A8]/30"><i className="fa-solid fa-image text-xl" /></div>
+                      }
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                      <span className="absolute bottom-2 left-2 flex h-6 w-6 items-center justify-center rounded bg-[#fd850b] text-xs font-black text-black">
+                        {index + 1}
+                      </span>
+                      {index === 0 && (
+                        <span className="absolute right-2 top-2 rounded bg-[#fd850b]/90 px-1.5 py-0.5 text-[0.58rem] font-black uppercase tracking-wider text-black">First</span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-1.5 p-2">
+                      <button onClick={() => moveHeroSlide(index, -1)} disabled={index === 0}
+                        className="flex h-7 w-7 items-center justify-center rounded border border-[#D4A373]/20 text-[0.6rem] text-[#C7B8A8] hover:border-[#fd850b] hover:text-[#fd850b] disabled:opacity-25 transition-colors">
+                        <i className="fa-solid fa-arrow-up" />
+                      </button>
+                      <button onClick={() => moveHeroSlide(index, 1)} disabled={index === images.homeHeroSlides.length - 1}
+                        className="flex h-7 w-7 items-center justify-center rounded border border-[#D4A373]/20 text-[0.6rem] text-[#C7B8A8] hover:border-[#fd850b] hover:text-[#fd850b] disabled:opacity-25 transition-colors">
+                        <i className="fa-solid fa-arrow-down" />
+                      </button>
+                      <input type="text" value={slide} onChange={e => updateHeroSlide(index, e.target.value)}
+                        placeholder="Image URL" className="min-w-0 flex-1 rounded border border-[#D4A373]/20 bg-[#0d0905] px-2 py-1 text-[0.65rem] text-[#FFF7ED] focus:border-[#fd850b] focus:outline-none" />
+                      <button onClick={() => removeHeroSlide(index)}
+                        className="flex h-7 w-7 items-center justify-center rounded bg-red-900/20 text-[0.6rem] text-red-400 hover:bg-red-700 hover:text-white transition-colors">
+                        <i className="fa-solid fa-trash" />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <div className="grid gap-4 lg:grid-cols-2">
-                  {images.homeHeroSlides.map((slide, index) => (
-                    <article key={`${slide}-${index}`} className="overflow-hidden rounded-lg border border-[#D4A373]/12 bg-[#0d0905]">
-                      <div className="relative aspect-[16/9] bg-black">
-                        {slide ? (
-                          <img src={slide} alt={`Home hero slide ${index + 1}`} className="absolute inset-0 h-full w-full object-cover" />
-                        ) : (
-                          <div className="flex h-full items-center justify-center text-[#C7B8A8]/45">
-                            <i className="fa-solid fa-image text-3xl" />
-                          </div>
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
-                        <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between gap-3 p-4">
-                          <div>
-                            <p className="text-[0.62rem] font-black uppercase tracking-[0.18em] text-[#fd850b]">
-                              {index === 0 ? 'First slide' : `Slide ${index + 1}`}
-                            </p>
-                            <p className="mt-1 text-sm font-bold text-white">{index === 0 ? 'Shows first on page load' : 'Rotates after the first slide'}</p>
-                          </div>
-                          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#fd850b] text-sm font-black text-black">
-                            {index + 1}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3 p-4">
-                        <input
-                          type="text"
-                          value={slide}
-                          onChange={e => updateHeroSlide(index, e.target.value)}
-                          placeholder="Image URL"
-                          className={input}
-                        />
-                        <div className="flex flex-wrap gap-2">
-                          <button type="button" onClick={() => moveHeroSlide(index, -1)} disabled={index === 0} className={btnSecondary}>
-                            <i className="fa-solid fa-arrow-up" /> Earlier
-                          </button>
-                          <button type="button" onClick={() => moveHeroSlide(index, 1)} disabled={index === images.homeHeroSlides.length - 1} className={btnSecondary}>
-                            <i className="fa-solid fa-arrow-down" /> Later
-                          </button>
-                          <button type="button" onClick={() => removeHeroSlide(index)} className={btnDanger}>
-                            <i className="fa-solid fa-trash" /> Remove
-                          </button>
-                        </div>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              )}
-            </div>
-          </section>
+                ))}
+              </div>
+            )}
+          </div>
         )}
 
-        {/* Extra page hero sections (Gallery / Catering / Promotions) */}
+        {/* Extra page hero (Gallery / Catering / Promotions) */}
         {EXTRA_PAGES.includes(activePage as ExtraPage) && (() => {
           const page = activePage as ExtraPage
           const { heroImage, dirty: eDirty } = extraHeroes[page]
           const isUploading = uploading === `extra-${page}`
           return (
-            <section className="overflow-hidden rounded-lg border border-[#D4A373]/15 bg-[#130c08]">
-              <div className="border-b border-[#D4A373]/10 p-4 sm:p-5">
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                  <div>
-                    <p className="text-xs font-black uppercase tracking-[0.18em] text-[#fd850b]">{page} page</p>
-                    <h3 className="mt-1 text-lg font-black uppercase leading-tight text-[#FFF7ED]">Hero background photo</h3>
-                    <p className="mt-2 max-w-2xl text-sm leading-6 text-[#C7B8A8]">
-                      This is the large photo behind the top section of the {page} page.
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => extraFileRefs.current[page]?.click()}
-                      disabled={isUploading}
-                      className={btnPrimary}
-                    >
-                      {isUploading
-                        ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading...</>
-                        : <><i className="fa-solid fa-upload" /> Upload Photo</>
-                      }
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleExtraSave(page)}
-                      disabled={saving || !eDirty}
-                      className={btnSecondary}
-                    >
-                      {saving ? 'Saving...' : <><i className="fa-solid fa-floppy-disk" /> {eDirty ? 'Save' : 'Saved'}</>}
-                    </button>
-                  </div>
-                  <input
-                    ref={el => { extraFileRefs.current[page] = el }}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={e => {
-                      const file = e.target.files?.[0]
-                      if (file) handleExtraUpload(page, file)
-                      e.target.value = ''
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-4 p-4 sm:p-5">
-                {/* Preview */}
-                <div className="relative aspect-[16/5] overflow-hidden rounded-lg bg-[#0d0905]">
-                  {heroImage ? (
-                    <img src={heroImage} alt={`${page} hero`} className="absolute inset-0 h-full w-full object-cover" />
-                  ) : (
-                    <div className="flex h-full items-center justify-center text-center text-[#C7B8A8]/45">
-                      <div>
-                        <i className={`fa-solid ${EXTRA_ICON[page]} mb-2 block text-4xl`} />
-                        <span className="text-xs font-bold uppercase tracking-wide">No hero photo</span>
-                      </div>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
-                  <div className="absolute bottom-3 left-4">
-                    <p className="text-[0.62rem] font-black uppercase tracking-[0.18em] text-[#fd850b]">{page} hero</p>
-                    <p className="text-sm font-bold text-white">Shown at the top of the {page} page</p>
-                  </div>
-                </div>
-
-                {/* URL input */}
-                <div>
-                  <label className="mb-1.5 block text-xs font-black uppercase tracking-wide text-[#C7B8A8]">Image URL</label>
-                  <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
-                    <input
-                      type="text"
-                      value={heroImage}
-                      onChange={e => updateExtraHero(page, e.target.value)}
-                      placeholder="https://example.com/photo.jpg"
-                      className={input}
-                    />
-                    {heroImage && (
-                      <button type="button" onClick={() => updateExtraHero(page, '')} className={btnDanger}>
-                        <i className="fa-solid fa-trash" /> Clear
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between gap-3 border-t border-[#D4A373]/10 pt-3">
-                  <span className="truncate text-xs text-[#C7B8A8]/65">
-                    {heroImage ? heroImage.replace(/^https?:\/\//, '') : 'No image URL saved'}
+            <div className="overflow-hidden rounded-xl border border-[#D4A373]/15 bg-[#130c08]">
+              <div className="flex items-center justify-between border-b border-[#D4A373]/10 px-4 py-3">
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#fd850b]/15 text-[#fd850b]">
+                    <i className={`fa-solid ${EXTRA_ICON[page]} text-xs`} />
                   </span>
-                  {eDirty && (
-                    <button
-                      type="button"
-                      onClick={() => handleExtraSave(page)}
-                      disabled={saving}
-                      className={btnPrimary}
-                    >
-                      <i className="fa-solid fa-floppy-disk" /> Save Changes
+                  <p className="text-xs font-black uppercase tracking-wider text-[#FFF7ED]">{page} Hero Photo</p>
+                </div>
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => extraFileRefs.current[page]?.click()} disabled={isUploading} className={btnPrimary}>
+                    {isUploading ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading…</> : <><i className="fa-solid fa-upload" /> Upload</>}
+                  </button>
+                  <button type="button" onClick={() => handleExtraSave(page)} disabled={saving || !eDirty} className={btnSecondary}>
+                    <i className="fa-solid fa-floppy-disk" /> {saving ? 'Saving…' : eDirty ? 'Save' : 'Saved'}
+                  </button>
+                  <input ref={el => { extraFileRefs.current[page] = el }} type="file" accept="image/*" className="hidden"
+                    onChange={e => { const f = e.target.files?.[0]; if (f) handleExtraUpload(page, f); e.target.value = '' }} />
+                </div>
+              </div>
+              <div className="p-4 space-y-3">
+                <div className="relative aspect-[16/5] overflow-hidden rounded-lg bg-[#0d0905]">
+                  {heroImage
+                    ? <img src={heroImage} alt={`${page} hero`} className="absolute inset-0 h-full w-full object-cover" />
+                    : <div className="flex h-full items-center justify-center text-[#C7B8A8]/30 text-xs font-bold uppercase tracking-wide">No photo set</div>
+                  }
+                </div>
+                <div className="flex gap-2">
+                  <input type="text" value={heroImage} onChange={e => updateExtraHero(page, e.target.value)}
+                    placeholder="Paste image URL…"
+                    className="flex-1 rounded-lg border border-[#D4A373]/25 bg-[#0d0905] px-3 py-2 text-sm text-[#FFF7ED] placeholder-[#C7B8A8]/40 focus:border-[#fd850b] focus:outline-none" />
+                  {heroImage && (
+                    <button type="button" onClick={() => updateExtraHero(page, '')} className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-900/20 text-xs text-red-400 hover:bg-red-700 hover:text-white transition-colors">
+                      <i className="fa-solid fa-trash" />
                     </button>
                   )}
                 </div>
               </div>
-            </section>
+            </div>
           )
         })()}
 
-        {/* Main page image cards (Home / About / Menu) */}
+        {/* Main page image cards (Home / Our Story / Menu) */}
         {!EXTRA_PAGES.includes(activePage as ExtraPage) && (
-          <div className="grid gap-4 lg:grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {activeItems.map((item) => {
               const value = images[item.key]
               const isUploading = uploading === item.key
@@ -643,109 +532,62 @@ export default function AdminPageImages() {
               const isLogo = item.key === 'heroLogo'
 
               return (
-                <article key={item.key} className="overflow-hidden rounded-lg border border-[#D4A373]/15 bg-[#130c08]">
-                  <div className="relative aspect-[16/9] bg-[#0d0905]">
+                <article key={item.key} className="overflow-hidden rounded-xl border border-[#D4A373]/15 bg-[#130c08]">
+                  {/* Compact image preview */}
+                  <div className="relative aspect-[16/7] bg-[#0d0905]">
                     {value ? (
-                      <img
-                        src={value}
-                        alt={item.label}
-                        className={`absolute inset-0 h-full w-full ${isLogo ? 'object-contain p-8' : 'object-cover'}`}
-                      />
+                      <img src={value} alt={item.label}
+                        className={`absolute inset-0 h-full w-full ${isLogo ? 'object-contain p-4' : 'object-cover'}`} />
                     ) : (
-                      <div className="flex h-full items-center justify-center">
-                        <div className="text-center text-[#C7B8A8]/45">
-                          <i className="fa-solid fa-image mb-2 block text-3xl" />
-                          <span className="text-xs font-bold uppercase tracking-wide">No photo selected</span>
-                        </div>
+                      <div className="flex h-full items-center justify-center text-[#C7B8A8]/30">
+                        <i className="fa-solid fa-image text-2xl" />
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <div className="flex items-end justify-between gap-3">
-                        <div className="min-w-0">
-                          <p className="mb-1 text-[0.65rem] font-black uppercase tracking-[0.18em] text-[#fd850b]">{item.page}</p>
-                          <h3 className="truncate text-lg font-black uppercase leading-tight text-white">{item.label}</h3>
-                        </div>
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#fd850b] text-black">
-                          <i className={`fa-solid ${item.icon} text-sm`} />
-                        </span>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between gap-2 p-2.5">
+                      <div className="min-w-0">
+                        <p className="truncate text-xs font-black uppercase leading-tight text-white">{item.label}</p>
+                        <p className="text-[0.6rem] text-[#C7B8A8]/70">{item.section}</p>
                       </div>
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#fd850b] text-black">
+                        <i className={`fa-solid ${item.icon} text-[0.6rem]`} />
+                      </span>
                     </div>
                   </div>
 
-                  <div className="space-y-4 p-4">
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <div className="rounded-lg border border-[#D4A373]/10 bg-[#0d0905] p-3">
-                        <p className="text-[0.62rem] font-black uppercase tracking-wide text-[#C7B8A8]/60">Shows on</p>
-                        <p className="mt-1 text-sm font-bold text-[#FFF7ED]">{item.section}</p>
-                      </div>
-                      <div className="rounded-lg border border-[#D4A373]/10 bg-[#0d0905] p-3">
-                        <p className="text-[0.62rem] font-black uppercase tracking-wide text-[#C7B8A8]/60">Best photo shape</p>
-                        <p className="mt-1 text-sm font-bold text-[#FFF7ED]">{item.bestSize}</p>
-                      </div>
-                    </div>
-
-                    <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
-                      <button
-                        type="button"
-                        onClick={() => fileRefs.current[item.key]?.click()}
-                        disabled={isUploading}
-                        className={`${btnPrimary} min-h-11`}
-                      >
-                        {isUploading
-                          ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading...</>
-                          : <><i className="fa-solid fa-upload" /> Upload New Photo</>
-                        }
+                  {/* Actions */}
+                  <div className="p-3 space-y-2">
+                    <div className="flex gap-2">
+                      <button type="button" onClick={() => fileRefs.current[item.key]?.click()} disabled={isUploading}
+                        className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-[#fd850b] py-2 text-xs font-black uppercase tracking-wide text-black transition hover:bg-[#ff9a2e] disabled:opacity-50">
+                        {isUploading ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading…</> : <><i className="fa-solid fa-upload" /> Upload</>}
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => setEditingUrl(showUrl ? null : item.key)}
-                        className={`${btnSecondary} min-h-11`}
-                      >
-                        <i className="fa-solid fa-link" /> Image Link
+                      <button type="button" onClick={() => setEditingUrl(showUrl ? null : item.key)}
+                        className={`flex h-8 w-8 items-center justify-center rounded-lg border text-xs transition-colors ${showUrl ? 'border-[#fd850b] text-[#fd850b]' : 'border-[#D4A373]/25 text-[#C7B8A8] hover:border-[#fd850b] hover:text-[#fd850b]'}`}>
+                        <i className="fa-solid fa-link" />
                       </button>
+                      {value && (
+                        <button type="button" onClick={() => updateImage(item.key, '')}
+                          className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-900/20 text-xs text-red-400 hover:bg-red-700 hover:text-white transition-colors">
+                          <i className="fa-solid fa-trash" />
+                        </button>
+                      )}
+                      {isLogo && !value && (
+                        <button type="button" onClick={() => updateImage(item.key, '/logo.png')}
+                          className="flex h-8 items-center gap-1 rounded-lg border border-[#D4A373]/25 px-2 text-[0.65rem] text-[#C7B8A8] hover:border-[#fd850b] hover:text-[#fd850b] transition-colors">
+                          <i className="fa-solid fa-rotate-left" /> Default
+                        </button>
+                      )}
                     </div>
-
-                    <input
-                      ref={el => { fileRefs.current[item.key] = el }}
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={e => {
-                        const file = e.target.files?.[0]
-                        if (file) handleUpload(item.key, file)
-                        e.target.value = ''
-                      }}
-                    />
 
                     {showUrl && (
-                      <div className="rounded-lg border border-[#D4A373]/12 bg-[#0d0905] p-3">
-                        <label className="mb-1.5 block text-xs font-black uppercase tracking-wide text-[#C7B8A8]">Image URL</label>
-                        <input
-                          type="text"
-                          value={value}
-                          onChange={e => updateImage(item.key, e.target.value)}
-                          placeholder="https://example.com/photo.jpg"
-                          className={input}
-                        />
-                      </div>
+                      <input type="text" value={value} onChange={e => updateImage(item.key, e.target.value)}
+                        placeholder="https://…"
+                        className="w-full rounded-lg border border-[#D4A373]/25 bg-[#0d0905] px-2.5 py-1.5 text-xs text-[#FFF7ED] placeholder-[#C7B8A8]/40 focus:border-[#fd850b] focus:outline-none" />
                     )}
 
-                    <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#D4A373]/10 pt-3">
-                      <span className="truncate text-xs text-[#C7B8A8]/65">
-                        {value ? value.replace(/^https?:\/\//, '') : 'No image URL saved'}
-                      </span>
-                      {isLogo && !value && (
-                        <button type="button" onClick={() => updateImage(item.key, '/logo.png')} className={btnSecondary}>
-                          <i className="fa-solid fa-rotate-left" /> Use Old Logo
-                        </button>
-                      )}
-                      {value && (
-                        <button type="button" onClick={() => updateImage(item.key, '')} className={btnDanger}>
-                          <i className="fa-solid fa-trash" /> Clear
-                        </button>
-                      )}
-                    </div>
+                    <input ref={el => { fileRefs.current[item.key] = el }} type="file" accept="image/*" className="hidden"
+                      onChange={e => { const f = e.target.files?.[0]; if (f) handleUpload(item.key, f); e.target.value = '' }} />
                   </div>
                 </article>
               )
@@ -753,22 +595,9 @@ export default function AdminPageImages() {
           </div>
         )}
 
-        <div className="flex items-center justify-end gap-3 pb-6">
-          {EXTRA_PAGES.includes(activePage as ExtraPage) ? (
-            <>
-              {extraHeroes[activePage as ExtraPage].dirty && <span className="text-xs font-bold text-[#C7B8A8]">Unsaved changes</span>}
-              <button type="button" onClick={() => handleExtraSave(activePage as ExtraPage)} disabled={saving || !extraHeroes[activePage as ExtraPage].dirty} className={btnPrimary}>
-                {saving ? 'Saving...' : <><i className="fa-solid fa-floppy-disk" /> {extraHeroes[activePage as ExtraPage].dirty ? 'Save Changes' : 'Saved'}</>}
-              </button>
-            </>
-          ) : (
-            <>
-              {dirty && <span className="text-xs font-bold text-[#C7B8A8]">Unsaved changes</span>}
-              <button type="button" onClick={handleSave} disabled={saving || !dirty} className={btnPrimary}>
-                {saving ? 'Saving...' : <><i className="fa-solid fa-floppy-disk" /> {dirty ? 'Save Changes' : 'Saved'}</>}
-              </button>
-            </>
-          )}
+        {/* Bottom save */}
+        <div className="flex justify-end pb-4">
+          {saveBtn}
         </div>
       </div>
     </AdminLayout>

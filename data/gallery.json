@@ -1,18 +1,174 @@
 {
   "heroImage": "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=2000&q=90",
   "images": [
-    { "id": 1, "src": "https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=1000&q=90", "category": "food", "alt": "Brazilian BBQ steak platter", "featured": true },
-    { "id": 2, "src": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1000&q=90", "category": "grill", "alt": "Skewers of grilled meat", "featured": false },
-    { "id": 3, "src": "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1000&q=90", "category": "food", "alt": "Brazilian buffet dishes", "featured": false },
-    { "id": 4, "src": "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1000&q=90", "category": "interior", "alt": "Warm steakhouse dining room", "featured": true },
-    { "id": 5, "src": "https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=1000&q=90", "category": "food", "alt": "Brazilian grill plate with sides", "featured": false },
-    { "id": 6, "src": "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=90", "category": "interior", "alt": "Restaurant bar seating", "featured": false },
-    { "id": 7, "src": "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=1000&q=90", "category": "grill", "alt": "Charred pork ribs", "featured": false },
-    { "id": 8, "src": "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1000&q=90", "category": "events", "alt": "Guests dining together", "featured": true },
-    { "id": 9, "src": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=1000&q=90", "category": "food", "alt": "Grilled chicken served hot", "featured": false },
-    { "id": 10, "src": "https://images.unsplash.com/photo-1504973960431-1c467e159aa4?auto=format&fit=crop&w=1000&q=90", "category": "grill", "alt": "Steak cooking over flame", "featured": false },
-    { "id": 11, "src": "https://images.unsplash.com/photo-1559329007-40df8a9345d8?auto=format&fit=crop&w=1000&q=90", "category": "interior", "alt": "Private dining area", "featured": false },
-    { "id": 12, "src": "https://images.unsplash.com/photo-1519671282429-b44660ead0a7?auto=format&fit=crop&w=1000&q=90", "category": "events", "alt": "Celebration table setup", "featured": false }
+    {
+      "id": 1782848602232,
+      "src": "/gallery/1782848602225-photo_2026-06-30_21-30-11.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_21-30-11",
+      "featured": false
+    },
+    {
+      "id": 1782848602279,
+      "src": "/gallery/1782848602269-photo_2026-06-30_21-30-07.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_21-30-07",
+      "featured": false
+    },
+    {
+      "id": 1782848602329,
+      "src": "/gallery/1782848602320-photo_2026-06-30_21-30-01.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_21-30-01",
+      "featured": false
+    },
+    {
+      "id": 1782848602378,
+      "src": "/gallery/1782848602365-photo_2026-06-30_21-29-57.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_21-29-57",
+      "featured": false
+    },
+    {
+      "id": 1782848602427,
+      "src": "/gallery/1782848602416-photo_2026-06-30_21-29-53.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_21-29-53",
+      "featured": false
+    },
+    {
+      "id": 1782848602470,
+      "src": "/gallery/1782848602456-photo_2026-06-30_21-29-49.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_21-29-49",
+      "featured": false
+    },
+    {
+      "id": 1782848602522,
+      "src": "/gallery/1782848602507-photo_2026-06-30_21-29-45.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_21-29-45",
+      "featured": false
+    },
+    {
+      "id": 1782848602578,
+      "src": "/gallery/1782848602562-photo_2026-06-30_21-29-39.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_21-29-39",
+      "featured": false
+    },
+    {
+      "id": 1782848602627,
+      "src": "/gallery/1782848602611-photo_2026-06-30_21-29-34.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_21-29-34",
+      "featured": false
+    },
+    {
+      "id": 1782848602677,
+      "src": "/gallery/1782848602657-photo_2026-06-30_21-29-28.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_21-29-28",
+      "featured": false
+    },
+    {
+      "id": 1782848602725,
+      "src": "/gallery/1782848602708-photo_2026-06-30_21-29-22.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_21-29-22",
+      "featured": false
+    },
+    {
+      "id": 1782848602786,
+      "src": "/gallery/1782848602762-photo_2026-06-30_21-29-17.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_21-29-17",
+      "featured": false
+    },
+    {
+      "id": 1782848602844,
+      "src": "/gallery/1782848602823-photo_2026-06-30_21-29-13.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_21-29-13",
+      "featured": false
+    },
+    {
+      "id": 1782848602906,
+      "src": "/gallery/1782848602882-photo_2024-10-01_14-14-10.jpg",
+      "category": "food",
+      "alt": "photo_2024-10-01_14-14-10",
+      "featured": false
+    },
+    {
+      "id": 1782848602960,
+      "src": "/gallery/1782848602937-photo_2024-10-01_14-14-20.jpg",
+      "category": "food",
+      "alt": "photo_2024-10-01_14-14-20",
+      "featured": false
+    },
+    {
+      "id": 1782848603019,
+      "src": "/gallery/1782848602995-photo_2026-06-30_20-45-16.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_20-45-16",
+      "featured": false
+    },
+    {
+      "id": 1782848603070,
+      "src": "/gallery/1782848603044-photo_2026-06-30_20-44-56.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_20-44-56",
+      "featured": false
+    },
+    {
+      "id": 1782848603120,
+      "src": "/gallery/1782848603093-photo_2026-06-30_18-27-37.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_18-27-37",
+      "featured": false
+    },
+    {
+      "id": 1782848603164,
+      "src": "/gallery/1782848603140-photo_2026-06-30_19-08-35.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-30_19-08-35",
+      "featured": false
+    },
+    {
+      "id": 1782848603217,
+      "src": "/gallery/1782848603189-photo_2026-06-23_16-11-38.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-23_16-11-38",
+      "featured": false
+    },
+    {
+      "id": 1782848603263,
+      "src": "/gallery/1782848603235-photo_2026-06-23_16-07-31.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-23_16-07-31",
+      "featured": false
+    },
+    {
+      "id": 1782848603311,
+      "src": "/gallery/1782848603280-569645454_122187706784365279_6669061733131528025_n.jpg",
+      "category": "food",
+      "alt": "569645454_122187706784365279_6669061733131528025_n",
+      "featured": false
+    },
+    {
+      "id": 1782848603366,
+      "src": "/gallery/1782848603337-eyJidWNrZXQiOiJ1dGEtaW1hZ2VzIiwia2V5IjoicGxhY2VfaW1nLzdIanRqQ0hzUzR1akYwTkdMQ1U5M2ciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjY0MCwiaGVpZ2h0Ijo2NDAsImZpdCI6Imluc2lkZSJ9LCJyb3RhdGUiOm51bGwsInRvRm9ybWF0IjogInd.webp",
+      "category": "food",
+      "alt": "eyJidWNrZXQiOiJ1dGEtaW1hZ2VzIiwia2V5IjoicGxhY2VfaW1nLzdIanRqQ0hzUzR1akYwTkdMQ1U5M2ciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjY0MCwiaGVpZ2h0Ijo2NDAsImZpdCI6Imluc2lkZSJ9LCJyb3RhdGUiOm51bGwsInRvRm9ybWF0IjogInd",
+      "featured": false
+    },
+    {
+      "id": 1782848603413,
+      "src": "/gallery/1782848603379-photo_2026-06-29_13-09-41.jpg",
+      "category": "food",
+      "alt": "photo_2026-06-29_13-09-41",
+      "featured": false
+    }
   ],
   "stories": [
     {

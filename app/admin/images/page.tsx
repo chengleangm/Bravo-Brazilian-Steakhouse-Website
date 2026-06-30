@@ -9,6 +9,9 @@ type SiteImagesData = { stripImages: StripImage[]; dishes: Dish[] }
 
 const BLANK_DISH: Dish = { title: '', description: '', price: '', image: '' }
 
+const card = 'overflow-hidden rounded-xl border border-[#D4A373]/15 bg-[#130c08]'
+const cardHead = 'flex items-center justify-between border-b border-[#D4A373]/10 px-3 py-2'
+
 export default function AdminImagesPage() {
   const [data, setData] = useState<SiteImagesData | null>(null)
   const [saving, setSaving] = useState(false)
@@ -50,7 +53,6 @@ export default function AdminImagesPage() {
     finally { setUploading(false) }
   }
 
-  // ── Strip ──
   function openStripAdd() { setStripModal({ open: true, idx: null, val: { src: '', alt: 'Bravo Brazilian Steakhouse' } }) }
   function openStripEdit(i: number) { if (data) setStripModal({ open: true, idx: i, val: { ...data.stripImages[i] } }) }
   function saveStrip() {
@@ -74,7 +76,6 @@ export default function AdminImagesPage() {
     save({ ...data, stripImages: imgs })
   }
 
-  // ── Dishes ──
   function openDishAdd() { setDishModal({ open: true, idx: null, val: { ...BLANK_DISH } }) }
   function openDishEdit(i: number) { if (data) setDishModal({ open: true, idx: i, val: { ...data.dishes[i] } }) }
   function saveDish() {
@@ -91,91 +92,99 @@ export default function AdminImagesPage() {
   }
 
   if (!data) return (
-    <AdminLayout title="Site Images">
+    <AdminLayout title="Home Media">
       <div className="flex items-center justify-center h-64 text-[#C7B8A8]"><i className="fa-solid fa-spinner fa-spin mr-2" /> Loading…</div>
     </AdminLayout>
   )
 
   return (
-    <AdminLayout title="Site Images" subtitle="Home page photo strip and featured dishes">
+    <AdminLayout title="Home Media">
       {toast && <Toast msg={toast} onDone={() => setToast('')} />}
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 space-y-8">
+      <div className="mx-auto max-w-5xl px-4 py-4 sm:px-5 grid grid-cols-1 gap-3 lg:grid-cols-[2fr_3fr]">
 
         {/* ── Photo Strip ── */}
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <p className="font-black text-sm uppercase tracking-widest text-[#FFF7ED]">Photo Strip</p>
-              <p className="text-[#C7B8A8] text-xs mt-0.5">{data.stripImages.length} images · full-width strip on the home page</p>
-            </div>
-            <button onClick={openStripAdd} className={btnPrimary}><i className="fa-solid fa-plus" /> Add Image</button>
-          </div>
-
-          {data.stripImages.length === 0 && (
-            <div className="border-2 border-dashed border-[#D4A373]/20 rounded-2xl py-12 text-center text-[#C7B8A8]">
-              <i className="fa-solid fa-photo-film text-3xl mb-3 block text-[#C7B8A8]/30" />
-              No strip images yet.
-            </div>
-          )}
-
-          <div className="space-y-2">
-            {data.stripImages.map((img, i) => (
-              <div key={i} className="flex items-center gap-3 bg-[#130c08] border border-[#D4A373]/12 rounded-xl px-4 py-3">
-                <img src={img.src} alt={img.alt} className="w-20 h-12 object-cover rounded-lg border border-[#D4A373]/15 shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-[#FFF7ED] truncate">{img.alt}</p>
-                  <p className="text-[0.65rem] text-[#C7B8A8] truncate mt-0.5">{img.src}</p>
-                </div>
-                <div className="flex gap-1.5 shrink-0">
-                  <button onClick={() => moveStrip(i, -1)} disabled={i === 0} className="w-8 h-8 flex items-center justify-center bg-[#D4A373]/10 text-[#C7B8A8] rounded-lg text-xs hover:bg-[#D4A373]/20 disabled:opacity-30 transition-colors" title="Move up">
-                    <i className="fa-solid fa-arrow-up" />
-                  </button>
-                  <button onClick={() => moveStrip(i, 1)} disabled={i === data.stripImages.length - 1} className="w-8 h-8 flex items-center justify-center bg-[#D4A373]/10 text-[#C7B8A8] rounded-lg text-xs hover:bg-[#D4A373]/20 disabled:opacity-30 transition-colors" title="Move down">
-                    <i className="fa-solid fa-arrow-down" />
-                  </button>
-                  <button onClick={() => openStripEdit(i)} className="px-3 py-1.5 bg-[#D4A373]/12 text-[#C7B8A8] rounded-lg text-xs font-bold hover:bg-[#fd850b]/15 hover:text-[#fd850b] transition-colors">Edit</button>
-                  <button onClick={() => deleteStrip(i)} className="px-3 py-1.5 bg-red-900/20 text-red-400 rounded-lg text-xs font-bold hover:bg-red-700 hover:text-white transition-colors">Delete</button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── Dishes ── */}
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <p className="font-black text-sm uppercase tracking-widest text-[#FFF7ED]">Featured Dishes</p>
-              <p className="text-[#C7B8A8] text-xs mt-0.5">{data.dishes.length} dishes · shown in the home page dishes section</p>
-            </div>
-            <button onClick={openDishAdd} className={btnPrimary}><i className="fa-solid fa-plus" /> Add Dish</button>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {data.dishes.map((dish, i) => (
-              <div key={i} className="bg-[#130c08] border border-[#D4A373]/12 rounded-xl overflow-hidden hover:border-[#fd850b]/25 transition-colors">
-                <div className="relative aspect-[4/3] bg-[#0d0905]">
-                  {dish.image ? <img src={dish.image} alt={dish.title} className="absolute inset-0 w-full h-full object-cover" /> : <div className="flex h-full items-center justify-center text-[#C7B8A8]/30 text-sm">No image</div>}
-                </div>
-                <div className="p-4">
-                  <p className="font-black text-sm uppercase text-[#FFF7ED]">{dish.title}</p>
-                  <p className="text-[#C7B8A8] text-xs mt-1 leading-5 line-clamp-2">{dish.description}</p>
-                  <p className="text-[#ffd029] font-black text-sm mt-2">{dish.price}</p>
-                  <div className="flex gap-2 mt-3">
-                    <button onClick={() => openDishEdit(i)} className="flex-1 py-2 bg-[#D4A373]/12 text-[#C7B8A8] rounded-lg text-xs font-bold hover:bg-[#fd850b]/15 hover:text-[#fd850b] transition-colors">Edit</button>
-                    <button onClick={() => deleteDish(i)} className="px-3 py-2 bg-red-900/20 text-red-400 rounded-lg text-xs font-bold hover:bg-red-700 hover:text-white transition-colors"><i className="fa-solid fa-trash-can" /></button>
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            <button onClick={openDishAdd} className="aspect-[4/3] border-2 border-dashed border-[#D4A373]/20 rounded-xl flex flex-col items-center justify-center gap-2 text-[#C7B8A8] hover:border-[#fd850b] hover:text-[#fd850b] transition-colors">
-              <i className="fa-solid fa-plus text-2xl" />
-              <span className="text-xs font-black uppercase tracking-wider">Add Dish</span>
+        <div className={`${card} flex flex-col`}>
+          <div className={cardHead}>
+            <span className="text-[0.65rem] font-black uppercase tracking-wider text-[#fd850b]">
+              <i className="fa-solid fa-film mr-1.5 opacity-60" />Photo Strip
+              <span className="ml-1.5 font-normal text-[#C7B8A8]/60">{data.stripImages.length}</span>
+            </span>
+            <button onClick={openStripAdd} className="flex h-6 w-6 items-center justify-center rounded-md bg-[#fd850b]/15 text-[#fd850b] text-xs hover:bg-[#fd850b]/30 transition-colors" title="Add image">
+              <i className="fa-solid fa-plus" />
             </button>
           </div>
+
+          <div className="flex-1 p-2 space-y-1.5">
+            {data.stripImages.length === 0 && (
+              <div className="py-10 text-center text-xs text-[#C7B8A8]/40">No strip images yet</div>
+            )}
+            {data.stripImages.map((img, i) => (
+              <div key={i} className="flex items-center gap-2 rounded-lg bg-[#0d0905] px-2.5 py-2">
+                <img src={img.src} alt={img.alt} className="w-14 h-9 object-cover rounded shrink-0 border border-[#D4A373]/10" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-[0.7rem] font-bold text-[#FFF7ED] truncate">{img.alt}</p>
+                  <p className="text-[0.6rem] text-[#C7B8A8]/50 truncate">{img.src.split('/').pop()}</p>
+                </div>
+                <div className="flex gap-1 shrink-0">
+                  <button onClick={() => moveStrip(i, -1)} disabled={i === 0} className="h-6 w-6 flex items-center justify-center rounded bg-[#D4A373]/10 text-[#C7B8A8] text-[0.6rem] hover:bg-[#D4A373]/20 disabled:opacity-30 transition-colors">
+                    <i className="fa-solid fa-arrow-up" />
+                  </button>
+                  <button onClick={() => moveStrip(i, 1)} disabled={i === data.stripImages.length - 1} className="h-6 w-6 flex items-center justify-center rounded bg-[#D4A373]/10 text-[#C7B8A8] text-[0.6rem] hover:bg-[#D4A373]/20 disabled:opacity-30 transition-colors">
+                    <i className="fa-solid fa-arrow-down" />
+                  </button>
+                  <button onClick={() => openStripEdit(i)} className="h-6 px-2 flex items-center rounded bg-[#D4A373]/10 text-[#C7B8A8] text-[0.6rem] font-bold hover:bg-[#fd850b]/15 hover:text-[#fd850b] transition-colors">
+                    Edit
+                  </button>
+                  <button onClick={() => deleteStrip(i)} className="h-6 w-6 flex items-center justify-center rounded bg-red-900/20 text-red-400 text-[0.6rem] hover:bg-red-700 hover:text-white transition-colors">
+                    <i className="fa-solid fa-trash" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
+
+        {/* ── Featured Dishes ── */}
+        <div className={`${card} flex flex-col`}>
+          <div className={cardHead}>
+            <span className="text-[0.65rem] font-black uppercase tracking-wider text-[#fd850b]">
+              <i className="fa-solid fa-utensils mr-1.5 opacity-60" />Featured Dishes
+              <span className="ml-1.5 font-normal text-[#C7B8A8]/60">{data.dishes.length}</span>
+            </span>
+            <button onClick={openDishAdd} className="flex h-6 w-6 items-center justify-center rounded-md bg-[#fd850b]/15 text-[#fd850b] text-xs hover:bg-[#fd850b]/30 transition-colors" title="Add dish">
+              <i className="fa-solid fa-plus" />
+            </button>
+          </div>
+
+          <div className="flex-1 p-2">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {data.dishes.map((dish, i) => (
+                <div key={i} className="flex flex-col rounded-xl overflow-hidden bg-[#0d0905] border border-[#D4A373]/10 hover:border-[#fd850b]/20 transition-colors">
+                  <div className="relative aspect-[4/3]">
+                    {dish.image
+                      ? <img src={dish.image} alt={dish.title} className="absolute inset-0 w-full h-full object-cover" />
+                      : <div className="flex h-full items-center justify-center text-[#C7B8A8]/30 text-[0.6rem]">No image</div>
+                    }
+                  </div>
+                  <div className="flex flex-col flex-1 p-2">
+                    <p className="text-[0.7rem] font-black uppercase text-[#FFF7ED] leading-tight line-clamp-1">{dish.title}</p>
+                    <p className="text-[#ffd029] font-black text-[0.7rem] mt-0.5">{dish.price}</p>
+                    <div className="flex gap-1 mt-auto pt-1.5">
+                      <button onClick={() => openDishEdit(i)} className="flex-1 py-1 rounded bg-[#D4A373]/12 text-[#C7B8A8] text-[0.6rem] font-bold hover:bg-[#fd850b]/15 hover:text-[#fd850b] transition-colors">Edit</button>
+                      <button onClick={() => deleteDish(i)} className="px-2 py-1 rounded bg-red-900/20 text-red-400 text-[0.6rem] hover:bg-red-700 hover:text-white transition-colors"><i className="fa-solid fa-trash-can" /></button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <button onClick={openDishAdd} className="aspect-[4/3] border-2 border-dashed border-[#D4A373]/15 rounded-xl flex flex-col items-center justify-center gap-1 text-[#C7B8A8]/40 hover:border-[#fd850b] hover:text-[#fd850b] transition-colors">
+                <i className="fa-solid fa-plus text-lg" />
+                <span className="text-[0.6rem] font-black uppercase tracking-wider">Add</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       {/* Strip Modal */}

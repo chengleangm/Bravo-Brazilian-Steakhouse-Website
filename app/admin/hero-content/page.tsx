@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { AdminLayout, Toast, input, btnPrimary, btnSecondary } from '../components/AdminLayout'
+import { AdminLayout, Toast, btnPrimary } from '../components/AdminLayout'
 
 type Stat = { value: string; label: string }
 
@@ -29,9 +29,10 @@ const DEFAULT: HeroContent = {
   btn2Href: '/contact#reservation',
 }
 
-const fieldClass = input
-const label = 'block text-[0.68rem] font-black uppercase tracking-widest text-[#C7B8A8] mb-1.5'
-const card = 'bg-[#130c08] border border-[#D4A373]/12 rounded-2xl p-5 space-y-4'
+const inp = 'w-full rounded-lg border border-[#D4A373]/25 bg-[#0d0905] px-2.5 py-1.5 text-xs text-[#FFF7ED] placeholder-[#C7B8A8]/40 transition-colors focus:border-[#fd850b] focus:outline-none focus:ring-1 focus:ring-[#fd850b]/20'
+const lbl = 'mb-0.5 block text-[0.6rem] font-black uppercase tracking-wider text-[#C7B8A8]/70'
+const card = 'overflow-hidden rounded-xl border border-[#D4A373]/15 bg-[#130c08]'
+const cardHead = 'flex items-center justify-between border-b border-[#D4A373]/10 px-3 py-2'
 
 export default function AdminHeroContent() {
   const [data, setData] = useState<HeroContent>(DEFAULT)
@@ -52,14 +53,6 @@ export default function AdminHeroContent() {
   function setStat(i: number, field: keyof Stat, val: string) {
     const stats = data.stats.map((s, idx) => idx === i ? { ...s, [field]: val } : s)
     set('stats', stats)
-  }
-
-  function addStat() {
-    set('stats', [...data.stats, { value: '', label: '' }])
-  }
-
-  function removeStat(i: number) {
-    set('stats', data.stats.filter((_, idx) => idx !== i))
   }
 
   async function handleSave() {
@@ -85,7 +78,6 @@ export default function AdminHeroContent() {
   return (
     <AdminLayout
       title="Hero Content"
-      subtitle="Edit the home page hero text, stats, and buttons"
       action={
         <button onClick={handleSave} disabled={saving} className={btnPrimary}>
           {saving ? 'Saving…' : <><i className="fa-solid fa-floppy-disk mr-1" /> Save</>}
@@ -94,131 +86,139 @@ export default function AdminHeroContent() {
     >
       {toast && <Toast msg={toast} onDone={() => setToast('')} />}
 
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 py-6 space-y-6">
+      <div className="mx-auto max-w-5xl px-4 py-4 sm:px-5">
 
-        {/* Live preview strip */}
-        <div className="rounded-2xl overflow-hidden border border-[#D4A373]/12 bg-[#120807] px-6 py-8 text-[#FFF7ED]">
-          <p className="text-[0.6rem] font-bold uppercase tracking-[0.25em] text-[#fd850b] mb-2">{data.tagline}</p>
-          <p className="font-black text-lg leading-snug mb-3">{data.subtitle}</p>
-          <div className="flex gap-5 mb-4">
-            {data.stats.map((s, i) => (
-              <div key={i}>
-                <p className="font-black text-lg text-[#fd850b]">{s.value}</p>
-                <p className="text-[0.6rem] uppercase tracking-widest text-[#C7B8A8]">{s.label}</p>
-              </div>
-            ))}
-          </div>
-          <div className="flex gap-3">
-            <span className="bg-[#fd850b] text-black px-4 py-1.5 text-xs font-black uppercase">{data.btn1Label}</span>
-            <span className="border border-white/40 text-white px-4 py-1.5 text-xs font-black uppercase">{data.btn2Label}</span>
+        {/* Compact horizontal preview */}
+        <div className="mb-3 rounded-xl border border-[#D4A373]/12 bg-[#120807] px-4 py-3 text-[#FFF7ED]">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <div className="min-w-0">
+              <p className="text-[0.6rem] font-bold uppercase tracking-widest text-[#fd850b]">{data.tagline || '—'}</p>
+              <p className="text-xs font-black leading-snug">{data.subtitle || '—'}</p>
+            </div>
+            <div className="flex gap-4 shrink-0">
+              {data.stats.map((s, i) => (
+                <div key={i} className="text-center">
+                  <p className="text-xs font-black text-[#fd850b]">{s.value}</p>
+                  <p className="text-[0.55rem] uppercase tracking-widest text-[#C7B8A8]">{s.label}</p>
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-2 shrink-0">
+              <span className="bg-[#fd850b] text-black px-3 py-1 text-[0.6rem] font-black uppercase">{data.btn1Label}</span>
+              <span className="border border-white/40 text-white px-3 py-1 text-[0.6rem] font-black uppercase">{data.btn2Label}</span>
+            </div>
           </div>
         </div>
 
-        {/* Tagline */}
-        <div className={card}>
-          <p className="text-xs font-black uppercase tracking-widest text-[#fd850b]">Tagline</p>
-          <div>
-            <label className={label}>Top line (above logo)</label>
-            <input
-              type="text"
-              value={data.tagline}
-              onChange={e => set('tagline', e.target.value)}
-              placeholder="Phnom Penh · Est. 2024"
-              className={fieldClass}
-            />
-          </div>
-        </div>
+        {/* 2-column grid */}
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
 
-        {/* Subtitle */}
-        <div className={card}>
-          <p className="text-xs font-black uppercase tracking-widest text-[#fd850b]">Subtitle</p>
-          <div>
-            <label className={label}>Text below logo</label>
-            <textarea
-              value={data.subtitle}
-              onChange={e => set('subtitle', e.target.value)}
-              rows={2}
-              className={`${fieldClass} resize-none`}
-            />
-          </div>
-        </div>
-
-        {/* Stats */}
-        <div className={card}>
-          <div className="flex items-center justify-between">
-            <p className="text-xs font-black uppercase tracking-widest text-[#fd850b]">Stats</p>
-            <button onClick={addStat} className={btnSecondary}>
-              <i className="fa-solid fa-plus mr-1" /> Add stat
-            </button>
-          </div>
+          {/* Left: Tagline + Subtitle + Buttons */}
           <div className="space-y-3">
-            {data.stats.map((s, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <div className="w-24">
-                  <label className={label}>Value</label>
-                  <input
-                    type="text"
-                    value={s.value}
-                    onChange={e => setStat(i, 'value', e.target.value)}
-                    placeholder="15+"
-                    className={fieldClass}
-                  />
-                </div>
-                <div className="flex-1">
-                  <label className={label}>Label</label>
-                  <input
-                    type="text"
-                    value={s.label}
-                    onChange={e => setStat(i, 'label', e.target.value)}
-                    placeholder="Cuts of Meats"
-                    className={fieldClass}
-                  />
-                </div>
-                <button
-                  onClick={() => removeStat(i)}
-                  className="mt-5 px-3 py-2 bg-red-900/20 text-red-400 rounded-lg text-xs hover:bg-red-700 hover:text-white transition-colors"
-                  title="Remove"
-                >
-                  <i className="fa-solid fa-trash" />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Buttons */}
-        <div className={card}>
-          <p className="text-xs font-black uppercase tracking-widest text-[#fd850b]">Buttons</p>
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div className="space-y-3">
-              <p className="text-[0.68rem] font-black uppercase tracking-widest text-[#FFF7ED]">Primary Button</p>
-              <div>
-                <label className={label}>Label</label>
-                <input type="text" value={data.btn1Label} onChange={e => set('btn1Label', e.target.value)} placeholder="View Menu" className={fieldClass} />
+            {/* Tagline */}
+            <div className={card}>
+              <div className={cardHead}>
+                <span className="text-[0.65rem] font-black uppercase tracking-wider text-[#fd850b]">
+                  <i className="fa-solid fa-quote-left mr-1.5 opacity-60" />Tagline
+                </span>
               </div>
-              <div>
-                <label className={label}>Link</label>
-                <input type="text" value={data.btn1Href} onChange={e => set('btn1Href', e.target.value)} placeholder="/menu" className={fieldClass} />
+              <div className="p-3">
+                <label className={lbl}>Top line (above logo)</label>
+                <input type="text" value={data.tagline} onChange={e => set('tagline', e.target.value)} placeholder="Phnom Penh · Est. 2024" className={inp} />
               </div>
             </div>
-            <div className="space-y-3">
-              <p className="text-[0.68rem] font-black uppercase tracking-widest text-[#FFF7ED]">Secondary Button</p>
-              <div>
-                <label className={label}>Label</label>
-                <input type="text" value={data.btn2Label} onChange={e => set('btn2Label', e.target.value)} placeholder="Book A Table" className={fieldClass} />
+
+            {/* Subtitle */}
+            <div className={card}>
+              <div className={cardHead}>
+                <span className="text-[0.65rem] font-black uppercase tracking-wider text-[#fd850b]">
+                  <i className="fa-solid fa-align-left mr-1.5 opacity-60" />Subtitle
+                </span>
               </div>
-              <div>
-                <label className={label}>Link</label>
-                <input type="text" value={data.btn2Href} onChange={e => set('btn2Href', e.target.value)} placeholder="/contact#reservation" className={fieldClass} />
+              <div className="p-3">
+                <label className={lbl}>Text below logo</label>
+                <textarea value={data.subtitle} onChange={e => set('subtitle', e.target.value)} rows={2} className={`${inp} min-h-12 resize-y`} />
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <div className={card}>
+              <div className={cardHead}>
+                <span className="text-[0.65rem] font-black uppercase tracking-wider text-[#fd850b]">
+                  <i className="fa-solid fa-computer-mouse mr-1.5 opacity-60" />Buttons
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-2 p-3">
+                <div>
+                  <p className="mb-1.5 text-[0.6rem] font-black uppercase tracking-wider text-[#FFF7ED]">Primary</p>
+                  <div className="space-y-1.5">
+                    <div>
+                      <label className={lbl}>Label</label>
+                      <input type="text" value={data.btn1Label} onChange={e => set('btn1Label', e.target.value)} placeholder="View Menu" className={inp} />
+                    </div>
+                    <div>
+                      <label className={lbl}>Link</label>
+                      <input type="text" value={data.btn1Href} onChange={e => set('btn1Href', e.target.value)} placeholder="/menu" className={inp} />
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <p className="mb-1.5 text-[0.6rem] font-black uppercase tracking-wider text-[#FFF7ED]">Secondary</p>
+                  <div className="space-y-1.5">
+                    <div>
+                      <label className={lbl}>Label</label>
+                      <input type="text" value={data.btn2Label} onChange={e => set('btn2Label', e.target.value)} placeholder="Book A Table" className={inp} />
+                    </div>
+                    <div>
+                      <label className={lbl}>Link</label>
+                      <input type="text" value={data.btn2Href} onChange={e => set('btn2Href', e.target.value)} placeholder="/contact#reservation" className={inp} />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex justify-end pb-6">
-          <button onClick={handleSave} disabled={saving} className={btnPrimary}>
-            {saving ? 'Saving…' : <><i className="fa-solid fa-floppy-disk mr-1" /> Save All Changes</>}
-          </button>
+          {/* Right: Stats */}
+          <div className={`${card} self-start`}>
+            <div className={cardHead}>
+              <span className="text-[0.65rem] font-black uppercase tracking-wider text-[#fd850b]">
+                <i className="fa-solid fa-chart-bar mr-1.5 opacity-60" />Stats
+              </span>
+              <button
+                onClick={() => set('stats', [...data.stats, { value: '', label: '' }])}
+                className="flex h-6 w-6 items-center justify-center rounded-md bg-[#fd850b]/15 text-[#fd850b] text-xs hover:bg-[#fd850b]/30 transition-colors"
+                title="Add stat"
+              >
+                <i className="fa-solid fa-plus" />
+              </button>
+            </div>
+            <div className="p-3 space-y-2">
+              {data.stats.map((s, i) => (
+                <div key={i} className="flex items-center gap-2 rounded-lg bg-[#0d0905] px-2.5 py-2">
+                  <div className="w-16 shrink-0">
+                    <label className={lbl}>Value</label>
+                    <input type="text" value={s.value} onChange={e => setStat(i, 'value', e.target.value)} placeholder="15+" className={inp} />
+                  </div>
+                  <div className="flex-1">
+                    <label className={lbl}>Label</label>
+                    <input type="text" value={s.label} onChange={e => setStat(i, 'label', e.target.value)} placeholder="Cuts of Meats" className={inp} />
+                  </div>
+                  <button
+                    onClick={() => set('stats', data.stats.filter((_, idx) => idx !== i))}
+                    className="mt-4 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-red-900/20 text-red-400 text-xs hover:bg-red-700 hover:text-white transition-colors"
+                  >
+                    <i className="fa-solid fa-trash" />
+                  </button>
+                </div>
+              ))}
+              {data.stats.length === 0 && (
+                <p className="py-4 text-center text-xs text-[#C7B8A8]/50">No stats — add one above</p>
+              )}
+            </div>
+          </div>
+
         </div>
       </div>
     </AdminLayout>

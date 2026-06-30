@@ -210,7 +210,7 @@ export default function AdminMenu() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {items.map((item, idx) => (
-                <div key={idx} className="bg-[#130c08] border border-[#D4A373]/12 rounded-xl overflow-hidden hover:border-[#fd850b]/25 transition-colors group">
+                <div key={idx} className="flex flex-col bg-[#130c08] border border-[#D4A373]/12 rounded-xl overflow-hidden hover:border-[#fd850b]/25 transition-colors group">
                   <div className="relative h-36 bg-[#0d0905]">
                     {item.image
                       ? <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
@@ -225,7 +225,7 @@ export default function AdminMenu() {
                       </button>
                     </div>
                   </div>
-                  <div className="p-4">
+                  <div className="flex flex-col flex-1 p-4">
                     <p className="font-black text-sm text-[#FFF7ED] line-clamp-1">{item.name}</p>
                     <p className="text-xs text-[#C7B8A8] mt-1 line-clamp-2 leading-5">{item.description}</p>
                     <p className="text-xs font-black text-[#fd850b] mt-2">{item.price}</p>

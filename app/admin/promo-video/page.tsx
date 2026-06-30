@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { AdminLayout, Toast, input, btnPrimary, btnSecondary } from '../components/AdminLayout'
+import { uploadAdminFile } from '../components/upload'
 
 type VideoData = { url: string; title: string; subtitle: string }
 
@@ -11,8 +12,10 @@ const DEFAULT: VideoData = {
   subtitle: 'Watch how our authentic Brazilian churrasco experience comes to life',
 }
 
-const label = 'block text-[0.68rem] font-black uppercase tracking-widest text-[#C7B8A8] mb-1.5'
-const card = 'bg-[#130c08] border border-[#D4A373]/12 rounded-2xl p-5 space-y-4'
+const lbl = 'mb-0.5 block text-[0.6rem] font-black uppercase tracking-wider text-[#C7B8A8]/70'
+const card = 'overflow-hidden rounded-xl border border-[#D4A373]/15 bg-[#130c08]'
+const cardHead = 'flex items-center justify-between border-b border-[#D4A373]/10 px-3 py-2'
+const inp = 'w-full rounded-lg border border-[#D4A373]/25 bg-[#0d0905] px-2.5 py-1.5 text-xs text-[#FFF7ED] placeholder-[#C7B8A8]/40 transition-colors focus:border-[#fd850b] focus:outline-none focus:ring-1 focus:ring-[#fd850b]/20'
 
 export default function AdminPromoVideo() {
   const [data, setData] = useState<VideoData>(DEFAULT)
@@ -35,18 +38,10 @@ export default function AdminPromoVideo() {
   async function uploadVideo(file: File) {
     setUploading(true)
     try {
-      const fd = new FormData()
-      fd.append('file', file)
-      fd.append('folder', 'videos')
-      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
-      const json = await res.json()
-      if (!res.ok) {
-        alert('Upload failed: ' + (json.error ?? res.status))
-        return
-      }
-      if (json.url) set('url', json.url)
+      const url = await uploadAdminFile(file, 'videos')
+      set('url', url)
     } catch (error) {
-      alert('Upload failed: ' + String(error))
+      alert('Upload failed: ' + String(error instanceof Error ? error.message : error))
     } finally {
       setUploading(false)
     }
@@ -72,13 +67,12 @@ export default function AdminPromoVideo() {
     }
   }
 
-  const isLocal = data.url.startsWith('/')
   const isYT = data.url.includes('youtube.com') || data.url.includes('youtu.be')
+  const isLocal = data.url.startsWith('/')
 
   return (
     <AdminLayout
       title="Promo Video"
-      subtitle="Manage the video shown on the home page after the Dishes section"
       action={
         <button onClick={handleSave} disabled={saving} className={btnPrimary}>
           {saving ? 'Saving…' : <><i className="fa-solid fa-floppy-disk mr-1" /> Save</>}
@@ -87,100 +81,112 @@ export default function AdminPromoVideo() {
     >
       {toast && <Toast msg={toast} onDone={() => setToast('')} />}
 
-      <div className="mx-auto max-w-2xl px-4 sm:px-6 py-6 space-y-6">
+      <div className="mx-auto max-w-5xl px-4 py-4 sm:px-5">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:items-start">
 
-        {/* Preview */}
-        {data.url && (
-          <div className="rounded-2xl overflow-hidden border border-[#D4A373]/12">
-            {isYT ? (
-              <div className="aspect-square w-full bg-black">
-                <iframe
-                  src={`https://www.youtube.com/embed/${new URL(data.url.includes('youtu.be') ? `https://${data.url.replace(/^https?:\/\//, '')}` : data.url).searchParams.get('v') ?? data.url.split('/').pop()?.split('?')[0]}?rel=0`}
-                  className="h-full w-full"
-                  allowFullScreen
-                  title="Preview"
+          {/* Left: Video preview */}
+          <div className="overflow-hidden rounded-xl border border-[#D4A373]/12 bg-[#0d0905]">
+            {data.url ? (
+              isYT ? (
+                <div className="aspect-square w-full bg-black">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${new URL(data.url.includes('youtu.be') ? `https://${data.url.replace(/^https?:\/\//, '')}` : data.url).searchParams.get('v') ?? data.url.split('/').pop()?.split('?')[0]}?rel=0`}
+                    className="h-full w-full"
+                    allowFullScreen
+                    title="Preview"
+                  />
+                </div>
+              ) : (
+                <video className="aspect-square w-full object-cover" autoPlay muted loop playsInline preload="auto">
+                  <source src={data.url} />
+                </video>
+              )
+            ) : (
+              <div className="aspect-square flex flex-col items-center justify-center text-[#C7B8A8]/30">
+                <i className="fa-solid fa-video text-4xl mb-3" />
+                <p className="text-xs">No video set</p>
+              </div>
+            )}
+          </div>
+
+          {/* Right: Fields */}
+          <div className="space-y-3">
+
+            {/* Video source */}
+            <div className={card}>
+              <div className={cardHead}>
+                <span className="text-[0.65rem] font-black uppercase tracking-wider text-[#fd850b]">
+                  <i className="fa-solid fa-link mr-1.5 opacity-60" />Video Source
+                </span>
+              </div>
+              <div className="p-3 space-y-2">
+                <div>
+                  <label className={lbl}>URL or local path</label>
+                  <input
+                    type="text"
+                    value={data.url}
+                    onChange={e => set('url', e.target.value)}
+                    placeholder="/Home/video.mp4 or https://youtu.be/..."
+                    className={inp}
+                  />
+                  {isLocal && (
+                    <p className="mt-1 text-[0.6rem] text-[#C7B8A8]/50">
+                      Local file — place in <code className="text-[#fd850b]">public/Home/</code>
+                    </p>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => fileRef.current?.click()}
+                  disabled={uploading}
+                  className={btnSecondary}
+                >
+                  {uploading
+                    ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading…</>
+                    : <><i className="fa-solid fa-upload" /> Upload video</>
+                  }
+                </button>
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept="video/mp4,video/webm,video/quicktime"
+                  className="hidden"
+                  onChange={async e => {
+                    const file = e.target.files?.[0]
+                    if (file) await uploadVideo(file)
+                    e.target.value = ''
+                  }}
                 />
               </div>
-            ) : (
-              <video className="aspect-square w-full object-cover" autoPlay muted loop playsInline preload="auto">
-                <source src={data.url} />
-              </video>
-            )}
-          </div>
-        )}
-
-        {/* Video URL */}
-        <div className={card}>
-          <p className="text-xs font-black uppercase tracking-widest text-[#fd850b]">Video Source</p>
-          <div>
-            <label className={label}>
-              Video URL or path
-              <span className="ml-2 normal-case text-[#C7B8A8]/60 tracking-normal">
-                (YouTube link, or local path like /Home/video.mp4)
-              </span>
-            </label>
-            <input
-              type="text"
-              value={data.url}
-              onChange={e => set('url', e.target.value)}
-              placeholder="/Home/video.mp4 or https://youtu.be/..."
-              className={input}
-            />
-            <div className="mt-3 flex flex-wrap gap-2">
-              <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading} className={btnSecondary}>
-                {uploading ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading...</> : <><i className="fa-solid fa-upload" /> Upload video</>}
-              </button>
-              <input
-                ref={fileRef}
-                type="file"
-                accept="video/mp4,video/webm,video/quicktime"
-                className="hidden"
-                onChange={async e => {
-                  const file = e.target.files?.[0]
-                  if (file) await uploadVideo(file)
-                  e.target.value = ''
-                }}
-              />
             </div>
-            {isLocal && (
-              <p className="mt-1.5 text-[0.68rem] text-[#C7B8A8]/60">
-                Local file — place it in <code className="text-[#fd850b]">public/Home/</code>
+
+            {/* Text */}
+            <div className={card}>
+              <div className={cardHead}>
+                <span className="text-[0.65rem] font-black uppercase tracking-wider text-[#fd850b]">
+                  <i className="fa-solid fa-heading mr-1.5 opacity-60" />Section Text
+                </span>
+              </div>
+              <div className="p-3 space-y-2">
+                <div>
+                  <label className={lbl}>Title</label>
+                  <input type="text" value={data.title} onChange={e => set('title', e.target.value)} placeholder="See Bravo in Action" className={inp} />
+                </div>
+                <div>
+                  <label className={lbl}>Subtitle</label>
+                  <input type="text" value={data.subtitle} onChange={e => set('subtitle', e.target.value)} placeholder="Short description below the title" className={inp} />
+                </div>
+              </div>
+            </div>
+
+            {/* Tip */}
+            <div className="flex items-start gap-2 rounded-lg border border-[#D4A373]/10 bg-[#130c08] px-3 py-2.5">
+              <i className="fa-solid fa-circle-info text-[#fd850b] text-[0.65rem] mt-0.5 shrink-0" />
+              <p className="text-[0.65rem] text-[#C7B8A8]/70 leading-4">
+                Leave URL empty to hide this section. Supports YouTube links and local .mp4/.webm files.
               </p>
-            )}
+            </div>
           </div>
-          <div>
-            <label className={label}>Section Title</label>
-            <input
-              type="text"
-              value={data.title}
-              onChange={e => set('title', e.target.value)}
-              placeholder="See Bravo in Action"
-              className={input}
-            />
-          </div>
-          <div>
-            <label className={label}>Subtitle</label>
-            <input
-              type="text"
-              value={data.subtitle}
-              onChange={e => set('subtitle', e.target.value)}
-              placeholder="Short description below the title"
-              className={input}
-            />
-          </div>
-        </div>
-
-        <div className="bg-[#130c08] border border-[#D4A373]/12 rounded-2xl p-4 flex items-start gap-3">
-          <i className="fa-solid fa-circle-info text-[#fd850b] text-xs mt-0.5 shrink-0" />
-          <p className="text-xs text-[#C7B8A8] leading-5">
-            Leave the URL empty to hide the video section. Supported: YouTube links, direct .mp4/.webm files, and local files in <code className="text-[#fd850b]">public/</code>.
-          </p>
-        </div>
-
-        <div className="flex justify-end pb-6">
-          <button onClick={handleSave} disabled={saving} className={btnPrimary}>
-            {saving ? 'Saving…' : <><i className="fa-solid fa-floppy-disk mr-1" /> Save All Changes</>}
-          </button>
         </div>
       </div>
     </AdminLayout>

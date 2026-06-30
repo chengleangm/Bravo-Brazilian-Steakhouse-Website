@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { AdminLayout, Toast, input, btnPrimary, btnSecondary } from '../components/AdminLayout'
+import { AdminLayout, Toast, btnPrimary, btnSecondary } from '../components/AdminLayout'
+import { uploadAdminFile } from '../components/upload'
 
 type ShortVideo = { url: string; title: string }
 
@@ -11,8 +12,8 @@ const DEFAULT: ShortVideo[] = [
   { url: '/Gallery/VIDEO/video_2026-06-30_20-35-04.mp4', title: 'The Atmosphere' },
 ]
 
-const label = 'block text-[0.68rem] font-black uppercase tracking-widest text-[#C7B8A8] mb-1.5'
-const card = 'bg-[#130c08] border border-[#D4A373]/12 rounded-2xl p-5 space-y-4'
+const inp = 'w-full rounded-lg border border-[#D4A373]/25 bg-[#0d0905] px-2.5 py-1.5 text-xs text-[#FFF7ED] placeholder-[#C7B8A8]/40 transition-colors focus:border-[#fd850b] focus:outline-none focus:ring-1 focus:ring-[#fd850b]/20'
+const lbl = 'mb-0.5 block text-[0.6rem] font-black uppercase tracking-wider text-[#C7B8A8]/70'
 
 export default function AdminShortVideos() {
   const [videos, setVideos] = useState<ShortVideo[]>(DEFAULT)
@@ -35,18 +36,10 @@ export default function AdminShortVideos() {
   async function uploadClip(i: number, file: File) {
     setUploading(i)
     try {
-      const fd = new FormData()
-      fd.append('file', file)
-      fd.append('folder', 'gallery-videos')
-      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
-      const json = await res.json()
-      if (!res.ok) {
-        alert('Upload failed: ' + (json.error ?? res.status))
-        return
-      }
-      if (json.url) update(i, 'url', json.url)
+      const url = await uploadAdminFile(file, 'gallery-videos')
+      update(i, 'url', url)
     } catch (error) {
-      alert('Upload failed: ' + String(error))
+      alert('Upload failed: ' + String(error instanceof Error ? error.message : error))
     } finally {
       setUploading(null)
     }
@@ -64,7 +57,7 @@ export default function AdminShortVideos() {
         const json = await res.json().catch(() => ({}))
         throw new Error(json.error ?? `HTTP ${res.status}`)
       }
-      setToast('Short videos saved!')
+      setToast('Saved!')
     } catch (error) {
       alert('Save failed: ' + String(error instanceof Error ? error.message : error))
     } finally {
@@ -74,8 +67,7 @@ export default function AdminShortVideos() {
 
   return (
     <AdminLayout
-      title="Short Videos"
-      subtitle="3 portrait (9:16) videos shown in the Gallery page"
+      title="Gallery Videos"
       action={
         <button onClick={handleSave} disabled={saving} className={btnPrimary}>
           {saving ? 'Saving…' : <><i className="fa-solid fa-floppy-disk mr-1" /> Save</>}
@@ -84,76 +76,76 @@ export default function AdminShortVideos() {
     >
       {toast && <Toast msg={toast} onDone={() => setToast('')} />}
 
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 py-6 space-y-6">
-
-        <div className="grid grid-cols-3 gap-4">
+      <div className="mx-auto max-w-4xl px-4 py-4 sm:px-5">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           {videos.map((vid, i) => (
-            <div key={i} className="flex flex-col gap-3">
-              {/* Preview */}
-              <div className="relative overflow-hidden rounded-xl border border-[#fd850b]/20 bg-[#1a0e0a]" style={{ aspectRatio: '9/16' }}>
+            <div key={i} className="overflow-hidden rounded-xl border border-[#D4A373]/15 bg-[#130c08]">
+
+              {/* Video preview */}
+              <div className="relative bg-[#0d0905]" style={{ aspectRatio: '9/16' }}>
                 {vid.url ? (
                   <video className="absolute inset-0 h-full w-full object-cover" autoPlay muted loop playsInline preload="auto">
                     <source src={vid.url} />
                   </video>
                 ) : (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-[#C7B8A8]/40">
-                    <i className="fa-solid fa-video text-2xl" />
-                    <span className="text-[0.6rem] font-black uppercase tracking-widest">Empty</span>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-[#C7B8A8]/30">
+                    <i className="fa-solid fa-video text-3xl" />
+                    <span className="text-[0.6rem] font-black uppercase tracking-widest">No video</span>
                   </div>
                 )}
+                {/* Clip badge */}
+                <div className="absolute left-2 top-2 rounded-lg bg-black/60 px-2 py-1 text-[0.6rem] font-black uppercase tracking-widest text-[#fd850b] backdrop-blur-sm">
+                  Clip {i + 1}
+                </div>
               </div>
-              <span className="text-center text-[0.65rem] font-black uppercase tracking-widest text-[#fd850b]">Clip {i + 1}</span>
+
+              {/* Fields */}
+              <div className="p-3 space-y-2">
+                <div>
+                  <label className={lbl}>Title</label>
+                  <input
+                    type="text"
+                    value={vid.title}
+                    onChange={e => update(i, 'title', e.target.value)}
+                    placeholder="e.g. The Grill"
+                    className={inp}
+                  />
+                </div>
+                <div>
+                  <label className={lbl}>Video path or URL</label>
+                  <input
+                    type="text"
+                    value={vid.url}
+                    onChange={e => update(i, 'url', e.target.value)}
+                    placeholder="/Gallery/VIDEO/clip.mp4"
+                    className={inp}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => fileRefs.current[i]?.click()}
+                  disabled={uploading === i}
+                  className={`${btnSecondary} w-full justify-center`}
+                >
+                  {uploading === i
+                    ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading…</>
+                    : <><i className="fa-solid fa-upload" /> Upload clip</>
+                  }
+                </button>
+                <input
+                  ref={el => { fileRefs.current[i] = el }}
+                  type="file"
+                  accept="video/mp4,video/webm,video/quicktime"
+                  className="hidden"
+                  onChange={async e => {
+                    const file = e.target.files?.[0]
+                    if (file) await uploadClip(i, file)
+                    e.target.value = ''
+                  }}
+                />
+              </div>
             </div>
           ))}
-        </div>
-
-        {videos.map((vid, i) => (
-          <div key={i} className={card}>
-            <p className="text-xs font-black uppercase tracking-widest text-[#fd850b]">Clip {i + 1}</p>
-            <div>
-              <label className={label}>Video path or URL</label>
-              <input
-                type="text"
-                value={vid.url}
-                onChange={e => update(i, 'url', e.target.value)}
-                placeholder="/Home/my-video.mp4"
-                className={input}
-              />
-              <button type="button" onClick={() => fileRefs.current[i]?.click()} disabled={uploading === i} className={`${btnSecondary} mt-2`}>
-                {uploading === i ? <><i className="fa-solid fa-spinner fa-spin" /> Uploading...</> : <><i className="fa-solid fa-upload" /> Upload clip</>}
-              </button>
-              <input
-                ref={el => { fileRefs.current[i] = el }}
-                type="file"
-                accept="video/mp4,video/webm,video/quicktime"
-                className="hidden"
-                onChange={async e => {
-                  const file = e.target.files?.[0]
-                  if (file) await uploadClip(i, file)
-                  e.target.value = ''
-                }}
-              />
-              <p className="mt-1 text-[0.65rem] text-[#C7B8A8]/50">
-                Local files go in <code className="text-[#fd850b]">public/Home/</code> — leave empty to show placeholder.
-              </p>
-            </div>
-            <div>
-              <label className={label}>Title (shown below clip)</label>
-              <input
-                type="text"
-                value={vid.title}
-                onChange={e => update(i, 'title', e.target.value)}
-                placeholder="The Grill"
-                className={input}
-              />
-            </div>
-          </div>
-        ))}
-
-        <div className="flex justify-end pb-6">
-          <button onClick={handleSave} disabled={saving} className={btnPrimary}>
-            {saving ? 'Saving…' : <><i className="fa-solid fa-floppy-disk mr-1" /> Save All Changes</>}
-          </button>
         </div>
       </div>
     </AdminLayout>

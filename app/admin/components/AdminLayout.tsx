@@ -144,15 +144,10 @@ export function AdminLayout({
         mobile ? 'fixed inset-y-0 left-0 z-50 shadow-2xl' : 'hidden lg:flex'
       }`}
     >
-      <div className="border-b border-[#D4A373]/12 px-4 py-4">
+      <div className="border-b border-[#D4A373]/12 px-4 py-3">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#fd850b] text-black">
-            <i className="fa-solid fa-fire text-sm" />
-          </div>
-          <div className="min-w-0">
-            <p className="truncate text-xs font-black uppercase tracking-[0.18em] text-[#FFF7ED]">Bravo Admin</p>
-            <p className="text-xs text-[#C7B8A8]">Edit the live website</p>
-          </div>
+          <img src="/logo.png" alt="Bravo" className="h-10 w-auto object-contain" />
+          <p className="text-[0.65rem] text-[#C7B8A8]">Admin Panel</p>
           {mobile && (
             <button
               type="button"
@@ -166,13 +161,13 @@ export function AdminLayout({
         </div>
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-3 py-4">
+      <nav className="flex-1 overflow-y-auto px-3 py-3">
         {NAV_GROUPS.map(group => (
-          <div key={group.label} className="mb-5">
-            <p className="mb-2 px-3 text-[0.62rem] font-black uppercase tracking-[0.16em] text-[#C7B8A8]/55">
+          <div key={group.label} className="mb-3">
+            <p className="mb-1 px-2 text-[0.6rem] font-black uppercase tracking-[0.16em] text-[#C7B8A8]/50">
               {group.label}
             </p>
-            <div className="space-y-1">
+            <div className="space-y-0.5">
               {group.items.map(item => {
                 const active = pathname === item.href
                 return (
@@ -180,23 +175,20 @@ export function AdminLayout({
                     key={item.href}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className={`group flex items-start gap-3 rounded-lg border px-3 py-2.5 transition ${
+                    className={`group flex items-center gap-2.5 rounded-lg border px-2.5 py-1.5 transition ${
                       active
                         ? 'border-[#fd850b]/40 bg-[#fd850b]/14 text-[#FFF7ED]'
                         : 'border-transparent text-[#C7B8A8] hover:border-[#D4A373]/18 hover:bg-white/5 hover:text-white'
                     }`}
                   >
                     <span
-                      className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
+                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md ${
                         active ? 'bg-[#fd850b] text-black' : 'bg-white/6 text-[#fd850b]'
                       }`}
                     >
-                      <i className={`fa-solid ${item.icon} text-xs`} />
+                      <i className={`fa-solid ${item.icon} text-[0.6rem]`} />
                     </span>
-                    <span className="min-w-0">
-                      <span className="block text-sm font-black leading-tight">{item.label}</span>
-                      <span className="mt-0.5 block text-[0.68rem] leading-4 text-[#C7B8A8]/70">{item.desc}</span>
-                    </span>
+                    <span className="text-xs font-bold leading-tight">{item.label}</span>
                   </Link>
                 )
               })}
@@ -228,7 +220,7 @@ export function AdminLayout({
   )
 
   return (
-    <div className="flex min-h-screen bg-[#0d0905] text-[#FFF7ED]">
+    <div className="flex h-screen overflow-hidden bg-[#0d0905] text-[#FFF7ED]">
       <Sidebar />
 
       {open && (
@@ -238,7 +230,7 @@ export function AdminLayout({
         </>
       )}
 
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col overflow-y-auto">
         <header className="sticky top-0 z-30 border-b border-[#D4A373]/12 bg-[#0d0905]/95 backdrop-blur">
           <div className="flex min-h-[72px] items-center gap-3 px-4 py-3 sm:px-6">
             <button

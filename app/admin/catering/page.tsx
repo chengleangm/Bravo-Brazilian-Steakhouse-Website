@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { AdminLayout, Toast, input, btnPrimary, btnSecondary } from '../components/AdminLayout'
+import { AdminLayout, Toast, btnPrimary, btnSecondary } from '../components/AdminLayout'
 
 type Package = {
   name: string
@@ -28,8 +28,10 @@ const DEFAULT: CateringContent = {
   ],
 }
 
-const lbl = 'block text-[0.68rem] font-black uppercase tracking-widest text-[#C7B8A8] mb-1.5'
-const card = 'bg-[#130c08] border border-[#D4A373]/12 rounded-2xl p-5 space-y-4'
+const inp = 'w-full rounded-lg border border-[#D4A373]/25 bg-[#0d0905] px-2.5 py-1.5 text-xs text-[#FFF7ED] placeholder-[#C7B8A8]/40 transition-colors focus:border-[#fd850b] focus:outline-none focus:ring-1 focus:ring-[#fd850b]/20'
+const lbl = 'mb-0.5 block text-[0.6rem] font-black uppercase tracking-wider text-[#C7B8A8]/70'
+const card = 'overflow-hidden rounded-xl border border-[#D4A373]/15 bg-[#130c08]'
+const cardHead = 'flex items-center justify-between border-b border-[#D4A373]/10 px-3 py-2'
 
 export default function AdminCatering() {
   const [data, setData] = useState<CateringContent>(DEFAULT)
@@ -57,39 +59,32 @@ export default function AdminCatering() {
   }
 
   function setPackage<K extends keyof Package>(idx: number, key: K, val: Package[K]) {
-    setData(prev => {
-      const pkgs = prev.packages.map((p, i) => i === idx ? { ...p, [key]: val } : p)
-      return { ...prev, packages: pkgs }
-    })
+    setData(prev => ({ ...prev, packages: prev.packages.map((p, i) => i === idx ? { ...p, [key]: val } : p) }))
   }
 
   function setFeature(pkgIdx: number, featIdx: number, val: string) {
-    setData(prev => {
-      const pkgs = prev.packages.map((p, i) => {
-        if (i !== pkgIdx) return p
-        const features = p.features.map((f, j) => j === featIdx ? val : f)
-        return { ...p, features }
-      })
-      return { ...prev, packages: pkgs }
-    })
+    setData(prev => ({
+      ...prev,
+      packages: prev.packages.map((p, i) =>
+        i !== pkgIdx ? p : { ...p, features: p.features.map((f, j) => j === featIdx ? val : f) }
+      ),
+    }))
   }
 
   function addFeature(pkgIdx: number) {
-    setData(prev => {
-      const pkgs = prev.packages.map((p, i) =>
-        i === pkgIdx ? { ...p, features: [...p.features, ''] } : p
-      )
-      return { ...prev, packages: pkgs }
-    })
+    setData(prev => ({
+      ...prev,
+      packages: prev.packages.map((p, i) => i === pkgIdx ? { ...p, features: [...p.features, ''] } : p),
+    }))
   }
 
   function removeFeature(pkgIdx: number, featIdx: number) {
-    setData(prev => {
-      const pkgs = prev.packages.map((p, i) =>
+    setData(prev => ({
+      ...prev,
+      packages: prev.packages.map((p, i) =>
         i === pkgIdx ? { ...p, features: p.features.filter((_, j) => j !== featIdx) } : p
-      )
-      return { ...prev, packages: pkgs }
-    })
+      ),
+    }))
   }
 
   async function handleSave() {
@@ -114,8 +109,7 @@ export default function AdminCatering() {
 
   return (
     <AdminLayout
-      title="Catering Services"
-      subtitle="Edit the catering page hero and pricing packages"
+      title="Catering"
       action={
         <button onClick={handleSave} disabled={saving} className={btnPrimary}>
           {saving ? 'Saving…' : <><i className="fa-solid fa-floppy-disk mr-1" /> Save</>}
@@ -124,33 +118,30 @@ export default function AdminCatering() {
     >
       {toast && <Toast msg={toast} onDone={() => setToast('')} />}
 
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 py-6 space-y-6">
+      <div className="mx-auto max-w-6xl px-4 py-4 sm:px-5 grid grid-cols-1 gap-3 lg:grid-cols-[1fr_2fr] lg:items-start">
 
-        {/* Hero Image */}
+        {/* ── Hero Image ── */}
         <div className={card}>
-          <p className="text-xs font-black uppercase tracking-widest text-[#fd850b]">Hero Image</p>
-          <div className="relative aspect-[16/5] overflow-hidden rounded-xl bg-[#0d0905]">
-            {data.heroImage && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={data.heroImage} alt="Hero preview" className="h-full w-full object-cover" />
-            )}
+          <div className={cardHead}>
+            <span className="text-[0.65rem] font-black uppercase tracking-wider text-[#fd850b]">
+              <i className="fa-solid fa-image mr-1.5 opacity-60" />Hero Image
+            </span>
           </div>
-          <div>
-            <label className={lbl}>Image URL</label>
-            <input
-              type="text"
-              value={data.heroImage}
-              onChange={e => setData(prev => ({ ...prev, heroImage: e.target.value }))}
-              placeholder="https://images.unsplash.com/..."
-              className={input}
-            />
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => fileRef.current?.click()}
-              disabled={uploading}
-              className={btnSecondary}
-            >
+          <div className="p-3 space-y-2">
+            <div className="relative aspect-[16/7] overflow-hidden rounded-lg bg-[#0d0905]">
+              {data.heroImage && <img src={data.heroImage} alt="Hero preview" className="h-full w-full object-cover" />}
+            </div>
+            <div>
+              <label className={lbl}>Image URL</label>
+              <input
+                type="text"
+                value={data.heroImage}
+                onChange={e => setData(prev => ({ ...prev, heroImage: e.target.value }))}
+                placeholder="https://images.unsplash.com/..."
+                className={inp}
+              />
+            </div>
+            <button onClick={() => fileRef.current?.click()} disabled={uploading} className={btnSecondary}>
               <i className="fa-solid fa-upload mr-1" />
               {uploading ? 'Uploading…' : 'Upload file'}
             </button>
@@ -159,67 +150,71 @@ export default function AdminCatering() {
           </div>
         </div>
 
-        {/* Packages */}
-        <div>
-          <p className="text-xs font-black uppercase tracking-widest text-[#fd850b] mb-3">Catering Packages</p>
-          <div className="grid gap-5 sm:grid-cols-2">
+        {/* ── Packages ── */}
+        <div className={card}>
+          <div className={cardHead}>
+            <span className="text-[0.65rem] font-black uppercase tracking-wider text-[#fd850b]">
+              <i className="fa-solid fa-box mr-1.5 opacity-60" />Catering Packages
+              <span className="ml-1.5 font-normal text-[#C7B8A8]/60">{data.packages.length}</span>
+            </span>
+          </div>
+          <div className="p-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
             {data.packages.map((pkg, i) => (
-              <div key={i} className={card}>
+              <div key={i} className={`rounded-xl border ${pkg.accent ? 'border-[#fd850b]/30 bg-[#fd850b]/5' : 'border-[#D4A373]/10 bg-[#0d0905]'} p-3 space-y-2`}>
+
+                {/* Card header */}
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-black text-[#FFF7ED]">{pkg.name || `Package ${i + 1}`}</p>
-                  {pkg.accent && <span className="text-[0.6rem] font-black uppercase tracking-widest text-[#fd850b] bg-[#fd850b]/10 px-2 py-0.5 rounded">Featured</span>}
+                  <p className="text-xs font-black uppercase text-[#FFF7ED]">{pkg.name || `Package ${i + 1}`}</p>
+                  {pkg.accent && <span className="text-[0.55rem] font-black uppercase tracking-wider text-[#fd850b] bg-[#fd850b]/15 px-1.5 py-0.5 rounded">Featured</span>}
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                {/* Fields 2-col */}
+                <div className="grid grid-cols-2 gap-1.5">
                   <div>
-                    <label className={lbl}>Package Name</label>
-                    <input type="text" value={pkg.name} onChange={e => setPackage(i, 'name', e.target.value)} className={input} />
+                    <label className={lbl}>Name</label>
+                    <input type="text" value={pkg.name} onChange={e => setPackage(i, 'name', e.target.value)} className={inp} />
                   </div>
                   <div>
-                    <label className={lbl}>Price (e.g. $22.95)</label>
-                    <input type="text" value={pkg.price} onChange={e => setPackage(i, 'price', e.target.value)} className={input} />
+                    <label className={lbl}>Price</label>
+                    <input type="text" value={pkg.price} onChange={e => setPackage(i, 'price', e.target.value)} className={inp} />
                   </div>
                   <div>
                     <label className={lbl}>Min Guests</label>
-                    <input type="number" value={pkg.min} onChange={e => setPackage(i, 'min', Number(e.target.value))} className={input} />
+                    <input type="number" value={pkg.min} onChange={e => setPackage(i, 'min', Number(e.target.value))} className={inp} />
                   </div>
                   <div>
-                    <label className={lbl}>Badge (e.g. Most Popular)</label>
-                    <input type="text" value={pkg.badge} onChange={e => setPackage(i, 'badge', e.target.value)} placeholder="Leave blank for none" className={input} />
+                    <label className={lbl}>Badge</label>
+                    <input type="text" value={pkg.badge} onChange={e => setPackage(i, 'badge', e.target.value)} placeholder="Most Popular" className={inp} />
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <label className={lbl + ' mb-0'}>Featured Package</label>
-                  <button
-                    onClick={() => setPackage(i, 'accent', !pkg.accent)}
-                    className={`px-3 py-1.5 text-xs font-black uppercase rounded transition-colors ${pkg.accent ? 'bg-[#fd850b] text-black' : 'bg-[#0d0905] text-[#C7B8A8] border border-[#D4A373]/20'}`}
-                  >
-                    {pkg.accent ? 'Yes (highlighted)' : 'No'}
-                  </button>
-                </div>
+                {/* Featured toggle */}
+                <button
+                  onClick={() => setPackage(i, 'accent', !pkg.accent)}
+                  className={`w-full py-1 text-[0.6rem] font-black uppercase rounded transition-colors ${pkg.accent ? 'bg-[#fd850b] text-black' : 'bg-[#D4A373]/10 text-[#C7B8A8] hover:bg-[#D4A373]/20'}`}
+                >
+                  {pkg.accent ? 'Featured ✓' : 'Mark as Featured'}
+                </button>
 
+                {/* Features */}
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <label className={lbl + ' mb-0'}>Features (what&apos;s included)</label>
-                    <button onClick={() => addFeature(i)} className={btnSecondary + ' text-[0.6rem] px-2 py-1'}>
-                      <i className="fa-solid fa-plus mr-1" /> Add
+                  <div className="flex items-center justify-between mb-1">
+                    <label className={lbl}>Included</label>
+                    <button onClick={() => addFeature(i)} className="flex h-5 w-5 items-center justify-center rounded bg-[#fd850b]/15 text-[#fd850b] text-[0.6rem] hover:bg-[#fd850b]/30 transition-colors">
+                      <i className="fa-solid fa-plus" />
                     </button>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-1">
                     {pkg.features.map((feat, j) => (
-                      <div key={j} className="flex items-center gap-2">
+                      <div key={j} className="flex items-center gap-1">
                         <input
                           type="text"
                           value={feat}
                           onChange={e => setFeature(i, j, e.target.value)}
                           placeholder="e.g. 8 grilled meat cuts"
-                          className={input}
+                          className={inp}
                         />
-                        <button
-                          onClick={() => removeFeature(i, j)}
-                          className="shrink-0 px-2.5 py-2 bg-red-900/20 text-red-400 rounded text-xs hover:bg-red-700 hover:text-white transition-colors"
-                        >
+                        <button onClick={() => removeFeature(i, j)} className="shrink-0 h-6 w-6 flex items-center justify-center bg-red-900/20 text-red-400 rounded text-[0.6rem] hover:bg-red-700 hover:text-white transition-colors">
                           <i className="fa-solid fa-trash" />
                         </button>
                       </div>
@@ -231,11 +226,6 @@ export default function AdminCatering() {
           </div>
         </div>
 
-        <div className="flex justify-end pb-6">
-          <button onClick={handleSave} disabled={saving} className={btnPrimary}>
-            {saving ? 'Saving…' : <><i className="fa-solid fa-floppy-disk mr-1" /> Save All Changes</>}
-          </button>
-        </div>
       </div>
     </AdminLayout>
   )

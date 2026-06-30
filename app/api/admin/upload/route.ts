@@ -1,7 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { handleUpload, type HandleUploadBody } from '@vercel/blob/client'
 import { noStoreHeaders } from '../_utils/cache'
 
+// Client-direct-to-Blob upload handshake. Used for large files (e.g. video) so the
+// bytes go straight from the browser to Blob storage, bypassing the ~4.5MB request
+// body limit on Vercel serverless functions.
+async function handleClientUploadToken(request: NextRequest) {
+  try {
+    const body = (await request.json()) as HandleUploadBody
+    const jsonResponse = await handleUpload({
+      body,
+      request,
+      onBeforeGenerateToken: async () => ({
+        allowedContentTypes: ['image/*', 'video/mp4', 'video/webm', 'video/quicktime'],
+        addRandomSuffix: false,
+      }),
+    })
+    return NextResponse.json(jsonResponse, { headers: noStoreHeaders })
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err)
+    return NextResponse.json({ error: message }, { status: 400, headers: noStoreHeaders })
+  }
+}
+
 export async function POST(request: NextRequest) {
+  if ((request.headers.get('content-type') ?? '').includes('application/json')) {
+    return handleClientUploadToken(request)
+  }
+
   try {
     const formData = await request.formData()
     const file = formData.get('file') as File | null
