@@ -7,91 +7,59 @@ import { motion } from 'framer-motion'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 
-const fadeUp = { hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } }
-const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.12 } } }
+const fadeUp = { hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0 } }
+const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.1 } } }
 const vp = { once: true, amount: 0.15 }
 
-const HERO_BG = 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1800&q=85'
+const WHATSAPP_URL = 'https://wa.me/85578938333'
+const TELEGRAM_URL = 'https://t.me/BravoReservationsTTP'
 
-const TOP_FEATURES = [
-  {
-    icon: 'fa-truck-fast',
-    title: 'Delivery & Pickup',
-    desc: 'Packages perfect for small events begin as large events, and everything in between.',
-  },
-  {
-    icon: 'fa-user-tie',
-    title: 'Personalised Service',
-    desc: 'Our dedicated Catering Specialists will assist you in planning your ideal event.',
-  },
-  {
-    icon: 'fa-fire-flame-curved',
-    title: 'Full-Service Catering',
-    desc: 'Setting up your event with attentive, gracious live-fire service.',
-  },
-]
+const INPUT_CLASS =
+  'w-full min-w-0 rounded border border-white/15 bg-white/10 px-2.5 py-1.5 text-[0.82rem] leading-tight text-[#FFF7ED] outline-none transition-all placeholder:text-[#FFF7ED]/35 focus:border-[#fd850b] focus:bg-white/15 focus:shadow-[0_0_0_3px_rgba(253,133,11,0.18)] sm:px-4 sm:py-3.5 sm:text-base sm:leading-normal'
+const LABEL_CLASS =
+  'mb-1 block text-[0.66rem] font-black uppercase tracking-[0.14em] text-[#FFF7ED]/90 sm:mb-2.5 sm:text-xs sm:tracking-[0.18em]'
+const SELECT_CLASS =
+  'w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 py-2 sm:py-3.5 rounded text-[0.82rem] sm:text-base focus:outline-none focus:border-[#fd850b] transition-all'
 
-const DELIVERY_OPTIONS = [
-  'Delivery with meeting package available.',
-  'Setup & service upgrades available — contact us for premium buffet add-ons.',
-  'Browse hourly service staffing options to suit your event scale.',
-  'Our grill team can set up catering stations at 3 hours in advance of your event.',
-  'All catering includes equipment, napkins, silverware & serving utensils.',
+const FEATURES = [
+  { icon: 'fa-truck-fast',          title: 'Delivery & Setup',       desc: 'We bring the full churrasco experience to your venue — grill, staff, equipment, and service included.' },
+  { icon: 'fa-fire-flame-curved',   title: 'Live-Fire Grilling',     desc: 'Our passadores carve fire-grilled cuts tableside, exactly as served in the restaurant.' },
+  { icon: 'fa-user-tie',            title: 'Dedicated Specialist',   desc: 'A catering coordinator manages every detail from first contact to final cleanup.' },
 ]
 
 const PACKAGES = [
   {
     name: 'Essential',
-    from: '$22.95',
+    price: '$22.95',
     svc: '+10% SVC',
-    minGuests: 50,
+    min: 50,
     accent: false,
-    features: [
-      '8 grilled meat cuts',
-      '8 hot dishes',
-      'Salad bar',
-      'Desserts',
-    ],
+    features: ['8 grilled meat cuts', '8 hot buffet dishes', 'Salad bar', 'Desserts'],
   },
   {
     name: 'Classic',
-    from: '$26.95',
+    price: '$26.95',
     svc: '+10% SVC',
-    minGuests: 40,
+    min: 40,
     accent: false,
-    features: [
-      '10 grilled meat cuts',
-      '10 hot dishes',
-      'Salad bar',
-      'Desserts',
-    ],
+    features: ['10 grilled meat cuts', '10 hot buffet dishes', 'Salad bar', 'Desserts'],
   },
   {
     name: 'Premium',
-    from: '$29.95',
+    price: '$29.95',
     svc: '+10% SVC',
-    minGuests: 30,
+    min: 30,
     accent: true,
     badge: 'Most Popular',
-    features: [
-      '16 grilled meat cuts',
-      '10 hot dishes',
-      'Salad bar & cold cuts',
-      'Desserts',
-    ],
+    features: ['16 grilled meat cuts', '10 hot buffet dishes', 'Salad bar & cold cuts', 'Desserts'],
   },
   {
     name: 'Deluxe',
-    from: '$39.95',
+    price: '$39.95',
     svc: '+10% SVC',
-    minGuests: 30,
+    min: 30,
     accent: false,
-    features: [
-      '16 grilled meat cuts',
-      '10 hot dishes',
-      'Salads, cold cuts & seafood',
-      'Desserts',
-    ],
+    features: ['16 grilled meat cuts', '10 hot buffet dishes', 'Salads, cold cuts & seafood', 'Desserts'],
   },
 ]
 
@@ -99,44 +67,62 @@ const MENU_CARDS = [
   {
     image: '/Catering/photo_2026-06-30_19-40-52.jpg',
     title: 'Full-Service Catering',
-    desc: 'Experience the art of Brazilian churrasco with live on-site grilling and tableside service.',
-    span: 'lg:col-span-2',
+    desc: 'Live on-site grilling with dedicated passadores and full tableside service.',
+    span: 'sm:col-span-2',
     tall: true,
-    href: '#enquire',
   },
   {
     image: '/Catering/photo_2026-06-30_19-41-45.jpg',
-    title: 'Catering Pick-Up or Delivery',
-    desc: 'For groups of 15 or more. Choose the arrangement that\'s right for your event needs, serving choice, and group size.',
-    span: 'lg:col-span-1',
+    title: 'Pick-Up & Delivery',
+    desc: 'For groups of 15+. Ready-to-serve platters delivered to your venue.',
+    span: '',
     tall: false,
-    href: '#enquire',
   },
   {
     image: '/Catering/photo_2026-06-30_19-08-35.jpg',
-    title: 'Build Your Own Package',
-    desc: 'Find the perfect catering package for your occasion — customise meats, sides, and service to fit any budget.',
-    span: 'lg:col-span-1',
+    title: 'Build Your Package',
+    desc: 'Choose your meats, sides, and service level to match any budget.',
+    span: '',
     tall: false,
-    href: '#enquire',
   },
   {
     image: '/Catering/photo_2026-06-30_18-27-37.jpg',
-    title: 'Group Dining & Private Events',
-    desc: 'Ready to host your group? Premium churrasco experience with dedicated staff and ready-to-serve platters.',
-    span: 'lg:col-span-2',
+    title: 'Group & Private Events',
+    desc: 'Dedicated staff, premium churrasco, and reserved setups for large groups.',
+    span: 'sm:col-span-2',
     tall: false,
-    href: '#enquire',
   },
 ]
 
+const PERKS = [
+  { icon: 'fa-check', label: 'Delivery to your venue' },
+  { icon: 'fa-check', label: 'Setup & cleanup included' },
+  { icon: 'fa-check', label: 'Live-fire grill team on site' },
+  { icon: 'fa-check', label: 'Equipment & tableware included' },
+  { icon: 'fa-check', label: 'Flexible menus for any budget' },
+  { icon: 'fa-check', label: 'Min. 15 guests · available daily' },
+]
+
 export default function CateringPage() {
-  const [form, setForm] = useState({ name: '', phone: '', date: '', guests: '', location: '', type: '', message: '' })
+  const [form, setForm] = useState({
+    name: '', phone: '', guests: '', location: '', type: '', message: '',
+  })
+  const [dateMonth, setDateMonth] = useState('')
+  const [dateDay,   setDateDay]   = useState('')
+  const [dateYear,  setDateYear]  = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
 
+  const fullDate = dateMonth && dateDay && dateYear ? `${dateYear}-${dateMonth}-${dateDay}` : ''
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleDatePart = (part: 'month' | 'day' | 'year', val: string) => {
+    if (part === 'month') setDateMonth(val)
+    if (part === 'day')   setDateDay(val)
+    if (part === 'year')  setDateYear(val)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -147,7 +133,7 @@ export default function CateringPage() {
     }
     setSubmitting(true)
     try {
-      const res = await fetch('/api/telegram', {
+      await fetch('/api/telegram', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -156,7 +142,7 @@ export default function CateringPage() {
             `━━━━━━━━━━━━━━━━━\n` +
             `👤 <b>Name:</b> ${form.name}\n` +
             `📞 <b>Phone:</b> ${form.phone}\n` +
-            `📅 <b>Date:</b> ${form.date || 'Not specified'}\n` +
+            `📅 <b>Date:</b> ${fullDate || 'Not specified'}\n` +
             `👥 <b>Guests:</b> ${form.guests}\n` +
             `📍 <b>Location:</b> ${form.location}\n` +
             `🎊 <b>Event Type:</b> ${form.type || 'Not specified'}\n` +
@@ -164,10 +150,9 @@ export default function CateringPage() {
             `━━━━━━━━━━━━━━━━━`,
         }),
       })
-      if (!res.ok) throw new Error('Failed')
       setSuccess(true)
-      setTimeout(() => setSuccess(false), 5000)
-      setForm({ name: '', phone: '', date: '', guests: '', location: '', type: '', message: '' })
+      setForm({ name: '', phone: '', guests: '', location: '', type: '', message: '' })
+      setDateMonth(''); setDateDay(''); setDateYear('')
     } catch {
       alert('Something went wrong. Please call us or message via WhatsApp.')
     } finally {
@@ -179,137 +164,107 @@ export default function CateringPage() {
     <>
       <Header />
 
-      <main>
-        {/* Hero */}
+      <main className="bg-[#120807] text-[#FFF7ED]">
+
+        {/* ── Hero ── */}
         <section
-          className="relative flex min-h-[52vh] items-end justify-center bg-cover bg-center pb-0 pt-32 text-white"
-          style={{ backgroundImage: `url('${HERO_BG}')` }}
+          className="relative flex min-h-[78vh] items-center justify-center overflow-hidden px-5 pb-0 pt-28 text-center sm:pt-32"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1800&q=85')", backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/75" />
-          <div className="relative z-10 w-full pb-16 text-center">
-            <motion.p
-              initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-              className="mb-3 text-[0.65rem] font-black uppercase tracking-[0.32em] text-[#fd850b]"
-            >
-              We Come to You
+          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(18,8,7,0.78),rgba(18,8,7,0.5),rgba(18,8,7,0.95))]" />
+          <motion.div
+            variants={stagger} initial="hidden" animate="show"
+            className="relative z-10 pb-20"
+          >
+            <motion.p variants={fadeUp} transition={{ duration: 0.5 }}
+              className="mb-4 text-[0.65rem] font-black uppercase tracking-[0.32em] text-[#fd850b] sm:text-xs sm:tracking-[0.36em]">
+              We Come To You
             </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, delay: 0.1 }}
-              className="font-black text-4xl uppercase leading-none drop-shadow-lg md:text-6xl lg:text-7xl"
-            >
-              CATERING
+            <motion.h1 variants={fadeUp} transition={{ duration: 0.65 }}
+              className="font-serif text-5xl font-black uppercase leading-none drop-shadow-xl sm:text-6xl lg:text-7xl xl:text-8xl">
+              Catering
             </motion.h1>
-            <motion.p
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.28 }}
-              className="mx-auto mt-4 max-w-md text-sm text-white/80 md:text-base"
-            >
-              Authentic Brazilian churrasco delivered to your event — anywhere in Phnom Penh.
+            <motion.p variants={fadeUp} transition={{ duration: 0.6 }}
+              className="mx-auto mt-5 max-w-lg text-sm leading-7 text-[#C7B8A8] sm:text-base sm:leading-8">
+              Authentic Brazilian churrasco — live fire, tableside carving, and full service — brought to your venue anywhere in Phnom Penh.
             </motion.p>
-          </div>
+            <motion.div variants={fadeUp} transition={{ duration: 0.55 }} className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <a href="#enquire"
+                className="inline-flex min-h-12 items-center justify-center bg-[#fd850b] px-7 py-3 text-sm font-black uppercase tracking-[0.14em] text-[#120807] shadow-[0_18px_42px_rgba(253,133,11,0.35)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(253,133,11,0.5)]">
+                <i className="fa-solid fa-paper-plane mr-2" />
+                Get a Quote
+              </a>
+              <a href={WHATSAPP_URL} target="_blank" rel="noreferrer"
+                className="inline-flex min-h-12 items-center justify-center border border-white/25 px-7 py-3 text-sm font-black uppercase tracking-[0.14em] text-white transition hover:border-[#fd850b] hover:text-[#fd850b]">
+                <i className="fa-brands fa-whatsapp mr-2" />
+                WhatsApp Us
+              </a>
+            </motion.div>
+          </motion.div>
         </section>
 
-        {/* ── 3 Feature Columns ── */}
-        <section className="border-b border-[#D4A373]/15 bg-[#0d0806]">
-          <div className="mx-auto grid max-w-6xl grid-cols-1 divide-y divide-[#D4A373]/12 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-            {TOP_FEATURES.map((f, i) => (
-              <motion.div
-                key={f.title}
-                variants={fadeUp} initial="hidden" whileInView="show" viewport={vp}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="flex flex-col items-center px-8 py-10 text-center"
-              >
+        {/* ── Feature Strip ── */}
+        <section className="border-y border-[#D4A373]/15 bg-[#0d0806]">
+          <div className="mx-auto grid max-w-6xl divide-y divide-[#D4A373]/12 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+            {FEATURES.map((f, i) => (
+              <motion.div key={f.title}
+                variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="flex flex-col items-center px-8 py-10 text-center">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center border border-[#fd850b]/30 bg-[#fd850b]/10 text-[#fd850b]">
                   <i className={`fa-solid ${f.icon} text-lg`} aria-hidden="true" />
                 </div>
-                <h3 className="mb-2 font-black text-xs uppercase tracking-[0.18em] text-[#FFF7ED]">{f.title}</h3>
+                <h3 className="mb-2 text-xs font-black uppercase tracking-[0.18em]">{f.title}</h3>
                 <p className="text-xs leading-5 text-[#C7B8A8]">{f.desc}</p>
               </motion.div>
             ))}
           </div>
         </section>
 
-        {/* ── Delivery Options ── */}
-        <section className="bg-[#f4eadb] px-5 py-14 text-[#120807] sm:py-20">
-          <div className="mx-auto max-w-4xl">
-            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.6 }} className="mb-8 text-center">
-              <p className="mb-2 text-[0.6rem] font-black uppercase tracking-[0.28em] text-[#fd850b]">How We Deliver</p>
-              <h2 className="font-black text-2xl uppercase md:text-4xl">Delivery Options</h2>
-            </motion.div>
-            <motion.ul
-              variants={stagger} initial="hidden" whileInView="show" viewport={vp}
-              className="mx-auto max-w-2xl space-y-3"
-            >
-              {DELIVERY_OPTIONS.map((opt) => (
-                <motion.li
-                  key={opt}
-                  variants={fadeUp}
-                  transition={{ duration: 0.45 }}
-                  className="flex items-start gap-3 text-sm leading-6 text-[#4b352b]"
-                >
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#fd850b]" />
-                  {opt}
-                </motion.li>
-              ))}
-            </motion.ul>
-            <motion.div
-              variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.5, delay: 0.2 }}
-              className="mt-10 text-center"
-            >
-              <a
-                href="#enquire"
-                className="inline-flex items-center gap-2 bg-[#120807] px-8 py-3.5 text-xs font-black uppercase tracking-widest text-white transition hover:bg-[#fd850b] hover:text-black"
-              >
-                <i className="fa-solid fa-paper-plane text-xs" />
-                Request a Quote
-              </a>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ── Packages / Pricing ── */}
-        <section className="bg-[#120807] px-4 py-14 sm:py-20">
-          <div className="mx-auto max-w-5xl">
-            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.6 }} className="mb-10 text-center">
-              <p className="mb-2 text-[0.6rem] font-black uppercase tracking-[0.28em] text-[#fd850b]">Pricing</p>
-              <h2 className="font-black text-2xl uppercase text-[#FFF7ED] md:text-4xl">Catering Packages</h2>
-              <p className="mx-auto mt-3 max-w-lg text-xs text-[#C7B8A8] md:text-sm">
-                All packages include delivery, setup, live grilling, service staff, and cleanup.
+        {/* ── Packages ── */}
+        <section className="px-4 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32">
+          <div className="mx-auto max-w-6xl">
+            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.6 }}
+              className="mb-10 sm:mb-14 text-center">
+              <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.28em] text-[#fd850b] sm:text-xs">Pricing</p>
+              <h2 className="font-serif text-3xl uppercase leading-tight sm:text-4xl lg:text-5xl">Catering Packages</h2>
+              <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-[#C7B8A8] sm:text-base">
+                All packages include delivery, live grilling, service staff, equipment, and cleanup.
               </p>
             </motion.div>
-            <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className="grid gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-4">
+
+            <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp}
+              className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-6">
               {PACKAGES.map((pkg) => (
-                <motion.div
-                  key={pkg.name}
-                  variants={fadeUp}
-                  transition={{ duration: 0.5 }}
-                  className={`relative flex flex-col border-2 bg-[#0d0806] p-5 ${pkg.accent ? 'border-[#fd850b] shadow-[0_0_40px_rgba(253,133,11,0.18)]' : 'border-[#D4A373]/25'}`}
-                >
+                <motion.div key={pkg.name} variants={fadeUp} transition={{ duration: 0.5 }}
+                  className={`relative flex flex-col rounded-xl border-2 bg-[#0d0806] p-5 sm:p-6 ${
+                    pkg.accent
+                      ? 'border-[#fd850b] shadow-[0_0_50px_rgba(253,133,11,0.18)]'
+                      : 'border-[#D4A373]/20'
+                  }`}>
                   {pkg.badge && (
-                    <span className="absolute right-0 top-0 bg-[#fd850b] px-3 py-1 text-[0.6rem] font-black uppercase tracking-[0.18em] text-black">
+                    <span className="absolute right-0 top-0 rounded-bl-xl bg-[#fd850b] px-3 py-1 text-[0.6rem] font-black uppercase tracking-[0.18em] text-black">
                       {pkg.badge}
                     </span>
                   )}
                   <p className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-[#C7B8A8]">{pkg.name}</p>
-                  <p className={`mt-1 font-black text-3xl ${pkg.accent ? 'text-[#fd850b]' : 'text-[#FFF7ED]'}`}>{pkg.from}</p>
+                  <p className={`mt-2 font-serif text-4xl ${pkg.accent ? 'text-[#fd850b]' : 'text-[#FFF7ED]'}`}>{pkg.price}</p>
                   <p className="text-[0.6rem] font-bold text-[#fd850b]/70">{pkg.svc}</p>
-                  <p className="mt-0.5 text-[0.65rem] text-[#C7B8A8]">per person · min {pkg.minGuests} guests</p>
-                  <div className="my-3 h-px bg-[#D4A373]/15" />
-                  <ul className="flex-1 space-y-2">
+                  <p className="mt-0.5 text-[0.65rem] text-[#C7B8A8]/70">per person · min {pkg.min} guests</p>
+                  <div className="my-4 h-px bg-[#D4A373]/15" />
+                  <ul className="flex-1 space-y-2.5">
                     {pkg.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-[0.72rem] text-[#C7B8A8]">
+                      <li key={f} className="flex items-start gap-2 text-[0.75rem] text-[#C7B8A8]">
                         <i className="fa-solid fa-check mt-0.5 shrink-0 text-[0.6rem] text-[#fd850b]" />
                         {f}
                       </li>
                     ))}
                   </ul>
-                  <a
-                    href="#enquire"
-                    className={`mt-4 inline-flex items-center justify-center gap-2 py-2.5 text-xs font-black uppercase tracking-wider transition hover:-translate-y-0.5 ${
+                  <a href="#enquire"
+                    className={`mt-5 inline-flex items-center justify-center gap-2 rounded py-2.5 text-xs font-black uppercase tracking-wider transition hover:-translate-y-0.5 ${
                       pkg.accent
                         ? 'bg-[#fd850b] text-black hover:bg-[#ff9a2e]'
                         : 'border border-[#fd850b]/40 text-[#fd850b] hover:bg-[#fd850b] hover:text-black'
-                    }`}
-                  >
+                    }`}>
                     <i className="fa-solid fa-paper-plane text-xs" />
                     Enquire
                   </a>
@@ -319,40 +274,34 @@ export default function CateringPage() {
           </div>
         </section>
 
-        {/* ── Menu Options (image cards) ── */}
-        <section className="bg-[#0a0805] px-4 py-14 sm:px-6 sm:py-20">
+        {/* ── Menu Options (image mosaic) ── */}
+        <section className="bg-[#0a0805] px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
           <div className="mx-auto max-w-6xl">
-            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.6 }} className="mb-10 text-center">
-              <p className="mb-2 text-[0.6rem] font-black uppercase tracking-[0.28em] text-[#fd850b]">What We Offer</p>
-              <h2 className="font-black text-2xl uppercase text-[#FFF7ED] md:text-4xl">Menu Options</h2>
+            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.6 }}
+              className="mb-10 sm:mb-14 text-center">
+              <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.28em] text-[#fd850b] sm:text-xs">What We Offer</p>
+              <h2 className="font-serif text-3xl uppercase leading-tight sm:text-4xl lg:text-5xl">Catering Styles</h2>
             </motion.div>
 
-            <motion.div
-              variants={stagger} initial="hidden" whileInView="show" viewport={vp}
-              className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
-            >
+            <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp}
+              className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
               {MENU_CARDS.map((card) => (
-                <motion.a
-                  key={card.title}
-                  href={card.href}
-                  variants={fadeUp}
-                  transition={{ duration: 0.55 }}
-                  className={`group relative overflow-hidden ${card.span} ${card.tall ? 'min-h-[420px]' : 'min-h-[260px]'}`}
-                >
+                <motion.a key={card.title} href="#enquire" variants={fadeUp} transition={{ duration: 0.55 }}
+                  className={`group relative overflow-hidden rounded-xl ${card.span} ${card.tall ? 'min-h-[320px] sm:min-h-[420px]' : 'min-h-[220px] sm:min-h-[280px]'}`}>
                   <Image
                     src={card.image}
                     alt={card.title}
                     fill
-                    sizes="(min-width: 1024px) 66vw, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover transition duration-500 group-hover:scale-105"
+                    sizes="(min-width: 640px) 50vw, 100vw"
+                    className="object-cover transition duration-500 group-hover:scale-[1.04]"
                     unoptimized={!card.image.includes('unsplash.com')}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent transition duration-300 group-hover:from-black/90" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5 md:p-7">
-                    <h3 className="font-black text-base uppercase text-[#FFF7ED] md:text-xl">{card.title}</h3>
-                    <p className="mt-1.5 text-xs leading-5 text-white/70 md:text-sm md:leading-6">{card.desc}</p>
-                    <span className="mt-3 inline-flex items-center gap-1.5 text-[0.65rem] font-black uppercase tracking-widest text-[#fd850b] transition group-hover:gap-2.5">
-                      Learn More <i className="fa-solid fa-arrow-right text-[0.6rem]" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/88 via-black/25 to-transparent transition duration-300 group-hover:from-black/92" />
+                  <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 lg:p-8">
+                    <h3 className="font-serif text-xl uppercase leading-none sm:text-2xl">{card.title}</h3>
+                    <p className="mt-2 text-xs leading-5 text-white/70 sm:text-sm sm:leading-6">{card.desc}</p>
+                    <span className="mt-3 inline-flex items-center gap-1.5 text-[0.65rem] font-black uppercase tracking-widest text-[#fd850b] transition-all group-hover:gap-3">
+                      Get a Quote <i className="fa-solid fa-arrow-right text-[0.6rem]" />
                     </span>
                   </div>
                 </motion.a>
@@ -362,92 +311,177 @@ export default function CateringPage() {
         </section>
 
         {/* ── Enquiry Form ── */}
-        <section id="enquire" className="bg-[#120807] px-4 py-14 sm:px-8 sm:py-24">
-          <div className="mx-auto max-w-2xl">
-            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.6 }} className="mb-10 text-center">
-              <p className="mb-2 text-[0.65rem] font-black uppercase tracking-[0.28em] text-[#fd850b]">Let's Talk</p>
-              <h2 className="font-black text-2xl uppercase text-[#FFF7ED] md:text-4xl">Request a Catering Quote</h2>
-              <p className="mx-auto mt-3 max-w-md text-xs text-[#C7B8A8] md:text-sm">
-                Fill in your details and we'll be in touch within 24 hours.
-              </p>
-            </motion.div>
+        <section id="enquire" className="scroll-mt-20 relative overflow-hidden bg-[#1A0E0A] px-4 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32">
+          <div className="absolute inset-x-0 top-0 h-px bg-[#fd850b]/25" />
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1800&q=90')] bg-cover bg-center opacity-10" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1A0E0A] via-[#1A0E0A]/97 to-black/95" />
 
-            {success && (
-              <div className="mb-6 flex items-center gap-3 border border-[#fd850b]/30 bg-[#fd850b]/10 px-5 py-4 text-sm text-[#fd850b]">
-                <i className="fa-solid fa-circle-check" />
-                <span>Request sent! We'll be in touch within 24 hours.</span>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }}
+            className="relative mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-start lg:gap-16">
+
+            {/* Left: info */}
+            <div className="lg:sticky lg:top-28">
+              <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.24em] text-[#fd850b] sm:text-xs">Request a Quote</p>
+              <h2 className="font-serif text-3xl uppercase leading-tight sm:text-4xl lg:text-5xl">
+                Let's Plan Your Event
+              </h2>
+              <p className="mt-4 max-w-md text-sm leading-6 text-[#C7B8A8] sm:mt-6 sm:text-base sm:leading-8">
+                Tell us about your event and we'll come back with a full catering proposal within 24 hours.
+              </p>
+
+              {/* Perks checklist */}
+              <ul className="mt-6 grid gap-2 sm:mt-8 sm:grid-cols-2 sm:gap-2.5 lg:grid-cols-1">
+                {PERKS.map((p) => (
+                  <li key={p.label} className="flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.1em] text-[#C7B8A8]">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#fd850b]/20">
+                      <i className="fa-solid fa-check text-[#fd850b] text-[0.55rem]" />
+                    </span>
+                    {p.label}
+                  </li>
+                ))}
+              </ul>
+
+              {/* Quick contact */}
+              <div className="mt-6 space-y-2.5 sm:mt-8">
+                <a href={WHATSAPP_URL} target="_blank" rel="noreferrer"
+                  className="flex items-center gap-3 rounded border border-white/10 bg-white/5 px-4 py-3 text-sm font-black transition hover:border-[#fd850b]/50 hover:text-[#fd850b]">
+                  <i className="fa-brands fa-whatsapp text-[#25D366] text-base" />
+                  Prefer WhatsApp? Message us directly
+                </a>
+                <a href={TELEGRAM_URL} target="_blank" rel="noreferrer"
+                  className="flex items-center gap-3 rounded border border-white/10 bg-white/5 px-4 py-3 text-sm font-black transition hover:border-[#fd850b]/50 hover:text-[#fd850b]">
+                  <i className="fa-brands fa-telegram text-[#29A8E0] text-base" />
+                  Contact us on Telegram
+                </a>
               </div>
+            </div>
+
+            {/* Right: form */}
+            {success ? (
+              <div className="flex flex-col items-center justify-center rounded-xl border border-[#fd850b]/30 bg-[#120807] p-12 text-center">
+                <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[#fd850b]/20">
+                  <i className="fa-solid fa-check text-[#fd850b] text-2xl" />
+                </div>
+                <h3 className="font-serif text-2xl uppercase">Request Sent!</h3>
+                <p className="mt-3 max-w-xs text-sm leading-6 text-[#C7B8A8]">
+                  Our catering team will reach out within 24 hours with a full proposal for your event.
+                </p>
+                <button onClick={() => setSuccess(false)}
+                  className="mt-6 text-xs font-black uppercase tracking-[0.14em] text-[#fd850b] hover:text-white transition">
+                  Send Another Request
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit}
+                className="rounded border border-white/10 bg-[#201615]/90 p-3 shadow-2xl backdrop-blur sm:p-8 lg:p-10">
+
+                <div className="mb-3 flex flex-col gap-1 border-b border-white/10 pb-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between sm:gap-3 sm:pb-6">
+                  <div>
+                    <p className="mb-1 text-[0.66rem] font-black uppercase tracking-[0.16em] text-[#fd850b] sm:mb-2 sm:text-xs sm:tracking-[0.2em]">Catering Details</p>
+                    <h3 className="font-black text-[1.35rem] uppercase leading-none sm:text-3xl">Tell us about your event</h3>
+                  </div>
+                  <p className="text-xs font-medium text-[#FFF7ED]/55 sm:text-sm">Required fields marked *</p>
+                </div>
+
+                <div className="flex flex-col gap-2.5 sm:gap-4">
+
+                  {/* Name + Phone */}
+                  <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+                    <div>
+                      <label className={LABEL_CLASS}>Name *</label>
+                      <input type="text" name="name" value={form.name} onChange={handleChange}
+                        className={INPUT_CLASS} placeholder="Your name" autoComplete="name" />
+                    </div>
+                    <div>
+                      <label className={LABEL_CLASS}>Phone *</label>
+                      <input type="tel" name="phone" value={form.phone} onChange={handleChange}
+                        className={INPUT_CLASS} placeholder="Your phone" autoComplete="tel" inputMode="tel" />
+                    </div>
+                  </div>
+
+                  {/* Date — 3 dropdowns */}
+                  <div>
+                    <label className={LABEL_CLASS}>Event Date</label>
+                    <div className="grid grid-cols-3 gap-2">
+                      <select value={dateMonth} onChange={e => handleDatePart('month', e.target.value)} className={SELECT_CLASS}>
+                        <option value="">Month</option>
+                        {['01','02','03','04','05','06','07','08','09','10','11','12'].map((m, i) => (
+                          <option key={m} value={m} className="bg-[#1a0d0a] text-[#FFF7ED]">
+                            {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][i]}
+                          </option>
+                        ))}
+                      </select>
+                      <select value={dateDay} onChange={e => handleDatePart('day', e.target.value)} className={SELECT_CLASS}>
+                        <option value="">Day</option>
+                        {Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0')).map(d => (
+                          <option key={d} value={d} className="bg-[#1a0d0a] text-[#FFF7ED]">{Number(d)}</option>
+                        ))}
+                      </select>
+                      <select value={dateYear} onChange={e => handleDatePart('year', e.target.value)} className={SELECT_CLASS}>
+                        <option value="">Year</option>
+                        {['2026', '2027', '2028'].map(y => (
+                          <option key={y} value={y} className="bg-[#1a0d0a] text-[#FFF7ED]">{y}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Guests + Event Type */}
+                  <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+                    <div>
+                      <label className={LABEL_CLASS}>No. of Guests *</label>
+                      <input type="number" name="guests" value={form.guests} onChange={handleChange}
+                        className={INPUT_CLASS} placeholder="e.g. 50" min="15" inputMode="numeric" />
+                    </div>
+                    <div>
+                      <label className={LABEL_CLASS}>Event Type</label>
+                      <select name="type" value={form.type} onChange={handleChange} className={SELECT_CLASS}>
+                        <option value="">Select type</option>
+                        <option value="Full-Service Catering"   className="bg-[#1a0d0a] text-[#FFF7ED]">Full-Service Catering</option>
+                        <option value="Pick-Up or Delivery"     className="bg-[#1a0d0a] text-[#FFF7ED]">Pick-Up or Delivery</option>
+                        <option value="Build Your Own"          className="bg-[#1a0d0a] text-[#FFF7ED]">Build Your Own Package</option>
+                        <option value="Corporate"               className="bg-[#1a0d0a] text-[#FFF7ED]">Corporate Event</option>
+                        <option value="Wedding"                 className="bg-[#1a0d0a] text-[#FFF7ED]">Wedding / Reception</option>
+                        <option value="Birthday"                className="bg-[#1a0d0a] text-[#FFF7ED]">Birthday Celebration</option>
+                        <option value="Other"                   className="bg-[#1a0d0a] text-[#FFF7ED]">Other</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Venue / Location */}
+                  <div>
+                    <label className={LABEL_CLASS}>Venue / Location *</label>
+                    <input type="text" name="location" value={form.location} onChange={handleChange}
+                      className={INPUT_CLASS} placeholder="Venue name or address in Phnom Penh" />
+                  </div>
+
+                  {/* Additional Details */}
+                  <div>
+                    <label className={LABEL_CLASS}>Additional Details</label>
+                    <textarea name="message" value={form.message} onChange={handleChange}
+                      className={`${INPUT_CLASS} min-h-16 resize-none sm:min-h-28`}
+                      placeholder="Dietary requirements, theme, or anything else we should know…" />
+                  </div>
+                </div>
+
+                <button type="submit" disabled={submitting}
+                  className="mt-3 flex w-full items-center justify-center rounded bg-gradient-to-r from-[#e87200] to-[#fd850b] px-4 py-3 text-sm font-black uppercase tracking-wider text-black shadow-lg transition-all hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(253,133,11,0.45)] disabled:cursor-not-allowed disabled:opacity-60 sm:mt-6 sm:px-6 sm:py-4">
+                  {submitting
+                    ? <><i className="fa-solid fa-spinner fa-spin mr-2" />Sending…</>
+                    : <><i className="fa-solid fa-paper-plane mr-2" />Send Catering Request</>}
+                </button>
+
+                <p className="mt-4 text-center text-[0.65rem] text-[#C7B8A8]">
+                  Or reach us via{' '}
+                  <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="text-[#fd850b] hover:underline">WhatsApp</a>
+                  {' '}·{' '}
+                  <a href="tel:+85578938333" className="text-[#fd850b] hover:underline">+855 78 938 333</a>
+                </p>
+              </form>
             )}
-
-            <motion.form
-              variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.55, delay: 0.1 }}
-              onSubmit={handleSubmit}
-              className="space-y-4 border border-white/8 bg-white/4 p-5 md:p-10"
-            >
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="mb-1.5 block text-[0.6rem] font-black uppercase tracking-wider text-[#FFF7ED]">Name *</label>
-                  <input type="text" name="name" value={form.name} onChange={handleChange} required placeholder="Your name"
-                    className="w-full border border-white/15 bg-white/6 px-3 py-2.5 text-sm text-[#FFF7ED] placeholder-[#FFF7ED]/35 outline-none transition focus:border-[#fd850b] focus:bg-white/10" />
-                </div>
-                <div>
-                  <label className="mb-1.5 block text-[0.6rem] font-black uppercase tracking-wider text-[#FFF7ED]">Phone *</label>
-                  <input type="tel" name="phone" value={form.phone} onChange={handleChange} required placeholder="Your phone"
-                    className="w-full border border-white/15 bg-white/6 px-3 py-2.5 text-sm text-[#FFF7ED] placeholder-[#FFF7ED]/35 outline-none transition focus:border-[#fd850b] focus:bg-white/10" />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="mb-1.5 block text-[0.6rem] font-black uppercase tracking-wider text-[#FFF7ED]">Event Date</label>
-                  <input type="date" name="date" value={form.date} onChange={handleChange}
-                    className="w-full border border-white/15 bg-[#1a0d0a] px-3 py-2.5 text-sm text-[#FFF7ED] outline-none transition focus:border-[#fd850b] [color-scheme:dark]" />
-                </div>
-                <div>
-                  <label className="mb-1.5 block text-[0.6rem] font-black uppercase tracking-wider text-[#FFF7ED]">No. of Guests *</label>
-                  <input type="number" name="guests" value={form.guests} onChange={handleChange} required placeholder="e.g. 50" min="15" inputMode="numeric"
-                    className="w-full border border-white/15 bg-white/6 px-3 py-2.5 text-sm text-[#FFF7ED] placeholder-[#FFF7ED]/35 outline-none transition focus:border-[#fd850b] focus:bg-white/10" />
-                </div>
-              </div>
-              <div>
-                <label className="mb-1.5 block text-[0.6rem] font-black uppercase tracking-wider text-[#FFF7ED]">Event Location *</label>
-                <input type="text" name="location" value={form.location} onChange={handleChange} required placeholder="Venue or address in Phnom Penh"
-                  className="w-full border border-white/15 bg-white/6 px-3 py-2.5 text-sm text-[#FFF7ED] placeholder-[#FFF7ED]/35 outline-none transition focus:border-[#fd850b] focus:bg-white/10" />
-              </div>
-              <div>
-                <label className="mb-1.5 block text-[0.6rem] font-black uppercase tracking-wider text-[#FFF7ED]">Event Type</label>
-                <select name="type" value={form.type} onChange={handleChange}
-                  className="w-full border border-white/15 bg-[#1a0d0a] px-3 py-2.5 text-sm text-[#FFF7ED] outline-none transition focus:border-[#fd850b]">
-                  <option value="">Select type</option>
-                  <option value="Full-Service Catering">Full-Service Catering</option>
-                  <option value="Pick-Up or Delivery">Pick-Up or Delivery</option>
-                  <option value="Build Your Own">Build Your Own Package</option>
-                  <option value="Corporate">Corporate Event</option>
-                  <option value="Wedding">Wedding / Reception</option>
-                  <option value="Birthday">Birthday Celebration</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              <div>
-                <label className="mb-1.5 block text-[0.6rem] font-black uppercase tracking-wider text-[#FFF7ED]">Additional Details</label>
-                <textarea name="message" value={form.message} onChange={handleChange} rows={4}
-                  placeholder="Dietary requirements, theme, or special requests…"
-                  className="w-full resize-none border border-white/15 bg-white/6 px-3 py-2.5 text-sm text-[#FFF7ED] placeholder-[#FFF7ED]/35 outline-none transition focus:border-[#fd850b] focus:bg-white/10" />
-              </div>
-              <button type="submit" disabled={submitting}
-                className="w-full bg-[#fd850b] py-3.5 text-sm font-black uppercase tracking-wider text-black shadow-[0_12px_40px_rgba(253,133,11,0.28)] transition hover:-translate-y-0.5 hover:bg-[#ff9a2e] disabled:cursor-not-allowed disabled:opacity-60">
-                {submitting
-                  ? <><i className="fa-solid fa-spinner fa-spin mr-2" />Sending…</>
-                  : <><i className="fa-solid fa-paper-plane mr-2" />Send Catering Request</>}
-              </button>
-              <p className="text-center text-[0.65rem] text-[#C7B8A8]">
-                Or reach us via{' '}
-                <a href="https://wa.me/85578938333" target="_blank" rel="noreferrer" className="text-[#fd850b] hover:underline">WhatsApp</a>
-                {' '}or{' '}
-                <a href="tel:+85578938333" className="text-[#fd850b] hover:underline">+855 78 938 333</a>
-              </p>
-            </motion.form>
-          </div>
+          </motion.div>
         </section>
+
       </main>
 
       <Footer />
