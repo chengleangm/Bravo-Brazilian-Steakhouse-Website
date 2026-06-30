@@ -41,7 +41,8 @@ export async function PUT(request: Request) {
     const body = await request.json()
     await write(body)
     return NextResponse.json({ ok: true })
-  } catch {
-    return NextResponse.json({ error: 'Failed to save' }, { status: 500 })
+  } catch (e) {
+    console.error('[gallery] PUT error:', e)
+    return NextResponse.json({ error: String(e) }, { status: 500 })
   }
 }
