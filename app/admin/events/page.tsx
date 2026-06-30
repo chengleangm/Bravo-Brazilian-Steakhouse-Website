@@ -112,6 +112,13 @@ export default function AdminEventsPage() {
     const promos = (data.promotions ?? []).map((p, idx) => idx === i ? { ...p, active: !p.active } : p)
     save({ ...data, promotions: promos })
   }
+  function movePromo(i: number, dir: -1 | 1) {
+    const promos = [...(data.promotions ?? [])]
+    const target = i + dir
+    if (target < 0 || target >= promos.length) return
+    ;[promos[i], promos[target]] = [promos[target], promos[i]]
+    save({ ...data, promotions: promos })
+  }
 
   // ── Event Types ──
   function saveType() {
@@ -201,6 +208,22 @@ export default function AdminEventsPage() {
 
                 {/* Actions */}
                 <div className="flex flex-col justify-center gap-1.5 pr-3 shrink-0">
+                  <button
+                    onClick={() => movePromo(i, -1)}
+                    disabled={i === 0}
+                    title="Move up"
+                    className="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-[#D4A373]/12 text-[#C7B8A8] hover:bg-[#fd850b]/15 hover:text-[#fd850b] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <i className="fa-solid fa-arrow-up" />
+                  </button>
+                  <button
+                    onClick={() => movePromo(i, 1)}
+                    disabled={i === promotions.length - 1}
+                    title="Move down"
+                    className="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-[#D4A373]/12 text-[#C7B8A8] hover:bg-[#fd850b]/15 hover:text-[#fd850b] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <i className="fa-solid fa-arrow-down" />
+                  </button>
                   <button
                     onClick={() => togglePromoActive(i)}
                     title={promo.active ? 'Hide on website' : 'Show on website'}
