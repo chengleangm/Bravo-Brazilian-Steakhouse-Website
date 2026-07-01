@@ -321,9 +321,10 @@ export default function ContactPage() {
 
       <main>
         {/* Map Section */}
-        <section className="relative overflow-hidden bg-dark px-3 py-8 text-cream sm:px-8 sm:py-20 lg:px-10 lg:py-24">
+        <section className="relative overflow-hidden bg-dark bg-cover bg-center px-3 py-8 text-cream sm:px-8 sm:py-20 lg:px-10 lg:py-24 bg-[url('https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=1800&q=85')]">
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-black/70"></div>
           <div className="absolute inset-x-0 top-0 h-px bg-orange/35"></div>
-          <div className="mx-auto max-w-6xl">
+          <div className="relative z-10 mx-auto max-w-6xl">
             <div className="mb-6 grid gap-5 sm:mb-10 sm:gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
               <div>
                 <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-orange sm:mb-3 sm:text-sm sm:tracking-[0.25em]">Visit Bravo</p>
