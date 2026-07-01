@@ -16,6 +16,8 @@ type PageImages = {
   aboutTeamGroup: string
   aboutCTA: string
   menuHero: string
+  contactHero: string
+  contactFindUs: string
 }
 
 type PageImageKey = Exclude<keyof PageImages, 'homeHeroSlides'>
@@ -23,7 +25,7 @@ type PageImageKey = Exclude<keyof PageImages, 'homeHeroSlides'>
 type ImageMeta = {
   key: PageImageKey
   label: string
-  page: 'Home' | 'Our Story' | 'Menu'
+  page: 'Home' | 'Our Story' | 'Menu' | 'Contact'
   pageHref: string
   section: string
   bestSize: string
@@ -41,9 +43,11 @@ const META: ImageMeta[] = [
   { key: 'aboutTeamGroup', label: 'Team photo', page: 'Our Story', pageHref: '/about', section: 'Team section', bestSize: 'Landscape group photo', icon: 'fa-users' },
   { key: 'aboutCTA', label: 'Our Story booking photo', page: 'Our Story', pageHref: '/about', section: 'Bottom call-to-action', bestSize: 'Wide landscape', icon: 'fa-bell-concierge' },
   { key: 'menuHero', label: 'Menu page main photo', page: 'Menu', pageHref: '/menu', section: 'Top of the Menu page', bestSize: 'Wide landscape', icon: 'fa-utensils' },
+  { key: 'contactHero', label: 'Contact page hero photo', page: 'Contact', pageHref: '/contact', section: 'Top "CONTACT US" banner', bestSize: 'Wide landscape', icon: 'fa-address-book' },
+  { key: 'contactFindUs', label: 'Find Us section photo', page: 'Contact', pageHref: '/contact', section: 'Background behind the map/location section', bestSize: 'Wide landscape', icon: 'fa-map-location-dot' },
 ]
 
-const PAGES = ['Home', 'Our Story', 'Menu', 'Gallery', 'Catering', 'Promotions'] as const
+const PAGES = ['Home', 'Our Story', 'Menu', 'Contact', 'Gallery', 'Catering', 'Promotions'] as const
 type PageTab = (typeof PAGES)[number]
 
 type ExtraHero = { heroImage: string; dirty: boolean }
@@ -110,6 +114,8 @@ export default function AdminPageImages() {
           aboutTeamGroup: data.aboutTeamGroup ?? '',
           aboutCTA: data.aboutCTA ?? '',
           menuHero: data.menuHero ?? '',
+          contactHero: data.contactHero ?? '',
+          contactFindUs: data.contactFindUs ?? '',
         })
       })
       .catch(() => {})

@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
@@ -17,6 +17,9 @@ const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/M9Yce1YsMLbfiKqU8'
 const FACEBOOK_URL = 'https://www.facebook.com/bravosteakhousechurrascaria'
 const INSTAGRAM_URL = 'https://www.instagram.com/bravobraziliansteakhouse/'
 const TIKTOK_URL = 'https://www.tiktok.com/@bravobraziliansteakhouse'
+
+const DEFAULT_HERO = 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85'
+const DEFAULT_FIND_US_BG = 'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=1800&q=85'
 
 const FAQS = [
   {
@@ -195,6 +198,19 @@ const HOURS = [
 ]
 
 export default function ContactPage() {
+  const [heroImage, setHeroImage] = useState(DEFAULT_HERO)
+  const [findUsImage, setFindUsImage] = useState(DEFAULT_FIND_US_BG)
+
+  useEffect(() => {
+    fetch('/api/admin/page-images', { cache: 'no-store' })
+      .then(r => r.json())
+      .then(d => {
+        if (d.contactHero) setHeroImage(d.contactHero)
+        if (d.contactFindUs) setFindUsImage(d.contactFindUs)
+      })
+      .catch(() => {})
+  }, [])
+
   const [reservationFormData, setReservationFormData] = useState({
     name: '',
     phone: '',
@@ -321,7 +337,10 @@ export default function ContactPage() {
 
       <main>
         {/* Hero Section */}
-        <section className="relative min-h-96 flex items-center justify-center bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85')] pt-32 pb-16 px-5 text-center text-white">
+        <section
+          className="relative min-h-96 flex items-center justify-center bg-cover bg-center pt-32 pb-16 px-5 text-center text-white"
+          style={{ backgroundImage: `url('${heroImage}')` }}
+        >
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-black/70"></div>
           <div className="relative z-10">
             <h1 className="font-black text-5xl md:text-7xl uppercase leading-none drop-shadow-lg">CONTACT US</h1>
@@ -329,7 +348,10 @@ export default function ContactPage() {
         </section>
 
         {/* Map Section */}
-        <section className="relative overflow-hidden bg-dark bg-cover bg-center px-3 py-8 text-cream sm:px-8 sm:py-20 lg:px-10 lg:py-24 bg-[url('https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=1800&q=85')]">
+        <section
+          className="relative overflow-hidden bg-dark bg-cover bg-center px-3 py-8 text-cream sm:px-8 sm:py-20 lg:px-10 lg:py-24"
+          style={{ backgroundImage: `url('${findUsImage}')` }}
+        >
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-black/70"></div>
           <div className="absolute inset-x-0 top-0 h-px bg-orange/35"></div>
           <div className="relative z-10 mx-auto max-w-6xl">
