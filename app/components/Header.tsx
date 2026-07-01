@@ -15,7 +15,7 @@ const socialLinks = [
 
 const navItems = [
   { href: '/', label: 'Home' },
-  { href: '/contact', label: 'Location' },
+  { href: '/location', label: 'Location' },
   { href: '/menu', label: 'Menu' },
   { href: '/promotions', label: 'Promotions' },
   { href: '/catering', label: 'Catering Services' },
