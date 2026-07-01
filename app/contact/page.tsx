@@ -67,13 +67,13 @@ function FAQ() {
       <button
         type="button"
         onClick={() => toggle(i)}
-        className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-[0.65rem] font-black uppercase tracking-[0.06em] transition hover:text-[#fd850b] sm:px-5 sm:py-3.5"
+        className="flex w-full items-center justify-between gap-3 px-3 py-2.5 text-left text-[0.62rem] font-black uppercase tracking-[0.06em] transition hover:text-[#fd850b] sm:px-5 sm:py-3.5 sm:text-[0.65rem]"
       >
-        <span className="truncate">{item.q}</span>
+        <span>{item.q}</span>
         <i className={`fa-solid fa-chevron-down text-[#fd850b] text-[0.55rem] shrink-0 transition-transform duration-300 ${openSet.has(i) ? 'rotate-180' : ''}`} />
       </button>
       <div className={`overflow-hidden transition-all duration-300 ${openSet.has(i) ? 'max-h-40' : 'max-h-0'}`}>
-        <p className="border-t border-[#D4A373]/10 px-4 py-3 text-xs leading-5 text-[#C7B8A8] sm:px-5 sm:py-4 sm:text-sm sm:leading-6">{item.a}</p>
+        <p className="border-t border-[#D4A373]/10 px-3 py-2.5 text-[0.7rem] leading-5 text-[#C7B8A8] sm:px-5 sm:py-4 sm:text-sm sm:leading-6">{item.a}</p>
       </div>
     </motion.div>
   )
@@ -81,7 +81,7 @@ function FAQ() {
   const half = Math.ceil(FAQS.length / 2)
 
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-col gap-2 sm:flex-row">
       <div className="flex flex-1 flex-col gap-2">
         {FAQS.slice(0, half).map((item, i) => renderItem(item, i))}
       </div>
@@ -452,37 +452,37 @@ export default function ContactPage() {
         </section>
 
         {/* Reservation Form */}
-        <section id="reservation" className="relative scroll-mt-0 overflow-hidden bg-dark px-3 pb-6 pt-24 text-cream sm:scroll-mt-0 sm:px-8 sm:pb-20 sm:pt-32 lg:px-10 lg:pb-24">
+        <section id="reservation" className="relative scroll-mt-0 overflow-hidden bg-dark px-3 pb-5 pt-20 text-cream sm:scroll-mt-0 sm:px-8 sm:pb-20 sm:pt-32 lg:px-10 lg:pb-24">
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1800&q=90')] bg-cover bg-center opacity-20"></div>
           <div className="absolute inset-0 bg-gradient-to-br from-dark via-dark/95 to-black/95"></div>
-          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="relative mx-auto grid max-w-6xl gap-7 sm:gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="relative mx-auto grid max-w-6xl gap-4 sm:gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <div className="order-2 lg:sticky lg:top-28 lg:order-none">
-              <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-orange sm:mb-3 sm:text-sm sm:tracking-[0.25em]">Book Bravo</p>
-              <h2 className="font-black text-4xl uppercase leading-none sm:text-5xl md:text-6xl">Make a Reservation</h2>
-              <p className="mt-4 max-w-md text-sm leading-6 text-cream/75 sm:mt-6 sm:text-lg sm:leading-8">
+              <p className="mb-1 text-[0.65rem] font-black uppercase tracking-[0.2em] text-orange sm:mb-3 sm:text-sm sm:tracking-[0.25em]">Book Bravo</p>
+              <h2 className="font-black text-2xl uppercase leading-none sm:text-5xl md:text-6xl">Make a Reservation</h2>
+              <p className="mt-2 max-w-md text-xs leading-5 text-cream/75 sm:mt-6 sm:text-lg sm:leading-8">
                 Save your table for churrasco, buffet sides, cold drinks, and a full Brazilian steakhouse night in Phnom Penh.
               </p>
 
-              <div className="mt-4 grid gap-2">
+              <div className="mt-3 grid gap-1.5">
                 {RESERVATION_PERKS.map((item) => (
-                  <div key={item.label} className="flex items-center gap-3 rounded-lg border border-[#fd850b]/20 bg-[#fd850b]/6 px-3 py-2.5">
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#fd850b]/20">
-                      <i className={`fa-solid ${item.icon} text-[#fd850b] text-[0.6rem]`}></i>
+                  <div key={item.label} className="flex items-center gap-2.5 rounded-lg border border-[#fd850b]/20 bg-[#fd850b]/6 px-2.5 py-2">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#fd850b]/20">
+                      <i className={`fa-solid ${item.icon} text-[#fd850b] text-[0.55rem]`}></i>
                     </span>
                     <div className="min-w-0">
-                      <p className="text-[0.65rem] font-black uppercase tracking-[0.1em] text-cream">{item.label}</p>
-                      <p className="text-[0.6rem] leading-4 text-cream/55">{item.copy}</p>
+                      <p className="text-[0.6rem] font-black uppercase tracking-[0.1em] text-cream">{item.label}</p>
+                      <p className="text-[0.58rem] leading-4 text-cream/55">{item.copy}</p>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-5 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:gap-3 lg:flex-col xl:flex-row">
+              <div className="mt-3 flex flex-col gap-2 sm:mt-8 sm:flex-row sm:gap-3 lg:flex-col xl:flex-row">
                 <a
                   href={WHATSAPP_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded border border-white/20 px-4 py-2.5 text-xs font-black uppercase tracking-wider transition-all hover:border-orange hover:text-orange sm:px-5 sm:py-3 sm:text-sm"
+                  className="inline-flex items-center justify-center rounded border border-white/20 px-3 py-2 text-[0.68rem] font-black uppercase tracking-wider transition-all hover:border-orange hover:text-orange sm:px-5 sm:py-3 sm:text-sm"
                 >
                   <i className="fa-brands fa-whatsapp mr-2"></i>
                   WhatsApp
@@ -491,7 +491,7 @@ export default function ContactPage() {
                   href={TELEGRAM_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded border border-white/20 px-4 py-2.5 text-xs font-black uppercase tracking-wider transition-all hover:border-orange hover:text-orange sm:px-5 sm:py-3 sm:text-sm"
+                  className="inline-flex items-center justify-center rounded border border-white/20 px-3 py-2 text-[0.68rem] font-black uppercase tracking-wider transition-all hover:border-orange hover:text-orange sm:px-5 sm:py-3 sm:text-sm"
                 >
                   <i className="fa-brands fa-telegram mr-2"></i>
                   Telegram
@@ -499,8 +499,8 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <form onSubmit={handleReservationSubmit} className="order-1 rounded border border-white/10 bg-[#201615]/90 p-3 shadow-2xl backdrop-blur sm:p-5 lg:order-none lg:p-6">
-              <div className="mb-3 flex flex-col gap-1 border-b border-white/10 pb-3">
+            <form onSubmit={handleReservationSubmit} className="order-1 rounded border border-white/10 bg-[#201615]/90 p-2.5 shadow-2xl backdrop-blur sm:p-5 lg:order-none lg:p-6">
+              <div className="mb-2.5 flex flex-col gap-1 border-b border-white/10 pb-2.5">
                 <div>
                   <p className="mb-0.5 text-[0.58rem] font-black uppercase tracking-[0.16em] text-orange">Reservation Details</p>
                   <h3 className="font-black text-base uppercase leading-none">Tell us about your table</h3>
@@ -643,26 +643,26 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Form */}
-        <section className="relative overflow-hidden bg-cream px-3 py-6 text-dark sm:px-8 sm:py-20 lg:px-10 lg:py-24">
+        <section className="relative overflow-hidden bg-cream px-3 py-5 text-dark sm:px-8 sm:py-20 lg:px-10 lg:py-24">
           <div className="absolute inset-x-0 top-0 h-px bg-dark/10"></div>
-          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="mx-auto grid max-w-6xl gap-7 sm:gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }} className="mx-auto grid max-w-6xl gap-4 sm:gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
             <div className="order-2 lg:order-none">
-              <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-orange sm:mb-3 sm:text-sm sm:tracking-[0.25em]">Talk to Bravo</p>
-              <h2 className="font-black text-4xl uppercase leading-none sm:text-5xl md:text-6xl">Get in Touch</h2>
-              <p className="mt-4 max-w-md text-sm leading-6 text-dark/70 sm:mt-6 sm:text-lg sm:leading-8">
+              <p className="mb-1 text-[0.65rem] font-black uppercase tracking-[0.2em] text-orange sm:mb-3 sm:text-sm sm:tracking-[0.25em]">Talk to Bravo</p>
+              <h2 className="font-black text-2xl uppercase leading-none sm:text-5xl md:text-6xl">Get in Touch</h2>
+              <p className="mt-2 max-w-md text-xs leading-5 text-dark/70 sm:mt-6 sm:text-lg sm:leading-8">
                 Questions about reservations, private events, menu details, or feedback? Send us a note and the BRAVO team will help.
               </p>
 
-              <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-6">
+              <div className="mt-3 grid grid-cols-2 gap-1.5 sm:mt-6 sm:gap-2">
                 {CONTACT_METHODS.map((method, i) => {
                   const content = (
                     <>
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded bg-dark text-orange">
-                        <i className={`${method.icon} text-xs`}></i>
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-dark text-orange sm:h-7 sm:w-7">
+                        <i className={`${method.icon} text-[0.65rem] sm:text-xs`}></i>
                       </span>
                       <span>
-                        <span className="block text-[0.6rem] font-black uppercase tracking-[0.14em] text-orange">{method.label}</span>
-                        <span className="mt-0.5 block text-xs font-black leading-tight text-dark">{method.value}</span>
+                        <span className="block text-[0.55rem] font-black uppercase tracking-[0.14em] text-orange sm:text-[0.6rem]">{method.label}</span>
+                        <span className="mt-0.5 block text-[0.68rem] font-black leading-tight text-dark sm:text-xs">{method.value}</span>
                       </span>
                     </>
                   )
@@ -674,7 +674,7 @@ export default function ContactPage() {
                         href={method.href}
                         target={method.href.startsWith('http') ? '_blank' : undefined}
                         rel={method.href.startsWith('http') ? 'noreferrer' : undefined}
-                        className="flex items-center gap-2 rounded border border-dark/10 bg-white/75 p-2.5 shadow-custom transition-all hover:-translate-y-0.5 hover:border-orange/50 hover:bg-white"
+                        className="flex items-center gap-1.5 rounded border border-dark/10 bg-white/75 p-2 shadow-custom transition-all hover:-translate-y-0.5 hover:border-orange/50 hover:bg-white sm:gap-2 sm:p-2.5"
                       >
                         {content}
                       </a>
@@ -682,7 +682,7 @@ export default function ContactPage() {
                   }
 
                   return (
-                    <div key={i} className="flex items-center gap-2 rounded border border-dark/10 bg-white/75 p-2.5 shadow-custom">
+                    <div key={i} className="flex items-center gap-1.5 rounded border border-dark/10 bg-white/75 p-2 shadow-custom sm:gap-2 sm:p-2.5">
                       {content}
                     </div>
                   )
@@ -690,8 +690,8 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <form onSubmit={handleContactSubmit} className="order-1 rounded border border-dark/10 bg-white/90 p-3 shadow-2xl backdrop-blur sm:p-5 lg:order-none lg:p-6">
-              <div className="mb-3 flex flex-col gap-1 border-b border-dark/10 pb-3">
+            <form onSubmit={handleContactSubmit} className="order-1 rounded border border-dark/10 bg-white/90 p-2.5 shadow-2xl backdrop-blur sm:p-5 lg:order-none lg:p-6">
+              <div className="mb-2.5 flex flex-col gap-1 border-b border-dark/10 pb-2.5">
                 <div>
                   <p className="mb-0.5 text-[0.58rem] font-black uppercase tracking-[0.16em] text-orange">Message Details</p>
                   <h3 className="font-black text-base uppercase leading-none">How can we help?</h3>
