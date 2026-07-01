@@ -17,6 +17,7 @@ const navItems = [
   { href: '/', label: 'Home' },
   { href: '/menu', label: 'Menu' },
   { href: '/contact', label: 'Location' },
+  { href: '/contact', label: 'Contact Us' },
   { href: '/promotions', label: 'Promotions' },
   { href: '/catering', label: 'Catering Services' },
   { href: '/about', label: 'Our Story' },
@@ -114,7 +115,7 @@ export function Header() {
               const isActive = pathname === item.href
               return (
                 <Link
-                  key={item.href}
+                  key={item.label}
                   href={item.href}
                   className={`py-2 text-[11px] font-bold tracking-[0.12em] uppercase transition duration-200 ${
                     isActive ? 'text-white' : 'text-white/65 hover:text-white'
@@ -174,7 +175,7 @@ export function Header() {
             const isActive = pathname === item.href
             return (
               <Link
-                key={item.href}
+                key={item.label}
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`px-4 py-3 text-sm font-bold tracking-[0.1em] uppercase transition ${
