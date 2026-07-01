@@ -112,11 +112,11 @@ export function Header() {
             aria-label="Main navigation"
             className="hidden flex-1 items-center justify-end gap-6 px-8 lg:flex"
           >
-            {navItems.map((item) => {
+            {navItems.map((item, idx) => {
               const isActive = pathname === item.href
               return (
                 <Link
-                  key={item.label}
+                  key={idx}
                   href={item.href}
                   className={`py-2 text-[11px] font-bold tracking-[0.12em] uppercase transition duration-200 ${
                     isActive ? 'text-white' : 'text-white/65 hover:text-white'
