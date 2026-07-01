@@ -115,27 +115,27 @@ export function Specials() {
           initial="hidden"
           whileInView="show"
           viewport={vp}
-          className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-6"
+          className="grid grid-cols-2 gap-2.5 sm:gap-5 lg:grid-cols-4 lg:gap-6"
         >
           {content.items.map((s) => (
             <motion.div
               key={s.title}
               variants={fadeUp}
               transition={{ duration: 0.5 }}
-              className="group flex flex-col rounded-xl border border-[#D4A373]/15 bg-[#1A0E0A] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#fd850b]/40 hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+              className="group flex flex-col rounded-xl border border-[#D4A373]/15 bg-[#1A0E0A] p-3 transition-all duration-300 hover:-translate-y-1 hover:border-[#fd850b]/40 hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)] sm:p-6"
             >
-              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-[#fd850b]/15">
-                <i className={`fa-solid ${s.icon} text-lg text-[#fd850b]`} aria-hidden="true" />
+              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-lg bg-[#fd850b]/15 sm:mb-4 sm:h-11 sm:w-11">
+                <i className={`fa-solid ${s.icon} text-sm text-[#fd850b] sm:text-lg`} aria-hidden="true" />
               </div>
-              <span className="mb-1 text-[0.6rem] font-black uppercase tracking-[0.22em] text-[#fd850b]">{s.tag}</span>
-              <h3 className="font-serif text-xl uppercase leading-tight text-white">{s.title}</h3>
-              <p className="mt-2 flex-1 text-sm leading-6 text-[#C7B8A8]">{s.copy}</p>
+              <span className="mb-1 text-[0.55rem] font-black uppercase tracking-[0.16em] text-[#fd850b] sm:text-[0.6rem] sm:tracking-[0.22em]">{s.tag}</span>
+              <h3 className="font-serif text-sm uppercase leading-tight text-white sm:text-xl">{s.title}</h3>
+              <p className="mt-1.5 flex-1 text-[0.7rem] leading-5 text-[#C7B8A8] sm:mt-2 sm:text-sm sm:leading-6">{s.copy}</p>
               <Link
                 href={s.ctaHref}
-                className="mt-5 inline-flex items-center gap-1.5 text-[0.7rem] font-black uppercase tracking-[0.16em] text-[#fd850b] transition hover:text-white"
+                className="mt-3 inline-flex items-center gap-1.5 text-[0.6rem] font-black uppercase tracking-[0.1em] text-[#fd850b] transition hover:text-white sm:mt-5 sm:text-[0.7rem] sm:tracking-[0.16em]"
               >
                 {s.ctaLabel}
-                <i className="fa-solid fa-arrow-right text-[0.6rem]" aria-hidden="true" />
+                <i className="fa-solid fa-arrow-right text-[0.55rem] sm:text-[0.6rem]" aria-hidden="true" />
               </Link>
             </motion.div>
           ))}
