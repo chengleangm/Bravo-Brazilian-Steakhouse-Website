@@ -70,7 +70,7 @@ export function Testimonials() {
   function next() { setDirection(1); setPage(p => Math.min(totalPages - 1, p + 1)) }
 
   return (
-    <section className="relative overflow-hidden px-4 py-10 text-[#FFF7ED] sm:px-8 sm:py-20 lg:px-10 lg:py-28">
+    <section className="relative overflow-hidden px-3 py-6 text-[#FFF7ED] sm:px-8 sm:py-20 lg:px-10 lg:py-28">
       <Image
         src={backgroundImage}
         alt="Steak dinner plated for a celebration"
@@ -89,12 +89,12 @@ export function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.68 }}
-          className="mx-auto max-w-[22rem] text-center font-serif text-xl uppercase leading-[0.9] sm:max-w-4xl sm:text-4xl lg:text-5xl"
+          className="mx-auto max-w-[18rem] text-center font-serif text-lg uppercase leading-[0.9] sm:max-w-4xl sm:text-4xl lg:text-5xl"
         >
           {content.title}
         </motion.h2>
 
-        <div className="mt-7 sm:mt-12">
+        <div className="mt-4 sm:mt-12">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={page}
@@ -102,28 +102,28 @@ export function Testimonials() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: direction * -40 }}
               transition={{ duration: 0.35 }}
-              className="grid gap-3 sm:gap-5 md:grid-cols-3"
+              className="grid gap-2 sm:gap-5 md:grid-cols-3"
             >
               {visible.map((review, i) => (
                 <article
                   key={i}
-                  className="bg-[#f4eadb]/94 p-4 text-left text-[#180c08] shadow-[0_24px_60px_rgba(0,0,0,0.26)] sm:p-6 flex flex-col"
+                  className="bg-[#f4eadb]/94 p-3 text-left text-[#180c08] shadow-[0_24px_60px_rgba(0,0,0,0.26)] sm:p-6 flex flex-col"
                 >
-                  <div className="mb-2 flex items-center justify-between sm:mb-3">
+                  <div className="mb-1.5 flex items-center justify-between sm:mb-3">
                     <span
-                      className="text-[0.75rem] font-black text-[#fd850b] sm:text-base"
+                      className="text-[0.65rem] font-black text-[#fd850b] sm:text-base"
                       aria-label={`${review.stars} out of 5 stars`}
                     >
                       {'★'.repeat(review.stars)}{'☆'.repeat(5 - review.stars)}
                     </span>
-                    <span className="text-[0.58rem] font-bold uppercase tracking-wider text-[#8c7060] sm:text-[0.62rem]">
+                    <span className="text-[0.52rem] font-bold uppercase tracking-wider text-[#8c7060] sm:text-[0.62rem]">
                       {review.badge}
                     </span>
                   </div>
-                  <p className="flex-1 text-[0.82rem] leading-5 text-[#3c2b24] sm:text-sm sm:leading-7">
+                  <p className="flex-1 text-[0.7rem] leading-4 text-[#3c2b24] sm:text-sm sm:leading-7">
                     &quot;{review.quote}&quot;
                   </p>
-                  <h3 className="mt-3 font-serif text-xl uppercase text-[#180c08] sm:mt-5 sm:text-2xl">
+                  <h3 className="mt-2 font-serif text-sm uppercase text-[#180c08] sm:mt-5 sm:text-2xl">
                     {review.name}
                   </h3>
                 </article>
@@ -132,17 +132,17 @@ export function Testimonials() {
           </AnimatePresence>
 
           {totalPages > 1 && (
-            <div className="mt-6 flex items-center justify-center gap-4 sm:mt-8">
+            <div className="mt-4 flex items-center justify-center gap-3 sm:mt-8 sm:gap-4">
               <button
                 type="button"
                 onClick={prev}
                 disabled={page === 0}
                 aria-label="Previous reviews"
-                className="flex h-10 w-10 items-center justify-center border border-[#FFF7ED]/30 text-[#FFF7ED] transition hover:border-[#fd850b] hover:text-[#fd850b] disabled:cursor-not-allowed disabled:opacity-30 sm:h-12 sm:w-12"
+                className="flex h-8 w-8 items-center justify-center border border-[#FFF7ED]/30 text-[#FFF7ED] transition hover:border-[#fd850b] hover:text-[#fd850b] disabled:cursor-not-allowed disabled:opacity-30 sm:h-12 sm:w-12"
               >
                 <i className="fa-solid fa-chevron-left text-xs" aria-hidden="true" />
               </button>
-              <span className="text-xs font-black uppercase tracking-[0.16em] text-[#FFF7ED]/70">
+              <span className="text-[0.65rem] font-black uppercase tracking-[0.16em] text-[#FFF7ED]/70 sm:text-xs">
                 {page + 1} / {totalPages}
               </span>
               <button
@@ -150,7 +150,7 @@ export function Testimonials() {
                 onClick={next}
                 disabled={page === totalPages - 1}
                 aria-label="Next reviews"
-                className="flex h-10 w-10 items-center justify-center border border-[#FFF7ED]/30 text-[#FFF7ED] transition hover:border-[#fd850b] hover:text-[#fd850b] disabled:cursor-not-allowed disabled:opacity-30 sm:h-12 sm:w-12"
+                className="flex h-8 w-8 items-center justify-center border border-[#FFF7ED]/30 text-[#FFF7ED] transition hover:border-[#fd850b] hover:text-[#fd850b] disabled:cursor-not-allowed disabled:opacity-30 sm:h-12 sm:w-12"
               >
                 <i className="fa-solid fa-chevron-right text-xs" aria-hidden="true" />
               </button>
