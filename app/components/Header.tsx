@@ -172,11 +172,11 @@ export function Header() {
         }`}
       >
         <nav className="mx-auto grid max-w-7xl gap-1 px-5 py-5 sm:px-8">
-          {navItems.map((item) => {
+          {navItems.map((item, idx) => {
             const isActive = pathname === item.href
             return (
               <Link
-                key={item.label}
+                key={idx}
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`px-4 py-3 text-sm font-bold tracking-[0.1em] uppercase transition ${
