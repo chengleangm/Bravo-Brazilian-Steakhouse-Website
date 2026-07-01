@@ -156,7 +156,7 @@ export default function PromotionsPage() {
                       >
                         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(253,133,11,0.16),transparent_36%),linear-gradient(135deg,rgba(255,247,237,0.04),transparent_46%)]" />
 
-                        <div className="relative min-h-[260px] w-full sm:min-h-full">
+                        <div className="relative min-h-[150px] w-full sm:min-h-full">
                           {promo.image ? (
                             <Image
                               src={promo.image}
@@ -168,51 +168,51 @@ export default function PromotionsPage() {
                             />
                           ) : (
                             <div className="w-full h-full bg-[#1a0e0a] flex items-center justify-center">
-                              <i className="fa-solid fa-tag text-5xl text-[#fd850b]/30" />
+                              <i className="fa-solid fa-tag text-3xl text-[#fd850b]/30 sm:text-5xl" />
                             </div>
                           )}
                           <div className="absolute inset-0 bg-gradient-to-t from-[#120807] via-[#120807]/15 to-transparent sm:bg-gradient-to-r sm:from-transparent sm:via-transparent sm:to-[#120807]/35" />
-                          <div className="absolute left-4 top-4 sm:left-5 sm:top-5">
-                            <span className="inline-flex items-center gap-1.5 bg-[#fd850b] text-black text-[0.62rem] font-black uppercase tracking-[0.18em] px-3 py-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
-                              <i className="fa-solid fa-bolt text-[0.55rem]" />
+                          <div className="absolute left-2.5 top-2.5 sm:left-5 sm:top-5">
+                            <span className="inline-flex items-center gap-1 bg-[#fd850b] text-black text-[0.5rem] font-black uppercase tracking-[0.1em] px-2 py-1 shadow-[0_10px_30px_rgba(0,0,0,0.35)] sm:gap-1.5 sm:text-[0.62rem] sm:tracking-[0.18em] sm:px-3 sm:py-1.5">
+                              <i className="fa-solid fa-bolt text-[0.45rem] sm:text-[0.55rem]" />
                               {promo.badge}
                             </span>
                           </div>
                         </div>
 
-                        <div className="relative flex flex-col justify-center px-5 pb-6 pt-5 sm:p-8 lg:p-12">
-                          <div className="mb-4 flex flex-wrap items-center gap-2 sm:gap-3">
+                        <div className="relative flex flex-col justify-center px-3.5 pb-4 pt-3.5 sm:p-8 lg:p-12">
+                          <div className="mb-2 flex flex-wrap items-center gap-1.5 sm:mb-4 sm:gap-3">
                             {(promo.date || promo.time) && (
-                              <span className="inline-flex items-center gap-2 border border-[#D4A373]/20 bg-white/[0.04] px-3 py-1.5 text-[0.68rem] font-black uppercase tracking-[0.16em] text-[#C7B8A8]">
+                              <span className="inline-flex items-center gap-1.5 border border-[#D4A373]/20 bg-white/[0.04] px-2 py-1 text-[0.55rem] font-black uppercase tracking-[0.08em] text-[#C7B8A8] sm:gap-2 sm:px-3 sm:py-1.5 sm:text-[0.68rem] sm:tracking-[0.16em]">
                                 <i className="fa-solid fa-clock text-[#fd850b]" aria-hidden="true" />
                                 {promo.date}{promo.date && promo.time ? ' · ' : ''}{promo.time}
                               </span>
                             )}
                           </div>
 
-                          <h2 className="font-serif text-[2.35rem] sm:text-4xl lg:text-5xl uppercase leading-[0.88] text-[#FFF7ED] mb-3">
+                          <h2 className="font-serif text-lg sm:text-4xl lg:text-5xl uppercase leading-[0.95] sm:leading-[0.88] text-[#FFF7ED] mb-1.5 sm:mb-3">
                             {promo.title}
                           </h2>
 
                           {promo.subtitle && (
-                            <p className="text-[#fd850b] font-black text-sm sm:text-base uppercase tracking-[0.12em] leading-6 mb-4">
+                            <p className="text-[#fd850b] font-black text-[0.68rem] sm:text-base uppercase tracking-[0.06em] leading-4 mb-2 sm:tracking-[0.12em] sm:leading-6 sm:mb-4">
                               {promo.subtitle}
                             </p>
                           )}
 
                           {highlights.length > 0 && (
-                            <div className={`mb-4 grid gap-2 text-center sm:max-w-md ${highlights.length === 1 ? 'grid-cols-1' : highlights.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+                            <div className={`mb-2 grid gap-1.5 text-center sm:mb-4 sm:gap-2 sm:max-w-md ${highlights.length === 1 ? 'grid-cols-1' : highlights.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
                               {highlights.map(item => (
-                                <div key={`${item.label}-${item.value}`} className="border border-[#D4A373]/18 bg-black/18 px-2 py-3">
-                                  <p className="text-[0.6rem] font-black uppercase tracking-[0.16em] text-[#C7B8A8]">{item.label}</p>
-                                  <p className={`mt-1 text-sm font-black ${item.accent ? 'text-[#fd850b]' : 'text-[#FFF7ED]'}`}>{item.value}</p>
+                                <div key={`${item.label}-${item.value}`} className="border border-[#D4A373]/18 bg-black/18 px-1.5 py-1.5 sm:px-2 sm:py-3">
+                                  <p className="text-[0.5rem] font-black uppercase tracking-[0.1em] text-[#C7B8A8] sm:text-[0.6rem] sm:tracking-[0.16em]">{item.label}</p>
+                                  <p className={`mt-0.5 text-xs font-black sm:mt-1 sm:text-sm ${item.accent ? 'text-[#fd850b]' : 'text-[#FFF7ED]'}`}>{item.value}</p>
                                 </div>
                               ))}
                             </div>
                           )}
 
                           {promo.description && (
-                            <p className="text-[#C7B8A8] text-sm sm:text-base leading-7 max-w-lg mb-6">
+                            <p className="text-[#C7B8A8] text-[0.7rem] leading-5 sm:text-base sm:leading-7 max-w-lg mb-3 sm:mb-6">
                               {promo.description}
                             </p>
                           )}
@@ -221,7 +221,7 @@ export default function PromotionsPage() {
                             <div>
                               <Link
                                 href={promo.ctaLink || '/contact#reservation'}
-                                className="inline-flex w-full items-center justify-center gap-2 bg-[#fd850b] text-black px-6 py-3.5 text-sm font-black uppercase tracking-wider shadow-[0_12px_40px_rgba(253,133,11,0.3)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_56px_rgba(253,133,11,0.45)] sm:w-auto"
+                                className="inline-flex w-full items-center justify-center gap-2 bg-[#fd850b] text-black px-4 py-2.5 text-xs font-black uppercase tracking-wider shadow-[0_12px_40px_rgba(253,133,11,0.3)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_56px_rgba(253,133,11,0.45)] sm:w-auto sm:px-6 sm:py-3.5 sm:text-sm"
                               >
                                 <i className="fa-solid fa-calendar-check text-xs" />
                                 {promo.cta}
