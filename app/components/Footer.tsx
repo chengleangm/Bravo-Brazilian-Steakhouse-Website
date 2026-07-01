@@ -45,12 +45,12 @@ function ContactItem({ href, icon, label }: { href: string; icon: string; label:
       href={href}
       target={isExternal ? '_blank' : undefined}
       rel={isExternal ? 'noreferrer' : undefined}
-      className="group flex min-w-0 items-center gap-2 text-[0.72rem] leading-tight text-[#C7B8A8] transition hover:text-[#fd850b] sm:gap-3 sm:text-sm"
+      className="group flex min-w-0 items-center gap-1.5 text-[0.6rem] leading-tight text-[#C7B8A8] transition hover:text-[#fd850b] sm:gap-3 sm:text-sm"
     >
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center bg-[#FFF7ED]/6 text-xs text-[#fd850b] ring-1 ring-[#D4A373]/18 transition group-hover:bg-[#fd850b] group-hover:text-black sm:h-9 sm:w-9 sm:text-sm">
+      <span className="flex h-6 w-6 shrink-0 items-center justify-center bg-[#FFF7ED]/6 text-[0.6rem] text-[#fd850b] ring-1 ring-[#D4A373]/18 transition group-hover:bg-[#fd850b] group-hover:text-black sm:h-9 sm:w-9 sm:text-sm">
         <i className={icon} aria-hidden="true" />
       </span>
-      <span className="min-w-0">{label}</span>
+      <span className="min-w-0 truncate">{label}</span>
     </a>
   )
 }
@@ -60,7 +60,7 @@ export function Footer() {
     <footer className="relative overflow-hidden border-t border-[#D4A373]/22 bg-[#050302] px-3 text-[#FFF7ED] sm:px-8 lg:px-10">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(253,133,11,0.16),transparent_34%),linear-gradient(180deg,rgba(18,8,7,0.78),rgba(0,0,0,0.96))]" />
 
-      <div className="relative mx-auto grid max-w-6xl grid-cols-2 gap-x-4 gap-y-8 py-10 sm:gap-x-6 sm:gap-y-10 sm:py-12 lg:grid-cols-[1.2fr_1fr_0.75fr_0.9fr_0.8fr] lg:py-16">
+      <div className="relative mx-auto grid max-w-6xl grid-cols-2 gap-x-3 gap-y-5 py-6 sm:gap-x-6 sm:gap-y-10 sm:py-12 lg:grid-cols-[1.2fr_1fr_0.75fr_0.9fr_0.8fr] lg:py-16">
 
         {/* Brand */}
         <div className="col-span-2 lg:col-span-1">
@@ -74,10 +74,10 @@ export function Footer() {
               alt="Bravo Brazilian Steakhouse"
               width={240}
               height={166}
-              className="h-16 w-auto object-contain sm:h-24"
+              className="h-11 w-auto object-contain sm:h-24"
             />
           </Link>
-          <p className="mt-3 max-w-xs text-xs leading-5 text-[#C7B8A8] sm:mt-5 sm:text-sm sm:leading-7">
+          <p className="mt-2 max-w-xs text-[0.65rem] leading-4 text-[#C7B8A8] sm:mt-5 sm:text-sm sm:leading-7">
             BRAVO Brazilian BBQ.
             <br />
             Fire-grilled dining in Phnom Penh, Cambodia.
@@ -86,10 +86,10 @@ export function Footer() {
 
         {/* Contact */}
         <div>
-          <h3 className="font-serif text-lg uppercase leading-none text-[#FFF7ED] sm:text-2xl">
+          <h3 className="font-serif text-sm uppercase leading-none text-[#FFF7ED] sm:text-2xl">
             Contact
           </h3>
-          <div className="mt-3 grid gap-2 sm:mt-5 sm:gap-3">
+          <div className="mt-2 grid gap-1.5 sm:mt-5 sm:gap-3">
             {contactLinks.map((item) => (
               <ContactItem key={item.label} {...item} />
             ))}
@@ -98,10 +98,10 @@ export function Footer() {
 
         {/* Follow Us */}
         <div>
-          <h3 className="font-serif text-lg uppercase leading-none text-[#FFF7ED] sm:text-2xl">
+          <h3 className="font-serif text-sm uppercase leading-none text-[#FFF7ED] sm:text-2xl">
             Follow Us
           </h3>
-          <div className="mt-3 grid gap-2 sm:mt-5 sm:gap-3">
+          <div className="mt-2 grid gap-1.5 sm:mt-5 sm:gap-3">
             {socialLinks.map((item) => (
               <ContactItem key={item.label} {...item} />
             ))}
@@ -110,14 +110,14 @@ export function Footer() {
 
         {/* Hours */}
         <div>
-          <h3 className="font-serif text-lg uppercase leading-none text-[#FFF7ED] sm:text-2xl">
+          <h3 className="font-serif text-sm uppercase leading-none text-[#FFF7ED] sm:text-2xl">
             Hours
           </h3>
-          <div className="mt-3 grid gap-2 text-[0.72rem] sm:mt-5 sm:gap-3 sm:text-sm">
+          <div className="mt-2 grid gap-1.5 text-[0.6rem] sm:mt-5 sm:gap-3 sm:text-sm">
             {hours.map((item) => (
               <div
                 key={item.day}
-                className="border-b border-[#D4A373]/12 pb-2 last:border-b-0 sm:pb-3"
+                className="border-b border-[#D4A373]/12 pb-1.5 last:border-b-0 sm:pb-3"
               >
                 <p className="font-black uppercase text-[#fd850b]">{item.day}</p>
                 <p className="mt-0.5 whitespace-pre-line leading-tight text-[#C7B8A8] sm:mt-1">
@@ -130,11 +130,11 @@ export function Footer() {
 
         {/* Quick Links */}
         <div>
-          <h3 className="font-serif text-lg uppercase leading-none text-[#FFF7ED] sm:text-2xl">
+          <h3 className="font-serif text-sm uppercase leading-none text-[#FFF7ED] sm:text-2xl">
             Quick Links
           </h3>
           <nav
-            className="mt-3 grid gap-y-2 text-[0.72rem] sm:mt-5 sm:gap-y-3 sm:text-sm"
+            className="mt-2 grid gap-y-1.5 text-[0.6rem] sm:mt-5 sm:gap-y-3 sm:text-sm"
             aria-label="Footer navigation"
           >
             {links.map((link) => (
@@ -150,11 +150,11 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="relative mx-auto flex max-w-6xl flex-col gap-3 border-t border-[#D4A373]/14 py-4 text-[0.68rem] leading-5 text-[#C7B8A8] sm:flex-row sm:items-center sm:justify-between sm:py-5 sm:text-xs">
+      <div className="relative mx-auto flex max-w-6xl flex-col gap-2 border-t border-[#D4A373]/14 py-3 text-[0.58rem] leading-4 text-[#C7B8A8] sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:py-5 sm:text-xs sm:leading-5">
         <p className="max-w-[17rem] sm:max-w-none">
           &copy; {new Date().getFullYear()} BRAVO Brazilian BBQ. All rights reserved.
         </p>
-        <div className="flex flex-wrap gap-3 sm:gap-4">
+        <div className="flex flex-wrap gap-2.5 sm:gap-4">
           <Link href="/contact#reservation" className="transition hover:text-[#fd850b]">
             Reserve a table
           </Link>
