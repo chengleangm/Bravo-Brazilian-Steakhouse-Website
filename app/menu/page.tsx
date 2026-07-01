@@ -212,13 +212,13 @@ function AlaCarteCard({ item }: { item: MenuItem }) {
       {/* Circle image with price badge */}
       <div className="relative mx-auto w-full">
         {item.image && (
-          <div className="relative aspect-square overflow-hidden rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.6)] sm:shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
+          <div className="relative aspect-square overflow-hidden rounded-full bg-[#0e0b08] shadow-[0_4px_16px_rgba(0,0,0,0.6)] sm:shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
             <Image
               src={item.image}
               alt={item.name}
               fill
               sizes="(max-width:640px) 33vw, (max-width:1024px) 210px, 230px"
-              className="object-cover transition duration-500 group-hover:scale-[1.08]"
+              className="object-contain transition duration-500 group-hover:scale-[1.08]"
               unoptimized={!item.image.includes('unsplash.com')}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
