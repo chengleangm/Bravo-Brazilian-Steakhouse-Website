@@ -17,7 +17,6 @@ const navItems = [
   { href: '/', label: 'Home' },
   { href: '/contact', label: 'Location' },
   { href: '/menu', label: 'Menu' },
-  { href: '/contact', label: 'Location' },
   { href: '/promotions', label: 'Promotions' },
   { href: '/catering', label: 'Catering Services' },
   { href: '/about', label: 'Our Story' },
