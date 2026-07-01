@@ -15,11 +15,11 @@ const WHATSAPP_URL = 'https://wa.me/85510231121'
 const TELEGRAM_URL = 'https://t.me/BravoReservationsTTP'
 
 const INPUT_CLASS =
-  'h-8 w-full min-w-0 rounded border border-white/15 bg-white/10 px-2.5 text-xs leading-none text-[#FFF7ED] outline-none transition-all placeholder:text-[#FFF7ED]/35 focus:border-[#fd850b] focus:bg-white/15 focus:shadow-[0_0_0_3px_rgba(253,133,11,0.18)]'
+  'h-7 w-full min-w-0 rounded border border-white/15 bg-white/10 px-2 text-[0.68rem] leading-none text-[#FFF7ED] outline-none transition-all placeholder:text-[#FFF7ED]/35 focus:border-[#fd850b] focus:bg-white/15 focus:shadow-[0_0_0_3px_rgba(253,133,11,0.18)] sm:h-8 sm:px-2.5 sm:text-xs'
 const LABEL_CLASS =
-  'mb-1 block text-[0.6rem] font-black uppercase tracking-[0.12em] text-[#FFF7ED]/90'
+  'mb-0.5 block text-[0.52rem] font-black uppercase tracking-[0.08em] text-[#FFF7ED]/90 sm:mb-1 sm:text-[0.6rem] sm:tracking-[0.12em]'
 const SELECT_CLASS =
-  'h-8 w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-2 rounded text-xs focus:outline-none focus:border-[#fd850b] transition-all'
+  'h-7 w-full bg-[#1a0d0a] border border-white/15 text-[#FFF7ED] px-1.5 rounded text-[0.68rem] focus:outline-none focus:border-[#fd850b] transition-all sm:h-8 sm:px-2 sm:text-xs'
 
 const FEATURES = [
   { icon: 'fa-truck-fast',          title: 'Delivery & Setup',       desc: 'We bring the full churrasco experience to your venue — grill, staff, equipment, and service included.' },
@@ -220,16 +220,16 @@ export default function CateringPage() {
 
         {/* ── Feature Strip ── */}
         <section className="border-y border-[#D4A373]/15 bg-[#0d0806]">
-          <div className="mx-auto grid max-w-6xl divide-y divide-[#D4A373]/12 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          <div className="mx-auto grid max-w-6xl grid-cols-3 divide-x divide-[#D4A373]/12 sm:divide-x">
             {FEATURES.map((f, i) => (
               <motion.div key={f.title}
                 variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="flex flex-col items-center px-8 py-10 text-center">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center border border-[#fd850b]/30 bg-[#fd850b]/10 text-[#fd850b]">
-                  <i className={`fa-solid ${f.icon} text-lg`} aria-hidden="true" />
+                className="flex flex-col items-center px-2 py-4 text-center sm:px-8 sm:py-10">
+                <div className="mb-2 flex h-8 w-8 items-center justify-center border border-[#fd850b]/30 bg-[#fd850b]/10 text-[#fd850b] sm:mb-4 sm:h-12 sm:w-12">
+                  <i className={`fa-solid ${f.icon} text-xs sm:text-lg`} aria-hidden="true" />
                 </div>
-                <h3 className="mb-2 text-xs font-black uppercase tracking-[0.18em]">{f.title}</h3>
-                <p className="text-xs leading-5 text-[#C7B8A8]">{f.desc}</p>
+                <h3 className="mb-1 text-[0.6rem] font-black uppercase leading-tight tracking-[0.08em] sm:mb-2 sm:text-xs sm:tracking-[0.18em]">{f.title}</h3>
+                <p className="hidden text-xs leading-5 text-[#C7B8A8] sm:block">{f.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -248,39 +248,39 @@ export default function CateringPage() {
             </motion.div>
 
             <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp}
-              className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-6">
+              className="grid grid-cols-2 gap-2.5 sm:gap-5 lg:grid-cols-4 lg:gap-6">
               {packages.map((pkg) => (
                 <motion.div key={pkg.name} variants={fadeUp} transition={{ duration: 0.5 }}
-                  className={`relative flex flex-col rounded-xl border-2 bg-[#0d0806] p-5 sm:p-6 ${
+                  className={`relative flex flex-col overflow-hidden rounded-xl border-2 bg-[#0d0806] p-3 sm:p-6 ${
                     pkg.accent
                       ? 'border-[#fd850b] shadow-[0_0_50px_rgba(253,133,11,0.18)]'
                       : 'border-[#D4A373]/20'
                   }`}>
                   {pkg.badge && (
-                    <span className="absolute right-0 top-0 rounded-bl-xl bg-[#fd850b] px-3 py-1 text-[0.6rem] font-black uppercase tracking-[0.18em] text-black">
+                    <span className="absolute right-0 top-0 rounded-bl-xl bg-[#fd850b] px-2 py-0.5 text-[0.5rem] font-black uppercase tracking-[0.1em] text-black sm:px-3 sm:py-1 sm:text-[0.6rem] sm:tracking-[0.18em]">
                       {pkg.badge}
                     </span>
                   )}
-                  <p className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-[#C7B8A8]">{pkg.name}</p>
-                  <p className={`mt-2 font-serif text-4xl ${pkg.accent ? 'text-[#fd850b]' : 'text-[#FFF7ED]'}`}>{pkg.price}</p>
-                  <p className="text-[0.6rem] font-bold text-[#fd850b]/70">{pkg.svc}</p>
-                  <p className="mt-0.5 text-[0.65rem] text-[#C7B8A8]/70">per person · min {pkg.min} guests</p>
-                  <div className="my-4 h-px bg-[#D4A373]/15" />
-                  <ul className="flex-1 space-y-2.5">
+                  <p className="text-[0.55rem] font-black uppercase tracking-[0.12em] text-[#C7B8A8] sm:text-[0.65rem] sm:tracking-[0.2em]">{pkg.name}</p>
+                  <p className={`mt-1 font-serif text-xl sm:mt-2 sm:text-4xl ${pkg.accent ? 'text-[#fd850b]' : 'text-[#FFF7ED]'}`}>{pkg.price}</p>
+                  <p className="text-[0.5rem] font-bold text-[#fd850b]/70 sm:text-[0.6rem]">{pkg.svc}</p>
+                  <p className="mt-0.5 text-[0.55rem] text-[#C7B8A8]/70 sm:text-[0.65rem]">per person · min {pkg.min} guests</p>
+                  <div className="my-2.5 h-px bg-[#D4A373]/15 sm:my-4" />
+                  <ul className="flex-1 space-y-1.5 sm:space-y-2.5">
                     {pkg.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-[0.75rem] text-[#C7B8A8]">
-                        <i className="fa-solid fa-check mt-0.5 shrink-0 text-[0.6rem] text-[#fd850b]" />
+                      <li key={f} className="flex items-start gap-1.5 text-[0.62rem] text-[#C7B8A8] sm:gap-2 sm:text-[0.75rem]">
+                        <i className="fa-solid fa-check mt-0.5 shrink-0 text-[0.55rem] text-[#fd850b] sm:text-[0.6rem]" />
                         {f}
                       </li>
                     ))}
                   </ul>
                   <a href="#enquire"
-                    className={`mt-5 inline-flex items-center justify-center gap-2 rounded py-2.5 text-xs font-black uppercase tracking-wider transition hover:-translate-y-0.5 ${
+                    className={`mt-3 inline-flex items-center justify-center gap-1.5 rounded py-2 text-[0.6rem] font-black uppercase tracking-wider transition hover:-translate-y-0.5 sm:mt-5 sm:gap-2 sm:py-2.5 sm:text-xs ${
                       pkg.accent
                         ? 'bg-[#fd850b] text-black hover:bg-[#ff9a2e]'
                         : 'border border-[#fd850b]/40 text-[#fd850b] hover:bg-[#fd850b] hover:text-black'
                     }`}>
-                    <i className="fa-solid fa-paper-plane text-xs" />
+                    <i className="fa-solid fa-paper-plane text-[0.6rem] sm:text-xs" />
                     Enquire
                   </a>
                 </motion.div>
@@ -299,10 +299,10 @@ export default function CateringPage() {
             </motion.div>
 
             <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp}
-              className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+              className="grid grid-cols-2 gap-2 sm:gap-4">
               {MENU_CARDS.map((card) => (
                 <motion.a key={card.title} href="#enquire" variants={fadeUp} transition={{ duration: 0.55 }}
-                  className={`group relative overflow-hidden rounded-xl ${card.span} ${card.tall ? 'min-h-[320px] sm:min-h-[420px]' : 'min-h-[220px] sm:min-h-[280px]'}`}>
+                  className={`group relative overflow-hidden rounded-xl col-span-2 ${card.span} ${card.tall ? 'min-h-[180px] sm:min-h-[320px] lg:min-h-[420px]' : 'min-h-[140px] sm:min-h-[220px] lg:min-h-[280px]'}`}>
                   <Image
                     src={card.image}
                     alt={card.title}
@@ -312,11 +312,11 @@ export default function CateringPage() {
                     unoptimized={!card.image.includes('unsplash.com')}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/88 via-black/25 to-transparent transition duration-300 group-hover:from-black/92" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 lg:p-8">
-                    <h3 className="font-serif text-xl uppercase leading-none sm:text-2xl">{card.title}</h3>
-                    <p className="mt-2 text-xs leading-5 text-white/70 sm:text-sm sm:leading-6">{card.desc}</p>
-                    <span className="mt-3 inline-flex items-center gap-1.5 text-[0.65rem] font-black uppercase tracking-widest text-[#fd850b] transition-all group-hover:gap-3">
-                      Get a Quote <i className="fa-solid fa-arrow-right text-[0.6rem]" />
+                  <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-6 lg:p-8">
+                    <h3 className="font-serif text-sm uppercase leading-none sm:text-2xl">{card.title}</h3>
+                    <p className="mt-1 text-[0.65rem] leading-4 text-white/70 sm:mt-2 sm:text-sm sm:leading-6">{card.desc}</p>
+                    <span className="mt-1.5 inline-flex items-center gap-1.5 text-[0.55rem] font-black uppercase tracking-widest text-[#fd850b] transition-all group-hover:gap-3 sm:mt-3 sm:text-[0.65rem]">
+                      Get a Quote <i className="fa-solid fa-arrow-right text-[0.55rem] sm:text-[0.6rem]" />
                     </span>
                   </div>
                 </motion.a>
@@ -326,30 +326,30 @@ export default function CateringPage() {
         </section>
 
         {/* ── Enquiry Form ── */}
-        <section id="enquire" className="scroll-mt-20 relative overflow-hidden bg-[#1A0E0A] px-4 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32">
+        <section id="enquire" className="scroll-mt-20 relative overflow-hidden bg-[#1A0E0A] px-3 py-8 sm:px-8 sm:py-24 lg:px-10 lg:py-32">
           <div className="absolute inset-x-0 top-0 h-px bg-[#fd850b]/25" />
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1800&q=90')] bg-cover bg-center opacity-10" />
           <div className="absolute inset-0 bg-gradient-to-br from-[#1A0E0A] via-[#1A0E0A]/97 to-black/95" />
 
           <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} transition={{ duration: 0.7 }}
-            className="relative mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-start lg:gap-16">
+            className="relative mx-auto grid max-w-6xl gap-4 lg:grid-cols-[0.88fr_1.12fr] lg:items-start lg:gap-16">
 
             {/* Left: info */}
             <div className="lg:sticky lg:top-28">
-              <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.24em] text-[#fd850b] sm:text-xs">Request a Quote</p>
-              <h2 className="font-serif text-3xl uppercase leading-tight sm:text-4xl lg:text-5xl">
+              <p className="mb-1 text-[0.6rem] font-black uppercase tracking-[0.18em] text-[#fd850b] sm:mb-2 sm:text-xs sm:tracking-[0.24em]">Request a Quote</p>
+              <h2 className="font-serif text-xl uppercase leading-tight sm:text-4xl lg:text-5xl">
                 Let's Plan Your Event
               </h2>
-              <p className="mt-4 max-w-md text-sm leading-6 text-[#C7B8A8] sm:mt-6 sm:text-base sm:leading-8">
+              <p className="mt-2 max-w-md text-xs leading-5 text-[#C7B8A8] sm:mt-6 sm:text-base sm:leading-8">
                 Tell us about your event and we'll come back with a full catering proposal within 24 hours.
               </p>
 
               {/* Perks checklist */}
-              <ul className="mt-6 grid gap-2 sm:mt-8 sm:grid-cols-2 sm:gap-2.5 lg:grid-cols-1">
+              <ul className="mt-3 grid grid-cols-2 gap-1.5 sm:mt-8 sm:gap-2.5 lg:grid-cols-1">
                 {PERKS.map((p) => (
-                  <li key={p.label} className="flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.1em] text-[#C7B8A8]">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#fd850b]/20">
-                      <i className="fa-solid fa-check text-[#fd850b] text-[0.55rem]" />
+                  <li key={p.label} className="flex items-center gap-1.5 text-[0.6rem] font-black uppercase tracking-[0.04em] text-[#C7B8A8] sm:gap-2.5 sm:text-xs sm:tracking-[0.1em]">
+                    <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#fd850b]/20 sm:h-5 sm:w-5">
+                      <i className="fa-solid fa-check text-[#fd850b] text-[0.45rem] sm:text-[0.55rem]" />
                     </span>
                     {p.label}
                   </li>
@@ -357,15 +357,15 @@ export default function CateringPage() {
               </ul>
 
               {/* Quick contact */}
-              <div className="mt-6 space-y-2.5 sm:mt-8">
+              <div className="mt-3 space-y-2 sm:mt-8 sm:space-y-2.5">
                 <a href={WHATSAPP_URL} target="_blank" rel="noreferrer"
-                  className="flex items-center gap-3 rounded border border-white/10 bg-white/5 px-4 py-3 text-sm font-black transition hover:border-[#fd850b]/50 hover:text-[#fd850b]">
-                  <i className="fa-brands fa-whatsapp text-[#25D366] text-base" />
+                  className="flex items-center gap-2 rounded border border-white/10 bg-white/5 px-3 py-2 text-xs font-black transition hover:border-[#fd850b]/50 hover:text-[#fd850b] sm:gap-3 sm:px-4 sm:py-3 sm:text-sm">
+                  <i className="fa-brands fa-whatsapp text-[#25D366] text-sm sm:text-base" />
                   Prefer WhatsApp? Message us directly
                 </a>
                 <a href={TELEGRAM_URL} target="_blank" rel="noreferrer"
-                  className="flex items-center gap-3 rounded border border-white/10 bg-white/5 px-4 py-3 text-sm font-black transition hover:border-[#fd850b]/50 hover:text-[#fd850b]">
-                  <i className="fa-brands fa-telegram text-[#29A8E0] text-base" />
+                  className="flex items-center gap-2 rounded border border-white/10 bg-white/5 px-3 py-2 text-xs font-black transition hover:border-[#fd850b]/50 hover:text-[#fd850b] sm:gap-3 sm:px-4 sm:py-3 sm:text-sm">
+                  <i className="fa-brands fa-telegram text-[#29A8E0] text-sm sm:text-base" />
                   Contact us on Telegram
                 </a>
               </div>
@@ -388,17 +388,17 @@ export default function CateringPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit}
-                className="rounded border border-white/10 bg-[#201615]/90 p-3 shadow-2xl backdrop-blur sm:p-5 lg:p-6">
+                className="rounded border border-white/10 bg-[#201615]/90 p-2.5 shadow-2xl backdrop-blur sm:p-5 lg:p-6">
 
-                <div className="mb-3 flex flex-col gap-1 border-b border-white/10 pb-3">
+                <div className="mb-2 flex flex-col gap-0.5 border-b border-white/10 pb-2 sm:mb-3 sm:gap-1 sm:pb-3">
                   <div>
-                    <p className="mb-0.5 text-[0.58rem] font-black uppercase tracking-[0.16em] text-[#fd850b]">Catering Details</p>
-                    <h3 className="font-black text-base uppercase leading-none">Tell us about your event</h3>
+                    <p className="mb-0.5 text-[0.5rem] font-black uppercase tracking-[0.1em] text-[#fd850b] sm:text-[0.58rem] sm:tracking-[0.16em]">Catering Details</p>
+                    <h3 className="font-black text-xs uppercase leading-none sm:text-base">Tell us about your event</h3>
                   </div>
-                  <p className="text-[0.6rem] font-medium text-[#FFF7ED]/55">Required fields marked *</p>
+                  <p className="text-[0.52rem] font-medium text-[#FFF7ED]/55 sm:text-[0.6rem]">Required fields marked *</p>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1.5 sm:gap-2">
 
                   {/* Name + Phone */}
                   <div className="grid grid-cols-2 gap-2">
