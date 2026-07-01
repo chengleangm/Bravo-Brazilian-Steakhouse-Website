@@ -23,7 +23,6 @@ const NAV_GROUPS = [
       { href: '/admin/events', icon: 'fa-tags', label: 'Promotions', desc: 'Offers and events page' },
       { href: '/admin/catering', icon: 'fa-truck-fast', label: 'Catering', desc: 'Packages and pricing' },
       { href: '/admin/gallery', icon: 'fa-images', label: 'Gallery photos', desc: 'Photos and story cards' },
-      { href: '/admin/short-videos', icon: 'fa-film', label: 'Gallery videos', desc: 'Short portrait clips' },
     ],
   },
 ]
@@ -39,7 +38,6 @@ const LIVE_PAGE_BY_ADMIN_PATH: Record<string, string> = {
   '/admin/events': '/promotions',
   '/admin/catering': '/catering',
   '/admin/gallery': '/gallery',
-  '/admin/short-videos': '/gallery',
 }
 
 const SECTION_HELP: Record<string, { title: string; copy: string; items: string[] }> = {
@@ -87,11 +85,6 @@ const SECTION_HELP: Record<string, { title: string; copy: string; items: string[
     title: 'Gallery photos',
     copy: 'Controls gallery photos, categories, featured flags, and story cards.',
     items: ['Bulk upload photos', 'Assign categories', 'Build story cards'],
-  },
-  '/admin/short-videos': {
-    title: 'Gallery videos',
-    copy: 'Controls the three vertical clips shown on the Gallery page.',
-    items: ['Portrait video paths', 'Clip labels', 'Gallery preview clips'],
   },
 }
 
