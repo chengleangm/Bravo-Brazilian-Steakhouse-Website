@@ -320,6 +320,14 @@ export default function ContactPage() {
       <Header />
 
       <main>
+        {/* Hero Section */}
+        <section className="relative min-h-96 flex items-center justify-center bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85')] pt-32 pb-16 px-5 text-center text-white">
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-black/70"></div>
+          <div className="relative z-10">
+            <h1 className="font-black text-5xl md:text-7xl uppercase leading-none drop-shadow-lg">CONTACT US</h1>
+          </div>
+        </section>
+
         {/* Map Section */}
         <section className="relative overflow-hidden bg-dark bg-cover bg-center px-3 py-8 text-cream sm:px-8 sm:py-20 lg:px-10 lg:py-24 bg-[url('https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=1800&q=85')]">
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-black/70"></div>
@@ -405,14 +413,6 @@ export default function ContactPage() {
                 ></iframe>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Hero Section */}
-        <section className="relative min-h-96 flex items-center justify-center bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85')] pt-32 pb-16 px-5 text-center text-white">
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-black/70"></div>
-          <div className="relative z-10">
-            <h1 className="font-black text-5xl md:text-7xl uppercase leading-none drop-shadow-lg">CONTACT US</h1>
           </div>
         </section>
 
