@@ -420,70 +420,33 @@ export default function ContactPage() {
         <section className="bg-cream px-5 py-12 text-dark sm:py-20 lg:py-28">
           <div className="max-w-6xl mx-auto">
             <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp} className={styles.contactCardsGrid}>
-              <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
-                <div className={styles.contactInfoIcon}>
-                  <i className="fa-solid fa-phone text-orange"></i>
-                </div>
-                <div>
-                  <h3 className={styles.contactInfoTitle}>Phone</h3>
-                  <p className={styles.contactInfoValue}><a href="tel:+85578938333" className="hover:text-orange transition-colors">+855 78 938 333</a></p>
-
-                </div>
-              </motion.div>
-              <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
-                <div className={styles.contactInfoIcon}>
-                  <i className="fa-solid fa-map-pin text-orange"></i>
-                </div>
-                <div>
-                  <h3 className={styles.contactInfoTitle}>Location</h3>
-                  <p className={styles.contactInfoValue}><a href={GOOGLE_MAPS_URL} target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Phnom Penh, Cambodia</a></p>
-                </div>
-              </motion.div>
-              <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
-                <div className={styles.contactInfoIcon}>
-                  <i className="fa-brands fa-facebook text-orange"></i>
-                </div>
-                <div>
-                  <h3 className={styles.contactInfoTitle}>Facebook</h3>
-                  <p className={styles.contactInfoValue}><a href={FACEBOOK_URL} target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Bravo Steakhouse</a></p>
-                </div>
-              </motion.div>
-              <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
-                <div className={styles.contactInfoIcon}>
-                  <i className="fa-brands fa-instagram text-orange"></i>
-                </div>
-                <div>
-                  <h3 className={styles.contactInfoTitle}>Instagram</h3>
-                  <p className={styles.contactInfoValue}><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">@bravobraziliansteakhouse</a></p>
-                </div>
-              </motion.div>
-              <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
-                <div className={styles.contactInfoIcon}>
-                  <i className="fa-brands fa-tiktok text-orange"></i>
-                </div>
-                <div>
-                  <h3 className={styles.contactInfoTitle}>TikTok</h3>
-                  <p className={styles.contactInfoValue}><a href={TIKTOK_URL} target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">@bravobraziliansteakhouse</a></p>
-                </div>
-              </motion.div>
-              <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
-                <div className={styles.contactInfoIcon}>
-                  <i className="fa-brands fa-whatsapp text-orange"></i>
-                </div>
-                <div>
-                  <h3 className={styles.contactInfoTitle}>WhatsApp</h3>
-                  <p className={styles.contactInfoValue}><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Message Us</a></p>
-                </div>
-              </motion.div>
-              <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}>
-                <div className={styles.contactInfoIcon}>
-                  <i className="fa-brands fa-telegram text-orange"></i>
-                </div>
-                <div>
-                  <h3 className={styles.contactInfoTitle}>Telegram</h3>
-                  <p className={styles.contactInfoValue}><a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-orange transition-colors">Reservations</a></p>
-                </div>
-              </motion.div>
+              {[
+                { icon: 'fa-solid fa-phone', label: 'Phone', value: '+855 78 938 333', href: 'tel:+85578938333' },
+                { icon: 'fa-solid fa-map-pin', label: 'Location', value: 'Phnom Penh, Cambodia', href: GOOGLE_MAPS_URL },
+                { icon: 'fa-brands fa-facebook', label: 'Facebook', value: 'Bravo Steakhouse', href: FACEBOOK_URL },
+                { icon: 'fa-brands fa-instagram', label: 'Instagram', value: '@bravobraziliansteakhouse', href: INSTAGRAM_URL },
+                { icon: 'fa-brands fa-tiktok', label: 'TikTok', value: '@bravobraziliansteakhouse', href: TIKTOK_URL },
+                { icon: 'fa-brands fa-whatsapp', label: 'WhatsApp', value: 'Message Us', href: WHATSAPP_URL },
+                { icon: 'fa-brands fa-telegram', label: 'Telegram', value: 'Reservations', href: TELEGRAM_URL },
+              ].map((item) => (
+                <motion.a
+                  key={item.label}
+                  variants={fadeUp}
+                  transition={{ duration: 0.5 }}
+                  href={item.href}
+                  target={item.href.startsWith('http') ? '_blank' : undefined}
+                  rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
+                  className={`${styles.contactInfoCard} bg-white/6 border border-white/9 shadow-custom rounded hover:shadow-2xl hover:-translate-y-2 transition-all`}
+                >
+                  <div className={styles.contactInfoIcon}>
+                    <i className={`${item.icon} text-orange`}></i>
+                  </div>
+                  <div>
+                    <h3 className={styles.contactInfoTitle}>{item.label}</h3>
+                    <p className={styles.contactInfoValue}><span className="hover:text-orange transition-colors">{item.value}</span></p>
+                  </div>
+                </motion.a>
+              ))}
             </motion.div>
           </div>
         </section>

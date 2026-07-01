@@ -5,35 +5,36 @@
 
 .contactCardsGrid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  margin-bottom: 48px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 5px;
+  margin-bottom: 24px;
 }
 
 .contactInfoCard {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  gap: 6px;
-  padding: 12px 8px;
+  justify-content: center;
+  gap: 0;
+  padding: 4px;
   text-align: center;
-  min-height: 80px;
+  min-height: 0;
 }
 
 .contactInfoIcon {
   display: flex;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
   background: rgba(253, 133, 11, 0.16);
-  font-size: 0.8rem;
+  font-size: 0.68rem;
 }
 
 .contactInfoTitle {
+  display: none;
   margin: 0;
   font-size: 0.68rem;
   font-weight: 900;
@@ -43,6 +44,7 @@
 }
 
 .contactInfoValue {
+  display: none;
   margin-top: 1px;
   color: rgba(18, 8, 7, 0.78);
   font-size: 0.7rem;
@@ -240,6 +242,24 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 10px;
     margin-bottom: 64px;
+  }
+
+  .contactInfoCard {
+    justify-content: flex-start;
+    gap: 6px;
+    padding: 12px 8px;
+    min-height: 80px;
+  }
+
+  .contactInfoIcon {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+
+  .contactInfoTitle,
+  .contactInfoValue {
+    display: block;
   }
 }
 
