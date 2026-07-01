@@ -176,6 +176,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={() => setIsMobileMenuOpen(false)}
                 className={`px-4 py-3 text-sm font-bold tracking-[0.1em] uppercase transition ${
                   isActive
                     ? 'bg-white/10 text-white'
@@ -188,6 +189,7 @@ export function Header() {
           })}
           <Link
             href="/contact#reservation"
+            onClick={() => setIsMobileMenuOpen(false)}
             className="mt-3 inline-flex min-h-[52px] items-center justify-center bg-[#fd850b] px-5 py-4 text-sm font-bold tracking-[0.1em] uppercase text-[#120807]"
           >
             Reservations
