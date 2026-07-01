@@ -114,7 +114,7 @@ export default function CateringPage() {
       .then(r => r.json())
       .then(d => {
         if (d.heroImage) setHeroImage(d.heroImage)
-        if (d.packages?.length) setPackages(d.packages)
+        if (Array.isArray(d.packages)) setPackages(d.packages)
       })
       .catch(() => {})
   }, [])

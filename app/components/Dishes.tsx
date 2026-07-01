@@ -26,7 +26,7 @@ export function Dishes() {
   useEffect(() => {
     fetch('/api/admin/site-images')
       .then(r => r.json())
-      .then(data => { if (data.dishes?.length) setDishes(data.dishes) })
+      .then(data => { if (Array.isArray(data.dishes)) setDishes(data.dishes) })
       .catch(() => {})
     fetch('/api/admin/home-sections')
       .then(r => r.json())

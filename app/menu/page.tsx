@@ -538,8 +538,8 @@ export default function MenuPage() {
     fetch('/api/admin/menu-items')
       .then(r => r.json())
       .then(d => {
-        if (d.alacarte?.length) setAlacarteItems(d.alacarte)
-        if (d.grillCuts?.length) setGrillItems(d.grillCuts)
+        if (Array.isArray(d.alacarte)) setAlacarteItems(d.alacarte)
+        if (Array.isArray(d.grillCuts)) setGrillItems(d.grillCuts)
       })
       .catch(() => {})
   }, [])

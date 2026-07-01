@@ -19,7 +19,7 @@ export function ImageStrip() {
   useEffect(() => {
     fetch('/api/admin/site-images')
       .then(r => r.json())
-      .then(data => { if (data.stripImages?.length) setStripImages(data.stripImages) })
+      .then(data => { if (Array.isArray(data.stripImages)) setStripImages(data.stripImages) })
       .catch(() => {})
   }, [])
 

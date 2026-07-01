@@ -52,7 +52,7 @@ export default function AboutPage() {
       .catch(() => {})
     fetch('/api/admin/menu-items')
       .then(r => r.json())
-      .then(d => { if (d.teamMembers?.length) setTeamMembers(d.teamMembers) })
+      .then(d => { if (Array.isArray(d.teamMembers)) setTeamMembers(d.teamMembers) })
       .catch(() => {})
   }, [])
 
