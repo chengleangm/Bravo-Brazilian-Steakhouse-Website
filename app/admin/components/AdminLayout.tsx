@@ -139,6 +139,7 @@ type AdminStatus = {
   mediaStorage: 'ready' | 'missing' | 'local';
   canSaveContent: boolean;
   canUploadMedia: boolean;
+  missingEnvVars?: string[];
 };
 
 function getActiveItem(pathname: string) {
@@ -364,6 +365,11 @@ export function AdminLayout({
                             {status.mediaStorage === 'missing' &&
                               'Connect Cloudflare R2 so image uploads work on the hosted site.'}
                           </p>
+                          {status.missingEnvVars?.length ? (
+                            <div className="mt-2 rounded bg-[#1f1410] px-3 py-2 text-[0.68rem] text-[#f6d6c0]">
+                              Missing environment variables: {status.missingEnvVars.join(', ')}
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                     </div>
