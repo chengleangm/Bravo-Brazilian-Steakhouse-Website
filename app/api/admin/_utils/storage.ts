@@ -1,20 +1,31 @@
 import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 
-const bucket = process.env.R2_BUCKET_NAME;
-const endpoint = process.env.R2_ENDPOINT;
-const accessKeyId = process.env.R2_ACCESS_KEY_ID;
-const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
+function getR2Env() {
+  return {
+    bucket: process.env.R2_BUCKET_NAME,
+    endpoint: process.env.R2_ENDPOINT,
+    accessKeyId: process.env.R2_ACCESS_KEY_ID,
+    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+  };
+}
+
+function getMissingR2EnvVars() {
+  return Object.entries(getR2Env())
+    .filter(([_, value]) => !value)
+    .map(([key]) => key);
+}
 
 function hasR2() {
-  return Boolean(bucket && endpoint && accessKeyId && secretAccessKey);
+  return getMissingR2EnvVars().length === 0;
 }
 
 function getS3Client() {
-  if (!hasR2()) return null;
+  const { bucket, endpoint, accessKeyId, secretAccessKey } = getR2Env();
+  if (!bucket || !endpoint || !accessKeyId || !secretAccessKey) return null;
   return new S3Client({
     endpoint,
     region: 'auto',
-    credentials: { accessKeyId: accessKeyId!, secretAccessKey: secretAccessKey! },
+    credentials: { accessKeyId, secretAccessKey },
     forcePathStyle: true,
   });
 }
@@ -71,6 +82,7 @@ async function streamToString(body: unknown): Promise<string> {
 export async function readBlobJson(blobName: string, localJsonPath: string): Promise<unknown> {
   const client = getS3Client();
   if (client) {
+    const { bucket } = getR2Env();
     try {
       const result = await client.send(
         new GetObjectCommand({
@@ -104,6 +116,7 @@ export async function writeBlobJson(
 ): Promise<void> {
   const client = getS3Client();
   if (client) {
+    const { bucket } = getR2Env();
     await client.send(
       new PutObjectCommand({
         Bucket: bucket!,
