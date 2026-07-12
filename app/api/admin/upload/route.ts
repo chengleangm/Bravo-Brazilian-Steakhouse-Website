@@ -2,6 +2,17 @@ import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { NextRequest, NextResponse } from 'next/server';
 import { noStoreHeaders } from '../_utils/cache';
 
+const requiredR2Envs = [
+  'R2_BUCKET_NAME',
+  'R2_ENDPOINT',
+  'R2_ACCESS_KEY_ID',
+  'R2_SECRET_ACCESS_KEY',
+];
+
+function getMissingR2EnvVars() {
+  return requiredR2Envs.filter((name) => !process.env[name]);
+}
+
 function getR2Env() {
   return {
     bucket: process.env.R2_BUCKET_NAME,
@@ -9,12 +20,6 @@ function getR2Env() {
     accessKeyId: process.env.R2_ACCESS_KEY_ID,
     secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
   };
-}
-
-function getMissingR2EnvVars() {
-  return Object.entries(getR2Env())
-    .filter(([_, value]) => !value)
-    .map(([key]) => key);
 }
 
 function getS3Client() {
