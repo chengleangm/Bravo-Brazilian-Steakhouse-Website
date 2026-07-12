@@ -299,8 +299,8 @@ export function AdminLayout({
                       <div>
                         <p className="text-sm font-black uppercase tracking-wide text-red-200">Host storage setup needed</p>
                         <p className="mt-1 text-xs leading-5 text-red-100/80">
-                          {status.contentStorage === 'missing' && 'Connect Vercel KV so text changes save on the hosted site. '}
-                          {status.mediaStorage === 'missing' && 'Connect Vercel Blob so image uploads work on the hosted site.'}
+                          {status.contentStorage === 'missing' && 'Connect Cloudflare R2 so text and data changes save on the hosted site. '}
+                          {status.mediaStorage === 'missing' && 'Connect Cloudflare R2 so image uploads work on the hosted site.'}
                         </p>
                       </div>
                     </div>
