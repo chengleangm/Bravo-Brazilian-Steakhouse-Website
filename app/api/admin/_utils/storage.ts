@@ -45,20 +45,26 @@ export function buildPublicObjectUrl(pathname: string) {
     return `${publicUrl.replace(/\/$/, '')}/${cleanPathname}`;
   }
 
-  if (endpoint && bucket) {
-    try {
-      const url = new URL(endpoint);
-      const hostname = url.hostname;
-      if (hostname.endsWith('.r2.cloudflarestorage.com')) {
-        return `${url.protocol}//${bucket}.${hostname}/${cleanPathname}`;
-      }
-    } catch {
-      // ignore malformed endpoint and fall back to path-style URL
-    }
-    return `${endpoint.replace(/\/$/, '')}/${bucket}/${cleanPathname}`;
+  if (!endpoint) {
+    return cleanPathname;
   }
 
-  return cleanPathname;
+  try {
+    const url = new URL(endpoint);
+    const hostname = url.hostname;
+    if (hostname.endsWith('.r2.cloudflarestorage.com')) {
+      if (bucket && hostname.startsWith(`${bucket}.`)) {
+        return `${url.origin}/${cleanPathname}`;
+      }
+      if (bucket) {
+        return `${url.protocol}//${bucket}.${hostname}/${cleanPathname}`;
+      }
+    }
+  } catch {
+    // ignore malformed endpoint and fall back to base URL
+  }
+
+  return `${endpoint.replace(/\/$/, '')}/${cleanPathname}`;
 }
 
 function hasR2() {
