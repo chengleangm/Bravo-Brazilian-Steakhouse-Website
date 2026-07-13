@@ -45,7 +45,16 @@ export function buildPublicObjectUrl(pathname: string) {
     return `${publicUrl.replace(/\/$/, '')}/${cleanPathname}`;
   }
 
-  if (bucket && endpoint) {
+  if (endpoint && bucket) {
+    try {
+      const url = new URL(endpoint);
+      const hostname = url.hostname;
+      if (hostname.endsWith('.r2.cloudflarestorage.com')) {
+        return `${url.protocol}//${bucket}.${hostname}/${cleanPathname}`;
+      }
+    } catch {
+      // ignore malformed endpoint and fall back to path-style URL
+    }
     return `${endpoint.replace(/\/$/, '')}/${bucket}/${cleanPathname}`;
   }
 
