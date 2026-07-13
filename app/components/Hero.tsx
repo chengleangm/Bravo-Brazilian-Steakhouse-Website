@@ -1,28 +1,28 @@
-'use client'
+'use client';
 
-import { motion } from 'framer-motion'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 const SLIDES = [
   'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=2200&q=90',
   'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=2200&q=90',
   'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=2200&q=90',
   'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=2200&q=90',
-]
+];
 
-const INTERVAL = 2000
+const INTERVAL = 2000;
 
 type HeroContent = {
-  tagline: string
-  subtitle: string
-  stats: { value: string; label: string }[]
-  btn1Label: string
-  btn1Href: string
-  btn2Label: string
-  btn2Href: string
-}
+  tagline: string;
+  subtitle: string;
+  stats: { value: string; label: string }[];
+  btn1Label: string;
+  btn1Href: string;
+  btn2Label: string;
+  btn2Href: string;
+};
 
 const DEFAULT_CONTENT: HeroContent = {
   tagline: 'Phnom Penh · Est. 2024',
@@ -36,41 +36,45 @@ const DEFAULT_CONTENT: HeroContent = {
   btn1Href: '/menu',
   btn2Label: 'Book A Table',
   btn2Href: '/contact#reservation',
-}
+};
 
 export function Hero() {
-  const [slides, setSlides] = useState<string[]>([])
-  const [current, setCurrent] = useState(0)
-  const [content, setContent] = useState<HeroContent>(DEFAULT_CONTENT)
-  const [heroLogo, setHeroLogo] = useState('')
+  const [slides, setSlides] = useState<string[]>([]);
+  const [current, setCurrent] = useState(0);
+  const [content, setContent] = useState<HeroContent>(DEFAULT_CONTENT);
+  const [heroLogo, setHeroLogo] = useState('');
 
   useEffect(() => {
     fetch('/api/admin/page-images', { cache: 'no-store' })
-      .then(r => r.json())
-      .then(d => {
-        const adminSlides = Array.isArray(d.homeHeroSlides) ? (d.homeHeroSlides as string[]).filter(Boolean) : []
+      .then((r) => r.json())
+      .then((d) => {
+        const adminSlides = Array.isArray(d.homeHeroSlides)
+          ? (d.homeHeroSlides as string[]).filter(Boolean)
+          : [];
         if (adminSlides.length > 0) {
-          setSlides(adminSlides)
+          setSlides(adminSlides);
         } else if (typeof d.homeHero === 'string' && d.homeHero) {
-          setSlides([d.homeHero])
+          setSlides([d.homeHero]);
         } else {
-          setSlides(SLIDES)
+          setSlides(SLIDES);
         }
-        setCurrent(0)
-        setHeroLogo(typeof d.heroLogo === 'string' ? d.heroLogo : '')
+        setCurrent(0);
+        setHeroLogo(typeof d.heroLogo === 'string' ? d.heroLogo : '');
       })
-      .catch(() => { setSlides(SLIDES) })
+      .catch(() => {
+        setSlides(SLIDES);
+      });
     fetch('/api/admin/hero-content', { cache: 'no-store' })
-      .then(r => r.json())
-      .then(d => setContent(prev => ({ ...prev, ...d })))
-      .catch(() => {})
-  }, [])
+      .then((r) => r.json())
+      .then((d) => setContent((prev) => ({ ...prev, ...d })))
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
-    if (!slides.length) return
-    const timer = setInterval(() => setCurrent(c => (c + 1) % slides.length), INTERVAL)
-    return () => clearInterval(timer)
-  }, [slides.length])
+    if (!slides.length) return;
+    const timer = setInterval(() => setCurrent((c) => (c + 1) % slides.length), INTERVAL);
+    return () => clearInterval(timer);
+  }, [slides.length]);
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#120807] text-[#FFF7ED]">
@@ -95,7 +99,6 @@ export function Hero() {
 
       <div className="relative z-10 flex min-h-screen w-full items-center">
         <div className="w-full max-w-3xl px-6 py-28 text-center sm:px-14 sm:text-left lg:px-20 xl:px-28">
-
           <motion.div
             initial={{ opacity: 0, x: -24 }}
             animate={{ opacity: 1, x: 0 }}
@@ -122,7 +125,7 @@ export function Hero() {
                 height={527}
                 priority
                 className="h-auto w-[min(55vw,200px)] object-contain mix-blend-screen sm:w-[min(40vw,300px)] lg:w-[min(30vw,380px)]"
-                unoptimized={heroLogo.startsWith('/uploads') || heroLogo.startsWith('/pages') || heroLogo.startsWith('/logos')}
+                unoptimized={!heroLogo.includes('unsplash.com')}
               />
             </motion.div>
           )}
@@ -152,8 +155,12 @@ export function Hero() {
           >
             {content.stats.map(({ value, label }) => (
               <div key={label}>
-                <p className="text-2xl font-black text-[#fd850b] sm:text-2xl lg:text-3xl">{value}</p>
-                <p className="mt-0.5 text-[10px] uppercase tracking-widest text-[#C7B8A8] sm:mt-1 sm:text-[10px] lg:text-xs">{label}</p>
+                <p className="text-2xl font-black text-[#fd850b] sm:text-2xl lg:text-3xl">
+                  {value}
+                </p>
+                <p className="mt-0.5 text-[10px] uppercase tracking-widest text-[#C7B8A8] sm:mt-1 sm:text-[10px] lg:text-xs">
+                  {label}
+                </p>
               </div>
             ))}
           </motion.div>
@@ -164,10 +171,16 @@ export function Hero() {
             transition={{ delay: 0.62, duration: 0.65 }}
             className="mt-7 flex flex-col gap-3 sm:mt-6 sm:flex-row sm:gap-3"
           >
-            <Link href={content.btn1Href} className="inline-flex min-h-12 items-center justify-center bg-[#fd850b] px-8 py-3 text-xs font-black uppercase tracking-widest text-black shadow-[0_18px_42px_rgba(253,133,11,0.32)] transition duration-300 hover:-translate-y-1 hover:bg-[#ff9a2e] hover:shadow-[0_22px_55px_rgba(253,133,11,0.5)] sm:min-h-11 sm:px-7 sm:py-2.5 sm:text-xs lg:text-sm">
+            <Link
+              href={content.btn1Href}
+              className="inline-flex min-h-12 items-center justify-center bg-[#fd850b] px-8 py-3 text-xs font-black uppercase tracking-widest text-black shadow-[0_18px_42px_rgba(253,133,11,0.32)] transition duration-300 hover:-translate-y-1 hover:bg-[#ff9a2e] hover:shadow-[0_22px_55px_rgba(253,133,11,0.5)] sm:min-h-11 sm:px-7 sm:py-2.5 sm:text-xs lg:text-sm"
+            >
               {content.btn1Label}
             </Link>
-            <Link href={content.btn2Href} className="inline-flex min-h-12 items-center justify-center border border-[#FFF7ED]/50 bg-white/5 px-8 py-3 text-xs font-black uppercase tracking-widest text-[#FFF7ED] backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-black sm:min-h-11 sm:px-7 sm:py-2.5 sm:text-xs lg:text-sm">
+            <Link
+              href={content.btn2Href}
+              className="inline-flex min-h-12 items-center justify-center border border-[#FFF7ED]/50 bg-white/5 px-8 py-3 text-xs font-black uppercase tracking-widest text-[#FFF7ED] backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-[#fd850b] hover:bg-[#fd850b] hover:text-black sm:min-h-11 sm:px-7 sm:py-2.5 sm:text-xs lg:text-sm"
+            >
               {content.btn2Label}
             </Link>
           </motion.div>
@@ -183,13 +196,11 @@ export function Hero() {
             onClick={() => setCurrent(i)}
             aria-label={`Go to slide ${i + 1}`}
             className={`h-[3px] rounded-full transition-all duration-500 ${
-              i === current
-                ? 'w-8 bg-[#fd850b]'
-                : 'w-4 bg-white/35 hover:bg-white/60'
+              i === current ? 'w-8 bg-[#fd850b]' : 'w-4 bg-white/35 hover:bg-white/60'
             }`}
           />
         ))}
       </div>
     </section>
-  )
+  );
 }
