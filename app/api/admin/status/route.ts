@@ -1,17 +1,12 @@
 import { NextResponse } from 'next/server';
 import { noStoreHeaders } from '../_utils/cache';
+import { getMissingR2EnvVars } from '../_utils/storage';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const isHosted = process.env.NODE_ENV === 'production';
-  const requiredEnvs = [
-    'R2_BUCKET_NAME',
-    'R2_ENDPOINT',
-    'R2_ACCESS_KEY_ID',
-    'R2_SECRET_ACCESS_KEY',
-  ];
-  const missingEnvVars = requiredEnvs.filter((key) => !process.env[key]);
+  const missingEnvVars = getMissingR2EnvVars();
   const hasR2 = missingEnvVars.length === 0;
 
   return NextResponse.json(

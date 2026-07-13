@@ -7,17 +7,49 @@ const requiredR2Envs = [
   'R2_SECRET_ACCESS_KEY',
 ];
 
-function getR2Env() {
+export function getR2Env() {
+  const endpoint = process.env.R2_ENDPOINT || process.env.R2_URL;
+  const accessKeyId = process.env.R2_ACCESS_KEY_ID || process.env.AWS_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY || process.env.AWS_SECRET_ACCESS_KEY;
+  const publicUrl =
+    process.env.R2_PUBLIC_URL ||
+    process.env.NEXT_PUBLIC_R2_PUBLIC_URL ||
+    process.env.R2_CUSTOM_DOMAIN;
+
   return {
     bucket: process.env.R2_BUCKET_NAME,
-    endpoint: process.env.R2_ENDPOINT,
-    accessKeyId: process.env.R2_ACCESS_KEY_ID,
-    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+    endpoint,
+    accessKeyId,
+    secretAccessKey,
+    publicUrl,
   };
 }
 
-function getMissingR2EnvVars() {
-  return requiredR2Envs.filter((name) => !process.env[name]);
+export function getMissingR2EnvVars() {
+  const { bucket, endpoint, accessKeyId, secretAccessKey } = getR2Env();
+
+  return requiredR2Envs.filter((name) => {
+    if (name === 'R2_BUCKET_NAME') return !bucket;
+    if (name === 'R2_ENDPOINT') return !endpoint;
+    if (name === 'R2_ACCESS_KEY_ID') return !accessKeyId;
+    if (name === 'R2_SECRET_ACCESS_KEY') return !secretAccessKey;
+    return false;
+  });
+}
+
+export function buildPublicObjectUrl(pathname: string) {
+  const { publicUrl, bucket, endpoint } = getR2Env();
+  const cleanPathname = pathname.replace(/^\/+/, '');
+
+  if (publicUrl) {
+    return `${publicUrl.replace(/\/$/, '')}/${cleanPathname}`;
+  }
+
+  if (bucket && endpoint) {
+    return `${endpoint.replace(/\/$/, '')}/${bucket}/${cleanPathname}`;
+  }
+
+  return cleanPathname;
 }
 
 function hasR2() {
